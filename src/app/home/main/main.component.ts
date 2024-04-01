@@ -18,36 +18,36 @@ export class MainComponent {
   public responseCases: any;
   public responseTotals: any;
 
- 
 
-  constructor( private _casesServ: CasesService, private _router: Router) {
+
+  constructor(private _casesServ: CasesService, private _router: Router) {
     this.token = localStorage.getItem('token');
     // console.log(this.token);
-      this.getCases();
+    this.getCases();
   }
 
-  ngOnInit(){
-    
+  ngOnInit() {
+
   }
 
-   getCases(){
-    
+  getCases() {
+
     this._casesServ.casesAll(localStorage.getItem('token')).subscribe(
       response => {
         this.responseApi = response;
-        if( this.responseApi.status == 'OK' ){
+        if (this.responseApi.status == 'OK') {
           console.log(response);
           this.responseCases = this.responseApi.cases;
           this.responseTotals = this.responseApi.totals;
           // console.log(this.responseCases);
           // console.log(this.responseTotals);
-          this.generateChart(); 
-        }else{
+          this.generateChart();
+        } else {
           console.log('no existe datos');
         }
-        
+
       }
-      
+
     )
   }
 
@@ -60,7 +60,7 @@ export class MainComponent {
     // const profitData = this.responseTotals.map((item: any) => item.total_status);
 
     this.chart = new Chart("MyChart", {
-      type: 'bar',
+      type: 'doughnut',
       data: {
         labels: labels,
         datasets: [
@@ -69,11 +69,16 @@ export class MainComponent {
             data: salesData,
             backgroundColor: 'blue'
           },
-          // {
-          //   label: "Profit",
-          //   data: profitData,
-          //   backgroundColor: 'limegreen'
-          // }
+          {
+            label: "Profit",
+            data: salesData,
+            backgroundColor: 'limegreen'
+          },
+          {
+            label: "Profit",
+            data: salesData,
+            backgroundColor: 'pink'
+          }
         ]
       },
       options: {
@@ -82,17 +87,17 @@ export class MainComponent {
         //llama al evento click para redireccionar a otra ruta
         onClick: (evt, activeElements) => {
           if (activeElements.length > 0) {
-              // Obtener el índice del elemento seleccionado
-              const clickedIndex = activeElements[0].index;
-              // Obtener el nombre del elemento seleccionado
-              const selectedLabel = this.chart.data.labels[clickedIndex];
-              // Redirigir a la ruta deseada
-              this.redirectToRoute(selectedLabel);
+            // Obtener el índice del elemento seleccionado
+            const clickedIndex = activeElements[0].index;
+            // Obtener el nombre del elemento seleccionado
+            const selectedLabel = this.chart.data.labels[clickedIndex];
+            // Redirigir a la ruta deseada
+            this.redirectToRoute(selectedLabel);
           }
-      }
+        }
       }
     });
-    
+
   }
 
   // Método para redirigir a otra ruta según el elemento seleccionado

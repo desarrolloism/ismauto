@@ -1,0 +1,84 @@
+.background {
+    background-image: url(../../../assets/images/logo.png);
+    background-size: cover;
+    background-position: center;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes vibrar {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-2px) rotate(-1deg);
+    }
+
+    40% {
+        transform: translateX(2px) rotate(1deg);
+    }
+
+    60% {
+        transform: translateX(-2px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translateX(2px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.login-form {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #65b2e8;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+    margin-top: 5rem;
+    opacity: 85%;
+    animation: vibrar 0.5s;
+}
+
+.login-form div {
+    margin-bottom: 1.5rem;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--primario);
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.login-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    color: var(--primario);
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.login-button:hover {
+    background-color: #898b8d;
+}

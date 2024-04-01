@@ -1,0 +1,16 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+    background-image: url(../assets/images/logo.png);
+}
+
+:root {
+    --primario: #ab0a3d;
+    --secundario: #59a68c;
+
+}

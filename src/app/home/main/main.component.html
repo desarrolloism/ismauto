@@ -1,113 +1,126 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #fff;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="assets/images/logo.png" alt="" width="40" class="d-inline-block align-text-top">
+            <img src="assets/images/logo.png" alt width="100"
+                class="d-inline-block align-text-top">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link button-navbar" aria-current="page" href="#">Inicio</a>
-                </li>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link button-navbar" type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasBottom"
+                    aria-controls="offcanvasBottom">Mostrar procesos</a>
+            </li>
+        </ul>
 
-                <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle button-navbar" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Casos
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item button-submenu" href="#">Nuevo caso</a></li>
-                        <li><a class="dropdown-item button-submenu" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item button-submenu" href="#">Something else here</a></li>
-                    </ul>
-                </li> -->
-
-                <li class="nav-item">
-                    <!-- <a class="nav-link button-navbar" aria-current="page" href="#">Home</a> -->
-
-                    <a class="nav-link button-navbar" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Procesos</a>
-                    
-                </li>
-
-            </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <button class="btn btn-outline-danger" 
-                (click)="logout()"
-                style="margin-left: 3px;">Logout
-            </button>
-            
-        </div>
+        <button class="btn btn-outline-danger"
+            (click)="logout()">Salir</button>
     </div>
 </nav>
-<hr style="border: none; border-top: 2px solid #FFDAB9;">
+
+<!-- <hr style="border: none; border-top: 2px solid #FFDAB9;"> -->
+<!-- <hr style="border: none; border-top: 2px solid black;"> -->
 <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom"
-                        aria-labelledby="offcanvasBottomLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Procesos</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body small">
-                           <div class="row">
-                            <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">
-                                <ul>
-                                    <li>
-                                        <a onclick="location.href='/list'" style="cursor: pointer;">
-                                            <i class="fa-solid fa-screwdriver-wrench"></i> Ticket Mantenimiento
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">CCOlumn2</div>
-                            <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">CCOlumn3</div>
-                            <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">CCOlumn4</div>
-                        </div>
-                    </div>
-</div>
-
-
-<div class="container">
-    <h1>Inicio</h1>
-
-    <div class="row">
-        <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">
-            <div class="mycard">
-                <p><b>Inbox</b></p>
-                
+    aria-labelledby="offcanvasBottomLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasBottomLabel">Procesos</h5>
+        <button type="button" class="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body small">
+        <div class="row">
+            <div class="col-lg-3 col-md-3"
+                style="border-right: solid 1px #E0E0E0;">
                 <ul>
-                    <!-- @for (inbox of responseCases; track inbox.id) {
-                        <p>{{ inbox.id }}</p>
-                        <li><a><b>Caso 1:</b> Mantenimiento</a></li>
-                      } -->
-                    <li *ngFor="let inbox of responseCases; let i = index" >
-                        <a>Caso {{ inbox.id }}: {{ inbox.app_id }}</a>
+                    <li>
+                        <a class="tickets" onclick="location.href='/list'"
+                            style="cursor: pointer;">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                            Ticket Mantenimiento ()
+                        </a>
                     </li>
                 </ul>
-            </div>            
+            </div>
+            <div class="col-lg-3 col-md-3"
+                style="border-right: solid 1px #E0E0E0;">Columna2</div>
+            <div class="col-lg-3 col-md-3"
+                style="border-right: solid 1px #E0E0E0;">Columna3</div>
+            <div class="col-lg-3 col-md-3"
+                style="border-right: solid 1px #E0E0E0;">Columna4</div>
         </div>
-        <div class="col-lg-9 col-md-9">
+    </div>
+</div>
+
+<div class="container">
+    <!-- <h1>Inicio</h1> -->
+
+    <div class="row">
+        <div class="col-lg-4 col-md-4" style="border-right: solid 1px #E0E0E0;">
             <div class="mycard">
-                <p><b>Administrado mis casos como jefe</b></p>
-                <div class="row">
-                    <div class="chart-container">
-                        <canvas id="MyChart" width="400" height="400"></canvas>
+                <p><b>Bandeja de entrada ({{ responseCases.length
+                        }})</b></p>
+                <!-- <ul>
+                    se comenta
+                    @for (inbox of responseCases; track inbox.id) {
+                        <p>{{ inbox.id }}</p>
+                        <li><a><b>Caso 1:</b> Mantenimiento</a></li>
+                      } se comenta 
+                    <li *ngFor="let inbox of responseCases; let i = index">
+                        <a>Caso {{ inbox.id }}: {{ inbox.app_id }}</a>
+                    </li>
+                </ul> -->
+
+                <table class="custom-table table-responsive table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Caso</th>
+                            <th>Aplicación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let inbox of responseCases; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>Caso {{ inbox.id }}</td>
+                            <td>{{ inbox.app_id }}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <p class="administrar">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="icon icon-tabler icon-tabler-users"
+                            width="44" height="44" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="#00b341" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                            <path
+                                d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                        </svg>
+                        <!-- //administra casos como jefe -->
+                        <b>Mis casos</b>
+                    </p>
+                    <div class="row">
+                        <div class="chart-container">
+                            <canvas id="MyChart" width="400"
+                                height="400"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        
     </div>
 
 </div>
-
