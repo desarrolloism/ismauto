@@ -1,0 +1,94 @@
+:root {
+    --primario: #f9f9f9;
+    --secundario: #f2f2f2;
+    --negro: black;
+}
+
+.custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.custom-table th,
+.custom-table td {
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.custom-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.custom-table tr:nth-child(even) {
+    background-color: var(--primario);
+}
+
+.custom-table tr:hover {
+    background-color: var(--secundario);
+}
+
+.navbar-nav-small {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .navbar-nav-small {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+}
+
+nav {
+    margin: 0 0 2rem 0;
+}
+
+.nav-item {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fff;
+}
+
+.administrar {
+    text-align: center;
+}
+
+.administrar svg {
+    /* margin-right: 10px; */
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.administrar b {
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.chart-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* tickets */
+
+.tickets {
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--negro);
+    list-style-type: none;
+}
