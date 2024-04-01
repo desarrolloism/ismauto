@@ -1,0 +1,8 @@
+li{
+    font-weight: bold;
+}
+
+li:hover{
+    color: #8002cd !important;
+    cursor: pointer;
+  }

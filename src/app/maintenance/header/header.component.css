@@ -1,0 +1,28 @@
+.centerImage {
+    display: flex; /* Utilizamos flexbox para centrar el contenido */
+    justify-content: center; /* Centramos el contenido horizontalmente */
+    align-items: center; /* Centramos el contenido verticalmente */
+    height: 100vh; /* Ajustamos la altura al 100% del viewport */
+  }
+
+  .centrado-horizontal {
+    text-align: center; /* Centramos horizontalmente el contenido dentro del div */
+  }
+
+  @media (max-width: 767px) { /* Aplica los estilos en pantallas de tamaño xs y sm */
+    .navbar-custom {
+      background-color: #090061; /* Cambia el color de fondo del navbar */
+    }
+  }
+  
+  @media (min-width: 768px) { /* Aplica los estilos en pantallas de tamaño md y lg */
+    .navbar-custom {
+      background-color: #090061; /* Cambia el color de fondo del navbar */
+      height: 80px;
+    }
+  }
+  
+  .navbar-custom .navbar-brand,
+  .navbar-custom .navbar-nav .nav-link {
+    color: #fff !important; /* Cambia el color del texto del navbar a blanco */
+  }

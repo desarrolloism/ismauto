@@ -1,0 +1,113 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #fff;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="assets/images/logo.png" alt="" width="40" class="d-inline-block align-text-top">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link button-navbar" aria-current="page" href="#">Inicio</a>
+                </li>
+
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle button-navbar" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Casos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item button-submenu" href="#">Nuevo caso</a></li>
+                        <li><a class="dropdown-item button-submenu" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item button-submenu" href="#">Something else here</a></li>
+                    </ul>
+                </li> -->
+
+                <li class="nav-item">
+                    <!-- <a class="nav-link button-navbar" aria-current="page" href="#">Home</a> -->
+
+                    <a class="nav-link button-navbar" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Procesos</a>
+                    
+                </li>
+
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <button class="btn btn-outline-danger" 
+                (click)="logout()"
+                style="margin-left: 3px;">Logout
+            </button>
+            
+        </div>
+    </div>
+</nav>
+<hr style="border: none; border-top: 2px solid #FFDAB9;">
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom"
+                        aria-labelledby="offcanvasBottomLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Procesos</h5>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body small">
+                           <div class="row">
+                            <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">
+                                <ul>
+                                    <li>
+                                        <a onclick="location.href='/list'" style="cursor: pointer;">
+                                            <i class="fa-solid fa-screwdriver-wrench"></i> Ticket Mantenimiento
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">CCOlumn2</div>
+                            <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">CCOlumn3</div>
+                            <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">CCOlumn4</div>
+                        </div>
+                    </div>
+</div>
+
+
+<div class="container">
+    <h1>Inicio</h1>
+
+    <div class="row">
+        <div class="col-lg-3 col-md-3" style="border-right: solid 1px #E0E0E0;">
+            <div class="mycard">
+                <p><b>Inbox</b></p>
+                
+                <ul>
+                    <!-- @for (inbox of responseCases; track inbox.id) {
+                        <p>{{ inbox.id }}</p>
+                        <li><a><b>Caso 1:</b> Mantenimiento</a></li>
+                      } -->
+                    <li *ngFor="let inbox of responseCases; let i = index" >
+                        <a>Caso {{ inbox.id }}: {{ inbox.app_id }}</a>
+                    </li>
+                </ul>
+            </div>            
+        </div>
+        <div class="col-lg-9 col-md-9">
+            <div class="mycard">
+                <p><b>Administrado mis casos como jefe</b></p>
+                <div class="row">
+                    <div class="chart-container">
+                        <canvas id="MyChart" width="400" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+
+</div>
+
