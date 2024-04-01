@@ -1,0 +1,107 @@
+
+<app-header></app-header>
+
+
+<div class="container" style="padding: 10px; font-size: 12px;">
+
+    <!-- <div class="contenedor">
+        <div class="transparente">
+            <div class="row">
+                <div class="col">
+                    <span class="texto">Mantenimiento</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <a class="btn subtexto" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        routerLink="/maint-create">
+                        <i class="fa-solid fa-file"></i> Nuevo ticket
+                    </a>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+    <div class="m-">
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item m-2">INICIANDO</li>
+                    <li class="list-group-item m-2">SOLICITADO</li>
+                    <li class="list-group-item m-2">EN PROCESO</li>
+                    <li class="list-group-item m-2">EN ESPERA</li>
+                    <li class="list-group-item m-2">ENTREGADO</li>
+                    <li class="list-group-item m-2">FINALIZADO</li>
+                    <li class="list-group-item m-2">ELIMINADO</li>
+                  </ul>    
+            </div>
+    
+            <div class="col-lg-9 col-md-9">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4" *ngFor="let maintenance of maintenances" style="margin-bottom: 5px;">
+                        
+                        <mat-card class="example-card">
+                            <mat-card-header>
+                              <mat-card-subtitle>{{ maintenance.case.created }}</mat-card-subtitle>
+                              <mat-card-title>{{ maintenance.type_incident }}</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                              <p>{{ maintenance.site }}</p>
+                              <p>{{ maintenance.description_incident }}</p>
+                              <mat-divider></mat-divider>
+                            </mat-card-content>
+                            <mat-card-actions>
+                              <button mat-stroked-button color="accent" 
+                                    routerLink="/maint-detail/{{maintenance.id}}"
+                                    style="color: #0374c2;">Ver más</button>
+                            </mat-card-actions>
+                            <mat-card-footer>
+                            </mat-card-footer>
+                          </mat-card>
+                          
+                          
+                        
+                        
+                        <!-- <div class="card">
+                            <div class="card-header" style="background-color: #fff; color: #;">
+                                <b>{{ maintenance.case.created }} - {{ maintenance.type_incident }}</b>
+                            </div>
+                            <div class="card-body">
+                              <h5 class="card-title">{{ maintenance.site }}</h5>
+                              <p class="card-text">{{ maintenance.description_incident }}</p>
+                              <a routerLink="/maint-detail/{{maintenance.id}}" class="btn btn-outline-info">Ir al detalle</a>
+                            </div>
+                          </div> -->
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item">
+                                <a class="page-link" *ngIf="actualPage > 1" (click)="list(actualPage-1)">Aterior</a>
+                            </li>
+                            <li class="page-item disabled"><a class="page-link" href="#" enabled>{{ actualPage }}</a></li>
+            
+                            <li class="page-item">
+                                <a class="page-link" *ngIf="actualPage < totalPages" (click)="list(actualPage+1)">Siguiente</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+
+
+   
+
+</div>
