@@ -19,7 +19,6 @@ export class MainComponent {
   public responseTotals: any;
 
 
-
   constructor(private _casesServ: CasesService, private _router: Router) {
     this.token = localStorage.getItem('token');
     // console.log(this.token);
@@ -42,9 +41,7 @@ export class MainComponent {
           // console.log(this.responseCases);
           // console.log(this.responseTotals);
           this.generateChart();
-        } else {
-          console.log('no existe datos');
-        }
+        } 
 
       }
 
@@ -67,18 +64,18 @@ export class MainComponent {
           {
             label: "Total Casos",
             data: salesData,
-            backgroundColor: 'blue'
+            backgroundColor: 'red'
           },
-          {
-            label: "Profit",
-            data: salesData,
-            backgroundColor: 'limegreen'
-          },
-          {
-            label: "Profit",
-            data: salesData,
-            backgroundColor: 'pink'
-          }
+          // {
+          //   label: "Profit",
+          //   data: salesData,
+          //   backgroundColor: 'limegreen'
+          // },
+          // {
+          //   label: "Profit",
+          //   data: salesData,
+          //   backgroundColor: 'pink'
+          // }
         ]
       },
       options: {

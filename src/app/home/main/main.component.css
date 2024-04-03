@@ -60,6 +60,12 @@ nav {
     background-color: #fff;
 }
 
+.mycard {
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+}
+
 .administrar {
     text-align: center;
 }
@@ -91,4 +97,11 @@ nav {
     text-decoration: none;
     color: var(--negro);
     list-style-type: none;
+}
+
+h1 {
+    text-align: center;
+    margin-top: -1.5rem;
+    font-weight: bold;
+    font-size: 2rem;
 }

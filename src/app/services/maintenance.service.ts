@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GLOBAL } from './global';
-import { NgForm } from '@angular/forms';
+import { Form, NgForm } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -33,9 +33,10 @@ export class MaintenanceService {
 
   }
 
-  create(token: any, form: NgForm) {
+  create(token: any, form: any) {
 
-    console.log(form.value);
+    // console.log(form.institute_id);
+    // console.log(token);
 
     const headers = new HttpHeaders({
       'Authorization': this.auth,
@@ -43,12 +44,14 @@ export class MaintenanceService {
       'Token': token
     });
 
+    // console.log(token);
+
     const data = {
       "app": "/maintenance",
-      "institute_id": form.value.institute_id,
-      "type_incident": form.value.type_incident,
-      "site": form.value.site,
-      "description_incident": form.value.description_incident,
+      "institute_id": form.institute_id,
+      "type_incident": form.type_incident,
+      "site": form.site,
+      "description_incident": form.description_incident,
     }
 
     return this._http.post(`${this.url}/maintenance/create`, data, { headers: headers });
@@ -70,7 +73,7 @@ export class MaintenanceService {
   }
 
 
-  update(token: any, form: NgForm) {
+  update(token: any, mainDetalle: any) {
 
     const headers = new HttpHeaders({
       'Authorization': this.auth,
@@ -78,14 +81,14 @@ export class MaintenanceService {
       'Token': token
     });
 
-    const data = form.value;
-    
+    const data = mainDetalle;
+
     return this._http.post(`${this.url}/maintenance/update`, data, { headers: headers });
 
   }
 
 
-  uploadFile(token: any, file64: any, fileName: string){
+  uploadFile(token: any, file64: any, fileName: string) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',
