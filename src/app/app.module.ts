@@ -11,6 +11,7 @@ import { LoginModule } from './login/login.module';
 import { HomeModule } from './home/home.module';
 import { MaintenanceModule } from './maintenance/maintenance.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     AppRoutingModule,
     LoginModule,
     HomeModule,
-    MaintenanceModule
+    MaintenanceModule,
+    FormsModule
   ],
   providers: [
     provideAnimationsAsync()

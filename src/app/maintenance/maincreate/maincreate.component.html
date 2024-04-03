@@ -1,0 +1,61 @@
+<app-header></app-header>
+
+<div class="container">
+
+    <form   class="login-form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="instituto">Instituto</label>
+                <select name="institute_id"
+                        class="form-control"
+                        #institute_id="ngModel" 
+                        [(ngModel)]="maintenance.institute_id"
+                        required
+                        >
+                    <!-- <option selected>Elije el Instituto</option> -->
+                    <option value="1">NORTH</option>
+                    <option value="2">QUITO</option>
+                    <option value="3">WEST</option>
+
+                </select>                
+            </div>
+
+            <div class="form-group">
+                <label for="Incidente">Tipo de incidente</label>
+                <select name="type_incident" 
+                        class="form-control"
+                        #type_incident
+                        [(ngModel)]="maintenance.type_incident"
+                        required="">
+                    <option value="LIMPIEZA">LIMPIEZA</option>
+                    <option value="DESTRUCCION">DESTRUCCION</option>
+
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="sitio">Sitio</label>
+                <textarea name="site" 
+                            class="form-control"
+                            #site
+                            [(ngModel)]="maintenance.site"
+                            required=""></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="description_incident">Descripción del incidente</label>
+                <textarea 
+                    name="description_incident"
+                    class="form-control"
+                    #description_incident
+                    [(ngModel)]="maintenance.description_incident"
+                    required>
+
+                </textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Guardar</button>
+
+    </form>
+
+</div>

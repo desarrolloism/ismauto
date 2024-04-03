@@ -30,7 +30,7 @@ export class LoginComponent {
         localStorage.setItem('token', this.responseurl.data.token);
         this._router.navigate(['/main']);
       } else {
-        console.log('no funca');
+        alert('Usuario o Contraseña incorrectos');
       }
 
       // try {
