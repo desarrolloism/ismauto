@@ -1,8 +1,62 @@
-li{
+li {
     font-weight: bold;
 }
 
-li:hover{
+li:hover {
     color: #8002cd !important;
     cursor: pointer;
-  }
+}
+
+.card-main {
+    transition: transform 0.3s ease;
+}
+
+.card-main:hover {
+    transform: scale(1.05);
+}
+
+.list-group {
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* .card {
+    border: 1px solid black;
+} */
+
+h6,
+.card_proces,
+.card-title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.card-title {
+    font-size: 1.2rem;
+}
+
+h6 {
+    font-size: .9rem;
+}
+
+.mt-4 {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+h4 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 1rem;
+}
+
+.list-group-item-action {
+    text-decoration: none;
+}
+
+.btn-warning {
+    font-weight: bold;
+}

@@ -18,7 +18,6 @@ export class MaintDetailComponent implements OnInit {
 
   maintId: any;
   token: any;
-
   maintenanceUrl: any;
   maintenance: any;
   dateDelivery: any;
@@ -39,7 +38,7 @@ export class MaintDetailComponent implements OnInit {
   }
 
   isAdmin: boolean = false;
-  
+
   paramsUrl: any;
   params: any;
 
@@ -50,6 +49,8 @@ export class MaintDetailComponent implements OnInit {
 
   urlFiles = GLOBAL.url;
   urlPhotos = this.urlFiles + "/files/maintenance/";
+modalImageUrl: any;
+
 
 
   constructor(
@@ -85,6 +86,7 @@ export class MaintDetailComponent implements OnInit {
   }
 
 
+
   users() {
     this._userService.all(this.token).subscribe(resp => {
       this.usersUrl = resp;
@@ -95,7 +97,9 @@ export class MaintDetailComponent implements OnInit {
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
-      console.log(this.maintenanceUrl.isAdmin);
+      // console.log(this.maintenanceUrl.isAdmin);
+      // console.log(resp);
+      // console.log(this.maintenanceUrl.maintenance.photos);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
@@ -139,24 +143,26 @@ export class MaintDetailComponent implements OnInit {
 
   viewPhotoModal(photografy: any) {
     this.photografy = photografy;
+    // console.log(photografy)
   }
 
 
 
   uploadFile() {
     const file: File = this.fileInput.nativeElement.files[0];
-
+    // console.log(this.maintId);
     if (file) {
       this.convertToBase64(file).then((base64: string) => {
 
         const fileName = file.name;
 
-        this._serMaint.uploadFile(this.token, base64, fileName).subscribe(res => {
-          console.log(res);
+        this._serMaint.uploadFile(this.token, base64, fileName, this.maintId).subscribe(res => {
+          // console.log(res);
+          this.getDetail(this.maintId)
         })
       });
     } else {
-      console.error("No se seleccionó ningún archivo.");
+      alert("No se seleccionó ningún archivo.");
     }
   }
 
@@ -176,6 +182,5 @@ export class MaintDetailComponent implements OnInit {
       reader.readAsDataURL(file);
     });
   }
-
 
 }

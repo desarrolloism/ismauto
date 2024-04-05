@@ -35,13 +35,14 @@ export class MainComponent {
       response => {
         this.responseApi = response;
         if (this.responseApi.status == 'OK') {
-          console.log(response);
+          // console.log(response);
           this.responseCases = this.responseApi.cases;
           this.responseTotals = this.responseApi.totals;
+          // console.log(this.responseApi.totals);
           // console.log(this.responseCases);
           // console.log(this.responseTotals);
           this.generateChart();
-        } 
+        }
 
       }
 
@@ -50,36 +51,41 @@ export class MainComponent {
 
   generateChart() {
 
-    console.log(this.responseTotals);
+    // console.log(this.responseTotals);
+
+    let aspectRatio = 2.5;
+    if (window.innerWidth < 576) { // Por ejemplo, si el ancho de la ventana es menor que 576px (el punto de corte para dispositivos móviles en Bootstrap)
+      aspectRatio = 1.5; // Cambia el aspectRatio para dispositivos móviles
+    }
 
     const labels = this.responseTotals.map((item: any) => item.name);
     const salesData = this.responseTotals.map((item: any) => item.total_status);
     // const profitData = this.responseTotals.map((item: any) => item.total_status);
 
+    const colors = [
+      '#ff9e18',
+      '#ab0a3d',
+      '#9e28b5',
+      '#0a1f8f',
+      '#65b2e8',
+      '#898b8d',
+      'limegreen',
+    ];
+
     this.chart = new Chart("MyChart", {
-      type: 'doughnut',
+      type: 'pie',
       data: {
         labels: labels,
         datasets: [
           {
             label: "Total Casos",
             data: salesData,
-            backgroundColor: 'red'
+            backgroundColor: colors
           },
-          // {
-          //   label: "Profit",
-          //   data: salesData,
-          //   backgroundColor: 'limegreen'
-          // },
-          // {
-          //   label: "Profit",
-          //   data: salesData,
-          //   backgroundColor: 'pink'
-          // }
         ]
       },
       options: {
-        aspectRatio: 2.5,
+        aspectRatio: aspectRatio,
 
         //llama al evento click para redireccionar a otra ruta
         onClick: (evt, activeElements) => {
@@ -92,7 +98,8 @@ export class MainComponent {
             this.redirectToRoute(selectedLabel);
           }
         }
-      }
+      },
+
     });
 
   }

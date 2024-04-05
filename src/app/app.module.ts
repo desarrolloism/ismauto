@@ -12,6 +12,9 @@ import { HomeModule } from './home/home.module';
 import { MaintenanceModule } from './maintenance/maintenance.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatRadioModule} from '@angular/material/radio';
+
 
 @NgModule({
   declarations: [
@@ -26,8 +29,10 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     LoginModule,
     HomeModule,
-    MaintenanceModule,
-    FormsModule
+    FormsModule,
+    MatDatepickerModule,
+    MatRadioModule,
+    MaintenanceModule
   ],
   providers: [
     provideAnimationsAsync()
