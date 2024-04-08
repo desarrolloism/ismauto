@@ -4,14 +4,23 @@
             <img src="assets/images/logo.png" alt width="100"
                 class="d-inline-block align-text-top">
         </a>
+        <!-- para admin -->
 
         <a class="nav-link nav-links button-navbar text-light" type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasBottom"
             aria-controls="offcanvasBottom">Mostrar procesos</a>
         <a class="nav-link band-link button-navbar text-dark"> Bandeja de
-            entrada: {{ responseCases.length
+            entrada: {{ responseCases?.length
             }}</a>
+
+
+
+
+        <!-- <li class="nav-item">
+                <a class="nav-link text-light" routerLink="/maincreate"><i
+                    class="fa-regular fa-square-plus"></i> Abrir ticket</a>
+        </li>  -->
 
         <a class="nav-link text-light nav-links" (click)="logout()"><i
                 class="fa-solid fa-door-open"></i> Salir</a>
@@ -39,8 +48,10 @@
                 <div class="card nav-links band-link procesos">
                     <a href="/list" class="card-body text-dark">
                         <h5 class="card-title ">Mantenimiento</h5>
-                        <p class="card-text text-dark">Haz clic aquí para ver los tickets
+                        <p class="card-text text-dark">Haz clic aquí para ver
+                            los tickets
                             de mantenimiento.</p>
+                            
                     </a>
                 </div>
             </div>
@@ -85,7 +96,7 @@
             <div class="col-lg-4 col-md-4"
                 style="border-right: solid 1px #E0E0E0;">
                 <div class="mycard card">
-                    <div *ngIf="responseCases.length === 0; elseBlock">
+                    <div *ngIf="responseCases?.length === 0; elseBlock">
                         <p><svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 class="icon icon-tabler icon-tabler-bell-filled"
@@ -104,28 +115,32 @@
 
                     </div>
 
-                    <div #elseBlock>
+                    <!-- <div #elseBlock>
 
+                    </div> -->
+                    <div class="overflow-auto" style="max-height: 430px;">
+                        <table class="table table-bordered text-center"
+                            style="font-size: 1rem;">
+                            <thead class="table-dark">
+                                <tr class="label-color">
+                                    <th>#</th>
+                                    <th>Caso</th>
+                                    <th>Aplicación</th>
+                                    <!-- <th>Estado</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let inbox of responseCases; let i = index">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>Caso {{ inbox.id }}</td>
+                                    <td>{{ inbox.app_id }}</td>
+                                    <!-- <td>{{ inbox.name }}</td> -->
+                                </tr>
+                                
+                                
+                            </tbody>
+                        </table>
                     </div>
-                    <table class="table ">
-                        <thead class="table-dark">
-                            <tr class="label-color">
-                                <th>#</th>
-                                <th>Caso</th>
-                                <th>Aplicación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                *ngFor="let inbox of responseCases; let i = index">
-                                <td>{{ i + 1 }}</td>
-                                <td>Caso {{ inbox.id }}</td>
-                                <td>{{ inbox.app_id }}</td>
-                                <!-- <pre>{{ inbox | json }}</pre> -->
-                            </tr>
-
-                        </tbody>
-                    </table>
 
                 </div>
             </div>

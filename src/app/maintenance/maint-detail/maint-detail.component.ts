@@ -7,6 +7,7 @@ import { ParamsService } from '../../services/params.service';
 import { UsersService } from '../../services/users.service';
 import { NgForm } from '@angular/forms';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-maint-detail',
@@ -59,6 +60,7 @@ modalImageUrl: any;
     private _sanitizer: DomSanitizer,
     private _paramsServ: ParamsService,
     private _userService: UsersService,
+    private _router: Router
   ) {
     this.token = localStorage.getItem('token');
     // this.params1();
@@ -129,15 +131,9 @@ modalImageUrl: any;
     this.mainDetalle.site = this.maintenanceUrl.maintenance.site;
     this.mainDetalle.description_incident = this.maintenanceUrl.maintenance.description_incident;
     this._serMaint.update(this.token, this.mainDetalle).subscribe(resp => {
-      // console.log(resp);
-
-
-      // if (response.status == 'OK') {
-      //   alert('Actualizacion exitosa');
-      // }
-    })
-
-
+      this._router.navigate(['/main/' + this.maintId])
+      
+    });
   }
 
 

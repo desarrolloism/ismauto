@@ -26,6 +26,7 @@ export class LoginComponent {
 
     this._loginServ.login(this.user.username, this.user.password).subscribe(resp => {
       this.responseurl = resp;
+      // console.log(resp);
       if (this.responseurl.status == 'OK') {
         localStorage.setItem('token', this.responseurl.data.token);
         this._router.navigate(['/main']);

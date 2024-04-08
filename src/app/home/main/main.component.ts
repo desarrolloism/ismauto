@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { Router } from '@angular/router';
 import { CasesService } from '../../services/cases.service';
+import { MaintenanceService } from '../../services/maintenance.service';
+import { UsersService } from '../../services/users.service';
+
 
 @Component({
   selector: 'app-main',
@@ -9,6 +12,7 @@ import { CasesService } from '../../services/cases.service';
   styleUrl: './main.component.css'
 })
 export class MainComponent {
+// public responseCombined: any[] = [];
 
   public token: any;
   public chart: any;
@@ -19,21 +23,27 @@ export class MainComponent {
   public responseTotals: any;
 
 
-  constructor(private _casesServ: CasesService, private _router: Router) {
+  constructor(private _casesServ: CasesService, 
+    private _router: Router, 
+    private _serMaint: MaintenanceService,
+    private _userService: UsersService
+    
+  ) {
     this.token = localStorage.getItem('token');
     // console.log(this.token);
     this.getCases();
   }
 
-  ngOnInit() {
 
-  }
+  
+
 
   getCases() {
 
     this._casesServ.casesAll(localStorage.getItem('token')).subscribe(
       response => {
         this.responseApi = response;
+        // console.log(response);
         if (this.responseApi.status == 'OK') {
           // console.log(response);
           this.responseCases = this.responseApi.cases;
@@ -48,6 +58,7 @@ export class MainComponent {
 
     )
   }
+
 
   generateChart() {
 
@@ -114,8 +125,11 @@ export class MainComponent {
 
 
   logout() {
-    localStorage.clear();
-    this._router.navigate(['/login']);
+    if (window.confirm('¿Está seguro de que desea salir?')) {
+      localStorage.clear();
+      this._router.navigate(['/login']);
+    }
   }
+
 
 }

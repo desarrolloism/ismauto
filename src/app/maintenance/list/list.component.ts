@@ -28,7 +28,7 @@ export class ListComponent {
     this._maintService.all(this.token, page).subscribe(
       res => {
         this.responseUrl = res;
-        console.log(this.responseUrl);
+        // console.log(this.responseUrl);
         if (this.responseUrl.status == 'OK') {
           this.maintenances = this.responseUrl.maintenance;
           this.isAdmin = this.responseUrl.isAdmin;
@@ -36,25 +36,38 @@ export class ListComponent {
           this.actualPage = this.responseUrl.page;
           this.filtrarMant = this.maintenances;
           this.allMant = this.responseUrl.maintenance;
+          this.maintenances.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
           this.maintenances = this.allMant;
           console.log(this.maintenances);
-          console.log(this.isAdmin);
+          // console.log(this.isAdmin);
         }
       }
     )
   }
+  
 
   createTicket() {
     console.log('create ticket');
     console.log(this.token);
   }
 
+  // filterStatus(status: string) {
+  //   this.filtrarMant = this.allMant.filter(maintenance => maintenance.case.status.code === status);
+  //   this.labelFilt = true;
+  //   this.filtroSeleccionado = status;
+  // }
+
   filterStatus(status: string) {
-    this.filtrarMant = this.allMant.filter(maintenance => maintenance.case.status.code === status);
+    if (status === '') {
+      this.filtrarMant = this.allMant; // Mostrar todos los tickets
+    } else {
+      // Filtrar tickets por estado
+      this.filtrarMant = this.allMant.filter(maintenance => maintenance.case.status.code === status);
+    }
+    this.actualPage = 1; // Reinicia la página actual al aplicar el filtro
     this.labelFilt = true;
     this.filtroSeleccionado = status;
   }
-
 
 
   ngOnInit(): void {

@@ -10,8 +10,10 @@ export class HeaderComponent {
   constructor(private _router: Router) {}
 
   logout() {
-    localStorage.clear();
-    this._router.navigate(['/login']);
+    if(window.confirm('¿Está seguro de que desea salir?')){
+      localStorage.clear();
+      this._router.navigate(['/login']);
+    }
   }
 
 }

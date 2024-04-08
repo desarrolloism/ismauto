@@ -1,19 +1,22 @@
 <app-header></app-header>
 
 <div class="mt-4">
+
+    
     <div class="row "  *ngIf="labelFilt">
-        <!-- <div class>
-            <h2 *ngIf="filtroSeleccionado === 'ESTINICIANDO'">Caso: INICIANDO</h2>
-            <h2 *ngIf="filtroSeleccionado === 'ESTSOLICITADO'">Caso: SOLICITADO</h2>
-            <h2 *ngIf="filtroSeleccionado === 'ESTENPROCESO'">Caso: EN PROCESO</h2>
-            <h2 *ngIf="filtroSeleccionado === 'ESTESPERA'">Caso: EN ESPERA</h2>
-            <h2 *ngIf="filtroSeleccionado === 'ESTENTREGADO'">Caso: ENTREGADO</h2>
-            <h2 *ngIf="filtroSeleccionado === 'ESTFINALIZADO'">Caso: FINALIZADO</h2>
-            <h2 *ngIf="filtroSeleccionado === 'ESTELIMINADO'">Caso: ELIMINADO</h2>
-        </div> -->
+        
     
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-end">
+                <div style="margin-right: 1rem;">
+                    <h2 *ngIf="filtroSeleccionado === 'ESTINICIANDO'">INICIANDO</h2>
+                    <h2 *ngIf="filtroSeleccionado === 'ESTSOLICITADO'">SOLICITADO</h2>
+                    <h2 *ngIf="filtroSeleccionado === 'ESTENPROCESO'">EN PROCESO</h2>
+                    <h2 *ngIf="filtroSeleccionado === 'ESTESPERA'">ESPERA</h2>
+                    <h2 *ngIf="filtroSeleccionado === 'ESTENTREGADO'">ENTREGADO</h2>
+                    <h2 *ngIf="filtroSeleccionado === 'ESTFINALIZADO'">FINALIZADO</h2>
+                    <h2 *ngIf="filtroSeleccionado === 'ESTELIMINADO'">ELIMINADO</h2>
+                </div>
                 <li class="page-item">
                     <a class="page-link" *ngIf="actualPage > 1" (click)="list(actualPage-1)">Anterior</a>
                 </li>
@@ -58,6 +61,7 @@
                     </h3>
                 </div> -->
             </ul>
+            
 
         </div>
 
@@ -70,12 +74,12 @@
                     <div class="card-main">
                         <div class="card card-body">
                             
-                            <h5 class="card-title">{{ maintenance.type_incident
+                            <h5 class="card-title">ID: {{ maintenance.case_id }} - {{ maintenance.type_incident
                                 }}</h5>
                             <!-- <h5 class="card-title">{{
                                 maintenance.case.id }}</h5> -->
                             <h6 class="card card-subtitle mb-2 bg-dark text-light">
-                                Fecha: {{
+                                Fecha/Hora: {{
                                 maintenance.case.created }}</h6>
                             <p class="card-text"> Sitio: {{ maintenance.site
                                 }}</p>

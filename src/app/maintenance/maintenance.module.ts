@@ -29,6 +29,9 @@ import { MaintDetailComponent } from './maint-detail/maint-detail.component';
     RouterModule,
     LoginModule,
     FormsModule
+  ],
+  exports: [
+    MaincreateComponent
   ]
 })
 export class MaintenanceModule { }
