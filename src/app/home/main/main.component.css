@@ -216,3 +216,19 @@ a {
     background-color: rgba(0, 0, 0, 0.1);
     /* Color del track en WebKit */
 }
+
+.ticket-caso {
+    text-transform: lowercase;  
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+.list-group{
+    text-align: left;
+}
+
+.rounded-pill{
+    background-color: #ffc107;
+    color: black;
+}
+

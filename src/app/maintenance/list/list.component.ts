@@ -18,17 +18,25 @@ export class ListComponent {
   labelFilt: boolean = false;
   filtroSeleccionado: string = '';
   totalTickets: number = 0;
+  maintStatus: string = '';
+  maintSearch: string = '';
+  selectedStatus: string = '';
 
-  constructor(private _maintService: MaintenanceService) {
+
+
+  constructor(private _maintService: MaintenanceService,
+
+  ) {
     this.token = localStorage.getItem('token');
     this.list(this.actualPage);
   }
 
   list(page: number) {
-    this._maintService.all(this.token, page).subscribe(
+    // console.log(this.maintStatus);
+    this._maintService.all(this.token, page, this.maintStatus, this.maintSearch).subscribe(
       res => {
         this.responseUrl = res;
-        // console.log(this.responseUrl);
+        // console.log(res);
         if (this.responseUrl.status == 'OK') {
           this.maintenances = this.responseUrl.maintenance;
           this.isAdmin = this.responseUrl.isAdmin;
@@ -36,7 +44,6 @@ export class ListComponent {
           this.actualPage = this.responseUrl.page;
           this.filtrarMant = this.maintenances;
           this.allMant = this.responseUrl.maintenance;
-          this.maintenances.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
           this.maintenances = this.allMant;
           console.log(this.maintenances);
           // console.log(this.isAdmin);
@@ -44,34 +51,27 @@ export class ListComponent {
       }
     )
   }
-  
 
   createTicket() {
     console.log('create ticket');
-    console.log(this.token);
+    // console.log(this.token);
   }
-
-  // filterStatus(status: string) {
-  //   this.filtrarMant = this.allMant.filter(maintenance => maintenance.case.status.code === status);
-  //   this.labelFilt = true;
-  //   this.filtroSeleccionado = status;
-  // }
 
   filterStatus(status: string) {
-    if (status === '') {
-      this.filtrarMant = this.allMant; // Mostrar todos los tickets
-    } else {
-      // Filtrar tickets por estado
-      this.filtrarMant = this.allMant.filter(maintenance => maintenance.case.status.code === status);
-    }
-    this.actualPage = 1; // Reinicia la página actual al aplicar el filtro
-    this.labelFilt = true;
-    this.filtroSeleccionado = status;
+    this.maintStatus = status;
+    this.selectedStatus = status;
+    // llama metodo list recuperando info, el 1 lo que pobla al pram page puede ser otro num
+    this.list(1);
+
   }
 
+  filterSearch() {
+    this.list(1);
+  }
 
   ngOnInit(): void {
 
   }
+
 
 }

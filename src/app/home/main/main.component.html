@@ -4,7 +4,6 @@
             <img src="assets/images/logo.png" alt width="100"
                 class="d-inline-block align-text-top">
         </a>
-        <!-- para admin -->
 
         <a class="nav-link nav-links button-navbar text-light" type="button"
             data-bs-toggle="offcanvas"
@@ -14,24 +13,11 @@
             entrada: {{ responseCases?.length
             }}</a>
 
-
-
-
-        <!-- <li class="nav-item">
-                <a class="nav-link text-light" routerLink="/maincreate"><i
-                    class="fa-regular fa-square-plus"></i> Abrir ticket</a>
-        </li>  -->
-
         <a class="nav-link text-light nav-links" (click)="logout()"><i
                 class="fa-solid fa-door-open"></i> Salir</a>
-        <!-- <button class="btn btn-outline-danger"
-            (click)="logout()">Salir</button> -->
 
     </div>
 </nav>
-
-<!-- <hr style="border: none; border-top: 2px solid #FFDAB9;"> -->
-<!-- <hr style="border: none; border-top: 2px solid black;"> -->
 
 <div class="offcanvas offcanvas-bottom bg-dark" tabindex="-1"
     id="offcanvasBottom"
@@ -51,7 +37,7 @@
                         <p class="card-text text-dark">Haz clic aquí para ver
                             los tickets
                             de mantenimiento.</p>
-                            
+
                     </a>
                 </div>
             </div>
@@ -115,31 +101,25 @@
 
                     </div>
 
-                    <!-- <div #elseBlock>
+                    <div class="overflow-auto" style="max-height: 450px;">
 
-                    </div> -->
-                    <div class="overflow-auto" style="max-height: 430px;">
-                        <table class="table table-bordered text-center"
-                            style="font-size: 1rem;">
-                            <thead class="table-dark">
-                                <tr class="label-color">
-                                    <th>#</th>
-                                    <th>Caso</th>
-                                    <th>Aplicación</th>
-                                    <!-- <th>Estado</th> -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let inbox of responseCases; let i = index">
-                                    <td>{{ i + 1 }}</td>
-                                    <td>Caso {{ inbox.id }}</td>
-                                    <td>{{ inbox.app_id }}</td>
-                                    <!-- <td>{{ inbox.name }}</td> -->
-                                </tr>
-                                
-                                
-                            </tbody>
-                        </table>
+                        <ol class="list-group"
+                            *ngFor="let inbox of responseCases">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Estado</div>
+                                    <p class="ticket-caso"><span> <i
+                                                class="fa-solid fa-caret-right"></i>
+                                            {{ inbox.app_id }}</span></p>
+                                </div>
+                                <span
+                                    class="badge text-bg-primary rounded-pill"> Caso: {{
+                                    inbox.id }}</span>
+                            </li>
+
+                        </ol>
+
                     </div>
 
                 </div>

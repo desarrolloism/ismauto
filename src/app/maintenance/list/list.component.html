@@ -1,118 +1,100 @@
 <app-header></app-header>
 
-<div class="mt-4">
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <div class="input-group mb-2 search-bar">
 
-    
-    <div class="row "  *ngIf="labelFilt">
-        
-    
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-end">
-                <div style="margin-right: 1rem;">
-                    <h2 *ngIf="filtroSeleccionado === 'ESTINICIANDO'">INICIANDO</h2>
-                    <h2 *ngIf="filtroSeleccionado === 'ESTSOLICITADO'">SOLICITADO</h2>
-                    <h2 *ngIf="filtroSeleccionado === 'ESTENPROCESO'">EN PROCESO</h2>
-                    <h2 *ngIf="filtroSeleccionado === 'ESTESPERA'">ESPERA</h2>
-                    <h2 *ngIf="filtroSeleccionado === 'ESTENTREGADO'">ENTREGADO</h2>
-                    <h2 *ngIf="filtroSeleccionado === 'ESTFINALIZADO'">FINALIZADO</h2>
-                    <h2 *ngIf="filtroSeleccionado === 'ESTELIMINADO'">ELIMINADO</h2>
-                </div>
-                <li class="page-item">
-                    <a class="page-link" *ngIf="actualPage > 1" (click)="list(actualPage-1)">Anterior</a>
-                </li>
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" enabled>{{ actualPage }}</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" *ngIf="actualPage < totalPages" (click)="list(actualPage+1)">Siguiente</a>
-                </li>
-            </ul>
-        </nav>
+                <input type="text" class="form-control search-input"
+                    placeholder="Buscar descripción o sitio" aria-label="Buscar"
+                    aria-describedby="basic-addon2" (keyup)="filterSearch()"
+                    [(ngModel)]="maintSearch">
+
+            </div>
+        </div>
     </div>
-    
 
     <div class="row">
-
-        <div class="col-lg-3 col-md-3 border">
-            <h4 class="card mt-3">Filtrar por: </h4>
-            <ul class="list-group list-group-flush text-center">
-                <!-- <a class="card list-group-item list-group-item-action m-2"
-                    href="/main">Regresar al inicio</a> -->
-                <!-- <a class="card list-group-item list-group-item-action m-2"
-                    href="#">INICIANDO</a> -->
-
-                <a class="card-main list-group-item list-group-item-action m-2"
-                    (click)="filterStatus('ESTINICIANDO')">INICIANDO</a>
-                <a class="card-main list-group-item list-group-item-action m-2"
-                    (click)="filterStatus('ESTSOLICITADO')">SOLICITADO</a>
-                <a class="card-main list-group-item list-group-item-action m-2"
-                    (click)="filterStatus('ESTENPROCESO')">EN PROCESO</a>
-                <a class="card-main list-group-item list-group-item-action m-2"
-                    (click)="filterStatus('ESTESPERA')">EN ESPERA</a>
-                <a class="card-main list-group-item list-group-item-action m-2"
-                    (click)="filterStatus('ESTENTREGADO')">ENTREGADO</a>
-                <a class="card-main list-group-item list-group-item-action m-2"
-                    (click)="filterStatus('ESTFINALIZADO')">FINALIZADO</a>
-                <a class="card-main list-group-item list-group-item-action m-2"
-                    (click)="filterStatus('ESTELIMINADO')">ELIMINADO</a>
-                <!-- <div class="card">
-                    <h3>
-                        Total de Tickets: 
-                    </h3>
-                </div> -->
-            </ul>
-            
-
+        <div class="col-lg-4 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="text-align: center;">Filtrar
+                        por estado</h5>
+                    <div class="list-group">
+                        <a class="list-group-item list-group-item-action"
+                            (click)="filterStatus('INICIANDO')"
+                            [class.active]="selectedStatus === 'INICIANDO'">INICIANDO
+                        </a>
+                        <a class="list-group-item list-group-item-action"
+                            (click)="filterStatus('SOLICITADO')"
+                            [class.active]="selectedStatus === 'SOLICITADO'">SOLICITADO</a>
+                        <a class="list-group-item list-group-item-action"
+                            (click)="filterStatus('EN PROCESO')"
+                            [class.active]="selectedStatus === 'EN PROCESO'">EN
+                            PROCESO</a>
+                        <a class="list-group-item list-group-item-action"
+                            (click)="filterStatus('EN ESPERA')"
+                            [class.active]="selectedStatus === 'EN ESPERA'">EN
+                            ESPERA</a>
+                        <a class="list-group-item list-group-item-action"
+                            (click)="filterStatus('ENTREGADO')"
+                            [class.active]="selectedStatus === 'ENTREGADO'">ENTREGADO</a>
+                        <a class="list-group-item list-group-item-action"
+                            (click)="filterStatus('FINALIZADO')"
+                            [class.active]="selectedStatus === 'FINALIZADO'">FINALIZADO</a>
+                        <a class="list-group-item list-group-item-action"
+                            (click)="filterStatus('ELIMINADO')"
+                            [class.active]="selectedStatus === 'ELIMINADO'">ELIMINADO</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 1rem;">
+                <p></p>
+            </div>
         </div>
 
-        <div class="col-lg-9 col-md-9">
-            <div class="row">
-
-                <div class="card_proces col-lg-4 col-md-4"
-                    *ngFor="let maintenance of filtrarMant"
-                    style="margin-bottom: 20px;">
-                    <div class="card-main">
-                        <div class="card card-body">
-                            
-                            <h5 class="card-title">ID: {{ maintenance.case_id }} - {{ maintenance.type_incident
-                                }}</h5>
-                            <!-- <h5 class="card-title">{{
-                                maintenance.case.id }}</h5> -->
-                            <h6 class="card card-subtitle mb-2 bg-dark text-light">
-                                Fecha/Hora: {{
+        <div class="col-lg-8 col-md-8">
+            <div class="row overflow-auto" style="max-height: 600px;">
+                <div class="col-lg-6 col-md-6"
+                    *ngFor="let maintenance of filtrarMant">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">ID: {{ maintenance.case_id }}
+                                - {{ maintenance.type_incident }}</h5>
+                            <h6 class="card-subtitle fecha">Fecha/Hora: {{
                                 maintenance.case.created }}</h6>
-                            <p class="card-text"> Sitio: {{ maintenance.site
+                            <p class="card-text">Sitio: {{ maintenance.site
                                 }}</p>
-                            <p class="card-text"> Descripcion: {{
+                            <p class="card-text">Descripción: {{
                                 maintenance.description_incident }}</p>
                             <a routerLink="/maint-detail/{{ maintenance.id }}"
-                                class="btn btn-warning">Ver más...</a>
+                                class="btn ver">Ver más...</a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="row mt-4">
-                <div class="col">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-end">
-                            <li class="page-item">
-                                <a class="page-link" *ngIf="actualPage > 1"
-                                    (click)="list(actualPage-1)">Anterior</a>
-                            </li>
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" enabled>{{
-                                    actualPage }}</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link"
-                                    *ngIf="actualPage < totalPages"
-                                    (click)="list(actualPage+1)">Siguiente</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item">
+                        <a class="page-link" *ngIf="actualPage > 1"
+                            (click)="list(actualPage-1)">Anterior</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" enabled>{{ actualPage
+                            }}</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" *ngIf="actualPage < totalPages"
+                            (click)="list(actualPage+1)">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

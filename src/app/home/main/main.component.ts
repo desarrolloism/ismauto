@@ -60,60 +60,112 @@ export class MainComponent {
   }
 
 
-  generateChart() {
+  // generateChart() {
 
-    // console.log(this.responseTotals);
+  //   // console.log(this.responseTotals);
+
+  //   let aspectRatio = 2.5;
+  //   if (window.innerWidth < 576) { // Por ejemplo, si el ancho de la ventana es menor que 576px (el punto de corte para dispositivos móviles en Bootstrap)
+  //     aspectRatio = 1.5; // Cambia el aspectRatio para dispositivos móviles
+  //   }
+
+  //   const labels = this.responseTotals.map((item: any) => item.name);
+  //   const salesData = this.responseTotals.map((item: any) => item.total_status);
+  //   // const profitData = this.responseTotals.map((item: any) => item.total_status);
+
+
+  //   const colors = [
+  //     '#ff9e18',
+  //     '#ab0a3d',
+  //     '#9e28b5',
+  //     '#0a1f8f',
+  //     '#65b2e8',
+  //     '#898b8d',
+  //     'limegreen',
+  //   ];
+
+  //   this.chart = new Chart("MyChart", {
+  //     type: 'pie',
+  //     data: {
+  //       labels: labels,
+  //       datasets: [
+  //         {
+  //           label: "Total Casos",
+  //           data: salesData,
+  //           backgroundColor: colors
+  //         },
+  //       ]
+  //     },
+  //     options: {
+  //       aspectRatio: aspectRatio,
+
+  //       //llama al evento click para redireccionar a otra ruta
+  //       onClick: (evt, activeElements) => {
+  //         if (activeElements.length > 0) {
+  //           // Obtener el índice del elemento seleccionado
+  //           const clickedIndex = activeElements[0].index;
+  //           // Obtener el nombre del elemento seleccionado
+  //           const selectedLabel = this.chart.data.labels[clickedIndex];
+  //           // Redirigir a la ruta deseada
+  //           this.redirectToRoute(selectedLabel);
+  //         }
+  //       }
+  //     },
+
+  //   });
+
+  // }
+
+
+  generateChart() {
 
     let aspectRatio = 2.5;
     if (window.innerWidth < 576) { // Por ejemplo, si el ancho de la ventana es menor que 576px (el punto de corte para dispositivos móviles en Bootstrap)
       aspectRatio = 1.5; // Cambia el aspectRatio para dispositivos móviles
     }
 
-    const labels = this.responseTotals.map((item: any) => item.name);
-    const salesData = this.responseTotals.map((item: any) => item.total_status);
-    // const profitData = this.responseTotals.map((item: any) => item.total_status);
+    const finalizadoData = this.responseTotals.find((item: any) => item.name === 'FINALIZADO');
 
-    const colors = [
-      '#ff9e18',
-      '#ab0a3d',
-      '#9e28b5',
-      '#0a1f8f',
-      '#65b2e8',
-      '#898b8d',
-      'limegreen',
-    ];
+      console.log(this.responseTotals);
 
-    this.chart = new Chart("MyChart", {
-      type: 'pie',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "Total Casos",
-            data: salesData,
-            backgroundColor: colors
-          },
-        ]
-      },
-      options: {
-        aspectRatio: aspectRatio,
-
-        //llama al evento click para redireccionar a otra ruta
-        onClick: (evt, activeElements) => {
-          if (activeElements.length > 0) {
-            // Obtener el índice del elemento seleccionado
-            const clickedIndex = activeElements[0].index;
-            // Obtener el nombre del elemento seleccionado
-            const selectedLabel = this.chart.data.labels[clickedIndex];
-            // Redirigir a la ruta deseada
-            this.redirectToRoute(selectedLabel);
+    if (finalizadoData) {
+      const label = finalizadoData.name;
+      const salesData = finalizadoData.total_status;
+  
+      this.chart = new Chart("MyChart", {
+        type: 'pie',
+        data: {
+          labels: [label],
+          datasets: [
+            {
+              label: "Total Casos",
+              data: [salesData],
+              backgroundColor: ['limegreen']
+            },
+          ]
+        },
+        options: {
+          aspectRatio: aspectRatio,
+  
+          //llama al evento click para redireccionar a otra ruta
+          onClick: (evt, activeElements) => {
+            if (activeElements.length > 0) {
+              // Obtener el índice del elemento seleccionado
+              const clickedIndex = activeElements[0].index;
+              // Obtener el nombre del elemento seleccionado
+              const selectedLabel = this.chart.data.labels[clickedIndex];
+              // Redirigir a la ruta deseada
+              this.redirectToRoute(selectedLabel);
+            }
           }
         }
-      },
-
-    });
-
+      });
+    } else {
+      console.log('No se encontraron datos para el estado "Finalizado"');
+    }
   }
+  
+
 
   // Método para redirigir a otra ruta según el elemento seleccionado
   redirectToRoute(selectedLabel: string) {

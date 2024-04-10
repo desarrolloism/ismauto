@@ -1,3 +1,7 @@
+/* *{
+    background-color: aqua;
+} */
+
 li {
     font-weight: bold;
 }
@@ -21,13 +25,12 @@ li:hover {
     text-transform: uppercase;
 }
 
-/* .card {
-    border: 1px solid black;
-} */
+.card {
+    border-radius: 20px;
+}
 
-h6,
-.card_proces,
-.card-title {
+
+.card_proces {
     text-align: center;
     font-weight: bold;
 }
@@ -57,6 +60,85 @@ h4 {
     text-decoration: none;
 }
 
-.btn-warning {
+
+.search-bar {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+
+}
+
+.search-input {
+    border: none;
+    /* Elimina el borde predeterminado del input */
+    border-radius: 20px;
+    /* Ajusta el radio de borde según tu preferencia */
+}
+
+.search-button {
+    border-radius: 0 20px 20px 0;
+    /* Redondea solo el borde derecho del botón */
+}
+
+.card-body{
+    margin-top: 1rem;
+    border-radius: 20px;
+}
+
+.search-input::placeholder {
+    text-align: center; /* Centra el texto del placeholder */
+}
+
+.btn{
+    border-radius: 20px;
+    border: 1px solid #ff9e18;
+    color: #ff9e18;
+}
+
+.btn:hover{
+    background-color:#ff9e18;
+    color: black;
+}
+
+.fecha {
+    /* background-color: black;
+    border-radius: 20px;
+    color: #ff9e18; */
+}
+
+.card-title{
+    font-size: 1.5rem;
+    text-align: center;
     font-weight: bold;
+}
+
+.overflow-auto {
+    /* Estilo WebKit (Chrome, Safari) */
+    scrollbar-width: thin;
+    /* Ancho del scrollbar en Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
+    /* Color del thumb y track en Firefox */
+
+    /* Estilo para navegadores no-WebKit */
+    /* Para Microsoft Edge */
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    /* Oculta el scrollbar cuando no se está utilizando en Edge */
+}
+
+/* Estilo para el thumb del scrollbar en Firefox */
+.overflow-auto::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Color del thumb en WebKit */
+}
+
+/* Estilo para el thumb del scrollbar al pasar el ratón en Firefox */
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Color del thumb al pasar el ratón en WebKit */
+}
+
+/* Estilo para el track del scrollbar en Firefox */
+.overflow-auto::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Color del track en WebKit */
 }
