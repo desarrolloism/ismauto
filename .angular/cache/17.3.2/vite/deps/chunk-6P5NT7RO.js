@@ -1,7 +1,7 @@
 import {
   DOCUMENT,
   isPlatformBrowser
-} from "./chunk-4EXWHVAN.js";
+} from "./chunk-QNOIKHPQ.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_ID,
@@ -72,7 +72,7 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-IA4RY3XH.js";
+} from "./chunk-STUO7O5M.js";
 import {
   __spreadProps,
   __spreadValues
@@ -204,6 +204,55 @@ var RtlScrollAxisType;
   RtlScrollAxisType2[RtlScrollAxisType2["NEGATED"] = 1] = "NEGATED";
   RtlScrollAxisType2[RtlScrollAxisType2["INVERTED"] = 2] = "INVERTED";
 })(RtlScrollAxisType || (RtlScrollAxisType = {}));
+var rtlScrollAxisType;
+var scrollBehaviorSupported;
+function supportsScrollBehavior() {
+  if (scrollBehaviorSupported == null) {
+    if (typeof document !== "object" || !document || typeof Element !== "function" || !Element) {
+      scrollBehaviorSupported = false;
+      return scrollBehaviorSupported;
+    }
+    if ("scrollBehavior" in document.documentElement.style) {
+      scrollBehaviorSupported = true;
+    } else {
+      const scrollToFunction = Element.prototype.scrollTo;
+      if (scrollToFunction) {
+        scrollBehaviorSupported = !/\{\s*\[native code\]\s*\}/.test(scrollToFunction.toString());
+      } else {
+        scrollBehaviorSupported = false;
+      }
+    }
+  }
+  return scrollBehaviorSupported;
+}
+function getRtlScrollAxisType() {
+  if (typeof document !== "object" || !document) {
+    return RtlScrollAxisType.NORMAL;
+  }
+  if (rtlScrollAxisType == null) {
+    const scrollContainer = document.createElement("div");
+    const containerStyle = scrollContainer.style;
+    scrollContainer.dir = "rtl";
+    containerStyle.width = "1px";
+    containerStyle.overflow = "auto";
+    containerStyle.visibility = "hidden";
+    containerStyle.pointerEvents = "none";
+    containerStyle.position = "absolute";
+    const content = document.createElement("div");
+    const contentStyle = content.style;
+    contentStyle.width = "2px";
+    contentStyle.height = "1px";
+    scrollContainer.appendChild(content);
+    document.body.appendChild(scrollContainer);
+    rtlScrollAxisType = RtlScrollAxisType.NORMAL;
+    if (scrollContainer.scrollLeft === 0) {
+      scrollContainer.scrollLeft = 1;
+      rtlScrollAxisType = scrollContainer.scrollLeft === 0 ? RtlScrollAxisType.NEGATED : RtlScrollAxisType.INVERTED;
+    }
+    scrollContainer.remove();
+  }
+  return rtlScrollAxisType;
+}
 var shadowDomIsSupported;
 function _supportsShadowDom() {
   if (shadowDomIsSupported == null) {
@@ -246,6 +295,31 @@ function _isTestEnvironment() {
   );
 }
 
+// node_modules/@angular/cdk/fesm2022/keycodes.mjs
+var BACKSPACE = 8;
+var ENTER = 13;
+var SHIFT = 16;
+var CONTROL = 17;
+var ALT = 18;
+var ESCAPE = 27;
+var SPACE = 32;
+var PAGE_UP = 33;
+var PAGE_DOWN = 34;
+var END = 35;
+var HOME = 36;
+var LEFT_ARROW = 37;
+var UP_ARROW = 38;
+var RIGHT_ARROW = 39;
+var DOWN_ARROW = 40;
+var META = 91;
+var MAC_META = 224;
+function hasModifierKey(event, ...modifiers) {
+  if (modifiers.length) {
+    return modifiers.some((modifier) => event[modifier]);
+  }
+  return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
+}
+
 // node_modules/@angular/cdk/fesm2022/coercion.mjs
 function coerceBooleanProperty(value) {
   return value != null && `${value}` !== "false";
@@ -259,23 +333,27 @@ function _isNumberValue(value) {
 function coerceArray(value) {
   return Array.isArray(value) ? value : [value];
 }
+function coerceCssPixelValue(value) {
+  if (value == null) {
+    return "";
+  }
+  return typeof value === "string" ? value : `${value}px`;
+}
 function coerceElement(elementOrRef) {
   return elementOrRef instanceof ElementRef ? elementOrRef.nativeElement : elementOrRef;
 }
-
-// node_modules/@angular/cdk/fesm2022/keycodes.mjs
-var ENTER = 13;
-var SHIFT = 16;
-var CONTROL = 17;
-var ALT = 18;
-var SPACE = 32;
-var META = 91;
-var MAC_META = 224;
-function hasModifierKey(event, ...modifiers) {
-  if (modifiers.length) {
-    return modifiers.some((modifier) => event[modifier]);
+function coerceStringArray(value, separator = /\s+/) {
+  const result = [];
+  if (value != null) {
+    const sourceValues = Array.isArray(value) ? value : `${value}`.split(separator);
+    for (const sourceValue of sourceValues) {
+      const trimmedString = `${sourceValue}`.trim();
+      if (trimmedString) {
+        result.push(trimmedString);
+      }
+    }
   }
-  return event.altKey || event.shiftKey || event.ctrlKey || event.metaKey;
+  return result;
 }
 
 // node_modules/@angular/cdk/fesm2022/observers.mjs
@@ -4529,19 +4607,48 @@ export {
   Platform,
   getSupportedInputTypes,
   normalizePassiveListenerOptions,
+  RtlScrollAxisType,
+  supportsScrollBehavior,
+  getRtlScrollAxisType,
+  _getFocusedElementPierceShadowDom,
+  _getEventTarget,
+  _isTestEnvironment,
+  BACKSPACE,
+  ENTER,
+  ESCAPE,
+  SPACE,
+  PAGE_UP,
+  PAGE_DOWN,
+  END,
+  HOME,
+  LEFT_ARROW,
+  UP_ARROW,
+  RIGHT_ARROW,
+  DOWN_ARROW,
+  hasModifierKey,
   coerceBooleanProperty,
   coerceNumberProperty,
+  coerceArray,
+  coerceCssPixelValue,
   coerceElement,
+  coerceStringArray,
   ObserversModule,
+  CdkTrapFocus,
   FocusMonitor,
+  CdkMonitorFocus,
+  A11yModule,
   Directionality,
+  BidiModule,
   MatCommonModule,
   _ErrorStateTracker,
+  DateAdapter,
+  MAT_DATE_FORMATS,
   ErrorStateMatcher,
   RippleState,
   MAT_RIPPLE_GLOBAL_OPTIONS,
   MatRipple,
   MatRippleModule,
-  MatRippleLoader
+  MatRippleLoader,
+  _MatInternalFormField
 };
-//# sourceMappingURL=chunk-EW7CUCY3.js.map
+//# sourceMappingURL=chunk-6P5NT7RO.js.map

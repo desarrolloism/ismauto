@@ -4,7 +4,7 @@
     --negro: black;
 }
 
-.custom-table {
+/* .custom-table {
     border-collapse: collapse;
     width: 100%;
     font-family: Arial, sans-serif;
@@ -29,6 +29,10 @@
 
 .custom-table tr:hover {
     background-color: var(--secundario);
+} */
+
+.label-color {
+    color: #ffc107;
 }
 
 .navbar-nav-small {
@@ -56,7 +60,7 @@ nav {
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 10px;
     background-color: #fff;
 }
 
@@ -101,7 +105,130 @@ nav {
 
 h1 {
     text-align: center;
-    margin-top: -1.5rem;
+    /* margin-bottom: 1.5rem; */
     font-weight: bold;
     font-size: 2rem;
 }
+
+.nav-links {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+a.navbar-brand {
+    color: black;
+}
+
+a.nav-link {
+    font-size: 1.2rem;
+    margin-right: 5rem;
+    cursor: pointer;
+}
+
+a.nav-link:hover {
+    background-color: #ffc107;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    padding: 1rem;
+}
+
+.cont {
+    /* margin-top: -1.5rem; */
+    padding: 0 2rem 0 2rem;
+}
+
+.band-link {
+    background-color: #ffc107;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    padding: 1rem;
+    animation: vibrar 0.5s;
+    cursor: default;
+}
+
+@keyframes vibrar {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-2px) rotate(-1deg);
+    }
+
+    40% {
+        transform: translateX(2px) rotate(1deg);
+    }
+
+    60% {
+        transform: translateX(-2px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translateX(2px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+a {
+    text-decoration: none;
+}
+
+.procesos,
+.procesos h5 {
+    font-size: 1rem;
+    color: black;
+    border: none;
+    font-weight: bold;
+}
+
+/* Estilo para el contenedor con desplazamiento */
+.overflow-auto {
+    /* Estilo WebKit (Chrome, Safari) */
+    scrollbar-width: thin;
+    /* Ancho del scrollbar en Firefox */
+    scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
+    /* Color del thumb y track en Firefox */
+
+    /* Estilo para navegadores no-WebKit */
+    /* Para Microsoft Edge */
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    /* Oculta el scrollbar cuando no se está utilizando en Edge */
+}
+
+/* Estilo para el thumb del scrollbar en Firefox */
+.overflow-auto::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Color del thumb en WebKit */
+}
+
+/* Estilo para el thumb del scrollbar al pasar el ratón en Firefox */
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Color del thumb al pasar el ratón en WebKit */
+}
+
+/* Estilo para el track del scrollbar en Firefox */
+.overflow-auto::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Color del track en WebKit */
+}
+
+.ticket-caso {
+    text-transform: lowercase;  
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+.list-group{
+    text-align: left;
+}
+
+.rounded-pill{
+    background-color: #ffc107;
+    color: black;
+}
+

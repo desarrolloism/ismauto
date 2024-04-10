@@ -1,61 +1,77 @@
 <app-header></app-header>
 
 <div class="container">
+    <h1>
+        Creando Ticket
+    </h1>
 
-    <form   class="login-form" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="instituto">Instituto</label>
-                <select name="institute_id"
-                        class="form-control"
-                        #institute_id="ngModel" 
+    <form class="login-form mt-4 card" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label for="instituto" class="form-label">Instituto:</label>
+                    <select name="institute_id"
+                        class="form-select"
+                        #institute_id="ngModel"
                         [(ngModel)]="maintenance.institute_id"
-                        required
-                        >
-                    <!-- <option selected>Elije el Instituto</option> -->
-                    <option value="1">NORTH</option>
-                    <option value="2">QUITO</option>
-                    <option value="3">WEST</option>
-
-                </select>                
+                        required>
+                        <option value disabled selected>Selecciona un
+                            instituto</option>
+                        <option value="1">NORTH</option>
+                        <option value="2">QUITO</option>
+                        <option value="3">WEST</option>
+                    </select>
+                </div>
             </div>
+            <div class="col-lg-6">
 
-            <div class="form-group">
-                <label for="Incidente">Tipo de incidente</label>
-                <select name="type_incident" 
-                        class="form-control"
+                <div class="mb-3">
+                    <label for="incidente" class="form-label">Tipo de
+                        incidente:</label>
+                    <select name="type_incident"
+                        class="form-select"
                         #type_incident
                         [(ngModel)]="maintenance.type_incident"
-                        required="">
-                    <option value="LIMPIEZA">LIMPIEZA</option>
-                    <option value="DESTRUCCION">DESTRUCCION</option>
-
-                </select>
+                        required>
+                        <option value disabled selected>Selecciona un tipo de
+                            incidente</option>
+                        <option value="LIMPIEZA">LIMPIEZA</option>
+                        <option value="DESTRUCCION">DESTRUCCION</option>
+                    </select>
+                </div>
             </div>
 
+        </div>
 
-            <div class="form-group">
-                <label for="sitio">Sitio</label>
-                <textarea name="site" 
-                            class="form-control"
-                            #site
-                            [(ngModel)]="maintenance.site"
-                            required=""></textarea>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label for="sitio" class="form-label">Sitio:</label>
+                    <textarea name="site"
+                        class="form-control"
+                        #site
+                        [(ngModel)]="maintenance.site"
+                        required></textarea>
+                </div>
+
             </div>
-
-            <div class="form-group">
-                <label for="description_incident">Descripción del incidente</label>
-                <textarea 
-                    name="description_incident"
-                    class="form-control"
-                    #description_incident
-                    [(ngModel)]="maintenance.description_incident"
-                    required>
-
-                </textarea>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <label for="description_incident"
+                        class="form-label">Descripción del
+                        incidente:</label>
+                    <textarea name="description_incident"
+                        class="form-control"
+                        #description_incident
+                        [(ngModel)]="maintenance.description_incident"
+                        required></textarea>
+                </div>
             </div>
+        </div>
 
-            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Guardar</button>
-
+        <div class="text-center">
+            <button type="submit"
+                class="btn btn-primary w-50 btn-lg mx-auto">Guardar</button>
+        </div>
     </form>
-
 </div>

@@ -1,146 +1,161 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="assets/images/logo.png" alt width="100"
                 class="d-inline-block align-text-top">
         </a>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link button-navbar" type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasBottom"
-                    aria-controls="offcanvasBottom">Mostrar procesos</a>
-            </li>
-        </ul>
-        <button class="btn btn-outline-danger"
-            (click)="logout()">Salir</button>
+
+        <a class="nav-link nav-links button-navbar text-light" type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasBottom"
+            aria-controls="offcanvasBottom">Mostrar procesos</a>
+        <a class="nav-link band-link button-navbar text-dark"> Bandeja de
+            entrada: {{ responseCases?.length
+            }}</a>
+
+        <a class="nav-link text-light nav-links" (click)="logout()"><i
+                class="fa-solid fa-door-open"></i> Salir</a>
 
     </div>
 </nav>
 
-<!-- <hr style="border: none; border-top: 2px solid #FFDAB9;"> -->
-<!-- <hr style="border: none; border-top: 2px solid black;"> -->
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom"
+<div class="offcanvas offcanvas-bottom bg-dark" tabindex="-1"
+    id="offcanvasBottom"
     aria-labelledby="offcanvasBottomLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasBottomLabel">Procesos</h5>
-        <button type="button" class="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
+        <h2 class="offcanvas-title text-light"
+            id="offcanvasBottomLabel">Procesos</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
             aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body small">
-        <div class="row">
-            <div class="col-lg-3 col-md-3"
-                style="border-right: solid 1px #E0E0E0;">
-                <ul>
-                    <li>
-                        <a class="tickets" onclick="location.href='/list'"
-                            style="cursor: pointer;">
-                            <i class="fa-solid fa-screwdriver-wrench"></i>
-                            Ticket Mantenimiento ()
-                        </a>
-                    </li>
-                </ul>
+    <div class="offcanvas-body">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card nav-links band-link procesos">
+                    <a href="/list" class="card-body text-dark">
+                        <h5 class="card-title ">Mantenimiento</h5>
+                        <p class="card-text text-dark">Haz clic aquí para ver
+                            los tickets
+                            de mantenimiento.</p>
+
+                    </a>
+                </div>
             </div>
-            <div class="col-lg-3 col-md-3"
-                style="border-right: solid 1px #E0E0E0;">Columna2</div>
-            <div class="col-lg-3 col-md-3"
-                style="border-right: solid 1px #E0E0E0;">Columna3</div>
-            <div class="col-lg-3 col-md-3"
-                style="border-right: solid 1px #E0E0E0;">Columna4</div>
+            <div class="col">
+                <div class="card nav-links band-link procesos">
+                    <a href="/list" class="card-body text-dark">
+                        <h5 class="card-title ">Columna 2</h5>
+                        <p class="card-text">Haz clic aquí para ver
+                            los tickets
+                            de mantenimiento.</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card nav-links band-link procesos">
+                    <a href="/list" class="card-body text-dark">
+                        <h5 class="card-title">Columna 3</h5>
+                        <p class="card-text">Haz clic aquí para ver los tickets
+                            de mantenimiento.</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card nav-links band-link procesos">
+                    <a href="/list" class="card-body text-dark">
+                        <h5 class="card-title text-dark">Columna 4</h5>
+                        <p class="card-text">Haz clic 1aquí para ver los tickets
+                            de mantenimiento.</p>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="container">
-    <h1>Bienvenido "Usuario"</h1>
-    <div class="row">
-        <div class="col-lg-4 col-md-4" style="border-right: solid 1px #E0E0E0;">
-            <div class="mycard">
-                <div *ngIf="responseCases.length === 0; elseBlock">
-                    <p><svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="icon icon-tabler icon-tabler-bell-filled"
-                            width="24" height="24" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="#ff2825" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path
-                                d="M14.235 19c.865 0 1.322 1.024 .745 1.668a3.992 3.992 0 0 1 -2.98 1.332a3.992 3.992 0 0 1 -2.98 -1.332c-.552 -.616 -.158 -1.579 .634 -1.661l.11 -.006h4.471z"
-                                stroke-width="0" fill="currentColor" />
-                            <path
-                                d="M12 2c1.358 0 2.506 .903 2.875 2.141l.046 .171l.008 .043a8.013 8.013 0 0 1 4.024 6.069l.028 .287l.019 .289v2.931l.021 .136a3 3 0 0 0 1.143 1.847l.167 .117l.162 .099c.86 .487 .56 1.766 -.377 1.864l-.116 .006h-16c-1.028 0 -1.387 -1.364 -.493 -1.87a3 3 0 0 0 1.472 -2.063l.021 -.143l.001 -2.97a8 8 0 0 1 3.821 -6.454l.248 -.146l.01 -.043a3.003 3.003 0 0 1 2.562 -2.29l.182 -.017l.176 -.004z"
-                                stroke-width="0" fill="currentColor" />
-                        </svg> Bandeja de entrada: 0 </p>
-
-                </div>
-
-                <div #elseBlock>
-                    <p> <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="icon icon-tabler icon-tabler-bell-plus"
-                            width="24" height="24" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="#ff2825" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path
-                                d="M12.5 17h-8.5a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6a2 2 0 1 1 4 0a7 7 0 0 1 4 6v1" />
-                            <path d="M9 17v1a3 3 0 0 0 3.51 2.957" />
-                            <path d="M16 19h6" />
-                            <path d="M19 16v6" />
-                        </svg> Bandeja de entrada: {{ responseCases.length }}
-                    </p>
-                </div>
-                <table class="custom-table table-responsive table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Caso</th>
-                            <th>Aplicación</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let inbox of responseCases; let i = index">
-                            <td>{{ i + 1 }}</td>
-                            <td>Caso {{ inbox.id }}</td>
-                            <td>{{ inbox.app_id }}</td>
-                            <!-- <pre>{{ inbox | json }}</pre> -->
-                        </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
+<div class="cont">
+    <div>
+        <div class="card" style="margin-bottom: 1rem;">
+            <h1>Resumen</h1>
         </div>
-        <div class="col-lg-8 col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <p class="administrar">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="icon icon-tabler icon-tabler-users"
-                            width="44" height="44" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="#00b341" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                            <path
-                                d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                        </svg>
-                        <!-- administra casos como jefe -->
-                        <b>Mis casos</b>
-                    </p>
-                    <div class="row">
-                        <div class="chart-container">
-                            <canvas id="MyChart" width="400"
-                                height="400"></canvas>
+        <div class="row">
+            <div class="col-lg-4 col-md-4"
+                style="border-right: solid 1px #E0E0E0;">
+                <div class="mycard card">
+                    <div *ngIf="responseCases?.length === 0; elseBlock">
+                        <p><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-bell-filled"
+                                width="24" height="24" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="#ff2825" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z"
+                                    fill="none" />
+                                <path
+                                    d="M14.235 19c.865 0 1.322 1.024 .745 1.668a3.992 3.992 0 0 1 -2.98 1.332a3.992 3.992 0 0 1 -2.98 -1.332c-.552 -.616 -.158 -1.579 .634 -1.661l.11 -.006h4.471z"
+                                    stroke-width="0" fill="currentColor" />
+                                <path
+                                    d="M12 2c1.358 0 2.506 .903 2.875 2.141l.046 .171l.008 .043a8.013 8.013 0 0 1 4.024 6.069l.028 .287l.019 .289v2.931l.021 .136a3 3 0 0 0 1.143 1.847l.167 .117l.162 .099c.86 .487 .56 1.766 -.377 1.864l-.116 .006h-16c-1.028 0 -1.387 -1.364 -.493 -1.87a3 3 0 0 0 1.472 -2.063l.021 -.143l.001 -2.97a8 8 0 0 1 3.821 -6.454l.248 -.146l.01 -.043a3.003 3.003 0 0 1 2.562 -2.29l.182 -.017l.176 -.004z"
+                                    stroke-width="0" fill="currentColor" />
+                            </svg> Bandeja de entrada: 0 </p>
+
+                    </div>
+
+                    <div class="overflow-auto" style="max-height: 450px;">
+
+                        <ol class="list-group"
+                            *ngFor="let inbox of responseCases">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">Estado</div>
+                                    <p class="ticket-caso"><span> <i
+                                                class="fa-solid fa-caret-right"></i>
+                                            {{ inbox.app_id }}</span></p>
+                                </div>
+                                <span
+                                    class="badge text-bg-primary rounded-pill"> Caso: {{
+                                    inbox.id }}</span>
+                            </li>
+
+                        </ol>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="administrar">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-users"
+                                width="44" height="44" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="#00b341" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z"
+                                    fill="none" />
+                                <path
+                                    d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                <path
+                                    d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                            </svg>
+                            <!-- administra casos como jefe -->
+                            <b>Mis casos</b>
+                        </p>
+                        <div class="row">
+                            <div class="chart-container">
+                                <canvas id="MyChart" width="400"
+                                    height="400"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 
 </div>

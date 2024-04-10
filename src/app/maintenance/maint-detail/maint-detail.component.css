@@ -1,0 +1,16 @@
+.form-label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: grid;
+    align-items: center;
+}
+
+.modal-title {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.form-AST{
+    margin-top: 15px;
+}
