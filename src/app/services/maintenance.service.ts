@@ -84,6 +84,7 @@ export class MaintenanceService {
     });
 
     const data = mainDetalle;
+    // console.log(mainDetalle)
 
     return this._http.post(`${this.url}/maintenance/update`, data, { headers: headers });
 

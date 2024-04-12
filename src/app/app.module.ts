@@ -14,11 +14,12 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
+import { GeneralscoreModule } from './generalscore/generalscore.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +33,8 @@ import {MatRadioModule} from '@angular/material/radio';
     FormsModule,
     MatDatepickerModule,
     MatRadioModule,
-    MaintenanceModule
+    MaintenanceModule,
+    GeneralscoreModule
   ],
   providers: [
     provideAnimationsAsync()

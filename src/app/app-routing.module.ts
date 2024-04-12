@@ -5,6 +5,7 @@ import { MainComponent } from './home/main/main.component';
 import { ListComponent } from './maintenance/list/list.component';
 import { MaincreateComponent } from './maintenance/maincreate/maincreate.component';
 import { MaintDetailComponent } from './maintenance/maint-detail/maint-detail.component';
+import { ScoreComponent } from './generalscore/score/score.component';
 
 
 
@@ -15,7 +16,10 @@ const routes: Routes = [
   { path: 'list', component: ListComponent },
   { path: 'maincreate', component: MaincreateComponent },
   { path: 'maint-detail/:maintId', component: MaintDetailComponent },
-  { path: '**', redirectTo: '/main', pathMatch: 'full' }
+  { path: '**', redirectTo: '/main', pathMatch: 'full' },
+  //generalscore
+  { path: 'score', component: ScoreComponent },
+
 ];
 
 @NgModule({

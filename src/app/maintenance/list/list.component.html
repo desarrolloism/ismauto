@@ -4,63 +4,50 @@
     <div class="row justify-content-center">
         <div class="col-sm-6">
             <div class="input-group mb-2 search-bar">
-
                 <input type="text" class="form-control search-input"
                     placeholder="Buscar descripción o sitio" aria-label="Buscar"
                     aria-describedby="basic-addon2" (keyup)="filterSearch()"
                     [(ngModel)]="maintSearch">
-
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-lg-4 col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title" style="text-align: center;">Filtrar
                         por estado</h5>
-                    <div class="list-group">
-                        <a class="list-group-item list-group-item-action"
-                            (click)="filterStatus('INICIANDO')"
-                            [class.active]="selectedStatus === 'INICIANDO'">INICIANDO
-                        </a>
-                        <a class="list-group-item list-group-item-action"
-                            (click)="filterStatus('SOLICITADO')"
-                            [class.active]="selectedStatus === 'SOLICITADO'">SOLICITADO</a>
-                        <a class="list-group-item list-group-item-action"
-                            (click)="filterStatus('EN PROCESO')"
-                            [class.active]="selectedStatus === 'EN PROCESO'">EN
-                            PROCESO</a>
-                        <a class="list-group-item list-group-item-action"
-                            (click)="filterStatus('EN ESPERA')"
-                            [class.active]="selectedStatus === 'EN ESPERA'">EN
-                            ESPERA</a>
-                        <a class="list-group-item list-group-item-action"
-                            (click)="filterStatus('ENTREGADO')"
-                            [class.active]="selectedStatus === 'ENTREGADO'">ENTREGADO</a>
-                        <a class="list-group-item list-group-item-action"
-                            (click)="filterStatus('FINALIZADO')"
-                            [class.active]="selectedStatus === 'FINALIZADO'">FINALIZADO</a>
-                        <a class="list-group-item list-group-item-action"
-                            (click)="filterStatus('ELIMINADO')"
-                            [class.active]="selectedStatus === 'ELIMINADO'">ELIMINADO</a>
+                    <div class="card-body">
+                        <div class="list-group">
+                            @for (status of statuses; track $index) {
+                            <a
+                                class="list-group-item list-group-item-action"
+                                (click)="filterStatus(status)"
+                                [class.active]="selectedStatus === status">{{
+                                status }}</a>
+                            }
+
+                        </div>
                     </div>
+
                 </div>
             </div>
-            <div class="card" style="margin-top: 1rem;">
-                <p></p>
-            </div>
+
         </div>
 
         <div class="col-lg-8 col-md-8">
             <div class="row overflow-auto" style="max-height: 600px;">
                 <div class="col-lg-6 col-md-6"
                     *ngFor="let maintenance of filtrarMant">
-                    <div class="card mb-3">
+                    <div class="card mb-3 position-relative">
                         <div class="card-body">
-                            <h5 class="card-title">ID: {{ maintenance.case_id }}
-                                - {{ maintenance.type_incident }}</h5>
+                            <span
+                                class="badge text-bg-primary rounded-pill position-absolute top-0 end-0">
+                                ID: {{ maintenance.case_id }}
+                            </span>
+                            <h5 class="card-title">{{ maintenance.type_incident
+                                }}</h5>
                             <h6 class="card-subtitle fecha">Fecha/Hora: {{
                                 maintenance.case.created }}</h6>
                             <p class="card-text">Sitio: {{ maintenance.site
@@ -71,6 +58,7 @@
                                 class="btn ver">Ver más...</a>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
