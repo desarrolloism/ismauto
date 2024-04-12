@@ -8,6 +8,7 @@ import { UsersService } from '../../services/users.service';
 import { NgForm } from '@angular/forms';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { Router } from '@angular/router';
+import { ScoreMailService } from '../../services/score-mail.service';
 
 @Component({
   selector: 'app-maint-detail',
@@ -35,7 +36,8 @@ export class MaintDetailComponent implements OnInit {
     type_incident: '',
     site: '',
     score: '',
-    description_incident: ''
+    description_incident: '',
+    name: ''
   }
 
   isAdmin: boolean = false;
@@ -50,8 +52,9 @@ export class MaintDetailComponent implements OnInit {
 
   urlFiles = GLOBAL.url;
   urlPhotos = this.urlFiles + "/files/maintenance/";
-modalImageUrl: any;
-
+  modalImageUrl: any;
+  statusName: any;
+  scoreModuleUrl: any;
 
 
   constructor(
@@ -60,7 +63,8 @@ modalImageUrl: any;
     private _sanitizer: DomSanitizer,
     private _paramsServ: ParamsService,
     private _userService: UsersService,
-    private _router: Router
+    private _router: Router,
+    private _scoreMailService: ScoreMailService,
   ) {
     this.token = localStorage.getItem('token');
     // this.params1();
@@ -80,7 +84,7 @@ modalImageUrl: any;
 
   params1() {
     this._paramsServ.getParams('ESTADO_CASE', this.token).subscribe(resp => {
-      // console.log(resp); 
+      // console.log(resp);
       this.paramsUrl = resp;
       this.params = this.paramsUrl.params;
       // console.log(this.params);
@@ -117,6 +121,7 @@ modalImageUrl: any;
         this.mainDetalle.site = this.maintenance.site;
         this.mainDetalle.score = this.maintenance.score;
         this.mainDetalle.description_incident = this.maintenance.description_incident;
+        // console.log(this.mainDetalle);
       } else {
         console.error('La respuesta del servicio no contiene la propiedad "maintenance"');
       }
@@ -126,23 +131,38 @@ modalImageUrl: any;
 
   onSubmit() {
 
-    // this.mainDetalle.has_risk = this.mainDetalle.has_risk == true;
+    let nameStatus: String = this.buscar_nombre_estado();
     this.mainDetalle.type_incident = this.maintenanceUrl.maintenance.type_incident;
     this.mainDetalle.site = this.maintenanceUrl.maintenance.site;
     this.mainDetalle.description_incident = this.maintenanceUrl.maintenance.description_incident;
     this._serMaint.update(this.token, this.mainDetalle).subscribe(resp => {
-      this._router.navigate(['/main/' + this.maintId])
-      
+      let respuesta: any = resp;
+      if(respuesta.status == 'OK' && nameStatus == 'ENTREGADO'){
+        console.log(this.statusName);
+        this.sendEmailScore();
+      }
+      this._router.navigate(['/main/' + this.maintId]);
     });
   }
 
+  buscar_nombre_estado() {
+    for (let i = 0; i < this.params.length; i++) {
+      if (this.params[i].id == this.mainDetalle.status_id) {
+        return this.params[i].name;
+      }
+    }
+  }
+
+  sendEmailScore() {
+    this._scoreMailService.sendEmail(this.scoreModuleUrl, this.maintId).subscribe(resp => {
+      
+    })
+  }
 
   viewPhotoModal(photografy: any) {
     this.photografy = photografy;
     // console.log(photografy)
   }
-
-
 
   uploadFile() {
     const file: File = this.fileInput.nativeElement.files[0];

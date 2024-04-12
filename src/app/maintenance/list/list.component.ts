@@ -21,7 +21,7 @@ export class ListComponent {
   maintStatus: string = '';
   maintSearch: string = '';
   selectedStatus: string = '';
-
+  statuses: string[] = ['INICIANDO', 'SOLICITADO', 'EN PROCESO', 'EN ESPERA', 'ENTREGADO', 'FINALIZADO', 'ELIMINADO'];
 
 
   constructor(private _maintService: MaintenanceService,
@@ -45,7 +45,6 @@ export class ListComponent {
           this.filtrarMant = this.maintenances;
           this.allMant = this.responseUrl.maintenance;
           this.maintenances = this.allMant;
-          console.log(this.maintenances);
           // console.log(this.isAdmin);
         }
       }
@@ -53,7 +52,7 @@ export class ListComponent {
   }
 
   createTicket() {
-    console.log('create ticket');
+    // console.log('create ticket');
     // console.log(this.token);
   }
 
@@ -74,4 +73,6 @@ export class ListComponent {
   }
 
 
+
+  
 }
