@@ -13,6 +13,7 @@ import { UsersService } from '../../services/users.service';
 })
 export class MainComponent {
 
+  percentage: number = 90;
   public token: any;
   public chart: any;
 
@@ -50,7 +51,141 @@ export class MainComponent {
     )
   }
 
+  ngOnInit() {
+    this.generateChart1();
+    this.generateChart2();
+  }
   
+
+
+  generateChart1() {
+    const labels = ['1 Estrella', '2 Estrellas', '3 Estrellas', '4 Estrellas', '5 Estrellas'];
+    const data = [2, 4,5,8,10]; // Datos ficticios para las barras
+
+    const colors = [
+      '#ff9e18',
+      '#ab0a3d',
+      '#9e28b5',
+      '#0a1f8f',
+      '#65b2e8',
+      '#898b8d',
+      'limegreen',
+    ];
+
+    this.chart = new Chart("MyOtherChart", { // Cambiado el ID a "MyOtherChart"
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "",
+            data: data,
+            backgroundColor: colors
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false, // Desactiva el mantenimiento del aspecto para permitir un tamaño personalizado
+        responsive: true, // Permite que el gráfico se ajuste al tamaño del contenedor
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+
+
+  generateChart2() {
+    const labels = ['INICIADO','SOLICITADO', 'EN PROCESO', 'EN ESPERA', 'ENTREGADO','FINALIZADO'];
+    const data = [5, 2,4,7,3,1]; // Datos ficticios para las barras
+
+    const colors = [
+      '#ff9e18',
+      '#ab0a3d',
+      '#9e28b5',
+      '#0a1f8f',
+      '#65b2e8',
+      '#898b8d',
+      'limegreen',
+    ];
+
+    this.chart = new Chart("MyOtherChart2", { // Cambiado el ID a "MyOtherChart"
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "",
+            data: data,
+            backgroundColor: colors
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false, // Desactiva el mantenimiento del aspecto para permitir un tamaño personalizado
+        responsive: true, // Permite que el gráfico se ajuste al tamaño del contenedor
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   generateChart() {
 
     // console.log(this.responseTotals);
@@ -107,8 +242,6 @@ export class MainComponent {
 
   }
 
-
-
   // Método para redirigir a otra ruta según el elemento seleccionado
   redirectToRoute(selectedLabel: string) {
     // Aquí puedes hacer lo que necesites con la etiqueta seleccionada antes de redirigir
@@ -123,4 +256,5 @@ export class MainComponent {
       this._router.navigate(['/login']);
     }
   }
+
 }
