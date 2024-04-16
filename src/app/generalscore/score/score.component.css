@@ -1,0 +1,63 @@
+#form {
+  width: 250px;
+  margin: 0 auto;
+  height: 50px;
+}
+
+#form p {
+  text-align: left; /* Alinea el texto a la izquierda */
+}
+
+#form label {
+  font-size: 20px; /* Ajusta el tamaño de la fuente según sea necesario */
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+label {
+  color: grey;
+}
+
+.clasificacion {
+  direction: ltr; /* Mantén la dirección del texto de derecha a izquierda */
+}
+
+label:hover,
+label:hover ~ label {
+  color: orange;
+}
+
+input[type="radio"]:checked ~ label {
+  color: orange;
+}
+
+.fa-regular.fa-star {
+  font-size: 30px; /* Ajusta el tamaño de la fuente según sea necesario */
+}
+
+.btn-dark{
+  padding: 10px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  text-align: right;
+}
+
+.btn-dark:hover{
+  color: #ffc107;
+  transform: scale(1.1);
+  cursor: pointer;
+  transition: .3s;
+  font-weight: bold;
+}
+
+.bg-dark1{
+  padding: 10px;
+  color: #ffc107;
+  border: none;
+  border-radius: 10px;
+  text-align: right;
+  font-weight: bold;
+}

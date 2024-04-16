@@ -177,12 +177,13 @@ a {
     text-decoration: none;
 }
 
-.procesos,
-.procesos h5 {
+.procesos {
     font-size: 1rem;
     color: black;
     border: none;
-    font-weight: bold;
+    /* font-weight: bold; */
+    margin-top: 10px;
+    border: 1px solid #ccc;
 }
 
 /* Estilo para el contenedor con desplazamiento */
@@ -232,3 +233,11 @@ a {
     color: black;
 }
 
+.card-title{
+    font-size:1.3rem ;
+    font-weight: normal;
+}
+
+.card-text{
+    font-weight: normal;
+}

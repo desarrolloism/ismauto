@@ -54,7 +54,7 @@ export class MaintDetailComponent implements OnInit {
   urlPhotos = this.urlFiles + "/files/maintenance/";
   modalImageUrl: any;
   statusName: any;
-  scoreModuleUrl: any;
+  scoreModuleUrl: string = 'score';
 
 
   constructor(
@@ -106,6 +106,7 @@ export class MaintDetailComponent implements OnInit {
       // console.log(this.maintenanceUrl.isAdmin);
       // console.log(resp);
       // console.log(this.maintenanceUrl.maintenance.photos);
+      // console.log(this.maintenanceUrl);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
@@ -138,7 +139,7 @@ export class MaintDetailComponent implements OnInit {
     this._serMaint.update(this.token, this.mainDetalle).subscribe(resp => {
       let respuesta: any = resp;
       if(respuesta.status == 'OK' && nameStatus == 'ENTREGADO'){
-        console.log(this.statusName);
+        // console.log(this.statusName);
         this.sendEmailScore();
       }
       this._router.navigate(['/main/' + this.maintId]);
@@ -154,8 +155,9 @@ export class MaintDetailComponent implements OnInit {
   }
 
   sendEmailScore() {
-    this._scoreMailService.sendEmail(this.scoreModuleUrl, this.maintId).subscribe(resp => {
-      
+    console.log(this.token);
+    this._scoreMailService.sendEmail(this.scoreModuleUrl, this.maintId, this.token).subscribe(resp => {
+      // console.log(resp);
     })
   }
 

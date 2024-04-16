@@ -17,9 +17,11 @@ import {MatRadioModule} from '@angular/material/radio';
 import { GeneralscoreModule } from './generalscore/generalscore.module';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,7 @@ import { GeneralscoreModule } from './generalscore/generalscore.module';
     MatDatepickerModule,
     MatRadioModule,
     MaintenanceModule,
-    GeneralscoreModule
+    GeneralscoreModule,
   ],
   providers: [
     provideAnimationsAsync()

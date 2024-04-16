@@ -8,6 +8,7 @@ import { Form, NgForm } from '@angular/forms';
 })
 export class MaintenanceService {
 
+
   public url: string;
   public auth: string;
   public token: any;
@@ -106,6 +107,16 @@ export class MaintenanceService {
 
     return this._http.post(`${this.url}/maintenance/upload`, data, { headers: headers });
 
+  }
+
+  updateScore(token: any, totalScore: any) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+
+    return this._http.post(`${this.url}/maintenance/update-score`, totalScore, { headers: headers });
   }
 
 }

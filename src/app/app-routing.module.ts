@@ -16,9 +16,12 @@ const routes: Routes = [
   { path: 'list', component: ListComponent },
   { path: 'maincreate', component: MaincreateComponent },
   { path: 'maint-detail/:maintId', component: MaintDetailComponent },
-  { path: '**', redirectTo: '/main', pathMatch: 'full' },
   //generalscore
-  { path: 'score', component: ScoreComponent },
+  { path: 'score/:maintId', component: ScoreComponent },
+
+  
+  { path: '**', redirectTo: '/main', pathMatch: 'full' },
+  
 
 ];
 
