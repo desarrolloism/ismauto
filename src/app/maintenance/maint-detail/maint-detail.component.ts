@@ -103,13 +103,14 @@ export class MaintDetailComponent implements OnInit {
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
-      // console.log(this.maintenanceUrl.isAdmin);
+      console.log(this.maintenanceUrl.isAdmin);
       // console.log(resp);
       // console.log(this.maintenanceUrl.maintenance.photos);
       // console.log(this.maintenanceUrl);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
+        localStorage.setItem('isAdmin', JSON.stringify(this.isAdmin));
         this.mainDetalle.id = this.maintenance.id;
         this.mainDetalle.date_estimated_delivery = this.maintenance.date_estimated_delivery;
         this.mainDetalle.priority = this.maintenance.priority;

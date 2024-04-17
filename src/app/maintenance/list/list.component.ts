@@ -44,6 +44,7 @@ export class ListComponent {
           this.actualPage = this.responseUrl.page;
           this.filtrarMant = this.maintenances;
           this.allMant = this.responseUrl.maintenance;
+          // console.log(this.filtrarMant);
           this.maintenances = this.allMant;
           // console.log(this.isAdmin);
         }

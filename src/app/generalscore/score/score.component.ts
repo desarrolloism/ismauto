@@ -121,6 +121,8 @@ export class ScoreComponent implements OnInit {
   };
   this._serMaint.updateScore(this.token, totalScore).subscribe(resp => {
     console.log(resp);
+    this._router.navigate(['/gratitude/']);
+  
   });
 }
   }

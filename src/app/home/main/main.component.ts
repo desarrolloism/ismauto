@@ -12,8 +12,11 @@ import { UsersService } from '../../services/users.service';
   styleUrl: './main.component.css'
 })
 export class MainComponent {
-
-  percentage: number = 90;
+  avatar: string = '';
+  name: string = '';
+  email: string = '';
+  last_name: string = '';
+  percentage: number = 70;
   public token: any;
   public chart: any;
 
@@ -21,17 +24,44 @@ export class MainComponent {
   public responseApi: any;
   public responseCases: any;
   public responseTotals: any;
-  public user: any;
+
+  //muestra si es admin
+  isAdmin: boolean = false;
 
 
   constructor(private _casesServ: CasesService,
     private _router: Router,
-    private _serMaint: MaintenanceService,
-    private _userService: UsersService
 
   ) {
     this.token = localStorage.getItem('token');
     this.getCases();
+  this.getIsAdmin();
+
+  }
+ ngOnInit() {
+  this.generateChart1();
+  this.generateChart2();
+  this.getAvatar();
+}
+
+  //verifica si es admin o no
+  getIsAdmin(){
+    this.isAdmin = JSON.parse(localStorage.getItem('isAdmin')|| 'false');
+    console.log(`es admin = ${this.isAdmin}`);
+  }
+
+
+//caputra los datos del usuario
+  getAvatar(){
+    const userData = JSON.parse(localStorage.getItem('userData')|| '{}');
+    this.avatar = userData.avatar;
+    this.name = userData.first_name;
+    this.last_name = userData.last_name;
+    this.email = userData.email;
+    console.log(this.avatar);
+    console.log(this.name);
+    console.log(this.last_name);
+    console.log(this.email);
   }
 
 
@@ -44,24 +74,17 @@ export class MainComponent {
           this.responseCases = this.responseApi.cases;
           this.responseTotals = this.responseApi.totals;
           this.generateChart();
+
         }
-
       }
-
     )
   }
 
-  ngOnInit() {
-    this.generateChart1();
-    this.generateChart2();
-  }
-  
-
+  //barras quemadas
 
   generateChart1() {
     const labels = ['1 Estrella', '2 Estrellas', '3 Estrellas', '4 Estrellas', '5 Estrellas'];
-    const data = [2, 4,5,8,10]; // Datos ficticios para las barras
-
+    const data = [2, 4, 5, 8, 10]; // Datos ficticios para las barras
     const colors = [
       '#ff9e18',
       '#ab0a3d',
@@ -99,8 +122,8 @@ export class MainComponent {
 
 
   generateChart2() {
-    const labels = ['INICIADO','SOLICITADO', 'EN PROCESO', 'EN ESPERA', 'ENTREGADO','FINALIZADO'];
-    const data = [5, 2,4,7,3,1]; // Datos ficticios para las barras
+    const labels = ['INICIADO', 'SOLICITADO', 'EN PROCESO', 'EN ESPERA', 'ENTREGADO', 'FINALIZADO'];
+    const data = [5, 2, 4, 7, 3, 1]; // Datos ficticios para las barras
 
     const colors = [
       '#ff9e18',
@@ -139,49 +162,7 @@ export class MainComponent {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  //fin barras quemadas
 
 
 
@@ -211,7 +192,7 @@ export class MainComponent {
     ];
 
     this.chart = new Chart("MyChart", {
-      type: 'pie',
+      type: 'bar',
       data: {
         labels: labels,
         datasets: [

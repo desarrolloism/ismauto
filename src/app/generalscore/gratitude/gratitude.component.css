@@ -1,0 +1,37 @@
+/* .background {
+    
+}
+
+.top{
+    display: grid;
+    justify-items: center;
+    
+}
+
+h1{
+    font: 3rem;
+}
+
+h3{
+    color: #cccc;
+} */
+
+.background {
+    background-color: #f8f9fa; /* Color de fondo */
+    height: 100vh; /* Altura completa de la ventana */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../../../assets/images/logo.png);
+    background-size: cover;
+    background-position: center;
+    height: 90vh;
+    align-items: center;
+}
+.top {
+    padding: 30px;
+    border: 2px solid #343a40; /* Borde sólido */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: #ffffff; /* Color de fondo */
+    opacity: 0.8;
+}

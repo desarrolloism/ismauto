@@ -6,7 +6,7 @@ import { ListComponent } from './maintenance/list/list.component';
 import { MaincreateComponent } from './maintenance/maincreate/maincreate.component';
 import { MaintDetailComponent } from './maintenance/maint-detail/maint-detail.component';
 import { ScoreComponent } from './generalscore/score/score.component';
-
+import { GratitudeComponent } from './generalscore/gratitude/gratitude.component';
 
 
 const routes: Routes = [
@@ -18,6 +18,8 @@ const routes: Routes = [
   { path: 'maint-detail/:maintId', component: MaintDetailComponent },
   //generalscore
   { path: 'score/:maintId', component: ScoreComponent },
+  { path: 'gratitude', component: GratitudeComponent },
+
 
   
   { path: '**', redirectTo: '/main', pathMatch: 'full' },

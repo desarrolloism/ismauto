@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ScoreComponent } from './score/score.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { GratitudeComponent } from './gratitude/gratitude.component';
 
 
 
 @NgModule({
   declarations: [
-    ScoreComponent
+    ScoreComponent,
+    GratitudeComponent
   ],
   imports: [
     CommonModule,
