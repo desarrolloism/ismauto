@@ -23,24 +23,18 @@ export class LoginComponent {
   constructor(private _loginServ: LoginService, private _router: Router) { }
 
   onSubmit() {
-
     this._loginServ.login(this.user.username, this.user.password).subscribe(resp => {
       this.responseurl = resp;
-      // console.log(resp);
+      //comentar
+      console.log(resp);
+      //comentar
       if (this.responseurl.status == 'OK') {
         localStorage.setItem('token', this.responseurl.data.token);
+        localStorage.setItem('userData', JSON.stringify(this.responseurl.data));
         this._router.navigate(['/main']);
       } else {
         alert('Usuario o Contraseña incorrectos');
       }
-
-      // try {
-      //   this.responseurl.status == 'OK',
-      //   localStorage.setItem('token', this.responseurl.data.token);
-      //   this._router.navigate(['/main']);
-      // } catch (error){
-      //   console.log('no funca');
-      // }
     })
 
   }

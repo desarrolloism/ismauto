@@ -4,33 +4,6 @@
     --negro: black;
 }
 
-/* .custom-table {
-    border-collapse: collapse;
-    width: 100%;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-}
-
-.custom-table th,
-.custom-table td {
-    border: 1px solid #ddd;
-    padding: 0.75rem;
-    text-align: left;
-}
-
-.custom-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-.custom-table tr:nth-child(even) {
-    background-color: var(--primario);
-}
-
-.custom-table tr:hover {
-    background-color: var(--secundario);
-} */
-
 .label-color {
     color: #ffc107;
 }
@@ -58,7 +31,7 @@ nav {
 
 .card {
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     background-color: #fff;
@@ -177,12 +150,13 @@ a {
     text-decoration: none;
 }
 
-.procesos,
-.procesos h5 {
+.procesos {
     font-size: 1rem;
     color: black;
     border: none;
-    font-weight: bold;
+    /* font-weight: bold; */
+    margin-top: 10px;
+    border: 1px solid #ccc;
 }
 
 /* Estilo para el contenedor con desplazamiento */
@@ -232,3 +206,79 @@ a {
     color: black;
 }
 
+.card-title{
+    font-size:1.3rem ;
+    font-weight: normal;
+}
+
+.card-text{
+    font-weight: normal;
+}
+
+.menu{
+    font-size: 0.8rem;
+    border-radius: 5px;
+    width: 100%;
+    border: 1px solid #ffc107;
+    color: #ffc107;
+}
+
+.procesos__menu {
+    margin-top: 10px;
+    
+}
+.procesos__menu--option{
+    color: #828282;
+
+}
+
+.procesos__menu:not(:last-child) {
+    border-bottom: 1px solid #ccc; 
+    padding-bottom: 2px; 
+    margin-bottom: 2px; 
+}
+.stats{
+    height: 600px;
+}
+
+.card-sep{
+    margin-top: 1rem;
+}
+
+.card-sep__footer{
+    margin-top: 10px;
+}
+
+.custom-number {
+    margin-left: -10px; 
+    margin-right: -10px; 
+    font-size: 2rem;
+}
+
+.card-nav{
+    /* border: 1px solid #ccc; */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.user{
+    border: 1px solid #ffc107;
+    padding: 1rem;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    color: #ffc107;
+}
+
+.exit{
+    border: 1px solid white;
+    padding: 1rem;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+}
+
+.exit:hover{
+    transform: scale(1.1);
+    animation: 0.3s;
+}

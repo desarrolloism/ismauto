@@ -1,1 +1,142 @@
-<p>score works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="assets/images/logo.png" alt width="100"
+                class="d-inline-block align-text-top">
+        </a>
+
+        <a
+            class="nav-link nav-links button-navbar text-light text-center">Calificación
+            del
+            usuario</a>
+    </div>
+</nav>
+
+<div class="container mt-3">
+
+    <!-- Título y Descripción -->
+    <h1 class="text-center bg-dark1 bg-dark">{{
+        maintenanceUrl?.maintenance.description_incident }} en {{
+        maintenanceUrl?.maintenance.site }}</h1>
+
+    <!-- Información General -->
+    <div class="row mt-3">
+        <div class="row text-center">
+            <div class="col-lg-4 card">
+                <h2>Creación:</h2>
+                <p>{{ formatDate(maintenanceUrl?.maintenance.case.created)
+                    }}</p>
+            </div>
+            <div class="col-lg-4 card">
+                <h2>Fecha de entrega:</h2>
+                <p>{{
+                    formatDate(maintenanceUrl?.maintenance.date_estimated_delivery)
+                    }}</p>
+            </div>
+            <div class="col-lg-4 card">
+                <h2>Riesgo:</h2>
+                <p>{{ maintenance?.has_risk ? 'Sí' : 'No' }}</p>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-lg-4 card">
+                <h2>Campus:</h2>
+                <p>{{ maintenanceUrl?.maintenance.case.institute }}</p>
+            </div>
+            <div class="col-lg-4 card">
+                <h2>Tipo de incidente:</h2>
+                <p>{{ maintenanceUrl?.maintenance.type_incident }}</p>
+            </div>
+            <div class="col-lg-4 card">
+                <h2>Estado:</h2>
+                <p
+                    *ngIf="maintenanceUrl?.maintenance.case.status.name == 'ENTREGADO'; else Noentregado">
+                    {{ maintenanceUrl.maintenance.case.status.name }}
+                </p>
+                <ng-template #Noentregado>
+                    <p>En proceso</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calificación del Trabajo Realizado -->
+
+    <div class="row mt-5">
+        <div class="col-lg-12 text-center">
+            <form>
+                <h2>Califique el trabajo realizado del 1 al 5 <i
+                        class="fa-solid fa-circle-info rating-info"
+                        (mouseenter)="showInfo = true"
+                        (mouseleave)="showInfo = false"></i></h2>
+
+                <div class="rating d-flex justify-content-center">
+                    <div class="rating-stars">
+                        <input type="radio" id="star1" name="rating" value="1"
+                            [(ngModel)]="stars" (click)="setRating(1)"
+                            class="visually-hidden">
+                        <label for="star1" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 1"></i>
+                        </label>
+
+                        <input type="radio" id="star2" name="rating" value="2"
+                            [(ngModel)]="stars" (click)="setRating(2)"
+                            class="visually-hidden">
+                        <label for="star2" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 2"></i>
+                        </label>
+
+                        <input type="radio" id="star3" name="rating" value="3"
+                            [(ngModel)]="stars" (click)="setRating(3)"
+                            class="visually-hidden">
+                        <label for="star3" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 3"></i>
+                        </label>
+
+                        <input type="radio" id="star4" name="rating" value="4"
+                            [(ngModel)]="stars" (click)="setRating(4)"
+                            class="visually-hidden">
+                        <label for="star4" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 4"></i>
+                        </label>
+
+                        <input type="radio" id="star5" name="rating" value="5"
+                            [(ngModel)]="stars" (click)="setRating(5)"
+                            class="visually-hidden">
+                        <label for="star5" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 5"></i>
+                        </label>
+
+                    </div>
+                </div>
+                <p style="margin-top: 2rem;">Estrellas: {{ stars }}</p>
+            </form>
+            <form (ngSubmit)="endStatus()">
+                <button class="btn-dark">Finalizar Ticket</button>
+            </form>
+
+            <div class="rating-notification" [ngClass]="{ 'show': showInfo }">
+                <p>1 Estrella: Mal servicio</p>
+                <p>2 Estrellas: Regular</p>
+                <p>3 Estrellas: Bueno</p>
+                <p>4 Estrellas: Muy Bueno</p>
+                <p>5 Estrellas: Excelente</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Acción Adicional -->
+    <div class="row">
+        <div class="col-lg-12 mt-4">
+            <button class="btn-dark" routerLink="/login">Realizar un
+                nuevo ticket</button>
+        </div>
+    </div>
+
+</div>

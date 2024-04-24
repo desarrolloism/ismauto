@@ -54,8 +54,8 @@ export class MaintDetailComponent implements OnInit {
   urlPhotos = this.urlFiles + "/files/maintenance/";
   modalImageUrl: any;
   statusName: any;
-  scoreModuleUrl: any;
-
+  scoreModuleUrl: string = 'score';
+  filteredParams: any[] = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -84,13 +84,13 @@ export class MaintDetailComponent implements OnInit {
 
   params1() {
     this._paramsServ.getParams('ESTADO_CASE', this.token).subscribe(resp => {
-      // console.log(resp);
+      console.log(resp);
       this.paramsUrl = resp;
-      this.params = this.paramsUrl.params;
-      // console.log(this.params);
+      this.params = this.paramsUrl.params.filter((param: { code: string; }) => param.code !== 'ESTFINALIZADO');
+      this.filteredParams = this.params;
+      console.log(this.params);
     });
   }
-
 
 
   users() {
@@ -103,12 +103,14 @@ export class MaintDetailComponent implements OnInit {
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
-      // console.log(this.maintenanceUrl.isAdmin);
+      console.log(this.maintenanceUrl.isAdmin);
       // console.log(resp);
       // console.log(this.maintenanceUrl.maintenance.photos);
+      // console.log(this.maintenanceUrl);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
+        localStorage.setItem('isAdmin', JSON.stringify(this.isAdmin));
         this.mainDetalle.id = this.maintenance.id;
         this.mainDetalle.date_estimated_delivery = this.maintenance.date_estimated_delivery;
         this.mainDetalle.priority = this.maintenance.priority;
@@ -138,8 +140,8 @@ export class MaintDetailComponent implements OnInit {
     this._serMaint.update(this.token, this.mainDetalle).subscribe(resp => {
       let respuesta: any = resp;
       if(respuesta.status == 'OK' && nameStatus == 'ENTREGADO'){
-        console.log(this.statusName);
         this.sendEmailScore();
+
       }
       this._router.navigate(['/main/' + this.maintId]);
     });
@@ -154,8 +156,9 @@ export class MaintDetailComponent implements OnInit {
   }
 
   sendEmailScore() {
-    this._scoreMailService.sendEmail(this.scoreModuleUrl, this.maintId).subscribe(resp => {
-      
+    console.log(this.token);
+    this._scoreMailService.sendEmail(this.scoreModuleUrl, this.maintId, this.token).subscribe(resp => {
+      // console.log(resp);
     })
   }
 
@@ -198,5 +201,16 @@ export class MaintDetailComponent implements OnInit {
       reader.readAsDataURL(file);
     });
   }
+
+  deleteTicket(maintId: any) {
+    this._serMaint.update(this.token, {maint_id: maintId, status: 'ELIMINADO'}).subscribe(resp => {
+      console.log('eliminado')
+    },
+    error => {
+      alert('error al eliminar el ticket');
+    })
+}
+
+
 
 }

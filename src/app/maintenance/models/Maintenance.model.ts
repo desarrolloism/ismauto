@@ -10,4 +10,6 @@ export class MaintenanceModel{
     public has_risk             : boolean = false;
     public score             : number = 0;
     public institute_id      : number = 0;
+    //capturar el nombre del usuario
+    // public createdBy: string = '';
 }

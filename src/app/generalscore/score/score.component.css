@@ -1,0 +1,92 @@
+#form {
+  width: 250px;
+  margin: 0 auto;
+  height: 50px;
+}
+
+#form p {
+  text-align: left; /* Alinea el texto a la izquierda */
+}
+
+#form label {
+  font-size: 20px; /* Ajusta el tamaño de la fuente según sea necesario */
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+}
+
+.rating-stars {
+  display: flex;
+  justify-content: center;
+  gap: 0.2rem;
+  font-size: 1.5rem;
+  color: #ccc;
+}
+
+.rating-stars .fa-solid {
+  color: #ffc107;
+}
+
+.rating-icon {
+  cursor: pointer;
+}
+
+.rating-info {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.rating-notification {
+  position: fixed;
+  top: 50%;
+  right: -200px;
+  transform: translateY(-50%);
+  background-color: #343a40;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transition: right 0.3s ease-in-out;
+  z-index: 999;
+}
+
+.rating-notification.show {
+  right: 1rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
+
+.fa-regular.fa-star {
+  font-size: 30px; /* Ajusta el tamaño de la fuente según sea necesario */
+}
+
+.btn-dark{
+  padding: 10px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  text-align: right;
+}
+
+.btn-dark:hover{
+  color: #ffc107;
+  transform: scale(1.1);
+  cursor: pointer;
+  transition: .3s;
+  font-weight: bold;
+}
+
+.bg-dark1{
+  padding: 10px;
+  color: #ffc107;
+  border: none;
+  border-radius: 10px;
+  text-align: right;
+  font-weight: bold;
+}

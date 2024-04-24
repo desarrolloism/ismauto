@@ -22,22 +22,10 @@ export class MaincreateComponent {
   }
 
   onSubmit() {
-    // console.log(maintForm.value.institute_id);
-    // console.log(maintForm.value.type_incident);
-    // console.log(maintForm.value.site );
-    // console.log(maintForm.value.description_incident);
-
-    // this._mainServices.create(this.token, maintForm).subscribe(resp => {
-    //   this.createResponse = resp;
-    //   if (this.createResponse.status == 'OK') {
-    //     this.maintId = this.createResponse.maintId;
-    //     this._router.navigate(['/maint-detail/' + this.maintId]);
-    //   }
-    // });
-
+    // console.log(`hola`);
     this._mainServices.create(this.token, this.maintenance).subscribe(resp => {
       this.dataApi = resp;
-      // console.log(resp);
+      console.log(resp);
       if (this.dataApi.status == 'OK') {
         this.maintId = this.dataApi.maintId;
         this._router.navigate(['/maint-detail/' + this.maintId]);

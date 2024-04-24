@@ -158,3 +158,12 @@ g
     background-color: #ff9e18;
     border: none;
 }
+
+.estado-punto {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
