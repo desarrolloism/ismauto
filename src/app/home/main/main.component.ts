@@ -16,6 +16,7 @@ export class MainComponent {
   name: string = '';
   email: string = '';
   last_name: string = '';
+  //variable quemada
   percentage: number = 70;
   public token: any;
   public chart: any;
@@ -26,29 +27,30 @@ export class MainComponent {
   public responseTotals: any;
 
   //muestra si es admin
-  isAdmin: boolean = false;
+  // isAdmin: boolean = false;
 
 
   constructor(private _casesServ: CasesService,
     private _router: Router,
+    private _mainServ: MaintenanceService,
 
   ) {
     this.token = localStorage.getItem('token');
     this.getCases();
-  this.getIsAdmin();
+  // this.getIsAdmin();
 
   }
  ngOnInit() {
   this.generateChart1();
-  this.generateChart2();
+  // this.generateChart2();
   this.getAvatar();
 }
 
   //verifica si es admin o no
-  getIsAdmin(){
-    this.isAdmin = JSON.parse(localStorage.getItem('isAdmin')|| 'false');
-    console.log(`es admin = ${this.isAdmin}`);
-  }
+  // getIsAdmin(){
+  //   this.isAdmin = JSON.parse(localStorage.getItem('isAdmin')|| 'false');
+  //   console.log(`es admin = ${this.isAdmin}`);
+  // }
 
 
 //caputra los datos del usuario
@@ -58,10 +60,10 @@ export class MainComponent {
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
-    console.log(this.avatar);
-    console.log(this.name);
-    console.log(this.last_name);
-    console.log(this.email);
+    // console.log(this.avatar);
+    // console.log(this.name);
+    // console.log(this.last_name);
+    // console.log(this.email);
   }
 
 
@@ -73,12 +75,15 @@ export class MainComponent {
         if (this.responseApi.status == 'OK') {
           this.responseCases = this.responseApi.cases;
           this.responseTotals = this.responseApi.totals;
+          console.log(this.responseTotals);
+          console.log(this.responseCases);
           this.generateChart();
 
         }
       }
     )
   }
+
 
   //barras quemadas
 
@@ -121,43 +126,43 @@ export class MainComponent {
 
 
 
-  generateChart2() {
-    const labels = ['INICIADO', 'SOLICITADO', 'EN PROCESO', 'EN ESPERA', 'ENTREGADO', 'FINALIZADO'];
-    const data = [5, 2, 4, 7, 3, 1]; // Datos ficticios para las barras
+  // generateChart2() {
+  //   const labels = ['INICIADO', 'SOLICITADO', 'EN PROCESO', 'EN ESPERA', 'ENTREGADO', 'FINALIZADO'];
+  //   const data = [5, 2, 4, 7, 3, 1]; // Datos ficticios para las barras
 
-    const colors = [
-      '#ff9e18',
-      '#ab0a3d',
-      '#9e28b5',
-      '#0a1f8f',
-      '#65b2e8',
-      '#898b8d',
-      'limegreen',
-    ];
+  //   const colors = [
+  //     '#ff9e18',
+  //     '#ab0a3d',
+  //     '#9e28b5',
+  //     '#0a1f8f',
+  //     '#65b2e8',
+  //     '#898b8d',
+  //     'limegreen',
+  //   ];
 
-    this.chart = new Chart("MyOtherChart2", { // Cambiado el ID a "MyOtherChart"
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "",
-            data: data,
-            backgroundColor: colors
-          }
-        ]
-      },
-      options: {
-        maintainAspectRatio: false, // Desactiva el mantenimiento del aspecto para permitir un tamaño personalizado
-        responsive: true, // Permite que el gráfico se ajuste al tamaño del contenedor
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  }
+  //   this.chart = new Chart("MyOtherChart2", { // Cambiado el ID a "MyOtherChart"
+  //     type: 'bar',
+  //     data: {
+  //       labels: labels,
+  //       datasets: [
+  //         {
+  //           label: "",
+  //           data: data,
+  //           backgroundColor: colors
+  //         }
+  //       ]
+  //     },
+  //     options: {
+  //       maintainAspectRatio: false, // Desactiva el mantenimiento del aspecto para permitir un tamaño personalizado
+  //       responsive: true, // Permite que el gráfico se ajuste al tamaño del contenedor
+  //       scales: {
+  //         y: {
+  //           beginAtZero: true
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
 
 
 
@@ -205,7 +210,6 @@ export class MainComponent {
       },
       options: {
         aspectRatio: aspectRatio,
-
         //llama al evento click para redireccionar a otra ruta
         onClick: (evt, activeElements) => {
           if (activeElements.length > 0) {
@@ -218,9 +222,7 @@ export class MainComponent {
           }
         }
       },
-
     });
-
   }
 
   // Método para redirigir a otra ruta según el elemento seleccionado

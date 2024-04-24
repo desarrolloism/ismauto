@@ -232,11 +232,15 @@
                                                 id="status_id"
                                                 [(ngModel)]="mainDetalle.status_id"
                                                 class="form-select">
-                                                <option
-                                                    *ngFor="let param of params"
-                                                    [value]="param.id">{{param.name}}</option>
+                                                <ng-container
+                                                    *ngFor="let param of filteredParams">
+                                                    <option
+                                                        [value]="param.id">{{param.name}}</option>
+                                                </ng-container>
                                             </select>
                                         </div>
+
+                                        <!-- {{ mainDetalle.status_id }} -->
                                     </div>
 
                                     <div class="row">
@@ -323,7 +327,7 @@
                                     <!-- Solución -->
                                     <div class="mb-3">
                                         <label for="solution"
-                                            class="form-label">Solución:</label>
+                                            class="form-label">Comentario:</label>
                                         <textarea class="form-control"
                                             name="solution"
                                             [(ngModel)]="mainDetalle.solution"

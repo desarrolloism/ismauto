@@ -19,19 +19,21 @@
                     <h5 class="card-title" style="text-align: center;">Filtrar
                         por estado</h5>
                     <div class="card-body">
+                        <!-- Botón para limpiar el filtro de estado -->
                         <div class="list-group">
+                            <!-- Lista de estados -->
                             @for (status of statuses; track $index) {
-                            <a
-                                class="list-group-item list-group-item-action"
+                            <a class="list-group-item list-group-item-action"
                                 (click)="filterStatus(status)"
                                 [class.active]="selectedStatus === status">{{
                                 status }}</a>
                             }
-
                         </div>
                     </div>
-
                 </div>
+                <button class="btn mb-2" (click)="clearStatusFilter()">Quitar
+                    filtro</button>
+
             </div>
 
         </div>
@@ -54,6 +56,14 @@
                                 }}</p>
                             <p class="card-text">Descripción: {{
                                 maintenance.description_incident }}</p>
+                                <p
+                                class="card-text">Puntuación:
+                                {{
+                                maintenance.score ? maintenance.score + '/5' :
+                                'Sin calificar' }}</p>
+                            <p class="card-text rounded-pill text-center">{{
+                                maintenance.case.status.name }}</p>
+                            
                             <a routerLink="/maint-detail/{{ maintenance.id }}"
                                 class="btn ver">Ver más...</a>
                         </div>
@@ -85,4 +95,7 @@
             </nav>
         </div>
     </div>
+
 </div>
+
+<!-- muestra historial de tickets que el usuario ha creado -->

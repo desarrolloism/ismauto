@@ -10,7 +10,7 @@
     <div class="col">
       <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid">
-          <a class="navbar-brand text-light">MANTENIMIENTO ISM</a>
+          <!-- <a class="navbar-brand text-light">MANTENIMIENTO ISM</a> -->
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -36,14 +36,21 @@
                 <a class="nav-link text-light" href="/list"><i
                     class="fa-solid fa-ticket"></i> Tickets</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link text-light"  (click)="logout()"><i
-                    class="fa-solid fa-door-open"></i> Salir</a>
-                    
+              <li class="nav-item dropdown ">
+                <a class="nav-link text-light dropdown-toggle" href="#"
+                  id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false"> <i class="fa-regular fa-user"></i> {{ name }} {{ last_name}} 
+                </a>
+                <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
+                  <!-- <li><a class="dropdown-item"> User: {{
+                    avatar }}</a></li> -->
+                  <li><a class="dropdown-item"
+                      (click)="logout()">Salir</a></li>
+                </ul>
               </li>
-
             </ul>
           </div>
+
         </div>
       </nav>
     </div>

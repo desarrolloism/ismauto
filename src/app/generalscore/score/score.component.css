@@ -12,25 +12,54 @@
   font-size: 20px; /* Ajusta el tamaño de la fuente según sea necesario */
 }
 
-input[type="radio"] {
-  display: none;
+.rating {
+  display: flex;
+  align-items: center;
 }
 
-label {
-  color: grey;
+.rating-stars {
+  display: flex;
+  justify-content: center;
+  gap: 0.2rem;
+  font-size: 1.5rem;
+  color: #ccc;
 }
 
-.clasificacion {
-  direction: ltr; /* Mantén la dirección del texto de derecha a izquierda */
+.rating-stars .fa-solid {
+  color: #ffc107;
 }
 
-label:hover,
-label:hover ~ label {
-  color: orange;
+.rating-icon {
+  cursor: pointer;
 }
 
-input[type="radio"]:checked ~ label {
-  color: orange;
+.rating-info {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.rating-notification {
+  position: fixed;
+  top: 50%;
+  right: -200px;
+  transform: translateY(-50%);
+  background-color: #343a40;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transition: right 0.3s ease-in-out;
+  z-index: 999;
+}
+
+.rating-notification.show {
+  right: 1rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
 }
 
 .fa-regular.fa-star {

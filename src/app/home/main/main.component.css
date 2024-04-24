@@ -238,7 +238,7 @@ a {
     margin-bottom: 2px; 
 }
 .stats{
-    height: 500px;
+    height: 600px;
 }
 
 .card-sep{
@@ -256,7 +256,7 @@ a {
 }
 
 .card-nav{
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     padding: 10px;
     border-radius: 5px;
 }

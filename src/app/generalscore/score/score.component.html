@@ -5,7 +5,9 @@
                 class="d-inline-block align-text-top">
         </a>
 
-        <a class="nav-link nav-links button-navbar text-light text-center">Calificación del
+        <a
+            class="nav-link nav-links button-navbar text-light text-center">Calificación
+            del
             usuario</a>
     </div>
 </nav>
@@ -22,7 +24,7 @@
         <div class="row text-center">
             <div class="col-lg-4 card">
                 <h2>Creación:</h2>
-                <p>{{ formatDateTime(maintenanceUrl?.maintenance.case.created)
+                <p>{{ formatDate(maintenanceUrl?.maintenance.case.created)
                     }}</p>
             </div>
             <div class="col-lg-4 card">
@@ -36,7 +38,7 @@
                 <p>{{ maintenance?.has_risk ? 'Sí' : 'No' }}</p>
             </div>
         </div>
-        
+
         <div class="row text-center">
             <div class="col-lg-4 card">
                 <h2>Campus:</h2>
@@ -60,43 +62,78 @@
     </div>
 
     <!-- Calificación del Trabajo Realizado -->
+
     <div class="row mt-5">
         <div class="col-lg-12 text-center">
-            <form (ngSubmit)="submitStars()">
-                <h2>Califique el trabajo realizado del 1 al 5</h2>
-                <p class="clasificacion text-left">
-                    <input id="radio1" type="radio" name="score" value="5"
-                        [(ngModel)]="stars">
-                    <label for="radio1"><i
-                            class="fa-regular fa-star"></i></label>
-                    <input id="radio2" type="radio" name="score" value="4"
-                        [(ngModel)]="stars">
-                    <label for="radio2"><i
-                            class="fa-regular fa-star"></i></label>
-                    <input id="radio3" type="radio" name="score" value="3"
-                        [(ngModel)]="stars">
-                    <label for="radio3"><i
-                            class="fa-regular fa-star"></i></label>
-                    <input id="radio4" type="radio" name="score" value="2"
-                        [(ngModel)]="stars">
-                    <label for="radio4"><i
-                            class="fa-regular fa-star"></i></label>
-                    <input id="radio5" type="radio" name="score" value="1"
-                        [(ngModel)]="stars">
-                    <label for="radio5"><i
-                            class="fa-regular fa-star"></i></label>
-                </p>
+            <form>
+                <h2>Califique el trabajo realizado del 1 al 5 <i
+                        class="fa-solid fa-circle-info rating-info"
+                        (mouseenter)="showInfo = true"
+                        (mouseleave)="showInfo = false"></i></h2>
 
-                <p>Estrellas: {{ stars }}</p>
-                <button type="submit"
-                    class="btn btn-dark mt-3">Enviar</button>
+                <div class="rating d-flex justify-content-center">
+                    <div class="rating-stars">
+                        <input type="radio" id="star1" name="rating" value="1"
+                            [(ngModel)]="stars" (click)="setRating(1)"
+                            class="visually-hidden">
+                        <label for="star1" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 1"></i>
+                        </label>
+
+                        <input type="radio" id="star2" name="rating" value="2"
+                            [(ngModel)]="stars" (click)="setRating(2)"
+                            class="visually-hidden">
+                        <label for="star2" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 2"></i>
+                        </label>
+
+                        <input type="radio" id="star3" name="rating" value="3"
+                            [(ngModel)]="stars" (click)="setRating(3)"
+                            class="visually-hidden">
+                        <label for="star3" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 3"></i>
+                        </label>
+
+                        <input type="radio" id="star4" name="rating" value="4"
+                            [(ngModel)]="stars" (click)="setRating(4)"
+                            class="visually-hidden">
+                        <label for="star4" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 4"></i>
+                        </label>
+
+                        <input type="radio" id="star5" name="rating" value="5"
+                            [(ngModel)]="stars" (click)="setRating(5)"
+                            class="visually-hidden">
+                        <label for="star5" class="rating-icon">
+                            <i class="fa-regular fa-star"
+                                [class.fa-solid]="stars >= 5"></i>
+                        </label>
+
+                    </div>
+                </div>
+                <p style="margin-top: 2rem;">Estrellas: {{ stars }}</p>
             </form>
+            <form (ngSubmit)="endStatus()">
+                <button class="btn-dark">Finalizar Ticket</button>
+            </form>
+
+            <div class="rating-notification" [ngClass]="{ 'show': showInfo }">
+                <p>1 Estrella: Mal servicio</p>
+                <p>2 Estrellas: Regular</p>
+                <p>3 Estrellas: Bueno</p>
+                <p>4 Estrellas: Muy Bueno</p>
+                <p>5 Estrellas: Excelente</p>
+            </div>
         </div>
     </div>
 
     <!-- Acción Adicional -->
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 mt-4">
             <button class="btn-dark" routerLink="/login">Realizar un
                 nuevo ticket</button>
         </div>

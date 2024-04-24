@@ -14,16 +14,19 @@
     </div>
 </nav>
 
-<div class="container-fluid" style="margin-top: -20px;">
-    <div class="row">
+<div class="container-fluid mt-2">
+    <div class="row bodychart">
         <nav class="col-md-2 col-lg-2 card-nav sidebar text-center active">
             <h4 class="card shadow menu">PROCESOS</h4>
             <!-- Contenido del menú -->
             <ul class="nav flex-column">
-                <li class="procesos__menu">
+                <li class="procesos__menu" >
                     <a class="procesos__menu--option" href="/list">Mantenimiento
-                        ({{ responseCases?.length }})</a>
+                        {{ responseCases?.length }}</a>
                 </li>
+                <!-- <li class="procesos__menu" *ngIf="!isAdmin">
+                    <a class="procesos__menu--option" href="/list">Mantenimiento</a>
+                </li> -->
                 <li class="procesos__menu">
                     <a class="procesos__menu--option" href="#">Opción 2</a>
                 </li>
@@ -39,7 +42,7 @@
 
         <main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card shadow overflow-auto stats">
                         <div class="card-body">
                             <div class="card shadow menu text-center ">
@@ -56,26 +59,28 @@
                                         height="300"></canvas>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="card shadow menu text-center ">
-                                <!-- administra casos como jefe -->
-                                <div>
-                                    <p> <i
-                                            class="fa-solid fa-star-half-stroke"></i>
-                                        Puntuación Total</p>
+                            
+                            <!-- <div class="mt-4">
+                                <div class="card shadow menu text-center ">
+                                    
+                                    <div>
+                                        <p> <i
+                                                class="fa-solid fa-star-half-stroke"></i>
+                                            Puntuación Total</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="chart-container">
-                                    <canvas id="MyOtherChart" width="200"
-                                        height="200"></canvas>
+                                <div class="row">
+                                    <div class="chart-container">
+                                        <canvas id="MyOtherChart" width="200"
+                                            height="200"></canvas>
+                                    </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card shadow overflow-auto stats">
+                <!-- <div class="col-md-6">
+                    <div class="card shadow stats">
                         <div class="card-body text-center">
                             <div class="shadow menu text-center"
                                 style="margin-bottom: 2rem;">
@@ -103,7 +108,7 @@
                                     <h5>FINALIZADO (1)</h5>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-4">
                                 <div style="margin-top: 1rem;">
                                     <div class="shadow menu text-center"
                                         style="margin-bottom: 2rem;">
@@ -117,12 +122,12 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
-            <div class="card shadow card-sep__footer"
+            <!-- <div class="shadow card-sep__footer"
                 style="margin-bottom: 2rem;">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-4 card ">
                         <div
                             class="row justify-content-between align-items-center">
                             <div class="col-md-10">
@@ -134,7 +139,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 card">
                         <div class="row justify-content-between align-items-center">
                             <div class="col-md-9">
                                 <h4>Nivel de satisfacción</h4>
@@ -152,7 +157,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-4"><div
+                    <div class="col-md-4 card"><div
                             class="row justify-content-between align-items-center">
                             <div class="col-md-9">
                                 <h4>Promedio de tiempo de solución</h4>
@@ -163,7 +168,7 @@
                             </div>
                         </div></div>
                 </div>
-            </div>
+            </div> -->
             <!-- <div class="card shadow card-sep__footer">
                 <div class="row">
                     <div class="col-md-4"></div>
