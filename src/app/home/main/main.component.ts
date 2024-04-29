@@ -76,7 +76,7 @@ export class MainComponent {
           this.responseCases = this.responseApi.cases;
           this.responseTotals = this.responseApi.totals;
           console.log(this.responseTotals);
-          console.log(this.responseCases);
+          // console.log(this.responseCases);
           this.generateChart();
 
         }
@@ -84,6 +84,16 @@ export class MainComponent {
     )
   }
 
+
+  getTotalStatus() {
+    if (this.responseTotals && this.responseTotals.length > 0) {
+      const total = this.responseTotals.find((item: { id: number; }) => item.id === 4);
+      return total ? total.total_status : 0;
+    } else {
+      return 0;
+    }
+  }
+  
 
   //barras quemadas
 

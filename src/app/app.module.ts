@@ -17,7 +17,6 @@ import {MatRadioModule} from '@angular/material/radio';
 import { GeneralscoreModule } from './generalscore/generalscore.module';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { MaintenanceModel } from '../models/maintenance.model';
+// import { MaintenanceModel } from '../models/maintenance.model';
+import { MaintenanceModel } from '../models/Maintenance.model';
 import { MaintenanceService } from '../../services/maintenance.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
