@@ -19,7 +19,8 @@ import { MaintDetailComponent } from './maint-detail/maint-detail.component';
     ListComponent,
     HeaderComponent,
     MaincreateComponent,
-    MaintDetailComponent
+    MaintDetailComponent,
+
   ],
   imports: [
     MatCardModule,
@@ -28,10 +29,11 @@ import { MaintDetailComponent } from './maint-detail/maint-detail.component';
     CommonModule,
     RouterModule,
     LoginModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
-    MaincreateComponent
+    MaincreateComponent,
+
   ]
 })
 export class MaintenanceModule { }

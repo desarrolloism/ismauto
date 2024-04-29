@@ -67,7 +67,7 @@
                                     <div>
                                         <input type="file" #fileInput
                                             class="form-control mb-3" />
-                                        <button (click)="uploadFile()"
+                                        <button (click)="uploadImage()"
                                             class="btn btn-primary">Subir
                                             archivo</button>
                                     </div>
@@ -97,7 +97,7 @@
                                     <div class="accordion-body">
                                         <div class="row">
                                             <div class="col"
-                                                *ngFor="let photo of maintenanceUrl?.maintenance?.photos">
+                                                *ngFor="let photo of maintenanceUrl?.maintenance?.photos ">
                                                 <ng-container
                                                     *ngIf="photo.is_before">
                                                     <a data-bs-toggle="modal"

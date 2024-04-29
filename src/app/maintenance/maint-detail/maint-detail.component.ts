@@ -9,6 +9,8 @@ import { NgForm } from '@angular/forms';
 import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 import { Router } from '@angular/router';
 import { ScoreMailService } from '../../services/score-mail.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-maint-detail',
@@ -84,7 +86,7 @@ export class MaintDetailComponent implements OnInit {
 
   params1() {
     this._paramsServ.getParams('ESTADO_CASE', this.token).subscribe(resp => {
-      console.log(resp);
+      // console.log(resp);
       this.paramsUrl = resp;
       this.params = this.paramsUrl.params.filter((param: { code: string; }) => param.code !== 'ESTFINALIZADO');
       this.filteredParams = this.params;
@@ -103,10 +105,7 @@ export class MaintDetailComponent implements OnInit {
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
-      console.log(this.maintenanceUrl.isAdmin);
-      // console.log(resp);
-      // console.log(this.maintenanceUrl.maintenance.photos);
-      // console.log(this.maintenanceUrl);
+      console.log(this.maintenanceUrl.maintenance.photos);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
@@ -123,7 +122,9 @@ export class MaintDetailComponent implements OnInit {
         this.mainDetalle.site = this.maintenance.site;
         this.mainDetalle.score = this.maintenance.score;
         this.mainDetalle.description_incident = this.maintenance.description_incident;
-        // console.log(this.mainDetalle);
+        
+        let isBefore = this.mainDetalle.status_id !== 'ENTREGADO'; 
+        console.log(`entregado es ` + isBefore);
       } else {
         console.error('La respuesta del servicio no contiene la propiedad "maintenance"');
       }
@@ -147,6 +148,29 @@ export class MaintDetailComponent implements OnInit {
     });
   }
 
+  uploadImage() {
+    const file: File = this.fileInput.nativeElement.files[0];
+    // console.log(this.maintId);
+    if (file) {
+      this.convertToBase64(file).then((base64: string) => {
+  
+        const fileName = file.name;
+  
+        this._serMaint.uploadFile(this.token, base64, fileName, this.maintId, true).subscribe(res => {
+          // console.log(res);
+          let isBefore = this.mainDetalle.status_id !== 'ENTREGADO';
+          console.log(`entregado es ` + isBefore);
+  
+          this.getDetail(this.maintId);
+        });
+      });
+    } 
+  }
+  
+  
+  
+  
+
   buscar_nombre_estado() {
     for (let i = 0; i < this.params.length; i++) {
       if (this.params[i].id == this.mainDetalle.status_id) {
@@ -167,23 +191,8 @@ export class MaintDetailComponent implements OnInit {
     // console.log(photografy)
   }
 
-  uploadFile() {
-    const file: File = this.fileInput.nativeElement.files[0];
-    // console.log(this.maintId);
-    if (file) {
-      this.convertToBase64(file).then((base64: string) => {
-
-        const fileName = file.name;
-
-        this._serMaint.uploadFile(this.token, base64, fileName, this.maintId).subscribe(res => {
-          // console.log(res);
-          this.getDetail(this.maintId)
-        })
-      });
-    } else {
-      alert("No se seleccionó ningún archivo.");
-    }
-  }
+  
+  
 
   convertToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {

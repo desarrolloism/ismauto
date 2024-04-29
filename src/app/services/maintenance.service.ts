@@ -92,7 +92,7 @@ export class MaintenanceService {
   }
 
 
-  uploadFile(token: any, file64: any, fileName: string, maintId: any,) {
+  uploadFile(token: any, file64: any, fileName: string, maintId: any,isBefore: boolean) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',
@@ -102,7 +102,8 @@ export class MaintenanceService {
     const data = {
       'file64': file64,
       'fileName': fileName,
-      'maint_id': maintId
+      'maint_id': maintId,
+      'is_before': isBefore
     }
 
     return this._http.post(`${this.url}/maintenance/upload`, data, { headers: headers });

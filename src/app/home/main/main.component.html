@@ -7,8 +7,9 @@
                 class="d-inline-block align-text-top">
         </a>
         <!-- <a class="exit"> SISTEMA DE TICKETS ISM</a> -->
-        <a class="user"><i class="fa-regular fa-circle-user"></i> Bienvenido, {{ avatar }}</a>
-        
+        <a class="user"><i class="fa-regular fa-circle-user"></i> Bienvenido, {{
+            avatar }}</a>
+
         <a class="exit" (click)="logout()"><i
                 class="fa-solid fa-door-open"></i> Salir</a>
     </div>
@@ -20,24 +21,53 @@
             <h4 class="card shadow menu">PROCESOS</h4>
             <!-- Contenido del menú -->
             <ul class="nav flex-column">
-                <li class="procesos__menu" >
-                    <a class="procesos__menu--option" href="/list">Mantenimiento
-                        {{ responseCases?.length }}</a>
+                <li class="procesos__menu">
+                    <a class="procesos__menu--option position-relative"
+                        href="/list">
+                        <h3>Mantenimiento </h3>
+                        <span
+                            class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                            {{ getTotalStatus() }}
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </a>
                 </li>
+
                 <!-- <li class="procesos__menu" *ngIf="!isAdmin">
                     <a class="procesos__menu--option" href="/list">Mantenimiento</a>
                 </li> -->
                 <li class="procesos__menu">
-                    <a class="procesos__menu--option" href="#">Opción 2</a>
+                    <a class="procesos__menu--option position-relative">
+                        <h3>Opción 2</h3>
+                        <!-- <span class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                        78
+                      <span class="visually-hidden">unread messages</span>
+                    </span> -->
+                    </a>
+
                 </li>
                 <li class="procesos__menu">
-                    <a class="procesos__menu--option" href="#">Opción 3</a>
+                    <a class="procesos__menu--option position-relative">
+                        <h3>Opción 2</h3>
+                        <!-- <span class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                        56
+                      <span class="visually-hidden">unread messages</span>
+                    </span> -->
+                    </a>
+
                 </li>
                 <li class="procesos__menu">
-                    <a class="procesos__menu--option" href="#">Opción 4</a>
+                    <a class="procesos__menu--option position-relative">
+                        <h3>Opción 2</h3>
+                        <!-- <span class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                        10
+                      <span class="visually-hidden">unread messages</span>
+                    </span> -->
+                    </a>
+
                 </li>
             </ul>
-            
+
         </nav>
 
         <main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
@@ -49,7 +79,8 @@
                                 <!-- administra casos como jefe -->
                                 <div>
                                     <p> <i class="fa-solid fa-chart-line"></i>
-                                        Estadísticas totales ({{ responseCases?.length
+                                        Estadísticas totales ({{
+                                        responseCases?.length
                                         }})</p>
                                 </div>
                             </div>
@@ -59,7 +90,7 @@
                                         height="300"></canvas>
                                 </div>
                             </div>
-                            
+
                             <!-- <div class="mt-4">
                                 <div class="card shadow menu text-center ">
                                     

@@ -1,0 +1,79 @@
+<div class="container-fluid bg-dark py-2">
+  <div class="row align-items-center">
+    <div class="col-auto bg-img">
+      <div class="centrado-horizontal">
+        <img src="/assets/images/logo.png" alt="ISM" width="100px">
+      </div>
+    </div>
+    <div class="col">
+      <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+          <!-- <a class="navbar-brand text-light">MANTENIMIENTO ISM</a> -->
+          <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"
+              style="font-size: 10px; color: #fff;"> Menú</span>
+          </button>
+          <div class="collapse navbar-collapse"
+            id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link text-light active"
+                  aria-current="page"
+                  href="#"><i
+                    class="fa-solid fa-chart-pie"></i>
+                  Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light"
+                  routerLink="/maincreate"><i
+                    class="fa-regular fa-square-plus"></i>
+                  Abrir ticket</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" href="/list"><i
+                    class="fa-solid fa-ticket"></i>
+                  Tickets</a>
+              </li>
+
+            </ul>
+          </div>
+
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4">
+  <h1>
+    Procesos
+  </h1>
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button"
+          data-bs-toggle="collapse" data-bs-target="#collapseOne"
+          aria-expanded="true" aria-controls="collapseOne">
+          Mantenimiento
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show"
+        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <ul>
+            <li>Creacion de tickets</li>
+            <li>Preguntas frecuentes</li>
+            <li>Contactos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- <button class="mt-4 error ms-auto" style="padding: 1rem;"><i
+        class="fa-solid fa-bug"></i> Reportar un error</button> -->
+  </div>
+</div>

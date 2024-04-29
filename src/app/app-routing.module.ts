@@ -7,6 +7,7 @@ import { MaincreateComponent } from './maintenance/maincreate/maincreate.compone
 import { MaintDetailComponent } from './maintenance/maint-detail/maint-detail.component';
 import { ScoreComponent } from './generalscore/score/score.component';
 import { GratitudeComponent } from './generalscore/gratitude/gratitude.component';
+import { GuidesComponent } from './manuals/guides/guides.component';
 
 
 const routes: Routes = [
@@ -19,11 +20,14 @@ const routes: Routes = [
   //generalscore
   { path: 'score/:maintId', component: ScoreComponent },
   { path: 'gratitude', component: GratitudeComponent },
+  //manuals
+  { path: 'guides', component: GuidesComponent },
 
 
-  
+
+
+  //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/main', pathMatch: 'full' },
-  
 
 ];
 
