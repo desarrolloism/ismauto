@@ -40,7 +40,7 @@ export class ListComponent {
     this._maintService.all(this.token, page, this.maintStatus, this.maintSearch).subscribe(
       res => {
         this.responseUrl = res;
-        console.log(res);
+        // console.log(res);
         if (this.responseUrl.status == 'OK') {
           this.maintenances = this.responseUrl.maintenance;
           this.isAdmin = this.responseUrl.isAdmin;
@@ -49,7 +49,7 @@ export class ListComponent {
           this.filtrarMant = this.maintenances;
           this.myMant = this.responseUrl.maintenance;
           this.allMant = this.responseUrl.maintenance;
-          console.log(this.filtrarMant);
+          // console.log(this.filtrarMant);
           this.maintenances = this.allMant;
           // console.log(this.isAdmin);
         }

@@ -52,7 +52,7 @@ export class ScoreComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.maintId = params['maintId'];
-      console.log(this.maintId);
+      // console.log(this.maintId);
       this.getDetail(this.maintId);
       // this.params1();
     });
@@ -60,9 +60,9 @@ export class ScoreComponent implements OnInit {
 
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
-      console.log(resp);
+      // console.log(resp);
       this.maintenanceUrl = resp;
-      console.log(this.maintenanceUrl);
+      // console.log(this.maintenanceUrl);
       
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
@@ -79,7 +79,8 @@ export class ScoreComponent implements OnInit {
         this.mainDetalle.score = this.maintenance.score.toString(); // Convertir a string
         this.mainDetalle.description_incident = this.maintenance.description_incident;
       } else {
-        console.log('error');
+        // console.log('error');
+        alert('Error, contacte con el administrador');
       }
     });
   }
@@ -107,14 +108,14 @@ export class ScoreComponent implements OnInit {
       score: this.stars
     };
     this._serMaint.updateScore(this.token, totalScore).subscribe(resp => {
-      console.log(resp);
+      // console.log(resp);
       
     });
   }
 
   endStatus(){
     this.mainDetalle.status_id = '9'; 
-    console.log(this.mainDetalle.status_id);
+    // console.log(this.mainDetalle.status_id);
 
     this._serMaint.update(this.token, this.mainDetalle).subscribe(resp =>{
       let respuesta: any =  resp;

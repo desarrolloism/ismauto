@@ -75,7 +75,7 @@ export class MainComponent {
         if (this.responseApi.status == 'OK') {
           this.responseCases = this.responseApi.cases;
           this.responseTotals = this.responseApi.totals;
-          console.log(this.responseTotals);
+          // console.log(this.responseTotals);
           // console.log(this.responseCases);
           this.generateChart();
 
@@ -238,7 +238,7 @@ export class MainComponent {
   // Método para redirigir a otra ruta según el elemento seleccionado
   redirectToRoute(selectedLabel: string) {
     // Aquí puedes hacer lo que necesites con la etiqueta seleccionada antes de redirigir
-    console.log('Elemento seleccionado:', selectedLabel);
+    // console.log('Elemento seleccionado:', selectedLabel);
     // Redirigir a la ruta deseada, por ejemplo:
     this._router.navigate(['/cases', selectedLabel]);
   }

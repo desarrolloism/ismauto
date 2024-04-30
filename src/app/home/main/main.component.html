@@ -23,7 +23,7 @@
             <ul class="nav flex-column">
                 <li class="procesos__menu">
                     <a class="procesos__menu--option position-relative"
-                        href="/list">
+                        routerLink="/list">
                         <h3>Mantenimiento </h3>
                         <span
                             class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -32,37 +32,21 @@
                         </span>
                     </a>
                 </li>
-
-                <!-- <li class="procesos__menu" *ngIf="!isAdmin">
-                    <a class="procesos__menu--option" href="/list">Mantenimiento</a>
-                </li> -->
                 <li class="procesos__menu">
                     <a class="procesos__menu--option position-relative">
                         <h3>Opción 2</h3>
-                        <!-- <span class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
-                        78
-                      <span class="visually-hidden">unread messages</span>
-                    </span> -->
                     </a>
 
                 </li>
                 <li class="procesos__menu">
                     <a class="procesos__menu--option position-relative">
                         <h3>Opción 2</h3>
-                        <!-- <span class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
-                        56
-                      <span class="visually-hidden">unread messages</span>
-                    </span> -->
                     </a>
 
                 </li>
                 <li class="procesos__menu">
                     <a class="procesos__menu--option position-relative">
                         <h3>Opción 2</h3>
-                        <!-- <span class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
-                        10
-                      <span class="visually-hidden">unread messages</span>
-                    </span> -->
                     </a>
 
                 </li>
@@ -90,123 +74,12 @@
                                         height="300"></canvas>
                                 </div>
                             </div>
-
-                            <!-- <div class="mt-4">
-                                <div class="card shadow menu text-center ">
-                                    
-                                    <div>
-                                        <p> <i
-                                                class="fa-solid fa-star-half-stroke"></i>
-                                            Puntuación Total</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="chart-container">
-                                        <canvas id="MyOtherChart" width="200"
-                                            height="200"></canvas>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-md-6">
-                    <div class="card shadow stats">
-                        <div class="card-body text-center">
-                            <div class="shadow menu text-center"
-                                style="margin-bottom: 2rem;">
-                                <h3> Tickets Abril</h3>
-                            </div>
-                            <div class="row justify-content-between">
-                                <div class="col-md-4 card">
-                                    <h5>INICIANDO (5)</h5>
-                                </div>
-                                <div class="col-md-4 card">
-                                    <h5>SOLICITADO (2)</h5>
-                                </div>
-                                <div class="col-md-4 card">
-                                    <h5>EN PROCESO (4)</h5>
-                                </div>
-                            </div>
-                            <div class="row card-sep">
-                                <div class="col-md-4 card">
-                                    <h5> EN ESPERA (7)</h5>
-                                </div>
-                                <div class="col-md-4 card">
-                                    <h5>ENTREGADO (3)</h5>
-                                </div>
-                                <div class="col-md-4 card">
-                                    <h5>FINALIZADO (1)</h5>
-                                </div>
-                            </div>
-                            <div class="row mt-4">
-                                <div style="margin-top: 1rem;">
-                                    <div class="shadow menu text-center"
-                                        style="margin-bottom: 2rem;">
-                                        <h3> Estadísticas (Abril)</h3>
-                                    </div>
-                                    <div class="chart-container">
-                                        <canvas id="MyOtherChart2" width="200"
-                                            height="200"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                
             </div>
-            <!-- <div class="shadow card-sep__footer"
-                style="margin-bottom: 2rem;">
-                <div class="row">
-                    <div class="col-md-4 card ">
-                        <div
-                            class="row justify-content-between align-items-center">
-                            <div class="col-md-10">
-                                <h4>Total de tickets</h4>
-                                <h5>Casos en Abril (10)</h5>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <h2 class="custom-number">80</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 card">
-                        <div class="row justify-content-between align-items-center">
-                            <div class="col-md-9">
-                                <h4>Nivel de satisfacción</h4>
-                                <h5>Satisfacción Abril (100%)</h5>
-                            </div>
-                            <div class="col-md-3 text-center">
-                                <svg width="80" height="80">
-                                    <circle cx="40" cy="40" r="30" stroke="#ccc" stroke-width="8" fill="none"/>
-                                    <circle cx="40" cy="40" r="30" stroke="limegreen" stroke-width="8" fill="none" 
-                                            [style.strokeDasharray]="percentage * 188.5 / 100 + ' 188.5'"
-                                            transform="rotate(-90 40 40)" />
-                                    <text x="40" y="45" text-anchor="middle" font-size="16">{{ percentage }}%</text>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4 card"><div
-                            class="row justify-content-between align-items-center">
-                            <div class="col-md-9">
-                                <h4>Promedio de tiempo de solución</h4>
-                                <h5>Abril (2h)</h5>
-                            </div>
-                            <div class="col-md-3 text-center">
-                                <h2 class="custom-number">3H</h2>
-                            </div>
-                        </div></div>
-                </div>
-            </div> -->
-            <!-- <div class="card shadow card-sep__footer">
-                <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4"></div>
-                </div>
-            </div> -->
+            
         </main>
     </div>
 </div>

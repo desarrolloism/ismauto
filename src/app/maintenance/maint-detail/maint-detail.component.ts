@@ -90,7 +90,7 @@ export class MaintDetailComponent implements OnInit {
       this.paramsUrl = resp;
       this.params = this.paramsUrl.params.filter((param: { code: string; }) => param.code !== 'ESTFINALIZADO');
       this.filteredParams = this.params;
-      console.log(this.params);
+      // console.log(this.params);
     });
   }
 
@@ -105,7 +105,7 @@ export class MaintDetailComponent implements OnInit {
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
-      console.log(this.maintenanceUrl.maintenance.photos);
+      // console.log(this.maintenanceUrl.maintenance.photos);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
@@ -124,9 +124,9 @@ export class MaintDetailComponent implements OnInit {
         this.mainDetalle.description_incident = this.maintenance.description_incident;
         
         let isBefore = this.mainDetalle.status_id !== 'ENTREGADO'; 
-        console.log(`entregado es ` + isBefore);
+        // console.log(`entregado es ` + isBefore);
       } else {
-        console.error('La respuesta del servicio no contiene la propiedad "maintenance"');
+        // console.error('no contiene "maintenance"');
       }
     });
   }
@@ -159,7 +159,7 @@ export class MaintDetailComponent implements OnInit {
         this._serMaint.uploadFile(this.token, base64, fileName, this.maintId, true).subscribe(res => {
           // console.log(res);
           let isBefore = this.mainDetalle.status_id !== 'ENTREGADO';
-          console.log(`entregado es ` + isBefore);
+          // console.log(`entregado es ` + isBefore);
   
           this.getDetail(this.maintId);
         });
@@ -180,7 +180,7 @@ export class MaintDetailComponent implements OnInit {
   }
 
   sendEmailScore() {
-    console.log(this.token);
+    // console.log(this.token);
     this._scoreMailService.sendEmail(this.scoreModuleUrl, this.maintId, this.token).subscribe(resp => {
       // console.log(resp);
     })
@@ -213,7 +213,7 @@ export class MaintDetailComponent implements OnInit {
 
   deleteTicket(maintId: any) {
     this._serMaint.update(this.token, {maint_id: maintId, status: 'ELIMINADO'}).subscribe(resp => {
-      console.log('eliminado')
+      // console.log('eliminado')
     },
     error => {
       alert('error al eliminar el ticket');
