@@ -63,7 +63,6 @@ export class ScoreComponent implements OnInit {
       // console.log(resp);
       this.maintenanceUrl = resp;
       // console.log(this.maintenanceUrl);
-      
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.mainDetalle.id = this.maintenance.id;
@@ -88,11 +87,9 @@ export class ScoreComponent implements OnInit {
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-  
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-  
     return `${year}-${month}-${day}`;
   }
   
@@ -117,7 +114,6 @@ export class ScoreComponent implements OnInit {
   endStatus(){
     this.mainDetalle.status_id = '9'; 
     // console.log(this.mainDetalle.status_id);
-
     this._serMaint.update(this.token, this.mainDetalle).subscribe(resp =>{
       let respuesta: any =  resp;
       this._router.navigate(['/gratitude/']);

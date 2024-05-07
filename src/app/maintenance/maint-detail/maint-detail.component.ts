@@ -75,7 +75,6 @@ export class MaintDetailComponent implements OnInit {
 
   }
 
-
   ngOnInit(): void {
     this._route.params.subscribe(params => {
       this.maintId = params['maintId'];
@@ -122,7 +121,6 @@ export class MaintDetailComponent implements OnInit {
         this.mainDetalle.site = this.maintenance.site;
         this.mainDetalle.score = this.maintenance.score;
         this.mainDetalle.description_incident = this.maintenance.description_incident;
-
         // Obtener la fecha en que se cambió el estado a 'ENTREGADO'
         const statusChangedDate = new Date(this.maintenance.case.status.updated_at);
         // Iterar sobre las fotos
@@ -139,6 +137,20 @@ export class MaintDetailComponent implements OnInit {
     });
   }
 
+  uploadImage(isBefore: boolean) {
+    const file: File = this.fileInput.nativeElement.files[0];
+    if (file) {
+      this.convertToBase64(file).then((base64: string) => {
+        const fileName = file.name;
+        this._serMaint.uploadFile(this.token, base64, fileName, this.maintId, isBefore).subscribe(res => {
+          this.getDetail(this.maintId);
+          alert('Cargado correctamente');
+        });
+      });
+    } else {
+      alert('Ocurrió un error, ha cargado una imagen? de no ser asi contacte con el administrador del sistema');
+    }
+  }
 
   onSubmit() {
     let nameStatus: String = this.buscar_nombre_estado();
@@ -153,18 +165,6 @@ export class MaintDetailComponent implements OnInit {
       }
       // this._router.navigate(['/main/' + this.maintId]);
     });
-  }
-
-  uploadImage(isBefore: boolean) {
-    const file: File = this.fileInput.nativeElement.files[0];
-    if (file) {
-      this.convertToBase64(file).then((base64: string) => {
-        const fileName = file.name;
-        this._serMaint.uploadFile(this.token, base64, fileName, this.maintId, isBefore).subscribe(res => {
-          this.getDetail(this.maintId);
-        });
-      });
-    }
   }
 
   buscar_nombre_estado() {
@@ -186,8 +186,6 @@ export class MaintDetailComponent implements OnInit {
     this.photografy = photografy;
     // console.log(photografy)
   }
-
-
 
 
   convertToBase64(file: File): Promise<string> {

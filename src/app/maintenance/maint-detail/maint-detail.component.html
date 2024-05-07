@@ -1,10 +1,7 @@
 <div>
     <app-header></app-header>
-
     <div class="container mt-3">
-
         <div class="row">
-
             <!-- Detalle del problema -->
             <div class="col-lg-6">
                 <div class="accordion" id="accordionExample">
@@ -41,10 +38,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row mt-4">
                     
-
                     <div class="col-lg-12">
                         <div class="accordion" id="accordionGaleria">
                             <!-- Galería de fotos con el problema -->
@@ -58,7 +53,7 @@
                                     <div class="accordion-body">
                                         <div class="row">
                                             <div class="col" *ngFor="let photo of maintenanceUrl?.maintenance?.photos ">
-                                                <ng-container *ngIf="photo.is_before ">
+                                                <ng-container *ngIf="!photo.is_before">
                                                     <a data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="viewPhotoModal(photo.photo)">
                                                         <img src="{{ urlPhotos + photo.photo }}" alt="..." class="img-thumbnail" width="100px">
                                                     </a>
@@ -66,6 +61,7 @@
                                             </div>
                                         </div>
                                         <!-- Input para subir nuevas imágenes -->
+                                        <hr>
                                         <div>
                                             <input type="file" #fileInput class="form-control mb-3" />
                                             <button (click)="uploadImage(true)" class="btn btn-primary">Subir archivo</button>
@@ -92,6 +88,7 @@
                                             </div>
                                         </div>
                                         <!-- Input para subir nuevas imágenes -->
+                                        <hr>
                                         <div>
                                             <input type="file" #fileInput class="form-control mb-3" />
                                             <button (click)="uploadImage(false)" class="btn btn-primary">Subir archivo</button>
@@ -100,11 +97,8 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
                     </div>
                 </div>
-
                 <!-- inicia modal de fotos -->
                 <div class="modal fade" id="exampleModal" tabindex="-1"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -130,15 +124,11 @@
                     </div>
                 </div>
                 <!-- fin modal de fotos -->
-
             </div>
-
             <!-- Formulario -->
             <div class="col-lg-6">
                 <div class="accordion" id="accordionExample2">
-
                     <div *ngIf="isAdmin" class="accordion-item vibrate">
-
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button button-lila-obscuro"
                                 type="button" data-bs-toggle="collapse"
@@ -148,16 +138,13 @@
                                 Formulario para Jefatura
                             </button>
                         </h2>
-
                         <div id="collapseTwo"
                             class="accordion-collapse collapse"
                             aria-labelledby="headingOne"
                             data-bs-parent="#accordionExample2">
                             <div class="accordion-body">
                                 <form (ngSubmit)="onSubmit()">
-
                                     <div class="row text-center">
-
                                         <!-- Fecha estimada -->
                                         <div class="mb-3 col-lg-6">
                                             <label for="date_estimated_delivery"
@@ -170,7 +157,6 @@
                                                 [(ngModel)]="mainDetalle.date_estimated_delivery"
                                                 required>
                                         </div>
-
                                         <!-- Estado y asignación -->
                                         <div class="mb-3 col-lg-6">
                                             <label for="status_id"
@@ -186,10 +172,8 @@
                                                 </ng-container>
                                             </select>
                                         </div>
-
                                         <!-- {{ mainDetalle.status_id }} -->
                                     </div>
-
                                     <div class="row">
                                         <!-- Tiene riesgo -->
                                         <div class="mb-3 col-lg-6 text-center">
@@ -226,9 +210,7 @@
                                                         Descagar formulario
                                                         AST.docx</h4></a>
                                             </div>
-
                                         </div>
-
                                         <!-- Nivel de prioridad -->
                                         <div class="mb-3 col-lg-6 text-center">
                                             <label
@@ -253,7 +235,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="mb-3">
                                         <label for="user_to_assign_id"
                                             class="form-label">Asignado
@@ -270,7 +251,6 @@
                                                 {{user.last_name}}</option>
                                         </select>
                                     </div>
-
                                     <!-- Solución -->
                                     <div class="mb-3">
                                         <label for="solution"
@@ -280,25 +260,19 @@
                                             [(ngModel)]="mainDetalle.solution"
                                             rows="6"></textarea>
                                     </div>
-
                                     <button type="submit" hre
                                         class="btn btn-primary">Enviar</button>
                                 </form>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
-
         </div>
-
         <!-- <div *ngIf="isAdmin" class="mt-4 p-4 bg-light border">
             <input type="file" #fileInput class="form-control mb-3" />
             <button (click)="uploadFile()" class="btn btn-primary">Subir
                 archivo</button>
         </div> -->
-
     </div>
 </div>
