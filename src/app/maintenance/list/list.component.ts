@@ -51,7 +51,7 @@ export class ListComponent {
           this.allMant = this.responseUrl.maintenance;
           // console.log(this.filtrarMant);
           this.maintenances = this.allMant;
-          // console.log(this.isAdmin);
+          console.log(this.maintenances);
         }
       }
     )
@@ -80,15 +80,12 @@ export class ListComponent {
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
-    // console.log(this.avatar);
-    // console.log(this.name);
-    // console.log(this.last_name);
-    // console.log(this.email);
+
   }
 
 clearStatusFilter() {
-    this.selectedStatus = ''; // Limpiar el estado seleccionado
-    this.filterStatus('');    // Aplicar el filtro vacío
+    this.selectedStatus = ''; 
+    this.filterStatus('');    
 }
 
 

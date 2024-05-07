@@ -83,12 +83,9 @@ export class MaintenanceService {
       'Content-Type': 'application/json',
       'Token': token
     });
-
     const data = mainDetalle;
     // console.log(mainDetalle)
-
     return this._http.post(`${this.url}/maintenance/update`, data, { headers: headers });
-
   }
 
 
@@ -98,16 +95,13 @@ export class MaintenanceService {
       'Content-Type': 'application/json',
       'Token': token
     });
-
     const data = {
       'file64': file64,
       'fileName': fileName,
       'maint_id': maintId,
       'is_before': isBefore
     }
-
     return this._http.post(`${this.url}/maintenance/upload`, data, { headers: headers });
-
   }
 
   updateScore(token: any, totalScore: any) {
@@ -116,7 +110,6 @@ export class MaintenanceService {
       'Content-Type': 'application/json',
       'Token': token
     });
-
     return this._http.post(`${this.url}/maintenance/update-score`, totalScore, { headers: headers });
   }
 
