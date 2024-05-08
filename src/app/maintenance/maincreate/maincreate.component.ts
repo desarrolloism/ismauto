@@ -23,10 +23,9 @@ export class MaincreateComponent {
   }
 
   onSubmit() {
-    // console.log(`hola`);
     this._mainServices.create(this.token, this.maintenance).subscribe(resp => {
       this.dataApi = resp;
-      console.log(resp);
+      // console.log(resp);
       if (this.dataApi.status == 'OK') {
         this.maintId = this.dataApi.maintId;
         this._router.navigate(['/maint-detail/' + this.maintId]);

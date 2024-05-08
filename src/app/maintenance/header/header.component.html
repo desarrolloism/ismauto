@@ -22,7 +22,7 @@
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
                 <a class="nav-link text-light active" aria-current="page"
-                  href="#"><i class="fa-solid fa-chart-pie"></i> Inicio</a>
+                  routerLink ="#"><i class="fa-solid fa-chart-pie"></i> Inicio</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link text-light" routerLink="/maincreate"><i
@@ -32,11 +32,11 @@
                 <a class="nav-link text-light" routerLink="/guides"><i class="fa-solid fa-circle-info"></i> Ayuda</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-light" href="/list"><i
+                <a class="nav-link text-light" routerLink="/list"><i
                     class="fa-solid fa-ticket"></i> Tickets</a>
               </li>
               <li class="nav-item dropdown ">
-                <a class="nav-link text-light dropdown-toggle" href="#"
+                <a class="nav-link text-light dropdown-toggle" 
                   id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                   aria-expanded="false"> <i class="fa-regular fa-user"></i> {{ name }} {{ last_name}} 
                 </a>
@@ -49,7 +49,6 @@
               </li>
             </ul>
           </div>
-
         </div>
       </nav>
     </div>

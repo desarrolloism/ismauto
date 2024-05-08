@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ValidatetokenComponent } from './validatetoken/validatetoken.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -16,7 +17,8 @@ import { ValidatetokenComponent } from './validatetoken/validatetoken.component'
   imports: [
     CommonModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   exports: [
     LoginComponent,

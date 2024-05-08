@@ -52,7 +52,7 @@ export class ScoreComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.maintId = params['maintId'];
-      console.log(this.maintId);
+      // console.log(this.maintId);
       this.getDetail(this.maintId);
       // this.params1();
     });
@@ -60,37 +60,36 @@ export class ScoreComponent implements OnInit {
 
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
-      console.log(resp);
+      // console.log(resp);
       this.maintenanceUrl = resp;
-      console.log(this.maintenanceUrl);
-      
+      // console.log(this.maintenanceUrl);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.mainDetalle.id = this.maintenance.id;
         this.mainDetalle.date_estimated_delivery = this.formatDate(this.maintenance.date_estimated_delivery);
         this.mainDetalle.priority = this.maintenance.priority;
         this.mainDetalle.has_risk = this.maintenance.has_risk;
-        this.mainDetalle.status_id = this.maintenance.case.status_id.toString(); // Convertir a string
+        this.mainDetalle.status_id = this.maintenance.case.status_id.toString(); 
         this.mainDetalle.user_to_assign_id = this.maintenance.case.user_to_assign_id;
-        this.mainDetalle.institute_id = this.maintenance.case.institute_id.toString(); // Convertir a string
+        this.mainDetalle.institute_id = this.maintenance.case.institute_id.toString();
         this.mainDetalle.solution = this.maintenance.solution;
         this.mainDetalle.type_incident = this.maintenance.type_incident;
+        this.mainDetalle. description_incident = this.maintenance.description_incident;
         this.mainDetalle.site = this.maintenance.site;
-        this.mainDetalle.score = this.maintenance.score.toString(); // Convertir a string
+        this.mainDetalle.score = this.maintenance.score.toString(); 
         this.mainDetalle.description_incident = this.maintenance.description_incident;
       } else {
-        console.log('error');
+        // console.log('error');
+        alert('Error, contacte con el administrador');
       }
     });
   }
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-  
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-  
     return `${year}-${month}-${day}`;
   }
   
@@ -107,15 +106,14 @@ export class ScoreComponent implements OnInit {
       score: this.stars
     };
     this._serMaint.updateScore(this.token, totalScore).subscribe(resp => {
-      console.log(resp);
+      // console.log(resp);
       
     });
   }
 
   endStatus(){
     this.mainDetalle.status_id = '9'; 
-    console.log(this.mainDetalle.status_id);
-
+    // console.log(this.mainDetalle.status_id);
     this._serMaint.update(this.token, this.mainDetalle).subscribe(resp =>{
       let respuesta: any =  resp;
       this._router.navigate(['/gratitude/']);

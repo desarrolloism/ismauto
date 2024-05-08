@@ -51,7 +51,9 @@
                         class="form-control"
                         #site
                         [(ngModel)]="maintenance.site"
-                        required></textarea>
+                        required 
+                        placeholder="Especifique lugar de incidencia, número de aula, piso de pasillo, etc."
+                        ></textarea>
                 </div>
 
             </div>
@@ -64,7 +66,9 @@
                         class="form-control"
                         #description_incident
                         [(ngModel)]="maintenance.description_incident"
-                        required></textarea>
+                        required
+                        placeholder="Escriba una pequeña descripción del problema."
+                        ></textarea>
                 </div>
             </div>
         </div>

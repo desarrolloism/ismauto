@@ -39,7 +39,8 @@ export class MaintDetailComponent implements OnInit {
     site: '',
     score: '',
     description_incident: '',
-    name: ''
+    name: '',
+    is_before: true
   }
 
   isAdmin: boolean = false;
@@ -74,7 +75,6 @@ export class MaintDetailComponent implements OnInit {
 
   }
 
-
   ngOnInit(): void {
     this._route.params.subscribe(params => {
       this.maintId = params['maintId'];
@@ -90,7 +90,7 @@ export class MaintDetailComponent implements OnInit {
       this.paramsUrl = resp;
       this.params = this.paramsUrl.params.filter((param: { code: string; }) => param.code !== 'ESTFINALIZADO');
       this.filteredParams = this.params;
-      console.log(this.params);
+      // console.log(this.params);
     });
   }
 
@@ -105,7 +105,6 @@ export class MaintDetailComponent implements OnInit {
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
-      console.log(this.maintenanceUrl.maintenance.photos);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
@@ -122,54 +121,51 @@ export class MaintDetailComponent implements OnInit {
         this.mainDetalle.site = this.maintenance.site;
         this.mainDetalle.score = this.maintenance.score;
         this.mainDetalle.description_incident = this.maintenance.description_incident;
-        
-        let isBefore = this.mainDetalle.status_id !== 'ENTREGADO'; 
-        console.log(`entregado es ` + isBefore);
+        // Obtener la fecha en que se cambió el estado a 'ENTREGADO'
+        const statusChangedDate = new Date(this.maintenance.case.status.updated_at);
+        // Iterar sobre las fotos
+        this.maintenance.photos.forEach((photo: any) => {
+          // Obtener la fecha de creación de la foto
+          const photoCreatedAt = new Date(photo.created_at);
+          // Establecer is_before en false para las fotos subidas después del cambio de estado
+          photo.is_before = photoCreatedAt < statusChangedDate;
+        });
+        console.log(this.maintenance);
       } else {
-        console.error('La respuesta del servicio no contiene la propiedad "maintenance"');
+        alert('Error de detalle, por favor notifique al administrador');
       }
     });
   }
 
+  uploadImage(isBefore: boolean) {
+    const file: File = this.fileInput.nativeElement.files[0];
+    if (file) {
+      this.convertToBase64(file).then((base64: string) => {
+        const fileName = file.name;
+        this._serMaint.uploadFile(this.token, base64, fileName, this.maintId, isBefore).subscribe(res => {
+          this.getDetail(this.maintId);
+          alert('Cargado correctamente');
+        });
+      });
+    } else {
+      alert('Ocurrió un error, ha cargado una imagen? de no ser asi contacte con el administrador del sistema');
+    }
+  }
 
   onSubmit() {
-
     let nameStatus: String = this.buscar_nombre_estado();
     this.mainDetalle.type_incident = this.maintenanceUrl.maintenance.type_incident;
     this.mainDetalle.site = this.maintenanceUrl.maintenance.site;
     this.mainDetalle.description_incident = this.maintenanceUrl.maintenance.description_incident;
     this._serMaint.update(this.token, this.mainDetalle).subscribe(resp => {
       let respuesta: any = resp;
-      if(respuesta.status == 'OK' && nameStatus == 'ENTREGADO'){
+      if (respuesta.status == 'OK' && nameStatus == 'ENTREGADO') {
         this.sendEmailScore();
-
+        alert('Actualizacion exitosa!');
       }
-      this._router.navigate(['/main/' + this.maintId]);
+      // this._router.navigate(['/main/' + this.maintId]);
     });
   }
-
-  uploadImage() {
-    const file: File = this.fileInput.nativeElement.files[0];
-    // console.log(this.maintId);
-    if (file) {
-      this.convertToBase64(file).then((base64: string) => {
-  
-        const fileName = file.name;
-  
-        this._serMaint.uploadFile(this.token, base64, fileName, this.maintId, true).subscribe(res => {
-          // console.log(res);
-          let isBefore = this.mainDetalle.status_id !== 'ENTREGADO';
-          console.log(`entregado es ` + isBefore);
-  
-          this.getDetail(this.maintId);
-        });
-      });
-    } 
-  }
-  
-  
-  
-  
 
   buscar_nombre_estado() {
     for (let i = 0; i < this.params.length; i++) {
@@ -180,7 +176,7 @@ export class MaintDetailComponent implements OnInit {
   }
 
   sendEmailScore() {
-    console.log(this.token);
+    // console.log(this.token);
     this._scoreMailService.sendEmail(this.scoreModuleUrl, this.maintId, this.token).subscribe(resp => {
       // console.log(resp);
     })
@@ -191,8 +187,6 @@ export class MaintDetailComponent implements OnInit {
     // console.log(photografy)
   }
 
-  
-  
 
   convertToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -212,13 +206,13 @@ export class MaintDetailComponent implements OnInit {
   }
 
   deleteTicket(maintId: any) {
-    this._serMaint.update(this.token, {maint_id: maintId, status: 'ELIMINADO'}).subscribe(resp => {
-      console.log('eliminado')
+    this._serMaint.update(this.token, { maint_id: maintId, status: 'ELIMINADO' }).subscribe(resp => {
+      // console.log('eliminado')
     },
-    error => {
-      alert('error al eliminar el ticket');
-    })
-}
+      error => {
+        alert('error al eliminar el ticket');
+      })
+  }
 
 
 

@@ -26,7 +26,7 @@ export class LoginComponent {
     this._loginServ.login(this.user.username, this.user.password).subscribe(resp => {
       this.responseurl = resp;
       //comentar
-      console.log(resp);
+      // console.log(resp);
       //comentar
       if (this.responseurl.status == 'OK') {
         localStorage.setItem('token', this.responseurl.data.token);
