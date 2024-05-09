@@ -1,7 +1,4 @@
 import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-SDY6RN2W.js";
-import {
   Directionality,
   MAT_RIPPLE_GLOBAL_OPTIONS,
   MatCommonModule,
@@ -10,6 +7,9 @@ import {
   Platform,
   RippleState
 } from "./chunk-EQRZJWOS.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-SDY6RN2W.js";
 import "./chunk-OSME4EU5.js";
 import {
   ANIMATION_MODULE_TYPE,
