@@ -37,4 +37,11 @@ export class HeaderComponent {
     // console.log(this.email);
   }
 
+  //quitar cuando este listo!
+  nocreated(){
+    alert('Por el momento no se encuentra disponible, gracias por su comprensión!');
+  }
+  //quitar cuando este listo!
+
+
 }

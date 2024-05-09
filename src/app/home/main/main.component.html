@@ -1,19 +1,17 @@
-
-
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="assets/images/logo.png" alt width="100"
-                class="d-inline-block align-text-top">
+            <img src="assets/images/logo.png" alt width="100" class="d-inline-block align-text-top">
         </a>
         <!-- <a class="exit"> SISTEMA DE TICKETS ISM</a> -->
-        <a class="user"><i class="fa-regular fa-circle-user"></i> Bienvenido, {{
+        <a class="exit"><i class="fa-regular fa-circle-user"></i> Bienvenido, {{
             avatar }}</a>
 
-        <a class="exit" (click)="logout()"><i
-                class="fa-solid fa-door-open"></i> Salir</a>
+        <a class="exit" (click)="logout()"><i class="fa-solid fa-door-open"></i> Salir</a>
     </div>
 </nav>
+
+
 
 <div class="container-fluid mt-2">
     <div class="row bodychart">
@@ -22,8 +20,7 @@
             <!-- Contenido del menú -->
             <ul class="nav flex-column">
                 <li class="procesos__menu">
-                    <a class="procesos__menu--option position-relative"
-                        routerLink="/list">
+                    <a class="procesos__menu--option position-relative" routerLink="/list">
                         <h3>Mantenimiento </h3>
                         <span
                             class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
@@ -50,8 +47,19 @@
                     </a>
 
                 </li>
+                <div class="dropdown mt-3">
+                    <button class="card shadow menu reportes" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Reportes
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" target="_blank"
+                        href="https://lookerstudio.google.com/embed/reporting/8077023e-eb9d-4f9d-89bd-cee1846baa4c/page/HyMqD">Ver
+                        reporte de Mantenimiento</a></li>   
+                      <li><a class="dropdown-item" href="#">Reporte 2</a></li>
+                      <li><a class="dropdown-item" href="#">Reporte 3</a></li>
+                    </ul>
+                  </div>
             </ul>
-
         </nav>
 
         <main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
@@ -70,16 +78,18 @@
                             </div>
                             <div class="row">
                                 <div class="chart-container">
-                                    <canvas id="MyChart" width="300"
-                                        height="300"></canvas>
+                                    <canvas id="MyChart" width="300" height="300"></canvas>
+                                </div>
+                                <div class="row">
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
-            
+
         </main>
     </div>
 </div>

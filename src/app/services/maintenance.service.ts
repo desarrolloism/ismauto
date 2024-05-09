@@ -20,12 +20,14 @@ export class MaintenanceService {
 
 
   all(token: any, page: number = 1, maint_status: string, search: string) {
+    //headers
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',
       'Token': token
     });
 
+    //body
     const data = {
       'page': page,
       'maint_status': maint_status,

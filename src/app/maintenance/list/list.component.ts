@@ -10,7 +10,6 @@ export class ListComponent {
   token: any;
   responseUrl: any;
   maintenances: any[] = [];
-  isAdmin: boolean = false;
   totalPages: number = 1;
   actualPage: number = 1;
   filtrarMant: any[] = [];
@@ -35,30 +34,26 @@ export class ListComponent {
     this.list(this.actualPage);
   }
 
+  ngOnInit() {
+    this.getAvatar();
+  }
+
   list(page: number) {
-    // console.log(this.maintStatus);
     this._maintService.all(this.token, page, this.maintStatus, this.maintSearch).subscribe(
       res => {
         this.responseUrl = res;
-        // console.log(res);
         if (this.responseUrl.status == 'OK') {
           this.maintenances = this.responseUrl.maintenance;
-          this.isAdmin = this.responseUrl.isAdmin;
           this.totalPages = this.responseUrl.totalPages;
           this.actualPage = this.responseUrl.page;
           this.filtrarMant = this.maintenances;
           this.myMant = this.responseUrl.maintenance;
           this.allMant = this.responseUrl.maintenance;
-          // console.log(this.filtrarMant);
           this.maintenances = this.allMant;
           console.log(this.maintenances);
         }
       }
     )
-  }
-  createTicket() {
-    // console.log('create ticket');
-    // console.log(this.token);
   }
 
   filterStatus(status: string) {
@@ -70,9 +65,6 @@ export class ListComponent {
     this.list(1);
   }
 
-  ngOnInit(){
-    this.getAvatar();
-  }
 
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
@@ -80,13 +72,10 @@ export class ListComponent {
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
-
   }
 
-clearStatusFilter() {
-    this.selectedStatus = ''; 
-    this.filterStatus('');    
-}
-
-
+  clearStatusFilter() {
+    this.selectedStatus = '';
+    this.filterStatus('');
+  }
 }
