@@ -1,0 +1,347 @@
+<div class="min-vh-100 d-flex flex-column overflow-hidden">
+    <div class="container-fluid py-1 ism d-flex justify-content-center">
+        <div class="row align-items-center w-100">
+            <!-- <div class="col-auto">
+                <img src="../../../assets/img/ISM-logo.png" alt="logoism"
+                    width="170" height="64">
+            </div> -->
+            <div class="col text-center text-white">
+                <h1>Verificación de credenciales para solicitar becas</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- //body -->
+    <div class="mb-auto">
+        <main class="text-center mt-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form class="mt-4" (ngSubmit)="onSubmit()">
+                            <div class="form-group mx-auto"
+                                style="max-width: 300px;">
+                                <label for="cedula" class="form-label"
+                                    name="cedula">Ingrese el numero de cédula
+                                    del representante </label>
+                                <input [(ngModel)]="cedulaPadre.cedula"
+                                    type="text" id="cedula" name="cedula"
+                                    class="form-control form-control-sm"
+                                    placeholder="Ingrese su número de cédula">
+                            </div>
+                            <button class="btn btn-primary mt-3"
+                                type="submit">Consultar</button>
+                        </form>
+
+                        <div class="row mt-4" *ngIf="datos">
+                            <div> 
+                                <p>Nombre: {{ name }}</p>
+                                <p>Email: {{ email }}</p>
+                                <p>Contraseña: JHufk93S</p>
+                                <button class="btn btn-primary">Iniciar
+                                    solicitud</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="row title">
+                                <h2
+                                    class="text-center title-header shadow">Requisitos</h2>
+                                <p class="tile-header__description">
+                                    El plazo para solicitar becas y presentar
+                                    documentos es del 1 de junio al
+                                    30 de julio
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="row text-center justify-content-center">
+                                <div class="info-cards mt-2 cards text-center ">
+                                    <div class="h-100">
+                                        <div
+                                            class="card-body d-flex align-items-center">
+                                            <div class="text-container">
+                                                <p
+                                                    class="text-change mb-0 text-justify fadeInOut1">{{
+                                                    text1 }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row text-center justify-content-center">
+                                <div class="info-cards mt-2 cards text-center">
+                                    <div class="h-100">
+                                        <div
+                                            class="card-body d-flex align-items-center">
+                                            <div class="text-container">
+                                                <p
+                                                    class="fadeInOut2 text-change mb-0 text-justify">{{
+                                                    text2 }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row text-center justify-content-center">
+                                <div class="info-cards mt-2 cards text-center">
+                                    <div class="h-100">
+                                        <div
+                                            class="card-body d-flex align-items-center">
+                                            <div class="text-container">
+                                                <p
+                                                    class="text-change mb-0 text-justify fadeInOut3">{{
+                                                    text3 }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mt-4">
+                            <div class="card"
+                                style="width: auto; height: 700px; overflow-y: auto;">
+                                <div class="card-body">
+                                    <h2
+                                        class="card-title text-center">REQUISITOS
+                                        PARA SOLICITUD DE DESCUENTO / BECA ISM
+                                        AÑO LECTIVO 2024 - 2025</h2>
+                                    <div>
+                                        <table class="table table-striped">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Encontrarse al día con
+                                                        el pago de todos sus
+                                                        haberes económicos en la
+                                                        institución.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Haber permanecido por lo
+                                                        menos 3 años
+                                                        consecutivos en el
+                                                        ISM.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Carta dirigida al comité
+                                                        de becas, justificando
+                                                        los motivos del
+                                                        petitorio. (en
+                                                        línea).</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Llenar ficha socio
+                                                        económica. (en
+                                                        línea)</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Copia de libreta
+                                                        estudiantil del primer
+                                                        quimestre del año en
+                                                        curso.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Copia de cédula a color
+                                                        del representante legal
+                                                        y del estudiante.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Adjuntar roles de pago
+                                                        de los últimos tres
+                                                        meses de padre, madre y
+                                                        quienes aporten
+                                                        económicamente al
+                                                        hogar.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Mecanizado del IESS, de
+                                                        los seis últimos
+                                                        meses.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Si trabaja de forma
+                                                        independiente, adjuntar
+                                                        la declaración del IVA
+                                                        de los dos últimos meses
+                                                        y la declaración del
+                                                        impuesto a la renta de
+                                                        los dos últimos
+                                                        años.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Copia de estados de
+                                                        cuenta de tarjetas de
+                                                        crédito de los dos
+                                                        últimos meses, previos a
+                                                        esta solicitud.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Matrículas de los
+                                                        vehículos que posea la
+                                                        familia.</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <h4 class="mt-4">Requisitos específicos
+                                            de acuerdo al caso: (adjuntar,
+                                            además)</h4>
+                                        <table class="table table-striped">
+
+                                            <tbody>
+                                                <tr>
+                                                    <td>Certificado médico de
+                                                        salud, que determine la
+                                                        enfermedad
+                                                        catastrófica.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cédula actualizada que
+                                                        justifique
+                                                        discapacidad.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Certificado de la
+                                                        inscripción de defunción
+                                                        de uno y/o ambos de sus
+                                                        representantes
+                                                        legales.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Rol de Montepío por
+                                                        viudez/orfandad del
+                                                        último mes.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Registro del SUPA.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Certificado de
+                                                        cesantía.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Presentar certificado
+                                                        que acredite la
+                                                        participación deportiva
+                                                        y sus logros a nivel
+                                                        provincial, nacional y/o
+                                                        internacional en el
+                                                        último año.</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="text-center mt-4 bg-dark py-3">
+        <div class="row text-white">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="dropup-center dropup">
+                    <button class="btn dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Ubícanos
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" target="_blank"
+                                href="https://api.whatsapp.com/send?phone=593995530643&text=Bienvenido%20al%20ISM.%20Gracias%20por%20tu%20inter%C3%A9s%20en%20la%20Familia%20ISM.%20%C2%BFC%C3%B3mo%20te%20podemos%20ayudar%3F">
+                                <i class="fa-brands fa-whatsapp"></i> ISM
+                                NORTH
+                                - ONLINE
+                                <small class="d-block text-muted">Calle
+                                    Unión
+                                    N5-79 y Capitán Giovanni Calles
+                                    (Calderón)</small>
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item" target="_blank"
+                                href="https://api.whatsapp.com/send?phone=593984510859&text=Bienvenido%20al%20ISM.%20Gracias%20por%20tu%20inter%C3%A9s%20en%20la%20Familia%20ISM.%20%C2%BFC%C3%B3mo%20te%20podemos%20ayudar%3F">
+                                <i class="fa-brands fa-whatsapp"></i> ISM
+                                QUITO
+                                <small class="d-block text-muted">San Miguel
+                                    de
+                                    Anagaes y Avigiras (Amagasí del
+                                    Inca).</small>
+                            </a></li>
+                        <li>
+                            <a class="dropdown-item" target="_blank"
+                                href="https://api.whatsapp.com/send?phone=593992785498&text=Bienvenido%20a%20atenci%C3%B3n%20al%20cliente%20ISM%20West.%20Gracias%20por%20tu%20inter%C3%A9s%20en%20la%20Familia%20ISM.%20%C2%BFC%C3%B3mo%20te%20podemos%20ayudar%3F">
+                                <i class="fa-brands fa-whatsapp"></i> ISM
+                                WEST
+                                <small class="d-block text-muted">Diego
+                                    Vásquez
+                                    de Cepeda N77-157 y Albert Einstein
+                                    (Carcelén)</small>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" target="_blank"
+                                href="https://api.whatsapp.com/send?phone=593984510859&text=Bienvenido%20al%20ISM.%20Gracias%20por%20tu%20inter%C3%A9s%20en%20la%20Familia%20ISM.%20%C2%BFC%C3%B3mo%20te%20podemos%20ayudar%3F">
+                                <i class="fa-brands fa-whatsapp"></i> ISM
+                                KIDS
+                                <small class="d-block text-muted">Julián
+                                    Arbaiza
+                                    E6-195 y Pedro Cornelio. </small>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+
+        <div class="row justify-content-center mt-2">
+            <div class="col-auto">
+                <a class="text-white mx-3"
+                    href="https://www.ism.edu.ec/becas-y-descuentos/"><i
+                        class="fab fa-facebook fa-2x"></i></a>
+                <a class="text-white mx-3"
+                    href="https://www.instagram.com/ism.edu.ec/"><i
+                        class="fab fa-instagram fa-2x"></i></a>
+                <a class="text-white mx-3"
+                    href="https://www.tiktok.com/@colegio\_ism\_ec"><i
+                        class="fab fa-tiktok fa-2x"></i></a>
+                <a class="text-white mx-3"
+                    href="https://www.youtube.com/channel/UC2R6es\_HKqquDeV2\_eoj1PQ"><i
+                        class="fab fa-youtube fa-2x"></i></a>
+                <a class="text-white mx-3"
+                    href="https://www.linkedin.com/company/ism-international-scholastic-model/?original\_referer=https%3A%2F%2Funiadvisor.ism.edu.ec%2Finicio%2F"><i
+                        class="fab fa-linkedin fa-2x"></i></a>
+            </div>
+        </div>
+        <hr>
+        <div class="row privacy">
+            <p class="text-white mb-0"><span>Política de privacidad</span> /
+                ISM© 2024 / All Rights Reserved</p>
+        </div>
+    </footer>
+</div>

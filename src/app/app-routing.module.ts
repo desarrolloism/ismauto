@@ -8,7 +8,7 @@ import { MaintDetailComponent } from './maintenance/maint-detail/maint-detail.co
 import { ScoreComponent } from './generalscore/score/score.component';
 import { GratitudeComponent } from './generalscore/gratitude/gratitude.component';
 import { GuidesComponent } from './manuals/guides/guides.component';
-
+import { MyuserComponent } from './scholarships/myuser/myuser.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,6 +23,8 @@ const routes: Routes = [
   //manuals
   { path: 'guides', component: GuidesComponent },
 
+  //becas
+  { path: 'myuser', component: MyuserComponent },
 
 
 

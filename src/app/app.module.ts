@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
 import { GeneralscoreModule } from './generalscore/generalscore.module';
+import { ScholarshipsModule } from './scholarships/scholarships.module';
 
 
 @NgModule({
@@ -34,8 +35,8 @@ import { GeneralscoreModule } from './generalscore/generalscore.module';
     FormsModule,
     MatDatepickerModule,
     MatRadioModule,
-    MaintenanceModule,
     GeneralscoreModule,
+    ScholarshipsModule
   ],
   providers: [
     provideAnimationsAsync()
