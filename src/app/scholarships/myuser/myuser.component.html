@@ -1,17 +1,12 @@
 <div class="min-vh-100 d-flex flex-column overflow-hidden">
     <div class="container-fluid py-1 ism d-flex justify-content-center">
         <div class="row align-items-center w-100">
-            <!-- <div class="col-auto">
-                <img src="../../../assets/img/ISM-logo.png" alt="logoism"
-                    width="170" height="64">
-            </div> -->
             <div class="col text-center text-white">
                 <h1>Verificación de credenciales para solicitar becas</h1>
             </div>
         </div>
     </div>
 
-    <!-- //body -->
     <div class="mb-auto">
         <main class="text-center mt-4">
             <div class="container">
@@ -21,25 +16,156 @@
                             <div class="form-group mx-auto"
                                 style="max-width: 300px;">
                                 <label for="cedula" class="form-label"
-                                    name="cedula">Ingrese el numero de cédula
-                                    del representante </label>
+                                    name="cedula">Ingrese el número de cédula
+                                    del representante</label>
                                 <input [(ngModel)]="cedulaPadre.cedula"
                                     type="text" id="cedula" name="cedula"
                                     class="form-control form-control-sm"
                                     placeholder="Ingrese su número de cédula">
                             </div>
-                            <button class="btn btn-primary mt-3"
+                            <button class="btn mt-3"
                                 type="submit">Consultar</button>
                         </form>
 
-                        <div class="row mt-4" *ngIf="datos">
-                            <div> 
-                                <p>Nombre: {{ name }}</p>
-                                <p>Email: {{ email }}</p>
-                                <p>Contraseña: JHufk93S</p>
-                                <button class="btn btn-primary">Iniciar
-                                    solicitud</button>
+                        <div *ngIf="campoVacio" class="alert alert-danger mt-3">
+                            El campo no puede estar vacío.
+                        </div>
+
+                        <div class="row mt-4" *ngIf="userFound  && !campoVacio">
+                            <div class="col-md-6 mx-auto">
+                                <p><b>Representante:</b> {{ name }}</p>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>E-mail</th>
+                                            <th>Contraseña</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ email }}</td>
+                                            <td>JHufk93S</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+                                    <p>Nota: Agregar la contraseña como se
+                                        muestra</p>
+                                    <a class="btn"
+                                        (click)="becas()">Iniciar solicitud</a>
+                                </div>
                             </div>
+                        </div>
+
+                        <!-- TABLA DE ERROR DE USUARIO-->
+                        <div class="mt-4" *ngIf="!userFound && msjError"
+                            style="width: auto; height: 300px; overflow-y: auto;">
+                            <p class="error text-center">{{ msjError }}</p>
+                            <table
+                                class="table table-striped table-hover mx-auto"
+                                style="max-width: 800px">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th colspan="2" class="text-center">
+                                            <h4 class="mb-0">ATENCIÓN AL CLIENTE
+                                                / COBRANZAS / ADMISIONES</h4>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- quito -->
+                                    <tr>
+                                        <td class="text-center align-middle"
+                                            style="width: 25%; background-color: #f8f9fa;"><strong>Campus
+                                                Quito:</strong></td>
+                                        <td>
+                                            <p><i
+                                                    class="fa-regular fa-envelope"></i>
+                                                quitoatencioncliente&#64;ism.edu.ec</p>
+                                            <p><i
+                                                    class="fab fa-whatsapp mr-2 text-success"></i><a
+                                                    href="https://wa.me/593984510859"
+                                                    target="_blank"> +593 984
+                                                    510-859</a></p>
+                                            <p><i
+                                                    class="fas fa-phone mr-2 text-primary"></i>
+                                                2415
+                                                046</p>
+                                            <p><i
+                                                    class="fas fa-phone mr-2 text-primary"></i>
+                                                2414
+                                                198</p>
+                                        </td>
+                                    </tr>
+                                    <!-- North -->
+                                    <tr>
+                                        <td class="text-center align-middle"
+                                            style="background-color: #f8f9fa;"><strong>Campus
+                                                North:</strong></td>
+                                        <td>
+                                            <p><i
+                                                    class="fa-regular fa-envelope"></i>
+                                                northatencioncliente&#64;ism.edu.ec</p>
+                                            <p><i
+                                                    class="fab fa-whatsapp mr-2 text-success"></i><a
+                                                    href="https://wa.me/59399553064"
+                                                    target="_blank"> +593 99 553
+                                                    0643</a></p>
+                                            <p><i
+                                                    class="fas fa-phone mr-2 text-primary"></i>
+                                                2023
+                                                591</p>
+                                            <p><i
+                                                    class="fas fa-phone mr-2 text-primary"></i>
+                                                2827
+                                                164</p>
+                                            <p><i
+                                                    class="fas fa-phone mr-2 text-primary"></i>
+                                                2023
+                                                565</p>
+                                        </td>
+                                    </tr>
+                                    <!-- KIDS -->
+                                    <!-- <tr>
+                                        <td class="text-center align-middle"
+                                            style="background-color: #f8f9fa;"><strong>ISM
+                                                KIDS:</strong></td>
+                                        <td>
+                                            <p><i
+                                                    class="fab fa-whatsapp mr-2 text-success"></i><a
+                                                    href="https://wa.me/593984510859"
+                                                    target="_blank"> +593 984
+                                                    510-859</a></p>
+                                            <p><i
+                                                    class="fab fa-whatsapp mr-2 text-success"></i><a
+                                                    href="https://wa.me/59398451085"
+                                                    target="_blank"> +593 98 451
+                                                    0851</a></p>
+                                            <p><i
+                                                    class="fas fa-phone mr-2 text-primary"></i> 2811
+                                                184</p>
+                                            <p><i
+                                                    class="fas fa-phone mr-2 text-primary"></i> 2414
+                                                198</p>
+                                        </td>
+                                    </tr> -->
+                                    <!-- <tr>
+                                        <td class="text-center align-middle"
+                                            style="background-color: #f8f9fa;"><strong>Campus
+                                                West:</strong></td>
+                                        <td>
+                                            <p><i
+                                                    class="fa-regular fa-envelope"></i>
+                                                westatencioncliente&#64;ism.edu.ec</p>
+                                            <p><i
+                                                    class="fab fa-whatsapp mr-2 text-success"></i><a
+                                                    href="https://wa.me/59399278549"
+                                                    target="_blank"> +593 99 278
+                                                    5498</a></p>
+                                        </td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
                         </div>
                         <hr>
                         <div class="row">

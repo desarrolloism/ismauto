@@ -130,3 +130,18 @@ hr {
         opacity: 0;
     }
 }
+
+.form-label{
+    font-size: 1.2rem;
+}
+
+.error {
+    color: Red;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.btn {
+    background-color: #ff9e18;
+    color: white;
+}

@@ -29,7 +29,7 @@ const routes: Routes = [
 
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
-  { path: '**', redirectTo: '/main', pathMatch: 'full' },
+  { path: '**', redirectTo: '/login', pathMatch: 'full' },
 
 ];
 
