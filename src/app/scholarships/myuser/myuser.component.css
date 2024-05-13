@@ -1,0 +1,156 @@
+:root {
+    --principal: ;
+}
+
+
+.ism {
+    background-color: #ab0a3d;
+}
+
+.img-center {
+    background-color: white;
+    border-radius: 10px;
+    padding: .5rem;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.form-control {
+    text-align: center;
+}
+
+span {
+    color: #ab0a3d;
+}
+
+hr {
+    border: 1px solid #ccc;
+}
+
+.privacy {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.dropdown-toggle {
+    color: #ccc;
+}
+
+.list-group {
+    border: 1 px solid #ccc;
+
+}
+
+.list-group-item {
+    border: none;
+}
+
+.title-header {
+    border: 1px;
+    padding: 1rem;
+}
+
+.tile-header__description {
+    color: #6b6666;
+    font-size: 0.8rem;
+    margin-top: 1rem;
+}
+
+.title-header {
+    color: #ab0a3d;
+}
+
+.info-cards .card {
+    height: 200px;
+}
+
+.info-cards .card-body {
+    padding: 1rem;
+}
+
+.text-container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.text-change {
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: justify;
+    opacity: 1;
+}
+
+
+/* Animación */
+.fadeInOut {
+    transition: opacity 1s;
+}
+
+.text-change.ng-animating {
+    opacity: 0;
+}
+
+.fadeInOut1 {
+    animation: fadeInOutAnimation 7s infinite;
+}
+
+.fadeInOut2 {
+    animation: fadeInOutAnimation 7s infinite;
+}
+
+.fadeInOut3 {
+    animation: fadeInOutAnimation 7s infinite;
+}
+
+@keyframes fadeInOutAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.form-label{
+    font-size: 1.2rem;
+}
+
+.error {
+    color: Red;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.btn-y {
+    background-color: #ff9e18;
+    color: white;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+
+h4 {
+    color: #ab0a3d;
+}
