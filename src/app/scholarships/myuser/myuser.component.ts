@@ -91,39 +91,49 @@ export class MyuserComponent {
   userFound: boolean = false;
   campoVacio: boolean = false;
 
+  //muestra carga
+  isLoading = false;
+
   //metodo para buscar el usuario
   onSubmit() {
     if (this.cedulaPadre.cedula.trim() === '') {
-      this.campoVacio = true; 
-      return; // Salir del método sin continuar
+      this.campoVacio = true;
+      this.isLoading = false;
+      return;
     }
-  
-    this.campoVacio = false; 
-  
-    this._scholarshipsService.getCi(this.cedulaPadre.cedula).subscribe(
-      resp => {
-        try {
-          this.responseUrl = resp;
-          if (this.responseUrl.status == 'OK') {
-            this.datos = this.responseUrl.data;
-            this.email = this.responseUrl.data.email;
-            this.name = this.responseUrl.data.name;
-            this.userFound = true;
-            this.msjError = '';
-          } else {
-            throw new Error('Usuario no encontrado');
+
+    this.campoVacio = false;
+    this.userFound = false;
+    this.msjError = '';
+    this.isLoading = true;
+
+    setTimeout(() => {
+      this._scholarshipsService.getCi(this.cedulaPadre.cedula).subscribe(
+        resp => {
+          try {
+            this.responseUrl = resp;
+            if (this.responseUrl.status == 'OK') {
+              this.datos = this.responseUrl.data;
+              this.email = this.responseUrl.data.email;
+              this.name = this.responseUrl.data.name;
+              this.userFound = true;
+            } else {
+              throw new Error('Usuario no encontrado');
+            }
+          } catch (error) {
+            this.userFound = false;
+            this.msjError = 'Atención! Usuario no registrado o no cuenta como representante, por favor contáctese con atención al cliente.';
           }
-        } catch (error) {
-          this.userFound = false;
-          this.msjError = 'Atención! Usted no cuenta como representante, por favor contáctese con atención al cliente.';
+          this.isLoading = false;
         }
-      }
-    );
+      );
+    }, 100);
   }
+
 
   //metodo para redirigir hacia sitio de becas
   becas() {
-    window.open('https://www.google.com', '_blank');
+    window.open('https://apps.powerapps.com/play/e/default-fcb55238-0fb7-402c-b926-74be51f0b65f/a/16d062c3-9b20-4f8d-b571-504e57b98434?tenantId=fcb55238-0fb7-402c-b926-74be51f0b65f&hint=c3c912ee-0fb7-4f33-a3aa-7a519846a8fe&sourcetime=1712680356466', '_blank');
   }
 
 }

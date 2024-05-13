@@ -2,13 +2,13 @@
     <div class="container-fluid py-1 ism d-flex justify-content-center">
         <div class="row align-items-center w-100">
             <div class="col text-center text-white">
-                <h1>Verificación de credenciales para solicitar becas</h1>
+                <h1>Verificación de credenciales para solicitud de becas</h1>
             </div>
         </div>
     </div>
 
     <div class="mb-auto">
-        <main class="text-center mt-4">
+        <main class="text-center mt-2">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
@@ -23,44 +23,70 @@
                                     class="form-control form-control-sm"
                                     placeholder="Ingrese su número de cédula">
                             </div>
-                            <button class="btn mt-3"
+                            <button class="btn btn-y mt-3"
                                 type="submit">Consultar</button>
                         </form>
 
-                        <div *ngIf="campoVacio" class="alert alert-danger mt-3">
-                            El campo no puede estar vacío.
+                        <div *ngIf="isLoading" class="text-center mt-4">
+                            <div class="spinner-border text-danger"
+                                role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                            <p class="mt-2">Cargando...</p>
                         </div>
 
-                        <div class="row mt-4" *ngIf="userFound  && !campoVacio">
-                            <div class="col-md-6 mx-auto">
-                                <p><b>Representante:</b> {{ name }}</p>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>E-mail</th>
-                                            <th>Contraseña</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{{ email }}</td>
-                                            <td>JHufk93S</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="text-center">
-                                    <p>Nota: Agregar la contraseña como se
-                                        muestra</p>
-                                    <a class="btn"
-                                        (click)="becas()">Iniciar solicitud</a>
-                                </div>
+                        <div *ngIf="!isLoading">
+                            <div *ngIf="campoVacio"
+                                class="alert alert-danger mt-3">
+                                El campo no puede estar vacío.
                             </div>
                         </div>
 
+                        <div *ngIf="!isLoading">
+                            <div class="row mt-4"
+                                *ngIf="userFound  && !campoVacio">
+                                <div class="col-md-6 mx-auto">
+                                    <p><b>Representante:</b> {{ name }}</p>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Código de familia</th>
+                                                <th>Contraseña</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{ email }}</td>
+                                                <td>JHufk93S</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="text-center">
+                                        <h4>Instrucciones: </h4>
+                                        <ol class="list-group list-group-numbered">
+                                            <li class="list-group-item">De click en el botón "Iniciar Solicitud" esto abrirá una nueva ventana.</li>
+                                            <hr>
+                                            <li class="list-group-item">Asegúrese de iniciar sesión con el código de familia en este caso: <b>{{ email }}</b> en www.office.com</li>
+                                            <hr>
+                                            <li class="list-group-item">La contraseña brindada le ayudará a iniciar la sesión en www.office.com</li>
+                                            <hr>
+                                            <li class="list-group-item">Continúe con el proceso de inscripción</li>
+                                          </ol>
+                                        <a class="btn btn-success mt-2"
+                                            (click)="becas()">Iniciar
+                                            solicitud</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                         <!-- TABLA DE ERROR DE USUARIO-->
-                        <div class="mt-4" *ngIf="!userFound && msjError"
+                        <div *ngIf="!isLoading">
+                            <div class="mt-4"
+                            *ngIf="!userFound && msjError && !campoVacio"
                             style="width: auto; height: 300px; overflow-y: auto;">
-                            <p class="error text-center">{{ msjError }}</p>
+                            <p class="alert alert-danger">{{ msjError }}</p>
                             <table
                                 class="table table-striped table-hover mx-auto"
                                 style="max-width: 800px">
@@ -149,6 +175,7 @@
                                                 198</p>
                                         </td>
                                     </tr> -->
+                                    <!-- WEST -->
                                     <!-- <tr>
                                         <td class="text-center align-middle"
                                             style="background-color: #f8f9fa;"><strong>Campus
@@ -167,8 +194,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        </div>
                         <hr>
-                        <div class="row">
+                        <div class="row d-flex justify-content-center ">
                             <div class="row title">
                                 <h2
                                     class="text-center title-header shadow">Recomendaciones</h2>
@@ -232,7 +260,7 @@
                                 style="width: auto; height: 700px; overflow-y: auto;">
                                 <div class="card-body">
                                     <h2
-                                        class="card-title text-center">REQUISITOS
+                                        class="card-title text-center title-header">REQUISITOS
                                         PARA SOLICITUD DE DESCUENTO / BECA ISM
                                         AÑO LECTIVO 2024 - 2025</h2>
                                     <div>
@@ -383,7 +411,6 @@
                     </div>
                 </div>
             </div>
-
         </main>
     </div>
 
@@ -467,7 +494,7 @@
         <hr>
         <div class="row privacy">
             <p class="text-white mb-0"><span>Política de privacidad</span> /
-                ISM© 2024 / All Rights Reserved</p>
+                ISM© 2022 / All Rights Reserved</p>
         </div>
     </footer>
 </div>

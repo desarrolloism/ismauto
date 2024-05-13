@@ -141,7 +141,16 @@ hr {
     font-size: 1.2rem;
 }
 
-.btn {
+.btn-y {
     background-color: #ff9e18;
     color: white;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+
+h4 {
+    color: #ab0a3d;
 }
