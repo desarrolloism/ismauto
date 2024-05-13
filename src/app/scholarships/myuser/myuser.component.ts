@@ -97,7 +97,7 @@ export class MyuserComponent {
             throw new Error('Usuario no encontrado');
           }
         } catch (error) {
-          alert('Usted no cuenta como representante, por favor contactese con atención al cliente');
+          alert('Usted no cuenta como representante, por favor contáctese con atención al cliente');
         }
       }
     );
