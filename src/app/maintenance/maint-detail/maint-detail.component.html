@@ -240,7 +240,7 @@
                                             class="form-label">Asignado
                                             a:</label>
                                         <select
-                                            *ngIf="usersUrl && usersUrl.users"
+                                            *ngIfAsignado="usersUrl && usersUrl.users"
                                             name="user_to_assign_id"
                                             id="user_to_assign_id"
                                             [(ngModel)]="mainDetalle.user_to_assign_id"

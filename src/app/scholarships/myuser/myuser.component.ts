@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ScholarshipsService } from '../../services/scholarships.service';
 import { Router } from '@angular/router';
+import { PingService } from '../../services/ping.service';
+import { GLOBAL } from '../../services/global';
+
 
 @Component({
   selector: 'app-myuser',
@@ -10,13 +13,53 @@ import { Router } from '@angular/router';
 export class MyuserComponent {
 
 
-  constructor(private _scholarshipsService: ScholarshipsService, private _router: Router) { }
+  constructor(
+    
+    private pingService: PingService,
+    private _scholarshipsService: ScholarshipsService, private _router: Router) {
+      this.pingServer();
+     }
 
+
+  
   //variables para datos de la API
   responseUrl: any;
   datos: string = '';
   email: any;
   name: any;
+
+
+  pingResult: string = '';
+
+  pingServer() {
+    const primaryUrl = GLOBAL.url;
+    const secondaryUrl = "http://192.168.20.98:5000";
+
+    return this.pingService.ping(primaryUrl)
+      .then(result => {
+        if (result) {
+          this.pingResult = 'El servidor está respondiendo';
+          return true;
+        } else {
+          return this.pingService.ping(secondaryUrl);
+        }
+      })
+      .then(result => {
+        if (result) {
+          this.pingResult = 'El servidor está respondiendo';
+          GLOBAL.url = primaryUrl; // Si la secundaria respondió, volvemos a la primaria
+        } else {
+          this.pingResult = 'Ninguna de las direcciones IP está respondiendo';
+          GLOBAL.url = secondaryUrl; // Si ninguna respondió, cambiamos a la secundaria
+        }
+      })
+      .catch(error => {
+        console.error('Error al realizar el ping:', error);
+        this.pingResult = 'Error al realizar el ping';
+      });
+  }
+
+
 
   //captura la cedula ingresada en el input
 
