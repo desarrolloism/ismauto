@@ -27,7 +27,6 @@ const routes: Routes = [
   { path: 'myuser', component: MyuserComponent },
 
 
-
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 
