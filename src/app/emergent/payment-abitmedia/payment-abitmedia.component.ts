@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class PaymentAbitmediaComponent {
   valor: number = 100;
 
-  transp(event: any): void {
+  transp(event: any) {
     if (event.target.checked) {
       this.valor += 60;
     } else {
