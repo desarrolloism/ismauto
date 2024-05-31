@@ -27,7 +27,7 @@ export class MyuserComponent {
   datos: string = '';
   email: any;
   name: any;
-
+  student: any;
 
   pingResult: string = '';
 
@@ -153,12 +153,14 @@ export class MyuserComponent {
     setTimeout(() => {
       this._scholarshipsService.getCi(this.cedulaPadre.cedula).subscribe(
         resp => {
+          console.log(resp);
           try {
             this.responseUrl = resp;
             if (this.responseUrl.status == 'OK') {
               this.datos = this.responseUrl.data;
               this.email = this.responseUrl.data.email;
               this.name = this.responseUrl.data.name;
+              this.student = this.responseUrl.data.student;
               this.userFound = true;
             } else {
               throw new Error('Usuario no encontrado');
