@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
-  responseurl: any;
+  responseUrl: any;
   loginUrl: any;
 
   user = {
@@ -17,24 +18,36 @@ export class LoginComponent {
     password: ''
   }
 
+  constructor(private _loginService: LoginService, private _router: Router){}
 
-  constructor(private _loginServ: LoginService, private _router: Router) { }
+  ngOnInit() {
+    // Verifica si la página ya se ha recargado
+    if (!sessionStorage.getItem('pageReloaded')) {
+      sessionStorage.setItem('pageReloaded', 'true');
+      location.reload();
+    } else {
+      // Elimina la clave para futuras visitas
+      sessionStorage.removeItem('pageReloaded');
+    }
+  }
 
-  onSubmit() {
-    this._loginServ.login(this.user.username, this.user.password).subscribe(resp => {
-      this.responseurl = resp;
-      //comentar
-      // console.log(resp);
-      //comentar
-      if (this.responseurl.status == 'OK') {
-        localStorage.setItem('token', this.responseurl.data.token);
-        localStorage.setItem('userData', JSON.stringify(this.responseurl.data));
+  onSubmit(){
+    this._loginService.login(this.user.username, this.user.password).subscribe(resp =>{
+      this.responseUrl =  resp;
+      // console.log(this.responseUrl);
+      if(this.responseUrl.status == 'OK'){
+        console.log(this.responseUrl.data.token);
+
+        localStorage.setItem('token', this.responseUrl.data.token);
+        localStorage.setItem('userData', JSON.stringify(this.responseUrl.data));
         this._router.navigate(['/main']);
+      } else if( this.responseUrl.status == 'Error') {
+        alert('El usuario no existe, por favor registrese con sistemas');
       } else {
-        alert('Usuario o Contraseña incorrectos');
+        alert('Usuario o contraseña incorrectos');
       }
     })
-
   }
+
 
 }

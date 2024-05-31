@@ -16,7 +16,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
 import { GeneralscoreModule } from './generalscore/generalscore.module';
 import { ScholarshipsModule } from './scholarships/scholarships.module';
-
+import { EmergentModule } from './emergent/emergent.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import { ScholarshipsModule } from './scholarships/scholarships.module';
     MatDatepickerModule,
     MatRadioModule,
     GeneralscoreModule,
-    ScholarshipsModule
+    ScholarshipsModule,
+    EmergentModule
   ],
   providers: [
     provideAnimationsAsync()

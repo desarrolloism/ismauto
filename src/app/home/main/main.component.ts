@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { Router } from '@angular/router';
 import { CasesService } from '../../services/cases.service';
-import { MaintenanceService } from '../../services/maintenance.service';
-import { UsersService } from '../../services/users.service';
 
 
 @Component({
@@ -28,7 +26,7 @@ export class MainComponent {
 
   constructor(private _casesServ: CasesService,
     private _router: Router,
-    private _mainServ: MaintenanceService,) {
+) {
     this.token = localStorage.getItem('token');
     this.getCases();
   }

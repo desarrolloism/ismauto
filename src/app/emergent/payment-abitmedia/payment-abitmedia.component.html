@@ -1,0 +1,48 @@
+<form (ngSubmit)="onSubmit()" #paymentForm="ngForm" class="form-container mt-4">
+    <div class="form-group">
+        <label for="name">Nombre Completo:</label>
+        <input type="text" id="name" [(ngModel)]="payment.name" name="name"
+            required>
+    </div>
+    <div class="form-group">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" [(ngModel)]="payment.email" name="email"
+            required>
+    </div>
+    <div class="form-group">
+        <label for="document">Cédula:</label>
+        <input type="text" id="document" [(ngModel)]="payment.document"
+            name="document" maxlength="10" required>
+    </div>
+    <div class="form-group">
+        <label for="phones">Teléfono:</label>
+        <input type="text" id="phones" [(ngModel)]="payment.phones"
+            name="phones" maxlength="10" required>
+    </div>
+
+    <div class="form-group">
+        <label for="address">Dirección:</label>
+        <input type="text" id="address" [(ngModel)]="payment.address"
+            name="address" required>
+    </div>
+
+    <div class="form-group">
+        <label for="description">Descripción:</label>
+        <input type="text" id="description" [(ngModel)]="payment.description"
+            name="description" required>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label>Valor :</label>
+            <input type="text" [(ngModel)]="valor" name="valor" disabled>
+        </div>
+        <div class="col-md-6 form-group">
+            <label>Requiere transporte</label>
+            <input type="checkbox" (change)="transp($event)">
+        </div>
+    </div>
+
+    <button type="submit">Continuar con el pago</button>
+
+</form>
