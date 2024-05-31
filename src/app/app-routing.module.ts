@@ -9,6 +9,9 @@ import { ScoreComponent } from './generalscore/score/score.component';
 import { GratitudeComponent } from './generalscore/gratitude/gratitude.component';
 import { GuidesComponent } from './manuals/guides/guides.component';
 import { MyuserComponent } from './scholarships/myuser/myuser.component';
+import { UserdataComponent } from './user/userdata/userdata.component';
+import { PaymentAbitmediaComponent } from './emergent/payment-abitmedia/payment-abitmedia.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,10 +25,12 @@ const routes: Routes = [
   { path: 'gratitude', component: GratitudeComponent },
   //manuals
   { path: 'guides', component: GuidesComponent },
-
+  //userdata
+  { path: 'userdata', component: UserdataComponent },
   //becas
   { path: 'myuser', component: MyuserComponent },
-
+  //abitmedia
+  { path: 'payment-abitmedia', component: PaymentAbitmediaComponent },
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
