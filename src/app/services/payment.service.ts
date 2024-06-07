@@ -159,4 +159,20 @@ export class PaymentService {
     return this._http.post(`${this.url}/register_service`, data, { headers: headers });
   }
 
+  costTotal(inscription_id: number) {
+    const data = {
+      inscription_id
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+
+    return this._http.post(`${this.url}/get_total_values`, data, { headers: headers });
+
+  }
+
+
+
 }

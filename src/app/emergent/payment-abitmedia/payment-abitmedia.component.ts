@@ -239,17 +239,28 @@ export class PaymentAbitmediaComponent implements OnInit {
       }
     }
 
-    // Lógica para cursos adicionales GUARDERIA, LUNCH, REFRIGERIO
-    if (['GUARDERIA', 'LUNCH', 'REFRIGERIO'].includes(course.service)) {
+    if (['LUNCH', 'REFRIGERIO'].includes(course.service)) {
       if (isSelected) {
-        this.totalCost += 14; // Costo adicional por servicio seleccionado
+        this.totalCost += 14;
       } else {
-        this.totalCost -= 14; // Remover costo adicional si se deselecciona
+        this.totalCost -= 14;
       }
     }
 
-    this.calculateTotalCost(); // Recalcular el costo total
+    if (course.selected) {
+      this._paymentService.Addservices(course.id).subscribe(
+        response => {
+          console.log('Servicio agregado:', response);
+        },
+        error => {
+          console.error('Error al agregar servicio:', error);
+        }
+      );
+    }
+
+    this.calculateTotalCost();
   }
+
 
   selectCourseForWeek(service: string, week: string, select: boolean) {
     const course = this.courses.find(c => c.service === service && c.week === week);
@@ -259,26 +270,36 @@ export class PaymentAbitmediaComponent implements OnInit {
   }
 
   selectedCourses: any[] = [];
+  discountCourses: string = '0%';
+  discountBrothers: string = '0%';
+  discountWeeks: string = '0%';
+  discountTotal: number = 0.00;
+  subtotal: number = 0.00;
 
   calculateTotalCost() {
-    this.totalCost = 0;
-    this.selectedCourses = [];
-  
-    this.courses.forEach(course => {
-      if (course.selected) {
-        const baseCost = this.padre.is_innovu ? 85 : 95;
-        this.totalCost += baseCost;
-  
-        if (['GUARDERIA', 'LUNCH', 'REFRIGERIO'].includes(course.service)) {
-          this.totalCost += 14;
-          this.selectedCourses.push(course); // Agregar lunch y refrigerio a la lista
-        } else {
-          this.selectedCourses.push(course); // Agregar curso seleccionado a la lista
+    this.student.inscription_id = this.padre.id
+
+    if (this.student.inscription_id) {
+      this._paymentService.costTotal(
+        this.student.inscription_id
+      ).subscribe(
+        (response: any) => {
+          console.log(response);
+          this.totalCost = parseFloat(response.total) || 0.00;
+          this.discountCourses = response.descuento_cursos || '0%';
+          this.discountBrothers = response.descuento_hermanos || '0%';
+          this.discountWeeks = response.descuento_semanas || '0%';
+          this.discountTotal = parseFloat(response.descuento_total) || 0.00;
+          this.subtotal = parseFloat(response.subtotal) || 0.00;
+          console.log('funciona');
         }
-      }
-    });
+      );
+    } else {
+      console.error('sin id de inscripcion');
+    }
   }
-  
+
+
 
   courses: any[] = [];
   selectOptions: any[] = [];
@@ -338,6 +359,7 @@ export class PaymentAbitmediaComponent implements OnInit {
         console.error('Error al obtener sectores:', error);
       }
     );
+    this.calculateTotalCost();
   }
 
   openTotalCostModal() {

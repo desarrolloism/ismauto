@@ -31,8 +31,32 @@
                             Contacto
                         </a>
                     </li>
+                    <hr>
+                    <li class="nav-item">
+                        <!-- Botón flotante -->
+                        <button class="float-button"
+                            (click)="openTotalCostModal()">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-shopping-cart"
+                                width="44"
+                                height="44" viewBox="0 0 24 24" stroke-width="1"
+                                stroke="#ffffff" fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z"
+                                    fill="none" />
+                                <path
+                                    d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path
+                                    d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M17 17h-11v-14h-2" />
+                                <path d="M6 5l14 1l-1 7h-13" />
+                            </svg>
+                            ${{ totalCost }}
+
+                        </button>
+                    </li>
                 </ul>
-                <hr>
             </div>
         </nav>
 
@@ -300,22 +324,6 @@
 
         </main>
 
-        <!-- Botón flotante -->
-        <button class="float-button" (click)="openTotalCostModal()">
-            <!-- ${{ totalCost }} -->
-            <svg xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-shopping-cart" width="44"
-                height="44" viewBox="0 0 24 24" stroke-width="1"
-                stroke="#ffffff" fill="none" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                <path d="M17 17h-11v-14h-2" />
-                <path d="M6 5l14 1l-1 7h-13" />
-            </svg>
-        </button>
-
     </div>
 </div>
 
@@ -555,7 +563,6 @@
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
             <div class="modal-footer">
@@ -571,16 +578,12 @@
     <div class="modal-content">
         <!-- <span class="close" (click)="closeTotalCostModal()">&times;</span> -->
         <h2>Detalles del Costo Total</h2>
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let course of selectedCourses">
-                {{ course.service }} - {{ course.week }}:
-                <span *ngIf="padre.is_innovu" class="badge bg-primary">$85</span>
-                <span *ngIf="!padre.is_innovu" class="badge bg-primary">$95</span>
-                <span *ngIf="['GUARDERIA', 'LUNCH', 'REFRIGERIO'].includes(course.service)" class="badge bg-secondary">+ $14</span>
-            </li>
-        </ul>
-        
-        <h3>Total: ${{ totalCost }}</h3>
+        <h2>Costo Total</h2>
+        <p>Subtotal: {{ subtotal | currency }}</p>
+        <p>Descuento por Hermanos: {{ discountBrothers }}</p>
+        <p>Descuento por Semanas: {{ discountWeeks }}</p>
+        <p>Descuento Total: {{ discountTotal | currency }}</p>
+        <p>Total: {{ totalCost | currency }}</p>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary"
                 (click)="closeTotalCostModal()">Cerrar</button>
