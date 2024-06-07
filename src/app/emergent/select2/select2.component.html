@@ -1,0 +1,24 @@
+<div class="select2-container">
+    <div class="select2-selection" (click)="toggleDropdown()">
+        <span class="select2-placeholder" *ngIf="!selectedOption">{{ placeholder
+            }}</span>
+        <span class="select2-selected" *ngIf="selectedOption">{{
+            selectedOption.label }}</span>
+        <span class="select2-arrow">&#9660;</span>
+    </div>
+    <div class="select2-dropdown" *ngIf="isOpen">
+        <input
+            type="text"
+            class="select2-search"
+            [(ngModel)]="searchTerm"
+            (input)="filterOptions()"
+            (click)="$event.stopPropagation()"
+            placeholder="Escribe el sector" />
+        <ul class="select2-options">
+            <li *ngFor="let option of filteredOptions"
+                (click)="selectOption(option)">
+                {{ option.label }}
+            </li>
+        </ul>
+    </div>
+</div>

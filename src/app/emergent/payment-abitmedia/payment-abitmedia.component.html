@@ -1,48 +1,589 @@
-<form (ngSubmit)="onSubmit()" #paymentForm="ngForm" class="form-container mt-4">
-    <div class="form-group">
-        <label for="name">Nombre Completo:</label>
-        <input type="text" id="name" [(ngModel)]="payment.name" name="name"
-            required>
-    </div>
-    <div class="form-group">
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" [(ngModel)]="payment.email" name="email"
-            required>
-    </div>
-    <div class="form-group">
-        <label for="document">Cédula:</label>
-        <input type="text" id="document" [(ngModel)]="payment.document"
-            name="document" maxlength="10" required>
-    </div>
-    <div class="form-group">
-        <label for="phones">Teléfono:</label>
-        <input type="text" id="phones" [(ngModel)]="payment.phones"
-            name="phones" maxlength="10" required>
-    </div>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <nav id="sidebar"
+            class="col-md-1 col-lg-2 d-md-block bg-light sidebar collapse show">
+            <div class=" text-center">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <span data-feather="home"></span>
+                            Datos de Inscripción
+                        </a>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="file"></span>
+                            Cursos
+                        </a>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="shopping-cart"></span>
+                            Inscripciones
+                        </a>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <span data-feather="users"></span>
+                            Contacto
+                        </a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </nav>
 
-    <div class="form-group">
-        <label for="address">Dirección:</label>
-        <input type="text" id="address" [(ngModel)]="payment.address"
-            name="address" required>
-    </div>
+        <main class="col-md-11 ms-sm-auto col-lg-10 px-md-4">
+            <div
+                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                <h1 class="h2">Reservación de cursos
+                    vacacionales</h1>
+            </div>
 
-    <div class="form-group">
-        <label for="description">Descripción:</label>
-        <input type="text" id="description" [(ngModel)]="payment.description"
-            name="description" required>
-    </div>
+            <!-- INICIA FORMULARIO -->
 
-    <div class="row">
-        <div class="col-md-6 form-group">
-            <label>Valor :</label>
-            <input type="text" [(ngModel)]="valor" name="valor" disabled>
+            <form>
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="cedula" class="form-label">Número de
+                                    Cédula</label>
+                                <input [(ngModel)]="padre.dni" type="text"
+                                    name="dni" class="form-control" id="dni"
+                                    (change)="getinfoPadre()"
+                                    (keyup.enter)="validaCedula($event)"
+                                    (blur)="validaCedula($event)"
+                                    (keypress)="validateNum($event)"
+                                    maxlength="10"
+                                    placeholder="Número de Cédula"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre
+                                    completo</label>
+                                <input id="nombres"
+                                    [(ngModel)]="padre.name"
+                                    name="name" type="text"
+                                    class="form-control"
+                                    placeholder="Nombre completo"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-4 d-flex justify-content-center">
+                            <div class="mb-3">
+                                <label for="sector"
+                                    class="form-label">Sector</label>
+                                <app-select2
+                                    [options]="selectOptions"
+                                    value="sector_address_id"
+                                    placeholder="Selecciona un sector"
+                                    (selectionChange)="onSectorChange($event)">
+                                </app-select2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-between">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="direccion"
+                                    class="form-label">Dirección</label>
+                                <input id="nombres"
+                                    [(ngModel)]="padre.address"
+                                    name="adress" type="text"
+                                    class="form-control"
+                                    placeholder="Dirección"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="telefono"
+                                    class="form-label">Teléfono</label>
+                                <input
+                                    [(ngModel)]="padre.phone"
+                                    name="phone" type="text"
+                                    class="form-control"
+                                    id="phone"
+                                    maxlength="10"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="email"
+                                    class="form-label">Email</label>
+                                <input
+                                    [(ngModel)]="padre.email" name="email"
+                                    type="email" class="form-control" id="email"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                        <a data-bs-toggle="modal"
+                            data-bs-target="#exampleModal3" class="Btn">
+                            <div class="sign">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 5V19M5 12H19" stroke="white"
+                                        stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="text"> Agregar</div>
+                        </a>
+                        <button class="Btn" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                            style="margin-left: 1rem; position: relative;">
+                            <div class="sign">
+                                <div class="cart-icon">
+                                    <svg viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M3 3H5L6.68 14.39C6.85 15.53 7.84 16.37 9 16.37H19.38C20.6 16.37 21.53 15.34 21.4 14.13L20.44 5.13C20.34 4.26 19.58 3.63 18.7 3.63H6.06"
+                                            stroke="white" stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <circle cx="9" cy="20" r="1"
+                                            fill="white" />
+                                        <circle cx="18" cy="20" r="1"
+                                            fill="white" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="text">Carrito <span
+                                    class="badge">3</span></div>
+                        </button>
+
+                        <button type="submit" class="Btn2"
+                            style="margin-left: 1rem;" *ngIf="padre.is_innovu"
+                            (click)="updatePadre()">
+                            <div class="sign">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M17 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3Z"
+                                        fill="#4CAF50" />
+                                    <path
+                                        d="M17 3V7H12V3H17ZM7 3H12V7H7V3ZM5 21V19H19V21H5ZM5 12V17H7V12H5ZM17 12V17H19V12H17Z"
+                                        fill="white" />
+                                </svg>
+                            </div>
+                            <div class="text"> Actualizar</div>
+                        </button>
+
+                        <button type="submit" class="Btn2"
+                            style="margin-left: 1rem;" *ngIf="!padre.is_innovu"
+                            (click)="createVacInscription()">
+                            <div class="sign">
+                                <svg viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M17 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3Z"
+                                        fill="#4CAF50" />
+                                    <path
+                                        d="M17 3V7H12V3H17ZM7 3H12V7H7V3ZM5 21V19H19V21H5ZM5 12V17H7V12H5ZM17 12V17H19V12H17Z"
+                                        fill="white" />
+                                </svg>
+                            </div>
+                            <div class="text"> Guardar</div>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- INICIA FORMULARIO -->
+
+                <div class="row mt-4 "
+                    id="card-container">
+
+                    <div class="col-md-4 mt-4 d-flex"
+                        *ngFor="let son of sons; let i = index">
+                        <div class="col-md-4">
+                            <div class="card-client position-relative">
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                                    <h5 style="cursor: pointer;"
+                                        (click)="removeCard(i)">
+                                        <div
+                                            style="width: 2em; height: 2em; background-color: #898b8d; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <svg viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                style="width: 1em; height: 1em;">
+                                                <path d="M18 6L6 18M6 6L18 18"
+                                                    stroke="white"
+                                                    stroke-width="3"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </h5>
+                                </span>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-picture">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-mood-kid-filled"
+                                            width="64" height="64"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="#2c3e50"
+                                            fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none"
+                                                d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 7.046 -9.232a3 3 0 0 0 2.949 3.556a1 1 0 0 0 0 -2l-.117 -.007a1 1 0 0 1 .117 -1.993c1.726 0 3.453 .447 5 1.34zm-1.8 10.946a1 1 0 0 0 -1.414 .014a2.5 2.5 0 0 1 -3.572 0a1 1 0 0 0 -1.428 1.4a4.5 4.5 0 0 0 6.428 0a1 1 0 0 0 -.014 -1.414zm-6.19 -5.286l-.127 .007a1 1 0 0 0 .117 1.993l.127 -.007a1 1 0 0 0 -.117 -1.993zm6 0l-.127 .007a1 1 0 0 0 .117 1.993l.127 -.007a1 1 0 0 0 -.117 -1.993z"
+                                                stroke-width="0"
+                                                fill="currentColor" />
+                                        </svg>
+                                    </div>
+                                    <div
+                                        class="user-info ms-3 d-flex justify-content-between">
+                                        <div class="mb-3">
+                                            <!-- <label for="estudiante"
+                                                class="form-label">Estudiante</label> -->
+                                            <div>
+                                                {{ son.first_name }} {{
+                                                son.last_name }}
+                                            </div>
+                                            <div class="mt-4">
+                                                <a class
+                                                    style="cursor: pointer;"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        class="icon icon-tabler icon-tabler-file-pencil"
+                                                        width="44" height="44"
+                                                        viewBox="0 0 24 24"
+                                                        stroke-width="1"
+                                                        stroke="#ffffff"
+                                                        fill="none"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path stroke="none"
+                                                            d="M0 0h24v24H0z"
+                                                            fill="none" />
+                                                        <path
+                                                            d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                        <path
+                                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                                        <path
+                                                            d="M10 18l5 -5a1.414 1.414 0 0 0 -2 -2l-5 5v2h2z" />
+                                                    </svg>
+                                                </a>
+                                                <!-- <button class="btn btn-dark"
+                                                (click)="openCoursesModal()">Cursos</button> -->
+                                                <a class="btn btn-dark"
+                                                    (click)="getVacCourses(son.id)">Cursos</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <button data-bs-toggle="modal"
+                        data-bs-target="#exampleModal3">crear nuevo
+                        estudiante</button> -->
+                </div>
+            </form>
+            <!-- termina formulario -->
+            <!-- <form (ngSubmit)="createNewSon()">
+                <button type="submit">crear nuevo estudiante</button>
+            </form> -->
+
+        </main>
+
+        <!-- Botón flotante -->
+        <button class="float-button" (click)="openTotalCostModal()">
+            <!-- ${{ totalCost }} -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-shopping-cart" width="44"
+                height="44" viewBox="0 0 24 24" stroke-width="1"
+                stroke="#ffffff" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                <path d="M17 17h-11v-14h-2" />
+                <path d="M6 5l14 1l-1 7h-13" />
+            </svg>
+        </button>
+
+    </div>
+</div>
+
+<div *ngIf="isLoading" class="overlay"></div>
+<div *ngIf="isLoading" class="spinner-container">
+    <div class="spinner-grow" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-grow" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-grow" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<!-- modal para carrito de compras -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Formulario
+                    de estudiante</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form (ngSubmit)="updateStudent()">
+                <div class="modal-body" *ngFor="let son of sons; let i = index">
+                    <div class="mb-3">
+                        <label for="cedula" class="form-label">Número de
+                            Cédula</label>
+                        <input
+                            [(ngModel)]="son.dni"
+                            type="text"
+                            name="dni_{{i}}"
+                            class="form-control"
+                            id="dni_{{i}}"
+                            (change)="createVacInscription()"
+                            (keyup.enter)="validaCedula($event)"
+                            (blur)="validaCedula($event)"
+                            (keypress)="validateNum($event)"
+                            maxlength="10"
+                            placeholder="Número de Cédula"
+                            required />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="nombre"
+                                    class="form-label">Nombres</label>
+                                <input
+                                    [(ngModel)]="son.first_name"
+                                    name="firs_name_{{i}}"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Nombres"
+                                    required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="nombre"
+                                    class="form-label">Apellidos</label>
+                                <input
+                                    [(ngModel)]="son.last_name"
+                                    name="last_name_{{i}}"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Apellidos"
+                                    required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="sector"
+                                    class="form-label">Sector</label>
+                                <app-select2
+                                    [options]="selectOptions"
+                                    placeholder="Selecciona un sector"
+                                    (selectionChange)="onSectorChange2($event)">
+                                </app-select2>
+                            </div>
+                            <!-- (change)="onSubmit()" -->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="direccion"
+                                    class="form-label">Dirección</label>
+                                <input
+                                    [(ngModel)]="son.address"
+                                    name="adress_{{i}}"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Dirección"
+                                    required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit"
+                        class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
         </div>
-        <div class="col-md-6 form-group">
-            <label>Requiere transporte</label>
-            <input type="checkbox" (change)="transp($event)">
+    </div>
+</div>
+
+<!-- modal para crear estudiante -->
+<div class="modal fade" id="exampleModal3" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content container">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar
+                    datos del estudiante</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form class="mt-4" (ngSubmit)="createNewSon()"
+                #studentForm="ngForm">
+
+                <div class="row">
+
+                    <div class="form-group">
+                        <label for="dni">DNI:</label>
+                        <input type="text" class="form-control" id="dni"
+                            name="dni"
+                            [(ngModel)]="student.dni" required>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="first_name">Nombre:</label>
+                            <input type="text" class="form-control"
+                                id="first_name"
+                                name="first_name"
+                                [(ngModel)]="student.firs_name"
+                                required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="last_name">Apellido:</label>
+                            <input type="text" class="form-control"
+                                id="last_name"
+                                name="last_name" [(ngModel)]="student.last_name"
+                                required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 d-flex justify-content-center">
+                        <div class="form-group ">
+                            <label for="sector_address_id">ID de dirección del
+                                sector:</label>
+                            <!-- <input type="text" class="form-control"
+                                id="sector_address_id" name="sector_address_id"
+                                [(ngModel)]="student.sector_address_id" required> -->
+
+                            <app-select2
+                                [options]="selectOptions"
+                                placeholder="Selecciona un sector"
+                                (selectionChange)="onSectorChange2($event)">
+                            </app-select2>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="form-group">
+                            <label for="address">Dirección:</label>
+                            <input type="text" class="form-control" id="address"
+                                name="address" [(ngModel)]="student.address"
+                                required>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- <button type="submit" class="btn btn-primary"
+                    [disabled]="!studentForm.valid">Agregar Estudiante</button> -->
+            </form>
         </div>
     </div>
+</div>
 
-    <button type="submit">Continuar con el pago</button>
+<!-- modal para matriz del estudiante -->
+<div class="modal" tabindex="-1"
+    role="dialog" id="coursesModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 " id="exampleModalLabel">Formulario
+                    de estudiante</h1>
+                <button (click)="closeCoursesModal()" type="button"
+                    class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
 
-</form>
+            <div class="modal-body">
+                <div class="table-responsive text-center">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Cursos</th>
+                                <th>Semana #</th>
+                                <th>Descuento</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let course of courses">
+                                <td data-title="Servicio">{{ course.service
+                                    }}</td>
+                                <td data-title="Semana">{{ course.week }}</td>
+                                <td data-title="Descuento">{{ course.is_discount
+                                    ? 'Sí' : 'No' }}</td>
+                                <td>
+                                    <input type="checkbox"
+                                        [(ngModel)]="course.selected"
+                                        [checked]="course.selected"
+                                        [disabled]="isCheckboxDisabled(course)"
+                                        (change)="onCourseSelectionChange(course)">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    (click)="closeCoursesModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para mostrar el costo total -->
+<div id="totalCostModal" class="modal">
+    <div class="modal-content">
+        <!-- <span class="close" (click)="closeTotalCostModal()">&times;</span> -->
+        <h2>Detalles del Costo Total</h2>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let course of selectedCourses">
+                {{ course.service }} - {{ course.week }}:
+                <span *ngIf="padre.is_innovu" class="badge bg-primary">$85</span>
+                <span *ngIf="!padre.is_innovu" class="badge bg-primary">$95</span>
+                <span *ngIf="['GUARDERIA', 'LUNCH', 'REFRIGERIO'].includes(course.service)" class="badge bg-secondary">+ $14</span>
+            </li>
+        </ul>
+        
+        <h3>Total: ${{ totalCost }}</h3>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"
+                (click)="closeTotalCostModal()">Cerrar</button>
+        </div>
+    </div>
+</div>

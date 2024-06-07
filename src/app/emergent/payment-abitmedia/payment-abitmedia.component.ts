@@ -1,113 +1,358 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PaymentService } from '../../services/payment.service';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-payment-abitmedia',
   templateUrl: './payment-abitmedia.component.html',
   styleUrls: ['./payment-abitmedia.component.css']
 })
-export class PaymentAbitmediaComponent {
-  valor: number = 100;
+export class PaymentAbitmediaComponent implements OnInit {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private _paymentService: PaymentService
+  ) { }
 
-  transp(event: any) {
-    if (event.target.checked) {
-      this.valor += 60;
-    } else {
-      this.valor -= 60;
-    }
-  }
+  cards: number[] = [1];
+  maxCards: number = 4;
 
-  paymentData = {
-    integration: true,
-    third: {
-      document: '',
-      document_type: '05',
-      name: '',
-      email: '',
-      phones: '',
-      address: '',
-      type: 'Individual'
-    },
-    generate_invoice: 0,
-    description: '',
-    amount: 1.08,
-    amount_with_tax: 0.5,
-    amount_without_tax: 0.5,
-    tax_value: 0.08,
-    settings: [],
-    notify_url: null,
-    custom_value: null,
-    has_cash: 0,
-    has_cards: 1
-  };
-  responseUrl: string | null = null;
-
-  payment = {
+  padre = {
+    id: 0,
+    is_innovu: false,
+    dni: '',
     name: '',
     email: '',
-    document: '',
-    document_type: '05',
-    phones: '',
-    address: '',
-    description: ''
+    phone: '',
+    sector_address_id: 0,
+    address: ''
   };
 
-  constructor(private paymentService: PaymentService, private router: Router) { }
+  student = {
+    id: 0,
+    dni: '',
+    firs_name: '',
+    last_name: '',
+    sector_address_id: 0,
+    inscription_id: 0,
+    address: ''
+  };
 
-  onSubmit() {
-    this.paymentData.third.name = this.payment.name;
-    this.paymentData.third.email = this.payment.email;
-    this.paymentData.third.document = this.payment.document;
-    this.paymentData.third.document_type = this.payment.document_type;
-    this.paymentData.third.phones = this.payment.phones;
-    this.paymentData.third.address = this.payment.address;
-    this.paymentData.description = this.payment.description;
+  sons: any[] = [];
+  responseCed: any;
+  responseCreate: any;
+  totalCost: number = 0; // Agregar esta línea
 
-    if (!this.isFormValid()) {
-      this.handleError('Por favor, complete todos los campos.');
-      return;
-    }
-
-    this.paymentService.createPaymentRequest(this.paymentData).subscribe(
+  // Método para recibir datos
+  getinfoPadre() {
+    this._paymentService.getInfo(this.padre.dni).subscribe(
       resp => {
-        let response: any = resp;
-        if (response.status === 201) {
-          this.responseUrl = resp.data.url;
-          window.open(this.responseUrl as string);
-          setTimeout(() => {
-            window.location.reload();
-          },2000)
+        this.responseCed = resp;
+        console.log(resp);
+        if (this.responseCed && this.responseCed.status === 'ok') {
+          const data = this.responseCed.data;
+          this.padre.id = data.id;
+          this.padre.is_innovu = true;
+          this.padre.dni = data.dni;
+          this.padre.name = data.name;
+          this.padre.email = data.email;
+          this.padre.phone = data.phone;
+          this.padre.sector_address_id = data.sector_address_id;
+          console.log(this.padre.sector_address_id);
+          this.padre.address = data.address;
+          this.padre.is_innovu = true;
+          if (data.sons && data.sons.length > 0) {
+            this.student.firs_name = data.sons.first_name;
+            this.student.last_name = data.sons.last_name;
+            this.student.dni = data.sons.dni;
+          }
+          this.sons = data.sons;
+          console.log(`es innovu? ${this.padre.is_innovu}`);
+        } else if (this.responseCed.message === 'Usuario no encontrado por favor llene el registro') {
+          alert('Usuario no registrado, por favor llene el formulario');
         } else {
-          this.handleError('Error desconocido');
-        }
-      },
-      error => {
-        console.error('Error al crear la solicitud de pago', error);
-        if (error.status === 422 && error.error.data) {
-          const validationErrors = error.error.data.map((errorItem: any) => errorItem.message).join(', ');
-          this.handleError('Error de validación: ' + validationErrors);
-        } else if (error.status === 500) {
-          this.handleError('Error interno del servidor. Intente de nuevo más tarde');
-        } else {
-          this.handleError('Error desconocido');
+          this.createVacInscription();
         }
       }
     );
   }
 
-  private isFormValid(): boolean {
-    return (
-      !!this.payment.name &&
-      !!this.payment.email &&
-      !!this.payment.document &&
-      !!this.payment.phones &&
-      !!this.payment.address &&
-      !!this.payment.description
+  notRegistered: any;
+
+  createVacInscription() {
+    console.log(`sector padre ` + this.padre.sector_address_id);
+    this._paymentService.reservation(
+      false,
+      this.padre.dni,
+      this.padre.name,
+      this.padre.email,
+      this.padre.phone,
+      this.padre.sector_address_id,
+      this.padre.address
+    ).subscribe(
+      resp => {
+        this.notRegistered = resp;
+        console.log(this.notRegistered);
+        if (this.notRegistered.message === 'Error creating inscription') {
+          alert('Usuario no registrado, por favor llene el formulario');
+        } else if (this.notRegistered.message === 'Inscription created successfully') {
+          alert('Usuario registrado con exito');
+        }
+      }
     );
   }
 
-  private handleError(message: string) {
-    alert(message);
+  // Método para actualizar información del padre
+  upPadre: any;
+  updatePadre() {
+    console.log(this.padre.sector_address_id);
+    this._paymentService.update(
+      this.padre.id,
+      this.padre.dni,
+      this.padre.name,
+      this.padre.email,
+      this.padre.phone,
+      this.padre.address,
+      this.padre.sector_address_id
+    ).subscribe(
+      (resp) => {
+        this.upPadre = resp;
+        console.log(this.upPadre);
+      }
+    );
+  }
+
+  updStud: any;
+
+  updateStudent() {
+    for (let i = 0; i < this.sons.length; i++) {
+      const son = this.sons[i];
+      console.log('Datos del estudiante:',
+        son.first_name,
+        son.last_name,
+        son.address,
+        son.id,
+        son.sector_address_id
+      );
+      this._paymentService.updateSon(
+        son.id,
+        son.first_name,
+        son.last_name,
+        son.address,
+        son.sector_address_id
+      ).subscribe(resp => {
+        console.log(resp);
+        this.updStud = resp;
+        if (this.updStud.status === 'ok') {
+          alert('Información actualizada con exito');
+        } else {
+          alert('Ocurrio un error al actualizar la información, intenta de nuevo mas tarde');
+        }
+      });
+    }
+  }
+
+  createNewSon() {
+    console.log(this.student.inscription_id);
+    this._paymentService.createSon(
+      this.student.inscription_id = this.padre.id,
+      this.student.dni,
+      this.student.last_name,
+      this.student.firs_name,
+      this.student.sector_address_id,
+      this.student.address,
+    ).subscribe(resp => {
+      console.log(resp);
+    });
+  }
+
+  // Listado de cursos
+  getVacCourses(sonId: number) {
+    this.courses = [];
+    this._paymentService.getCourses(sonId).subscribe(
+      (resp: any) => {
+        if (resp.status === 'ok') {
+          const courseData = resp.data.map((course: { ammount: number; }) => ({ ...course, selected: course.ammount > 0 }));
+          this.courses = this.courses.concat(courseData);
+          this.openCoursesModal();
+        }
+      }
+    );
+  }
+
+  openCoursesModal() {
+    const modal = document.getElementById('coursesModal');
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
+
+  closeCoursesModal() {
+    const modal = document.getElementById('coursesModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  toggleAllSelection(event: any) {
+    const isChecked = event.target.checked;
+    this.courses.forEach(course => {
+      course.selected = isChecked;
+      this.onCourseSelectionChange(course);
+    });
+  }
+
+  isCheckboxDisabled(course: any): boolean {
+    const weekNumber = parseInt(course.week.replace('Semana ', ''));
+    const selectedCourses = this.courses.filter(c => c.selected);
+
+    if (selectedCourses.some(c => c.week === course.week && c.service !== course.service)) {
+      return true;
+    }
+
+    if (['TEATRO', 'DANZA'].includes(course.service)) {
+      if (weekNumber === 6) {
+        return true;
+      }
+      if (weekNumber % 2 === 1) {
+        const nextWeek = `Semana ${weekNumber + 1}`;
+        return selectedCourses.some(c => c.week === nextWeek && c.service !== course.service);
+      } else {
+        const previousWeek = `Semana ${weekNumber - 1}`;
+        return selectedCourses.some(c => c.week === previousWeek && c.service !== course.service);
+      }
+    }
+
+    return false;
+  }
+
+  onCourseSelectionChange(course: any) {
+    const weekNumber = parseInt(course.week.replace('Semana ', ''));
+    const isSelected = course.selected;
+
+    if (['TEATRO', 'DANZA'].includes(course.service)) {
+      if (weekNumber % 2 === 1 && isSelected) {
+        this.selectCourseForWeek(course.service, `Semana ${weekNumber + 1}`, true);
+      } else if (weekNumber % 2 === 0 && !isSelected) {
+        this.selectCourseForWeek(course.service, `Semana ${weekNumber - 1}`, false);
+      }
+    }
+
+    // Lógica para cursos adicionales GUARDERIA, LUNCH, REFRIGERIO
+    if (['GUARDERIA', 'LUNCH', 'REFRIGERIO'].includes(course.service)) {
+      if (isSelected) {
+        this.totalCost += 14; // Costo adicional por servicio seleccionado
+      } else {
+        this.totalCost -= 14; // Remover costo adicional si se deselecciona
+      }
+    }
+
+    this.calculateTotalCost(); // Recalcular el costo total
+  }
+
+  selectCourseForWeek(service: string, week: string, select: boolean) {
+    const course = this.courses.find(c => c.service === service && c.week === week);
+    if (course) {
+      course.selected = select;
+    }
+  }
+
+  selectedCourses: any[] = [];
+
+  calculateTotalCost() {
+    this.totalCost = 0;
+    this.selectedCourses = [];
+  
+    this.courses.forEach(course => {
+      if (course.selected) {
+        const baseCost = this.padre.is_innovu ? 85 : 95;
+        this.totalCost += baseCost;
+  
+        if (['GUARDERIA', 'LUNCH', 'REFRIGERIO'].includes(course.service)) {
+          this.totalCost += 14;
+          this.selectedCourses.push(course); // Agregar lunch y refrigerio a la lista
+        } else {
+          this.selectedCourses.push(course); // Agregar curso seleccionado a la lista
+        }
+      }
+    });
+  }
+  
+
+  courses: any[] = [];
+  selectOptions: any[] = [];
+
+  onSectorChange(selectedOptionId: any) {
+    this.padre.sector_address_id = selectedOptionId;
+  }
+
+  onSectorChange2(selectedOptionId: any) {
+    this.student.sector_address_id = selectedOptionId;
+  }
+
+  addCard() {
+    if (this.sons.length < this.maxCards) {
+      this.createNewSon();
+    } else {
+      alert('No puedes agregar más niños');
+    }
+  }
+
+  removeCard(index: number) {
+    const confirmed = confirm('¿Estás seguro de eliminar esta tarjeta?');
+    if (confirmed) {
+      this.sons.splice(index, 1);
+    }
+  }
+
+  cedula: string = '';
+  validateNum(event: any) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
+  isLoading: boolean = false;
+  validaCedula(event: any) {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1300);
+  }
+
+  sectors: any[] = [];
+
+  ngOnInit() {
+    this._paymentService.sectors().subscribe(
+      (response: any) => {
+        this.sectors = response.data;
+        this.selectOptions = this.sectors.map(sector => ({
+          label: sector.sector,
+          value: sector.id
+        }));
+      },
+      (error) => {
+        console.error('Error al obtener sectores:', error);
+      }
+    );
+  }
+
+  openTotalCostModal() {
+    const modal = document.getElementById('totalCostModal');
+    if (modal) {
+      modal.style.display = 'block';
+      this.calculateTotalCost(); // Recalcular el costo total al abrir el modal
+    }
+  }
+
+
+  closeTotalCostModal() {
+    const modal = document.getElementById('totalCostModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
   }
 }

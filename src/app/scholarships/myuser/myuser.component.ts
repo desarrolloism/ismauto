@@ -156,6 +156,7 @@ export class MyuserComponent {
           console.log(resp);
           try {
             this.responseUrl = resp;
+            console.log(this.responseUrl);
             if (this.responseUrl.status == 'OK') {
               this.datos = this.responseUrl.data;
               this.email = this.responseUrl.data.email;
@@ -177,7 +178,7 @@ export class MyuserComponent {
           this._router.navigate(['/erroruser']);
         }
       );
-    }, 3000); 
+    }, 500);
   }
 
 
