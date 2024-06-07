@@ -15,6 +15,7 @@ export class PaymentAbitmediaComponent implements OnInit {
     private _paymentService: PaymentService
   ) { }
 
+  panelOpenState = false;
   cards: number[] = [1];
   maxCards: number = 4;
 
@@ -26,7 +27,8 @@ export class PaymentAbitmediaComponent implements OnInit {
     email: '',
     phone: '',
     sector_address_id: 0,
-    address: ''
+    address: '',
+    sector_name: ''
   };
 
   student = {
@@ -36,13 +38,13 @@ export class PaymentAbitmediaComponent implements OnInit {
     last_name: '',
     sector_address_id: 0,
     inscription_id: 0,
-    address: ''
+    address: '',
   };
 
   sons: any[] = [];
   responseCed: any;
   responseCreate: any;
-  totalCost: number = 0; // Agregar esta línea
+  totalCost: number = 0;
 
   // Método para recibir datos
   getinfoPadre() {
@@ -59,6 +61,7 @@ export class PaymentAbitmediaComponent implements OnInit {
           this.padre.email = data.email;
           this.padre.phone = data.phone;
           this.padre.sector_address_id = data.sector_address_id;
+          this.padre.sector_name = data.sector_address.sector;
           console.log(this.padre.sector_address_id);
           this.padre.address = data.address;
           this.padre.is_innovu = true;
@@ -66,6 +69,7 @@ export class PaymentAbitmediaComponent implements OnInit {
             this.student.firs_name = data.sons.first_name;
             this.student.last_name = data.sons.last_name;
             this.student.dni = data.sons.dni;
+            this.calculateTotalCost();
           }
           this.sons = data.sons;
           console.log(`es innovu? ${this.padre.is_innovu}`);
@@ -106,7 +110,7 @@ export class PaymentAbitmediaComponent implements OnInit {
   // Método para actualizar información del padre
   upPadre: any;
   updatePadre() {
-    console.log(this.padre.sector_address_id);
+    console.log(`padre` + this.padre.sector_address_id);
     this._paymentService.update(
       this.padre.id,
       this.padre.dni,
@@ -119,51 +123,45 @@ export class PaymentAbitmediaComponent implements OnInit {
       (resp) => {
         this.upPadre = resp;
         console.log(this.upPadre);
+        alert('Información actualizada con éxito');
       }
     );
   }
 
   updStud: any;
 
-  updateStudent() {
-    for (let i = 0; i < this.sons.length; i++) {
-      const son = this.sons[i];
-      console.log('Datos del estudiante:',
-        son.first_name,
-        son.last_name,
-        son.address,
-        son.id,
-        son.sector_address_id
-      );
-      this._paymentService.updateSon(
-        son.id,
-        son.first_name,
-        son.last_name,
-        son.address,
-        son.sector_address_id
-      ).subscribe(resp => {
-        console.log(resp);
-        this.updStud = resp;
-        if (this.updStud.status === 'ok') {
-          alert('Información actualizada con exito');
-        } else {
-          alert('Ocurrio un error al actualizar la información, intenta de nuevo mas tarde');
-        }
-      });
-    }
+  updateStudent(index: number) {
+    const son = this.sons[index];
+    this._paymentService.updateSon(
+      son.id,
+      son.first_name,
+      son.last_name,
+      this.padre.address,
+      this.padre.sector_address_id
+    ).subscribe(resp => {
+      console.log(resp);
+      this.updStud = resp;
+      if (this.updStud.status === 'ok') {
+        alert('Información actualizada con éxito');
+      } else {
+        alert('Ocurrió un error al actualizar la información, intenta de nuevo más tarde');
+      }
+    });
   }
 
   createNewSon() {
-    console.log(this.student.inscription_id);
+    console.log(this.padre.id);
+
     this._paymentService.createSon(
-      this.student.inscription_id = this.padre.id,
+      this.padre.id,
       this.student.dni,
       this.student.last_name,
       this.student.firs_name,
-      this.student.sector_address_id,
+      this.padre.sector_address_id,
       this.student.address,
     ).subscribe(resp => {
       console.log(resp);
+      alert('Alumno registrado con éxito');
     });
   }
 
@@ -308,8 +306,8 @@ export class PaymentAbitmediaComponent implements OnInit {
     this.padre.sector_address_id = selectedOptionId;
   }
 
-  onSectorChange2(selectedOptionId: any) {
-    this.student.sector_address_id = selectedOptionId;
+  onSectorChange2(event: any, index: number) {
+    this.sons[index].sector_address_id = event.value;
   }
 
   addCard() {
@@ -366,7 +364,7 @@ export class PaymentAbitmediaComponent implements OnInit {
     const modal = document.getElementById('totalCostModal');
     if (modal) {
       modal.style.display = 'block';
-      this.calculateTotalCost(); // Recalcular el costo total al abrir el modal
+      this.calculateTotalCost();
     }
   }
 

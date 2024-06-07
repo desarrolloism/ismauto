@@ -6,7 +6,7 @@ import {
   of,
   setClassMetadata,
   ɵɵdefineInjectable
-} from "./chunk-KTYFAT53.js";
+} from "./chunk-UNKIY53J.js";
 
 // node_modules/@angular/cdk/fesm2022/collections.mjs
 var DataSource = class {
@@ -174,4 +174,4 @@ export {
   _RecycleViewRepeaterStrategy,
   UniqueSelectionDispatcher
 };
-//# sourceMappingURL=chunk-A7MEHTL6.js.map
+//# sourceMappingURL=chunk-OZD4UZBZ.js.map

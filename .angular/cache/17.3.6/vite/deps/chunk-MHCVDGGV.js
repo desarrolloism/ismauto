@@ -1,7 +1,7 @@
 import {
   DOCUMENT,
   isPlatformBrowser
-} from "./chunk-DK3ORZJD.js";
+} from "./chunk-P7C6X2J5.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_ID,
@@ -78,7 +78,7 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-KTYFAT53.js";
+} from "./chunk-UNKIY53J.js";
 import {
   __spreadProps,
   __spreadValues
@@ -1367,6 +1367,26 @@ var ActiveDescendantKeyManager = class extends ListKeyManager {
     super.setActiveItem(index);
     if (this.activeItem) {
       this.activeItem.setActiveStyles();
+    }
+  }
+};
+var FocusKeyManager = class extends ListKeyManager {
+  constructor() {
+    super(...arguments);
+    this._origin = "program";
+  }
+  /**
+   * Sets the focus origin that will be passed in to the items for any subsequent `focus` calls.
+   * @param origin Focus origin to be used when focusing items.
+   */
+  setFocusOrigin(origin) {
+    this._origin = origin;
+    return this;
+  }
+  setActiveItem(item) {
+    super.setActiveItem(item);
+    if (this.activeItem) {
+      this.activeItem.focus(this._origin);
     }
   }
 };
@@ -5028,10 +5048,12 @@ export {
   coerceCssPixelValue,
   coerceElement,
   coerceStringArray,
+  CdkObserveContent,
   ObserversModule,
   addAriaReferencedId,
   removeAriaReferencedId,
   ActiveDescendantKeyManager,
+  FocusKeyManager,
   CdkTrapFocus,
   FocusMonitor,
   CdkMonitorFocus,
@@ -5058,4 +5080,4 @@ export {
   MatRippleLoader,
   _MatInternalFormField
 };
-//# sourceMappingURL=chunk-PD2FQ2XI.js.map
+//# sourceMappingURL=chunk-MHCVDGGV.js.map

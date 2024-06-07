@@ -150,40 +150,6 @@
                         </div>
                     </div>
                     <div class="row d-flex justify-content-center">
-                        <a data-bs-toggle="modal"
-                            data-bs-target="#exampleModal3" class="Btn">
-                            <div class="sign">
-                                <svg viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 5V19M5 12H19" stroke="white"
-                                        stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                            <div class="text"> Agregar</div>
-                        </a>
-                        <button class="Btn" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            style="margin-left: 1rem; position: relative;">
-                            <div class="sign">
-                                <div class="cart-icon">
-                                    <svg viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M3 3H5L6.68 14.39C6.85 15.53 7.84 16.37 9 16.37H19.38C20.6 16.37 21.53 15.34 21.4 14.13L20.44 5.13C20.34 4.26 19.58 3.63 18.7 3.63H6.06"
-                                            stroke="white" stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <circle cx="9" cy="20" r="1"
-                                            fill="white" />
-                                        <circle cx="18" cy="20" r="1"
-                                            fill="white" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="text">Carrito <span
-                                    class="badge">3</span></div>
-                        </button>
 
                         <button type="submit" class="Btn2"
                             style="margin-left: 1rem;" *ngIf="padre.is_innovu"
@@ -199,7 +165,7 @@
                                         fill="white" />
                                 </svg>
                             </div>
-                            <div class="text"> Actualizar</div>
+                            <div class="text"> Guardar</div>
                         </button>
 
                         <button type="submit" class="Btn2"
@@ -219,111 +185,195 @@
                             <div class="text"> Guardar</div>
                         </button>
                     </div>
-
                 </div>
-
                 <!-- INICIA FORMULARIO -->
-
                 <div class="row mt-4 "
                     id="card-container">
-
-                    <div class="col-md-4 mt-4 d-flex"
-                        *ngFor="let son of sons; let i = index">
-                        <div class="col-md-4">
-                            <div class="card-client position-relative">
-                                <span
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                                    <h5 style="cursor: pointer;"
-                                        (click)="removeCard(i)">
-                                        <div
-                                            style="width: 2em; height: 2em; background-color: #898b8d; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <mat-tab-group class="container">
+                        <mat-tab *ngFor="let son of sons; let i = index">
+                            <ng-template mat-tab-label>
+                                {{ son.first_name }} {{ son.last_name }}
+                            </ng-template>
+                            <ng-container>
+                                <mat-accordion>
+                                    <mat-expansion-panel
+                                        (opened)="panelOpenState = true"
+                                        (closed)="panelOpenState = false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                {{ son.first_name }} {{
+                                                son.last_name }}
+                                            </mat-panel-title>
+                                            <mat-panel-description>
+                                                Cédula: {{ son.dni }} /
+                                                Dirección: {{ padre.address }} /
+                                                Sector: {{ padre.sector_name }}
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <form
+                                            (ngSubmit)="updateStudent(i)">
+                                            <div class="mb-3">
+                                                <label
+                                                    for="cedula_{{i}}"
+                                                    class="form-label">Número
+                                                    de
+                                                    Cédula</label>
+                                                <input
+                                                    [(ngModel)]="son.dni"
+                                                    type="text"
+                                                    name="dni_{{i}}"
+                                                    class="form-control"
+                                                    id="dni_{{i}}"
+                                                    (change)="createVacInscription()"
+                                                    (keyup.enter)="validaCedula($event)"
+                                                    (blur)="validaCedula($event)"
+                                                    (keypress)="validateNum($event)"
+                                                    maxlength="10"
+                                                    placeholder="Número de Cédula"
+                                                    required />
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="first_name_{{i}}"
+                                                            class="form-label">Nombres</label>
+                                                        <input
+                                                            [(ngModel)]="son.first_name"
+                                                            name="first_name_{{i}}"
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="Nombres"
+                                                            required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="last_name_{{i}}"
+                                                            class="form-label">Apellidos</label>
+                                                        <input
+                                                            [(ngModel)]="son.last_name"
+                                                            name="last_name_{{i}}"
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="Apellidos"
+                                                            required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="sector_{{i}}"
+                                                            class="form-label">Sector</label>
+                                                        <app-select2
+                                                            [options]="selectOptions"
+                                                            [ngModel]="son.sector_address_id"
+                                                            name="sector_address_id_{{i}}"
+                                                            placeholder="Selecciona un sector"
+                                                            (selectionChange)="onSectorChange2($event, i)">
+                                                        </app-select2>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="address_{{i}}"
+                                                            class="form-label">Dirección</label>
+                                                        <input
+                                                            [(ngModel)]="padre.address"
+                                                            name="address_{{i}}"
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="Dirección"
+                                                            required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit"
+                                                    class="btn btn-primary">Actualizar
+                                                    Datos</button>
+                                            </div>
+                                        </form>
+                                    </mat-expansion-panel>
+                                    <mat-expansion-panel
+                                        (opened)="panelOpenState = true"
+                                        (closed)="panelOpenState = false">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                Self aware panel
+                                            </mat-panel-title>
+                                            <mat-panel-description>
+                                                Currently I am {{panelOpenState
+                                                ? 'open' : 'closed'}}
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <p>I'm visible because I am open</p>
+                                    </mat-expansion-panel>
+                                    <!-- <a title="Agrega estudiante"
+                                        class="Btn mt-4">
+                                        <div class="sign">
                                             <svg viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                style="width: 1em; height: 1em;">
-                                                <path d="M18 6L6 18M6 6L18 18"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 5V19M5 12H19"
                                                     stroke="white"
-                                                    stroke-width="3"
+                                                    stroke-width="2"
                                                     stroke-linecap="round"
                                                     stroke-linejoin="round" />
                                             </svg>
                                         </div>
-                                    </h5>
-                                </span>
-                                <div class="d-flex align-items-center">
-                                    <div class="user-picture">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-mood-kid-filled"
-                                            width="64" height="64"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="#2c3e50"
-                                            fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none"
-                                                d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 7.046 -9.232a3 3 0 0 0 2.949 3.556a1 1 0 0 0 0 -2l-.117 -.007a1 1 0 0 1 .117 -1.993c1.726 0 3.453 .447 5 1.34zm-1.8 10.946a1 1 0 0 0 -1.414 .014a2.5 2.5 0 0 1 -3.572 0a1 1 0 0 0 -1.428 1.4a4.5 4.5 0 0 0 6.428 0a1 1 0 0 0 -.014 -1.414zm-6.19 -5.286l-.127 .007a1 1 0 0 0 .117 1.993l.127 -.007a1 1 0 0 0 -.117 -1.993zm6 0l-.127 .007a1 1 0 0 0 .117 1.993l.127 -.007a1 1 0 0 0 -.117 -1.993z"
-                                                stroke-width="0"
-                                                fill="currentColor" />
-                                        </svg>
-                                    </div>
-                                    <div
-                                        class="user-info ms-3 d-flex justify-content-between">
-                                        <div class="mb-3">
-                                            <!-- <label for="estudiante"
-                                                class="form-label">Estudiante</label> -->
-                                            <div>
-                                                {{ son.first_name }} {{
-                                                son.last_name }}
-                                            </div>
-                                            <div class="mt-4">
-                                                <a class
-                                                    style="cursor: pointer;"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-file-pencil"
-                                                        width="44" height="44"
-                                                        viewBox="0 0 24 24"
-                                                        stroke-width="1"
-                                                        stroke="#ffffff"
-                                                        fill="none"
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <path stroke="none"
-                                                            d="M0 0h24v24H0z"
-                                                            fill="none" />
-                                                        <path
-                                                            d="M14 3v4a1 1 0 0 0 1 1h4" />
-                                                        <path
-                                                            d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                                                        <path
-                                                            d="M10 18l5 -5a1.414 1.414 0 0 0 -2 -2l-5 5v2h2z" />
-                                                    </svg>
-                                                </a>
-                                                <!-- <button class="btn btn-dark"
-                                                (click)="openCoursesModal()">Cursos</button> -->
-                                                <a class="btn btn-dark"
-                                                    (click)="getVacCourses(son.id)">Cursos</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <button data-bs-toggle="modal"
-                        data-bs-target="#exampleModal3">crear nuevo
-                        estudiante</button> -->
+                                        <div class="text"> Agregar</div>
+                                    </a> -->
+                                    <button data-bs-toggle="modal"
+                                        data-bs-target="#coursesModal"
+                                        type="button" class="button mt-4">
+                                        <span
+                                            class="button__text">abrir
+                                            modal</span>
+                                        <span class="button__icon"><svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24" viewBox="0 0 24 24"
+                                                stroke-width="2"
+                                                stroke-linejoin="round"
+                                                stroke-linecap="round"
+                                                stroke="currentColor"
+                                                height="24" fill="none"
+                                                class="svg"><line y2="19" y1="5"
+                                                    x2="12" x1="12"></line><line
+                                                    y2="12" y1="12" x2="19"
+                                                    x1="5"></line></svg></span>
+                                    </button>
+                                </mat-accordion>
+                            </ng-container>
+                        </mat-tab>
+
+                    </mat-tab-group>
+
                 </div>
             </form>
-            <!-- termina formulario -->
-            <!-- <form (ngSubmit)="createNewSon()">
-                <button type="submit">crear nuevo estudiante</button>
-            </form> -->
+            <button data-bs-toggle="modal"
+                data-bs-target="#exampleModal3"
+                type="button" class="button mt-4">
+                <span
+                    class="button__text">Agregar</span>
+                <span class="button__icon"><svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24" viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        stroke="currentColor"
+                        height="24" fill="none"
+                        class="svg"><line y2="19" y1="5"
+                            x2="12" x1="12"></line><line
+                            y2="12" y1="12" x2="19"
+                            x1="5"></line></svg></span>
+            </button>
 
         </main>
-
     </div>
 </div>
 
@@ -340,106 +390,6 @@
     </div>
 </div>
 
-<!-- modal para carrito de compras -->
-
-<div class="modal fade" id="exampleModal" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Formulario
-                    de estudiante</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <form (ngSubmit)="updateStudent()">
-                <div class="modal-body" *ngFor="let son of sons; let i = index">
-                    <div class="mb-3">
-                        <label for="cedula" class="form-label">Número de
-                            Cédula</label>
-                        <input
-                            [(ngModel)]="son.dni"
-                            type="text"
-                            name="dni_{{i}}"
-                            class="form-control"
-                            id="dni_{{i}}"
-                            (change)="createVacInscription()"
-                            (keyup.enter)="validaCedula($event)"
-                            (blur)="validaCedula($event)"
-                            (keypress)="validateNum($event)"
-                            maxlength="10"
-                            placeholder="Número de Cédula"
-                            required />
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="nombre"
-                                    class="form-label">Nombres</label>
-                                <input
-                                    [(ngModel)]="son.first_name"
-                                    name="firs_name_{{i}}"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Nombres"
-                                    required />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="nombre"
-                                    class="form-label">Apellidos</label>
-                                <input
-                                    [(ngModel)]="son.last_name"
-                                    name="last_name_{{i}}"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Apellidos"
-                                    required />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="sector"
-                                    class="form-label">Sector</label>
-                                <app-select2
-                                    [options]="selectOptions"
-                                    placeholder="Selecciona un sector"
-                                    (selectionChange)="onSectorChange2($event)">
-                                </app-select2>
-                            </div>
-                            <!-- (change)="onSubmit()" -->
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="direccion"
-                                    class="form-label">Dirección</label>
-                                <input
-                                    [(ngModel)]="son.address"
-                                    name="adress_{{i}}"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Dirección"
-                                    required />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">
-                        Close
-                    </button>
-                    <button type="submit"
-                        class="btn btn-primary">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <!-- modal para crear estudiante -->
 <div class="modal fade" id="exampleModal3" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -453,18 +403,16 @@
             </div>
             <form class="mt-4" (ngSubmit)="createNewSon()"
                 #studentForm="ngForm">
-
                 <div class="row">
-
                     <div class="form-group">
                         <label for="dni">DNI:</label>
                         <input type="text" class="form-control" id="dni"
                             name="dni"
-                            [(ngModel)]="student.dni" required>
+                            [(ngModel)]="student.dni"
+                            maxlength="10"
+                            required>
                     </div>
-
                 </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -494,11 +442,10 @@
                             <!-- <input type="text" class="form-control"
                                 id="sector_address_id" name="sector_address_id"
                                 [(ngModel)]="student.sector_address_id" required> -->
-
                             <app-select2
                                 [options]="selectOptions"
-                                placeholder="Selecciona un sector"
-                                (selectionChange)="onSectorChange2($event)">
+                                placeholder="Selecciona un sector">
+                                <!-- (selectionChange)="onSectorChange2($event)" -->
                             </app-select2>
                         </div>
 
@@ -515,8 +462,8 @@
                     </div>
                 </div>
 
-                <!-- <button type="submit" class="btn btn-primary"
-                    [disabled]="!studentForm.valid">Agregar Estudiante</button> -->
+                <button type="submit" class="btn btn-primary"
+                    [disabled]="!studentForm.valid">Agregar Estudiante</button>
             </form>
         </div>
     </div>
