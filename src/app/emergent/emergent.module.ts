@@ -6,12 +6,14 @@ import { NgSelect2Module } from 'ng-select2';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { Select2Component } from './select2/select2.component';
 import {MatTabsModule} from '@angular/material/tabs'; 
-import {MatExpansionModule} from '@angular/material/expansion'; 
+import {MatExpansionModule} from '@angular/material/expansion';
+import { StudMatrixComponent } from './stud-matrix/stud-matrix.component'; 
 
 @NgModule({
   declarations: [
     PaymentAbitmediaComponent,
     Select2Component,
+    StudMatrixComponent,
   ],
   imports: [
     CommonModule,

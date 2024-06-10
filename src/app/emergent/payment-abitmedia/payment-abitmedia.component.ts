@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentService } from '../../services/payment.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { identifierName } from '@angular/compiler';
+import { first } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-payment-abitmedia',
@@ -15,9 +19,35 @@ export class PaymentAbitmediaComponent implements OnInit {
     private _paymentService: PaymentService
   ) { }
 
+  ngOnInit() {
+    this._paymentService.sectors().subscribe(
+      (response: any) => {
+        // console.log(`hola`);
+        console.log(response);
+        this.sectors = response.data;
+        this.weeks = response.weeks;
+        this.services = response.services;
+        // console.log(`sectores`+this.sectors);
+        const servicesWithDiscount = [];
+        for (let i = 0; i < this.services.length; i++) {
+          const service = this.services[i];
+          if (service.is_discount) {
+            servicesWithDiscount.push(service);
+            console.log(servicesWithDiscount);
+          }
+        }
+
+        this.selectOptions = this.sectors.map(sector => ({
+          label: sector.sector,
+          value: sector.id
+        }));
+      }
+    );
+    this.calculateTotalCost();
+  }
+
+
   panelOpenState = false;
-  cards: number[] = [1];
-  maxCards: number = 4;
 
   padre = {
     id: 0,
@@ -46,12 +76,32 @@ export class PaymentAbitmediaComponent implements OnInit {
   responseCreate: any;
   totalCost: number = 0;
 
+  //variables para matriz
+  weeks: any;
+  services: any;
+  isVisible: boolean = false;
+  actualStudentId: any;
+
+
+
+  //actualiza datos del estud
+  updStud: any;
+
+  // matris de estudiantes
+  courseData: any[] = [];
+  courseService: any;
+
+  //checks de cursos
+  selectedCourseIds: number[] = [];
+
+
+
   // Método para recibir datos
   getinfoPadre() {
     this._paymentService.getInfo(this.padre.dni).subscribe(
       resp => {
         this.responseCed = resp;
-        console.log(resp);
+        // console.log(resp);
         if (this.responseCed && this.responseCed.status === 'ok') {
           const data = this.responseCed.data;
           this.padre.id = data.id;
@@ -65,12 +115,7 @@ export class PaymentAbitmediaComponent implements OnInit {
           console.log(this.padre.sector_address_id);
           this.padre.address = data.address;
           this.padre.is_innovu = true;
-          if (data.sons && data.sons.length > 0) {
-            this.student.firs_name = data.sons.first_name;
-            this.student.last_name = data.sons.last_name;
-            this.student.dni = data.sons.dni;
-            this.calculateTotalCost();
-          }
+          this.sons = data.sons;
           this.sons = data.sons;
           console.log(`es innovu? ${this.padre.is_innovu}`);
         } else if (this.responseCed.message === 'Usuario no encontrado por favor llene el registro') {
@@ -81,6 +126,39 @@ export class PaymentAbitmediaComponent implements OnInit {
       }
     );
   }
+
+
+  getVacCourses(studentId: number) {
+    this._paymentService.getCourses(studentId).subscribe(
+      (resp: any) => {
+        console.log('servicios')
+        console.log(resp.data);
+        this.courseData = resp.data.map((course: any) => ({ ...course, selected: false }));
+      },
+      error => {
+        console.error('Error fetching courses:', error);
+      }
+    );
+  }
+
+
+
+  registerServices(weekId: number, serviceId: number) {
+    console.log(weekId);
+    console.log(serviceId);
+    console.log(this.actualStudentId);
+    this._paymentService.Addservices(
+      this.actualStudentId,
+      weekId,
+      serviceId
+    ).subscribe(resp => {
+      console.log(resp);
+
+
+    })
+  }
+
+
 
   notRegistered: any;
 
@@ -101,11 +179,77 @@ export class PaymentAbitmediaComponent implements OnInit {
         if (this.notRegistered.message === 'Error creating inscription') {
           alert('Usuario no registrado, por favor llene el formulario');
         } else if (this.notRegistered.message === 'Inscription created successfully') {
-          alert('Usuario registrado con exito');
+          alert('Usuario registrado con exito, continue con el formulario');
         }
       }
     );
   }
+
+  studentServicesAssignation: any;
+  studentSon = {
+    id: 0,
+    inscription_id: 0,
+    dni: '',
+    last_name: '',
+    first_name: '',
+    sector_address_id: 0,
+    address: '',
+  };
+
+  //metodo para realizar matriz del estudiante
+  studMatriz(sonId: number) {
+    this._paymentService.getStudenServices(this.actualStudentId).subscribe(
+      (resp: any) => {
+        this.studentServicesAssignation = resp.data.services;
+        console.log(this.studentServicesAssignation);
+        let conteo = 0;
+
+        for (let i = 0; i < this.studentServicesAssignation.length; i++) {
+          const service = this.studentServicesAssignation[i];
+          if (service.is_discount === true) {
+            conteo++;
+          }
+        }
+        console.log(`cursos elegidos : ${conteo}`);
+        console.log(this.selectedCourseIds);
+        let student = resp.data.student;
+        this.studentSon.id = student.id;
+        this.studentSon.dni = student.dni;
+        this.studentSon.first_name = student.first_name;
+        this.studentSon.last_name = student.last_name;
+        this.studentSon.sector_address_id = student.sector_address_id;
+        this.studentSon.address = student.address;
+      }
+    )
+  }
+
+  activeService(week: any, service: any): boolean | null {
+    const assignedService = this.studentServicesAssignation.find(
+      (s: { week_id: any; service_id: any; service_x_week_id: null; }) =>
+        s.week_id === week.id &&
+        s.service_id === service.id &&
+        s.service_x_week_id !== null
+    );
+  
+    if (assignedService) {
+      if (assignedService.ammount === '0.00' && assignedService.service_x_week_id !== null) {
+        return null;
+      } else if (assignedService.ammount === null || assignedService.service_x_week_id === null) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  
+    return false;
+  }
+
+  showStudent(sonId: any) {
+    this.actualStudentId = sonId;
+    console.log(sonId);
+    this.studMatriz(sonId);
+  }
+
 
   // Método para actualizar información del padre
   upPadre: any;
@@ -123,15 +267,14 @@ export class PaymentAbitmediaComponent implements OnInit {
       (resp) => {
         this.upPadre = resp;
         console.log(this.upPadre);
-        alert('Información actualizada con éxito');
+        alert('Información actualizada con éxito, continue con el formulario');
       }
     );
   }
 
-  updStud: any;
 
-  updateStudent(index: number) {
-    const son = this.sons[index];
+  updateStudent() {
+    const son = this.sons.find((son: any) => son.id === this.actualStudentId);
     this._paymentService.updateSon(
       son.id,
       son.first_name,
@@ -151,7 +294,6 @@ export class PaymentAbitmediaComponent implements OnInit {
 
   createNewSon() {
     console.log(this.padre.id);
-
     this._paymentService.createSon(
       this.padre.id,
       this.student.dni,
@@ -163,108 +305,6 @@ export class PaymentAbitmediaComponent implements OnInit {
       console.log(resp);
       alert('Alumno registrado con éxito');
     });
-  }
-
-  // Listado de cursos
-  getVacCourses(sonId: number) {
-    this.courses = [];
-    this._paymentService.getCourses(sonId).subscribe(
-      (resp: any) => {
-        if (resp.status === 'ok') {
-          const courseData = resp.data.map((course: { ammount: number; }) => ({ ...course, selected: course.ammount > 0 }));
-          this.courses = this.courses.concat(courseData);
-          this.openCoursesModal();
-        }
-      }
-    );
-  }
-
-  openCoursesModal() {
-    const modal = document.getElementById('coursesModal');
-    if (modal) {
-      modal.style.display = 'block';
-    }
-  }
-
-  closeCoursesModal() {
-    const modal = document.getElementById('coursesModal');
-    if (modal) {
-      modal.style.display = 'none';
-    }
-  }
-
-  toggleAllSelection(event: any) {
-    const isChecked = event.target.checked;
-    this.courses.forEach(course => {
-      course.selected = isChecked;
-      this.onCourseSelectionChange(course);
-    });
-  }
-
-  isCheckboxDisabled(course: any): boolean {
-    const weekNumber = parseInt(course.week.replace('Semana ', ''));
-    const selectedCourses = this.courses.filter(c => c.selected);
-
-    if (selectedCourses.some(c => c.week === course.week && c.service !== course.service)) {
-      return true;
-    }
-
-    if (['TEATRO', 'DANZA'].includes(course.service)) {
-      if (weekNumber === 6) {
-        return true;
-      }
-      if (weekNumber % 2 === 1) {
-        const nextWeek = `Semana ${weekNumber + 1}`;
-        return selectedCourses.some(c => c.week === nextWeek && c.service !== course.service);
-      } else {
-        const previousWeek = `Semana ${weekNumber - 1}`;
-        return selectedCourses.some(c => c.week === previousWeek && c.service !== course.service);
-      }
-    }
-
-    return false;
-  }
-
-  onCourseSelectionChange(course: any) {
-    const weekNumber = parseInt(course.week.replace('Semana ', ''));
-    const isSelected = course.selected;
-
-    if (['TEATRO', 'DANZA'].includes(course.service)) {
-      if (weekNumber % 2 === 1 && isSelected) {
-        this.selectCourseForWeek(course.service, `Semana ${weekNumber + 1}`, true);
-      } else if (weekNumber % 2 === 0 && !isSelected) {
-        this.selectCourseForWeek(course.service, `Semana ${weekNumber - 1}`, false);
-      }
-    }
-
-    if (['LUNCH', 'REFRIGERIO'].includes(course.service)) {
-      if (isSelected) {
-        this.totalCost += 14;
-      } else {
-        this.totalCost -= 14;
-      }
-    }
-
-    if (course.selected) {
-      this._paymentService.Addservices(course.id).subscribe(
-        response => {
-          console.log('Servicio agregado:', response);
-        },
-        error => {
-          console.error('Error al agregar servicio:', error);
-        }
-      );
-    }
-
-    this.calculateTotalCost();
-  }
-
-
-  selectCourseForWeek(service: string, week: string, select: boolean) {
-    const course = this.courses.find(c => c.service === service && c.week === week);
-    if (course) {
-      course.selected = select;
-    }
   }
 
   selectedCourses: any[] = [];
@@ -310,21 +350,6 @@ export class PaymentAbitmediaComponent implements OnInit {
     this.sons[index].sector_address_id = event.value;
   }
 
-  addCard() {
-    if (this.sons.length < this.maxCards) {
-      this.createNewSon();
-    } else {
-      alert('No puedes agregar más niños');
-    }
-  }
-
-  removeCard(index: number) {
-    const confirmed = confirm('¿Estás seguro de eliminar esta tarjeta?');
-    if (confirmed) {
-      this.sons.splice(index, 1);
-    }
-  }
-
   cedula: string = '';
   validateNum(event: any) {
     const pattern = /[0-9]/;
@@ -344,21 +369,7 @@ export class PaymentAbitmediaComponent implements OnInit {
 
   sectors: any[] = [];
 
-  ngOnInit() {
-    this._paymentService.sectors().subscribe(
-      (response: any) => {
-        this.sectors = response.data;
-        this.selectOptions = this.sectors.map(sector => ({
-          label: sector.sector,
-          value: sector.id
-        }));
-      },
-      (error) => {
-        console.error('Error al obtener sectores:', error);
-      }
-    );
-    this.calculateTotalCost();
-  }
+
 
   openTotalCostModal() {
     const modal = document.getElementById('totalCostModal');
@@ -375,4 +386,93 @@ export class PaymentAbitmediaComponent implements OnInit {
       modal.style.display = 'none';
     }
   }
+
+  // getClassForWeek(week: number): string {
+  //   const className = 'week-' + week;
+  //   console.log('Class for week ' + week + ': ' + className);
+  //   return className;
+  // }
+
+
+  // week1Courses: any[] = [];
+  // week2Courses: any[] = [];
+  // week3Courses: any[] = [];
+  // week4Courses: any[] = [];
+  // week5Courses: any[] = [];
+  // week6Courses: any[] = [];
+
+
+
+
+
+  // METODO Pde prueba para pagos
+
+  paymentData = {
+    integration: true,
+    third: {
+      document: '',
+      document_type: '05',
+      name: '',
+      email: '',
+      phones: '',
+      address: '',
+      type: 'Individual'
+    },
+    generate_invoice: 0,
+    description: '',
+    amount: 1.08,
+    amount_with_tax: 0.5,
+    amount_without_tax: 0.5,
+    tax_value: 0.08,
+    settings: [],
+    notify_url: null,
+    custom_value: null,
+    has_cash: 0,
+    has_cards: 1
+  };
+  responseUrl: string | null = null;
+
+  payment = {
+    name: '',
+    email: '',
+    document: '',
+    document_type: '05',
+    phones: '',
+    address: '',
+    description: ''
+  };
+
+
+  onSubmit() {
+    console.log('Datos del formulario:', this.payment);
+
+    // Asignar los valores del formulario a paymentData
+    this.paymentData.third.name = this.padre.name;
+    this.paymentData.third.email = this.padre.email;
+    this.paymentData.third.document = this.padre.dni;
+    this.paymentData.third.document_type = this.payment.document_type;
+    this.paymentData.third.phones = this.padre.phone;
+    this.paymentData.third.address = this.padre.address;
+    this.paymentData.description = this.payment.description;
+
+    this._paymentService.createPaymentRequest(this.paymentData).subscribe(
+      resp => {
+        console.log('Respuesta de la API:', resp);
+        this.responseUrl = resp.data.url;
+        if (this.responseUrl) {
+          window.open(this.responseUrl, '_blank');
+        }
+      },
+      error => {
+        console.error('Error al crear la solicitud de pago', error);
+      }
+    );
+  }
+
+
+
+
+
+
+
 }

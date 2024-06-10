@@ -9,8 +9,22 @@ import { GLOBAL } from './global';
 export class PaymentService {
   private url = GLOBAL.url;
   private auth = GLOBAL.authorization;
+  private apiUrl = 'https://api.abitmedia.cloud/pagomedios/v2/payment-requests';
+  private token = '3wv1x3b0eyc5zj8vxnqaiqaeiutgi7pphk4p0nbtrekg-gcpdrzsnlxihqhxgb7vszqlo';
 
   constructor(private _http: HttpClient) { }
+
+
+  createPaymentRequest(paymentData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this._http.post(this.apiUrl, paymentData, { headers });
+  }
+
+
 
   //metodo para consumir sectores
   sectors(): Observable<any> {
@@ -147,9 +161,11 @@ export class PaymentService {
 
   //registra servicios
 
-  Addservices(student_service_id: number) {
+  Addservices(sonId: number, weekId: number, serviceId: number) {
     const data = {
-      student_service_id
+      son_id: sonId,
+      week_id: weekId,
+      service_id: serviceId
     }
 
     const headers = new HttpHeaders({
@@ -158,6 +174,25 @@ export class PaymentService {
     });
     return this._http.post(`${this.url}/register_service`, data, { headers: headers });
   }
+
+
+  //metodo para obtener el valor total
+  getStudenServices(son_id: number){
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+
+    const data = {
+      son_id
+    }
+
+    return this._http.post(`${this.url}/get_student_services`, data, { headers: headers });
+  }
+
+
+
+
 
   costTotal(inscription_id: number) {
     const data = {
@@ -173,6 +208,18 @@ export class PaymentService {
 
   }
 
+  deleteSon(son_id: number) {
+    const data = {
+      son_id
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+    return this._http.post(`${this.url}/delete_vac_son`, data, { headers: headers });
+
+  }
 
 
 }
