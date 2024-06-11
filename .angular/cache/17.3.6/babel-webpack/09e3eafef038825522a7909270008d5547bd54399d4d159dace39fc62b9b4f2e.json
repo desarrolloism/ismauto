@@ -1,1 +1,0 @@
-{"ast":null,"code":"export var GLOBAL = {\n  // url: \"http://192.168.20.98:8001\",\n  url: \"http://localhost:8001\",\n  // url: \"http://192.168.2.128:8001\",\n  authorization: \"7zXnBjF5PBl7EzG/WhATQw==\"\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

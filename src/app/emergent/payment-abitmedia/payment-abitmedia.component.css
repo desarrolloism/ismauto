@@ -531,3 +531,32 @@ button:hover {
 }
 
 
+.table-container {
+    max-height: 400px; /* Ajusta la altura según tus necesidades */
+    overflow-y: auto;
+    border: 1px solid #ddd;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container thead th {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9; /* Fondo del encabezado */
+    z-index: 1; /* Asegura que el thead esté por encima de tbody */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); /* Sombras opcionales */
+}
+
+.table-container th, .table-container td {
+    padding: 8px 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.table-container th {
+    background: #f1f1f1; /* Fondo del thead */
+}

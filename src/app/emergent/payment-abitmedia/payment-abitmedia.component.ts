@@ -20,7 +20,7 @@ export class PaymentAbitmediaComponent implements OnInit {
     this._paymentService.sectors().subscribe(
       (response: any) => {
         // console.log(`hola`);
-        console.log(response);
+        // console.log(response);
         this.sectors = response.data;
         this.weeks = response.weeks;
         this.services = response.services;
@@ -30,7 +30,7 @@ export class PaymentAbitmediaComponent implements OnInit {
           const service = this.services[i];
           if (service.is_discount) {
             servicesWithDiscount.push(service);
-            console.log(servicesWithDiscount);
+            // console.log(servicesWithDiscount);
           }
         }
 
@@ -109,12 +109,12 @@ export class PaymentAbitmediaComponent implements OnInit {
           this.padre.phone = data.phone;
           this.padre.sector_address_id = data.sector_address_id;
           this.padre.sector_name = data.sector_address.sector;
-          console.log(this.padre.sector_address_id);
+          // console.log(this.padre.sector_address_id);
           this.padre.address = data.address;
           this.padre.is_innovu = true;
           this.sons = data.sons;
           this.sons = data.sons;
-          console.log(`es innovu? ${this.padre.is_innovu}`);
+          // console.log(`es innovu? ${this.padre.is_innovu}`);
         } else if (this.responseCed.message === 'Usuario no encontrado por favor llene el registro') {
           alert('Usuario no registrado, por favor llene el formulario');
         } else {
@@ -128,8 +128,8 @@ export class PaymentAbitmediaComponent implements OnInit {
   getVacCourses(studentId: number) {
     this._paymentService.getCourses(studentId).subscribe(
       (resp: any) => {
-        console.log('servicios')
-        console.log(resp.data);
+        // console.log('servicios')
+        // console.log(resp.data);
         this.courseData = resp.data.map((course: any) => ({ ...course, selected: false }));
       },
       error => {
@@ -158,7 +158,7 @@ export class PaymentAbitmediaComponent implements OnInit {
   notRegistered: any;
 
   createVacInscription() {
-    console.log(`sector padre ` + this.padre.sector_address_id);
+    // console.log(`sector padre ` + this.padre.sector_address_id);
     this._paymentService.reservation(
       false,
       this.padre.dni,
@@ -170,7 +170,7 @@ export class PaymentAbitmediaComponent implements OnInit {
     ).subscribe(
       resp => {
         this.notRegistered = resp;
-        console.log(this.notRegistered);
+        // console.log(this.notRegistered);
         if (this.notRegistered.message === 'Error creating inscription') {
           alert('Usuario no registrado, por favor llene el formulario');
         } else if (this.notRegistered.message === 'Inscription created successfully') {
@@ -197,7 +197,7 @@ export class PaymentAbitmediaComponent implements OnInit {
     this._paymentService.getStudenServices(this.actualStudentId).subscribe(
       (resp: any) => {
         this.studentServicesAssignation = resp.data.services;
-        console.log(this.studentServicesAssignation);
+        // console.log(this.studentServicesAssignation);
         let conteo = 0;
 
         for (let i = 0; i < this.studentServicesAssignation.length; i++) {
@@ -206,8 +206,8 @@ export class PaymentAbitmediaComponent implements OnInit {
             conteo++;
           }
         }
-        console.log(`cursos elegidos : ${conteo}`);
-        console.log(this.selectedCourseIds);
+        // console.log(`cursos elegidos : ${conteo}`);
+        // console.log(this.selectedCourseIds);
         let student = resp.data.student;
         this.studentSon.id = student.id;
         this.studentSon.dni = student.dni;
@@ -243,7 +243,7 @@ export class PaymentAbitmediaComponent implements OnInit {
 
   showStudent(sonId: any) {
     this.actualStudentId = sonId;
-    console.log(sonId);
+    // console.log(sonId);
     this.studMatriz(sonId);
   }
 
@@ -251,7 +251,7 @@ export class PaymentAbitmediaComponent implements OnInit {
   // Método para actualizar información del padre
   upPadre: any;
   updatePadre() {
-    console.log(`padre` + this.padre.sector_address_id);
+    // console.log(`padre` + this.padre.sector_address_id);
     this._paymentService.update(
       this.padre.id,
       this.padre.dni,
@@ -263,7 +263,7 @@ export class PaymentAbitmediaComponent implements OnInit {
     ).subscribe(
       (resp) => {
         this.upPadre = resp;
-        console.log(this.upPadre);
+        // console.log(this.upPadre);
         alert('Información actualizada con éxito, continue con el formulario');
       }
     );
@@ -279,7 +279,7 @@ export class PaymentAbitmediaComponent implements OnInit {
       this.padre.address,
       this.padre.sector_address_id
     ).subscribe(resp => {
-      console.log(resp);
+      // console.log(resp);
       this.updStud = resp;
       if (this.updStud.status === 'ok') {
         alert('Información actualizada con éxito');
@@ -290,7 +290,7 @@ export class PaymentAbitmediaComponent implements OnInit {
   }
 
   createNewSon() {
-    console.log(this.padre.id);
+    // console.log(this.padre.id);
     this._paymentService.createSon(
       this.padre.id,
       this.student.dni,
@@ -299,7 +299,7 @@ export class PaymentAbitmediaComponent implements OnInit {
       this.padre.sector_address_id,
       this.student.address,
     ).subscribe(resp => {
-      console.log(resp);
+      // console.log(resp);
       alert('Alumno registrado con éxito');
     });
   }
@@ -319,14 +319,14 @@ export class PaymentAbitmediaComponent implements OnInit {
         this.student.inscription_id
       ).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           this.totalCost = parseFloat(response.total) || 0.00;
           this.discountCourses = response.descuento_cursos || '0%';
           this.discountBrothers = response.descuento_hermanos || '0%';
           this.discountWeeks = response.descuento_semanas || '0%';
           this.discountTotal = parseFloat(response.descuento_total) || 0.00;
           this.subtotal = parseFloat(response.subtotal) || 0.00;
-          console.log('funciona');
+          // console.log('funciona');
         }
       );
     } else {
@@ -340,7 +340,7 @@ export class PaymentAbitmediaComponent implements OnInit {
 
   onSectorChange(selectedOptionId: any) {
     this.padre.sector_address_id = selectedOptionId;
-    console.log(this.padre.sector_address_id);
+    // console.log(this.padre.sector_address_id);
   }
 
   // onSectorChange2(event: any, index: number) {
@@ -422,7 +422,7 @@ export class PaymentAbitmediaComponent implements OnInit {
 
 
   onSubmit() {
-    console.log('Datos del formulario:', this.payment);
+    // console.log('Datos del formulario:', this.payment);
 
     // Asignar los valores del formulario a paymentData
     this.paymentData.third.name = this.padre.name;
@@ -435,7 +435,7 @@ export class PaymentAbitmediaComponent implements OnInit {
 
     this._paymentService.createPaymentRequest(this.paymentData).subscribe(
       resp => {
-        console.log('Respuesta de la API:', resp);
+        // console.log('Respuesta de la API:', resp);
         this.responseUrl = resp.data.url;
         if (this.responseUrl) {
           window.open(this.responseUrl, '_blank');
