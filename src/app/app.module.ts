@@ -17,10 +17,13 @@ import {MatRadioModule} from '@angular/material/radio';
 import { GeneralscoreModule } from './generalscore/generalscore.module';
 import { ScholarshipsModule } from './scholarships/scholarships.module';
 import { EmergentModule } from './emergent/emergent.module';
+import { OnlyNumbersDirective } from './only-numbers.directive';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
     AppComponent,
+    OnlyNumbersDirective,
 
   ],
   imports: [
@@ -37,10 +40,15 @@ import { EmergentModule } from './emergent/emergent.module';
     MatRadioModule,
     GeneralscoreModule,
     ScholarshipsModule,
-    EmergentModule
+    EmergentModule,
+    MatAutocompleteModule
+    
   ],
   providers: [
     provideAnimationsAsync()
+  ],
+  exports: [
+    OnlyNumbersDirective
   ],
   bootstrap: [AppComponent]
 })

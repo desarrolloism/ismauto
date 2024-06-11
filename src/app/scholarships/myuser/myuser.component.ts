@@ -14,14 +14,14 @@ export class MyuserComponent {
 
 
   constructor(
-    
+
     private pingService: PingService,
     private _scholarshipsService: ScholarshipsService, private _router: Router) {
-      this.pingServer();
-     }
+    this.pingServer();
+  }
 
 
-  
+
   //variables para datos de la API
   responseUrl: any;
   datos: string = '';
@@ -156,6 +156,7 @@ export class MyuserComponent {
           console.log(resp);
           try {
             this.responseUrl = resp;
+            console.log(this.responseUrl);
             if (this.responseUrl.status == 'OK') {
               this.datos = this.responseUrl.data;
               this.email = this.responseUrl.data.email;
@@ -170,9 +171,14 @@ export class MyuserComponent {
             this.msjError = 'Atención! Usuario no registrado o no cuenta como representante, por favor contáctese con atención al cliente.';
           }
           this.isLoading = false;
+        },
+        error => {
+          console.error(error);
+          alert('Ha ocurrido un error, por favor intente de nuevo más tarde');
+          this._router.navigate(['/erroruser']);
         }
       );
-    }, 100);
+    }, 500);
   }
 
 

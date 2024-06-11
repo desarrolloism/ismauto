@@ -11,7 +11,7 @@ import { GuidesComponent } from './manuals/guides/guides.component';
 import { MyuserComponent } from './scholarships/myuser/myuser.component';
 import { UserdataComponent } from './user/userdata/userdata.component';
 import { PaymentAbitmediaComponent } from './emergent/payment-abitmedia/payment-abitmedia.component';
-
+import { ErroruserComponent } from './scholarships/erroruser/erroruser.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,6 +29,7 @@ const routes: Routes = [
   { path: 'userdata', component: UserdataComponent },
   //becas
   { path: 'myuser', component: MyuserComponent },
+  { path: 'erroruser', component: ErroruserComponent },
   //abitmedia
   { path: 'payment-abitmedia', component: PaymentAbitmediaComponent },
 
