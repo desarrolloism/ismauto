@@ -101,11 +101,13 @@
                         </div>
                         <div class="col-md-4 d-flex justify-content-center">
                             <div class="mb-3">
-                                <label for="sector"
+                                <label
+                                    for="sector"
                                     class="form-label">Sector</label>
                                 <app-select2
                                     [options]="selectOptions"
-                                    value="sector_address_id"
+                                    [ngModel]="padre.sector_address_id"
+                                    name="sector_address_id"
                                     placeholder="Selecciona un sector"
                                     (selectionChange)="onSectorChange($event)">
                                 </app-select2>
@@ -149,47 +151,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row d-flex justify-content-center">
+                    
 
-                        <button type="submit" class="Btn2"
+                        <button type="submit" class=""
                             style="margin-left: 1rem;" *ngIf="padre.is_innovu"
                             (click)="updatePadre()">
-                            <div class="sign">
-                                <svg viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M17 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3Z"
-                                        fill="#4CAF50" />
-                                    <path
-                                        d="M17 3V7H12V3H17ZM7 3H12V7H7V3ZM5 21V19H19V21H5ZM5 12V17H7V12H5ZM17 12V17H19V12H17Z"
-                                        fill="white" />
-                                </svg>
-                            </div>
-                            <div class="text"> Guardar</div>
+                           
+                                Actualizar
+                        
+                            
                         </button>
 
-                        <button type="submit" class="Btn2"
+                        <button type="submit" class=""
                             style="margin-left: 1rem;" *ngIf="!padre.is_innovu"
                             (click)="createVacInscription()">
-                            <div class="sign">
-                                <svg viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M17 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3Z"
-                                        fill="#4CAF50" />
-                                    <path
-                                        d="M17 3V7H12V3H17ZM7 3H12V7H7V3ZM5 21V19H19V21H5ZM5 12V17H7V12H5ZM17 12V17H19V12H17Z"
-                                        fill="white" />
-                                </svg>
-                            </div>
-                            <div class="text"> Guardar</div>
+                                Guardar
+                            
                         </button>
-                    </div>
+                    
                 </div>
             </form>
 
             <!-- INICIA FORMULARIO -->
-            <div class="row mt-4 "
+            <div class="row mt-4 mb-4"
                 id="card-container">
                 <div class="col" *ngFor="let son of sons; let i = index">
                     <button class="btn btn-success"
@@ -228,127 +212,128 @@
                                     placeholder="Cédula"
                                     required />
                             </div>
-                            <!-- nombre -->
-                            <div class="mb-3">
-                                <label
-                                    for="first_name"
-                                    class="form-label">Nombre</label>
-                                <input
-                                    [(ngModel)]="studentSon.first_name"
-                                    name="firs_name"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="name"
-                                    required />
-                            </div>
-                            <!-- apellido -->
-                            <div class="mb-3">
-                                <label
-                                    for="last_name"
-                                    class="form-label">Apellidos</label>
-                                <input
-                                    [(ngModel)]="studentSon.last_name"
-                                    name="last_name"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Apellido"
-                                    required />
-                            </div>
 
+                            <div class="row">
+                                <!-- nombre -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label
+                                            for="first_name"
+                                            class="form-label">Nombre</label>
+                                        <input
+                                            [(ngModel)]="studentSon.first_name"
+                                            name="firs_name"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="name"
+                                            required />
+                                    </div>
+                                </div>
+                                <!-- apellido -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label
+                                            for="last_name"
+                                            class="form-label">Apellidos</label>
+                                        <input
+                                            [(ngModel)]="studentSon.last_name"
+                                            name="last_name"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Apellido"
+                                            required />
+                                    </div>
+                                </div>
+                            </div>
                             <!-- sector addres -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label
+                                            for="sector"
+                                            class="form-label">Sector {{
+                                            padre.sector_address_id
+                                            }}</label>
+                                        <app-select2
+                                            [options]="selectOptions"
+                                            [ngModel]="student.sector_address_id"
+                                            name="sector_address_id"
+                                            placeholder="Selecciona un sector"
+                                            (selectionChange)="onSectorChange($event)">
+                                        </app-select2>
+                                    </div>
 
-                            <div class="mb-3">
-                                <label
-                                    for="sector"
-                                    class="form-label">Sector {{
-                                    padre.sector_address_id
-                                    }}</label>
-                                <app-select2
-                                    [options]="selectOptions"
-                                    [ngModel]="padre.sector_address_id"
-                                    name="sector_address_id"
-                                    placeholder="Selecciona un sector"
-                                    (selectionChange)="onSectorChange($event)">
-                                </app-select2>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label
+                                            for="address"
+                                            class="form-label">Dirección</label>
+                                        <input
+                                            [(ngModel)]="padre.address"
+                                            name="addres"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Dirección"
+                                            required />
+                                    </div>
+                                </div>
+
                             </div>
-
-                            <!-- ADDRES -->
-
-                            <div class="mb-3">
-                                <label
-                                    for="address"
-                                    class="form-label">Dirección</label>
-                                <input
-                                    [(ngModel)]="padre.address"
-                                    name="addres"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Dirección"
-                                    required />
-                            </div>
-                            <button type="submit">Enviar</button>
+                            <button type="submit"
+                                class="btn btn-secondary">Enviar</button>
                         </form>
                     </mat-expansion-panel>
-                    <mat-expansion-panel (opened)="panelOpenState = true"
-                        (closed)="panelOpenState = false">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                Escoger Cursos
-                            </mat-panel-title>
-                            <mat-panel-description>
-                                Aquí puedes escoger los cursos
-                            </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <!-- INICIA MATRIZ -->
-                        <div class="table-responsive">
-                            <table>
-                                <thead>
-                                    <tr  class="text-center">
-                                        <th>
-                                            Cursos
-                                        </th>
-                                        <th
-                                            *ngFor="let week of weeks" class="text-center">
-                                            {{week.short_name}}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr 
-                                        *ngFor="let service of services">
-                                        <td>
-                                            {{service.name}}
-                                        </td>
-                                        <td *ngFor="let week of weeks" class="text-center">
-                                            <ng-container
-                                                *ngIf="activeService(week, service) === false; else checkboxTemplate">
-                                                <span
-                                                    class="disabled-icon">&#10005;</span>
-                                            </ng-container>
-                                            <ng-template #checkboxTemplate>
-                                                <input
-                                                    type="checkbox"
-                                                    [checked]="activeService(week, service) === true"
-                                                    (click)="activeService(week, service) !== null && registerServices(week.id, service.id)"
-                                                    (change)="activeService(week, service) !== null && registerServices(week.id, service.id)" />
-                                            </ng-template>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
 
-                        <!-- FIN MATRIZ -->
-                    </mat-expansion-panel>
+                    <!-- FIN MATRIZ -->
                 </mat-accordion>
+                <!-- INICIA MATRIZ -->
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr class="text-center">
+                                <th>
+                                    Cursos
+                                </th>
+                                <th
+                                    *ngFor="let week of weeks"
+                                    class="text-center">
+                                    {{week.short_name}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let service of services">
+                                <td>
+                                    {{service.name}}
+                                </td>
+                                <td *ngFor="let week of weeks"
+                                    class="text-center">
+                                    <ng-container
+                                        *ngIf="activeService(week, service) === false; else checkboxTemplate">
+                                        <span
+                                            class="disabled-icon">&#10005;</span>
+                                    </ng-container>
+                                    <ng-template #checkboxTemplate>
+                                        <input
+                                            type="checkbox"
+                                            [checked]="activeService(week, service) === true"
+                                            (click)=" registerServices(week.id, service.id)">
+                                    </ng-template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
 
             <button data-bs-toggle="modal"
                 data-bs-target="#exampleModal3"
-                type="button" class="button mt-4">
-                <span
-                    class="button__text">Agregar</span>
+                type="button" class=" mt-4 mb-4">
+                <!-- <span
+                    class="button__text">Agregar</span> -->
                 <span class="button__icon"><svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24" viewBox="0 0 24 24"
@@ -428,13 +413,12 @@
                         <div class="form-group ">
                             <label for="sector_address_id">ID de dirección del
                                 sector:</label>
-                            <!-- <input type="text" class="form-control"
-                                id="sector_address_id" name="sector_address_id"
-                                [(ngModel)]="student.sector_address_id" required> -->
                             <app-select2
                                 [options]="selectOptions"
-                                placeholder="Selecciona un sector">
-                                <!-- (selectionChange)="onSectorChange2($event)" -->
+                                [ngModel]="student.sector_address_id"
+                                name="sector_address_id"
+                                placeholder="Selecciona un sector"
+                                (selectionChange)="onSectorChange($event)">
                             </app-select2>
                         </div>
 
@@ -449,10 +433,11 @@
                         </div>
 
                     </div>
+                    <button type="submit" class="btn btn-primary text-center "
+                        [disabled]="!studentForm.valid">Agregar
+                        Estudiante</button>
                 </div>
 
-                <button type="submit" class="btn btn-primary"
-                    [disabled]="!studentForm.valid">Agregar Estudiante</button>
             </form>
         </div>
     </div>
@@ -494,7 +479,7 @@
             <div class="modal-body">
                 <form (ngSubmit)="onSubmit()" #paymentForm="ngForm"
                     class="form-container">
-                    <div class="form-group">
+                    <div class="form-group input-group">
                         <label for="name">Nombre Completo:</label>
                         <input type="text" id="name" [(ngModel)]="padre.name"
                             name="name"

@@ -161,11 +161,9 @@ export class PaymentService {
 
   //registra servicios
 
-  Addservices(sonId: number, weekId: number, serviceId: number) {
+  Addservices(studentServiceId: number) {
     const data = {
-      son_id: sonId,
-      week_id: weekId,
-      service_id: serviceId
+      student_service_id: studentServiceId
     }
 
     const headers = new HttpHeaders({

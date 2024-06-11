@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentService } from '../../services/payment.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { identifierName } from '@angular/compiler';
-import { first } from 'rxjs';
-
 
 
 @Component({
@@ -142,22 +139,20 @@ export class PaymentAbitmediaComponent implements OnInit {
   }
 
 
-
   registerServices(weekId: number, serviceId: number) {
-    console.log(weekId);
-    console.log(serviceId);
-    console.log(this.actualStudentId);
-    this._paymentService.Addservices(
-      this.actualStudentId,
-      weekId,
-      serviceId
-    ).subscribe(resp => {
-      console.log(resp);
-
-
+    let studentServiceId = 0;
+    for (let i = 0; i < this.studentServicesAssignation.length; i++) {
+      if (this.studentServicesAssignation[i].week_id == weekId
+        && this.studentServicesAssignation[i].service_id == serviceId) {
+        studentServiceId = this.studentServicesAssignation[i].id;
+        break;
+      }
+    }
+    this._paymentService.Addservices(studentServiceId).subscribe(resp => {
+      this.showStudent(this.actualStudentId);
+      this.calculateTotalCost();
     })
   }
-
 
 
   notRegistered: any;
@@ -184,6 +179,7 @@ export class PaymentAbitmediaComponent implements OnInit {
       }
     );
   }
+
 
   studentServicesAssignation: any;
   studentSon = {
@@ -224,13 +220,14 @@ export class PaymentAbitmediaComponent implements OnInit {
   }
 
   activeService(week: any, service: any): boolean | null {
-    const assignedService = this.studentServicesAssignation.find(
+
+    const assignedService = this.studentServicesAssignation?.find(
       (s: { week_id: any; service_id: any; service_x_week_id: null; }) =>
         s.week_id === week.id &&
         s.service_id === service.id &&
         s.service_x_week_id !== null
     );
-  
+
     if (assignedService) {
       if (assignedService.ammount === '0.00' && assignedService.service_x_week_id !== null) {
         return null;
@@ -240,7 +237,7 @@ export class PaymentAbitmediaComponent implements OnInit {
         return true;
       }
     }
-  
+
     return false;
   }
 
@@ -333,10 +330,9 @@ export class PaymentAbitmediaComponent implements OnInit {
         }
       );
     } else {
-      console.error('sin id de inscripcion');
+      
     }
   }
-
 
 
   courses: any[] = [];
@@ -344,11 +340,12 @@ export class PaymentAbitmediaComponent implements OnInit {
 
   onSectorChange(selectedOptionId: any) {
     this.padre.sector_address_id = selectedOptionId;
+    console.log(this.padre.sector_address_id);
   }
 
-  onSectorChange2(event: any, index: number) {
-    this.sons[index].sector_address_id = event.value;
-  }
+  // onSectorChange2(event: any, index: number) {
+  //   this.sons[index].sector_address_id = event.value;
+  // }
 
   cedula: string = '';
   validateNum(event: any) {
@@ -370,7 +367,6 @@ export class PaymentAbitmediaComponent implements OnInit {
   sectors: any[] = [];
 
 
-
   openTotalCostModal() {
     const modal = document.getElementById('totalCostModal');
     if (modal) {
@@ -386,24 +382,6 @@ export class PaymentAbitmediaComponent implements OnInit {
       modal.style.display = 'none';
     }
   }
-
-  // getClassForWeek(week: number): string {
-  //   const className = 'week-' + week;
-  //   console.log('Class for week ' + week + ': ' + className);
-  //   return className;
-  // }
-
-
-  // week1Courses: any[] = [];
-  // week2Courses: any[] = [];
-  // week3Courses: any[] = [];
-  // week4Courses: any[] = [];
-  // week5Courses: any[] = [];
-  // week6Courses: any[] = [];
-
-
-
-
 
   // METODO Pde prueba para pagos
 
@@ -468,11 +446,5 @@ export class PaymentAbitmediaComponent implements OnInit {
       }
     );
   }
-
-
-
-
-
-
 
 }
