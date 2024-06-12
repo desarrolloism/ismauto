@@ -558,6 +558,36 @@ button:hover {
 }
 
 .table-container th {
-    background: #f1f1f1; /* Fondo del thead */
+    background: #f1f1f1; 
 }
 
+.extra-label {
+    font-size: 0.8em; 
+    color: rgb(0, 0, 0);
+    margin-left: 5px; 
+}
+
+
+.last-row {
+    background-color: #ff9e18; 
+}
+
+.last-row td {
+    color: black; 
+}
+
+.second-last-row {
+    background-color: #9e28b5;
+}
+
+.second-last-row td {
+    color: #9e28b5; 
+}
+
+.third-last-row {
+    background-color: #65b2e8;
+}
+
+.third-last-row td {
+    color: #00008b; 
+}

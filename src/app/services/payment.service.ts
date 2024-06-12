@@ -175,7 +175,7 @@ export class PaymentService {
 
 
   //metodo para obtener el valor total
-  getStudenServices(son_id: number){
+  getStudenServices(son_id: number) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json'
@@ -187,8 +187,6 @@ export class PaymentService {
 
     return this._http.post(`${this.url}/get_student_services`, data, { headers: headers });
   }
-
-
 
 
 
@@ -219,5 +217,25 @@ export class PaymentService {
 
   }
 
+
+  PaymentFile(file64: any, fileName: string,
+    inscriptionId: number, numberVoucher: string,
+    bankName: string,
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+
+    const data = {
+      file64,
+      fileName,
+      id: inscriptionId,
+      number_voucher: numberVoucher,
+      bank_name: bankName,
+    }
+
+    return this._http.post(`${this.url}/payment_register`, data, { headers: headers });
+  }
 
 }

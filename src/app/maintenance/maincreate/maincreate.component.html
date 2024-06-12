@@ -27,14 +27,14 @@
 
                 <div class="mb-3">
                     <label for="incidente" class="form-label">Tipo de
-                        incidente:</label>
+                        Actividad:</label>
                     <select name="type_incident"
                         class="form-select"
                         #type_incident
                         [(ngModel)]="maintenance.type_incident"
                         required>
                         <option value disabled selected>Selecciona un tipo de
-                            incidente</option>
+                            Actividad</option>
                         <option value="LIMPIEZA">LIMPIEZA</option>
                         <option value="DESTRUCCION">DESTRUCCION</option>
                         <option value="MANTENIMIENTO">MANTENIMIENTO</option>
@@ -62,8 +62,8 @@
             <div class="col-lg-6">
                 <div class="mb-3">
                     <label for="description_incident"
-                        class="form-label">Descripción del
-                        incidente:</label>
+                        class="form-label">Descripción de la
+                        actividad:</label>
                     <textarea name="description_incident"
                         class="form-control"
                         #description_incident

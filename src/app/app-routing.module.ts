@@ -12,6 +12,7 @@ import { MyuserComponent } from './scholarships/myuser/myuser.component';
 import { UserdataComponent } from './user/userdata/userdata.component';
 import { PaymentAbitmediaComponent } from './emergent/payment-abitmedia/payment-abitmedia.component';
 import { ErroruserComponent } from './scholarships/erroruser/erroruser.component';
+import { CheckoutComponent } from './emergent/checkout/checkout.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'erroruser', component: ErroruserComponent },
   //abitmedia
   { path: 'payment-abitmedia', component: PaymentAbitmediaComponent },
+  { path: 'checkout', component: CheckoutComponent },
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

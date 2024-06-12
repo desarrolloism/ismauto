@@ -12,37 +12,9 @@ import { HttpClient } from '@angular/common/http';
 export class PaymentAbitmediaComponent implements OnInit {
   constructor(
     private http: HttpClient,
-    private router: Router,
+    private _router: Router,
     private _paymentService: PaymentService
   ) { }
-
-  ngOnInit() {
-    this._paymentService.sectors().subscribe(
-      (response: any) => {
-        // console.log(`hola`);
-        // console.log(response);
-        this.sectors = response.data;
-        this.weeks = response.weeks;
-        this.services = response.services;
-        // console.log(`sectores`+this.sectors);
-        const servicesWithDiscount = [];
-        for (let i = 0; i < this.services.length; i++) {
-          const service = this.services[i];
-          if (service.is_discount) {
-            servicesWithDiscount.push(service);
-            // console.log(servicesWithDiscount);
-          }
-        }
-
-        this.selectOptions = this.sectors.map(sector => ({
-          label: sector.sector,
-          value: sector.id
-        }));
-      }
-    );
-    this.calculateTotalCost();
-  }
-
 
   panelOpenState = false;
 
@@ -91,6 +63,36 @@ export class PaymentAbitmediaComponent implements OnInit {
   //checks de cursos
   selectedCourseIds: number[] = [];
 
+
+  ngOnInit() {
+    this._paymentService.sectors().subscribe(
+      (response: any) => {
+        console.log('hola');
+        this.sectors = response.data;
+        // Depuración adicional para ver el formato de fechas recibidas
+        console.log('Weeks raw data:', response.weeks);
+        this.weeks = response.weeks;
+        console.log('Weeks with formatted date:', this.weeks);
+        this.services = response.services;
+        const servicesWithDiscount = [];
+        for (let i = 0; i < this.services.length; i++) {
+          const service = this.services[i];
+          if (service.is_discount) {
+            servicesWithDiscount.push(service);
+          }
+        }
+
+        this.selectOptions = this.sectors.map(sector => ({
+          label: sector.sector,
+          value: sector.id
+        }));
+      }
+    );
+
+    this.calculateTotalCost();
+  }
+
+  
 
 
   // Método para recibir datos
@@ -156,6 +158,15 @@ export class PaymentAbitmediaComponent implements OnInit {
   }
 
 
+  //metodo para ir la pago
+
+  goCheckout() {
+    const { id, name, email, dni, phone, address } = this.padre;
+    this._router.navigate(['/checkout'], {
+      queryParams: { id, name, email, dni, phone, address }
+    });
+  }
+  
   notRegistered: any;
 
   createVacInscription() {
@@ -302,6 +313,7 @@ export class PaymentAbitmediaComponent implements OnInit {
     ).subscribe(resp => {
       // console.log(resp);
       alert('Alumno registrado con éxito');
+      window.location.reload();
     });
   }
 
@@ -321,7 +333,7 @@ export class PaymentAbitmediaComponent implements OnInit {
         this.student.inscription_id
       ).subscribe(
         (response: any) => {
-          // console.log(response);
+          console.log(response);
           this.totalCost = parseFloat(response.total) || 0.00;
           this.discountCourses = response.descuento_cursos || '0%';
           this.discountBrothers = response.descuento_hermanos || '0%';
@@ -333,7 +345,7 @@ export class PaymentAbitmediaComponent implements OnInit {
         }
       );
     } else {
-      
+
     }
   }
 
