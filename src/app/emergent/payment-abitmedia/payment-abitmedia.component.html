@@ -1,6 +1,6 @@
 <main class="container">
     <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+        class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
         <h1 class="h2">Reservación de cursos
             vacacionales</h1>
     </div>
@@ -41,8 +41,8 @@
                     <div class="mb-3">
                         <label
                             for="sector"
-                            class="form-label">Sector:
-                            {{padre.sector_name}}</label>
+                            class="form-label">Sector
+                            </label>
                         <app-select2
                             [options]="selectOptions"
                             [ngModel]="padre.sector_address_id"
@@ -90,16 +90,21 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary"
-                style="margin-left: 1rem;" *ngIf="padre.is_innovu"
-                (click)="updatePadre()">
-                Actualizar
-            </button>
-            <button type="submit" class
-                style="margin-left: 1rem;" *ngIf="!padre.is_innovu"
-                (click)="createVacInscription()">
-                Guardar
-            </button>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 text-center"><button type="submit"
+                        class="btn btn-primary"
+                        style="margin-left: 1rem;" *ngIf="padre.is_innovu"
+                        (click)="updatePadre()">
+                        Actualizar
+                    </button>
+                    <button type="submit" class
+                        style="margin-left: 1rem;" *ngIf="!padre.is_innovu"
+                        (click)="createVacInscription()">
+                        Guardar
+                    </button></div>
+                <div class="col-md-4"></div>
+            </div>
         </div>
     </form>
     <!-- INICIA FORMULARIO -->
@@ -226,7 +231,7 @@
                     <thead>
                         <tr class="text-center">
                             <th>
-                                Cursos
+                                Disciplinas
                             </th>
                             <th
                                 *ngFor="let week of weeks"
