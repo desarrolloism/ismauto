@@ -1,358 +1,312 @@
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <nav id="sidebar"
-            class="col-md-1 col-lg-2 d-md-block bg-light sidebar collapse show">
-            <div class=" text-center">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
-                            <span data-feather="home"></span>
-                            Datos de Inscripción
-                        </a>
-                    </li>
-                    <hr>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file"></span>
-                            Cursos
-                        </a>
-                    </li>
-                    <hr>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="shopping-cart"></span>
-                            Inscripciones
-                        </a>
-                    </li>
-                    <hr>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="users"></span>
-                            Contacto
-                        </a>
-                    </li>
-                    <hr>
-                    <li class="nav-item">
-                        <!-- Botón flotante -->
-                        <button class="float-button"
-                            (click)="openTotalCostModal()">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                class="icon icon-tabler icon-tabler-shopping-cart"
-                                width="44"
-                                height="44" viewBox="0 0 24 24" stroke-width="1"
-                                stroke="#ffffff" fill="none"
-                                stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z"
-                                    fill="none" />
-                                <path
-                                    d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                <path
-                                    d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                <path d="M17 17h-11v-14h-2" />
-                                <path d="M6 5l14 1l-1 7h-13" />
-                            </svg>
-                            ${{ totalCost }}
+<main class="container">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+        <h1 class="h2">Reservación de cursos
+            vacacionales</h1>
+    </div>
 
-                        </button>
-                    </li>
-                </ul>
+    <!-- INICIA FORMULARIO -->
+
+    <form>
+        <div class="card">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="cedula" class="form-label">Número de
+                            Cédula</label>
+                        <input [(ngModel)]="padre.dni" type="text"
+                            name="dni" class="form-control" id="dni"
+                            (change)="getinfoPadre()"
+                            (keyup.enter)="validaCedula($event)"
+                            (blur)="validaCedula($event)"
+                            (keypress)="validateNum($event)"
+                            maxlength="10"
+                            placeholder="Número de Cédula"
+                            required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre
+                            completo</label>
+                        <input id="nombres"
+                            [(ngModel)]="padre.name"
+                            name="name" type="text"
+                            class="form-control"
+                            placeholder="Nombre completo"
+                            required>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex justify-content-center">
+                    <div class="mb-3">
+                        <label
+                            for="sector"
+                            class="form-label">Sector:
+                            {{padre.sector_name}}</label>
+                        <app-select2
+                            [options]="selectOptions"
+                            [ngModel]="padre.sector_address_id"
+                            name="sector_address_id"
+                            placeholder="Selecciona un sector"
+                            (selectionChange)="onSectorChange($event)">
+                        </app-select2>
+                    </div>
+                </div>
             </div>
-        </nav>
-
-        <main class="col-md-11 ms-sm-auto col-lg-10 px-md-4">
-            <div
-                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-                <h1 class="h2">Reservación de cursos
-                    vacacionales</h1>
+            <div class="row d-flex justify-content-between">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="direccion"
+                            class="form-label">Dirección</label>
+                        <input id="nombres"
+                            [(ngModel)]="padre.address"
+                            name="adress" type="text"
+                            class="form-control"
+                            placeholder="Dirección"
+                            required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="telefono"
+                            class="form-label">Teléfono</label>
+                        <input
+                            [(ngModel)]="padre.phone"
+                            name="phone" type="text"
+                            class="form-control"
+                            id="phone"
+                            maxlength="10"
+                            required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="email"
+                            class="form-label">Email</label>
+                        <input
+                            [(ngModel)]="padre.email" name="email"
+                            type="email" class="form-control" id="email"
+                            required>
+                    </div>
+                </div>
             </div>
+            <button type="submit" class="btn btn-primary"
+                style="margin-left: 1rem;" *ngIf="padre.is_innovu"
+                (click)="updatePadre()">
+                Actualizar
+            </button>
+            <button type="submit" class
+                style="margin-left: 1rem;" *ngIf="!padre.is_innovu"
+                (click)="createVacInscription()">
+                Guardar
+            </button>
+        </div>
+    </form>
+    <!-- INICIA FORMULARIO -->
+    <div class="row mt-4 mb-4 text-center"
+        id="card-container">
+        <div class="col" *ngFor="let son of sons; let i = index">
+            <button class="btn btn-success"
+                (click)="showStudent(son.id)"> {{
+                son.first_name }} {{ son.last_name }}</button>
+        </div>
+    </div>
+    <!-- datos del estudiante al hacer click en nombre del estudiante -->
+    <div id="Servicios-estudiante mt-4">
 
-            <!-- INICIA FORMULARIO -->
+        <mat-accordion class="mt-4">
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ studentSon.first_name }}
+                        {{ studentSon.last_name }}
 
-            <form>
-                <div class="card">
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Cédula: {{ studentSon.dni }} / Dirección: {{
+                        padre.address }}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <form (ngSubmit)="updateStudent()">
+                    <!-- cedula -->
+                    <div class="mb-3">
+                        <label
+                            for="dni"
+                            class="form-label">Cédula</label>
+                        <input
+                            [(ngModel)]="studentSon.dni"
+                            name="dni"
+                            type="text"
+                            class="form-control"
+                            placeholder="Cédula"
+                            required />
+                    </div>
+
                     <div class="row">
-                        <div class="col-md-4">
+                        <!-- nombre -->
+                        <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="cedula" class="form-label">Número de
-                                    Cédula</label>
-                                <input [(ngModel)]="padre.dni" type="text"
-                                    name="dni" class="form-control" id="dni"
-                                    (change)="getinfoPadre()"
-                                    (keyup.enter)="validaCedula($event)"
-                                    (blur)="validaCedula($event)"
-                                    (keypress)="validateNum($event)"
-                                    maxlength="10"
-                                    placeholder="Número de Cédula"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre
-                                    completo</label>
-                                <input id="nombres"
-                                    [(ngModel)]="padre.name"
-                                    name="name" type="text"
+                                <label
+                                    for="first_name"
+                                    class="form-label">Nombre</label>
+                                <input
+                                    [(ngModel)]="studentSon.first_name"
+                                    name="firs_name"
+                                    type="text"
                                     class="form-control"
-                                    placeholder="Nombre completo"
-                                    required>
+                                    placeholder="name"
+                                    required />
                             </div>
                         </div>
-                        <div class="col-md-4 d-flex justify-content-center">
+                        <!-- apellido -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label
+                                    for="last_name"
+                                    class="form-label">Apellidos</label>
+                                <input
+                                    [(ngModel)]="studentSon.last_name"
+                                    name="last_name"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Apellido"
+                                    required />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- sector addres -->
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label
                                     for="sector"
-                                    class="form-label">Sector:
-                                    {{padre.sector_name}}</label>
+                                    class="form-label">Sector de
+                                    Representante: {{
+                                    padre.sector_name
+                                    }}</label>
                                 <app-select2
                                     [options]="selectOptions"
-                                    [ngModel]="padre.sector_address_id"
+                                    [ngModel]="student.sector_address_id"
                                     name="sector_address_id"
                                     placeholder="Selecciona un sector"
                                     (selectionChange)="onSectorChange($event)">
                                 </app-select2>
                             </div>
+
                         </div>
-                    </div>
-                    <div class="row d-flex justify-content-between">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="direccion"
-                                    class="form-label">Dirección</label>
-                                <input id="nombres"
-                                    [(ngModel)]="padre.address"
-                                    name="adress" type="text"
-                                    class="form-control"
-                                    placeholder="Dirección"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="telefono"
-                                    class="form-label">Teléfono</label>
-                                <input
-                                    [(ngModel)]="padre.phone"
-                                    name="phone" type="text"
-                                    class="form-control"
-                                    id="phone"
-                                    maxlength="10"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="email"
-                                    class="form-label">Email</label>
-                                <input
-                                    [(ngModel)]="padre.email" name="email"
-                                    type="email" class="form-control" id="email"
-                                    required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary"
-                        style="margin-left: 1rem;" *ngIf="padre.is_innovu"
-                        (click)="updatePadre()">
-
-                        Actualizar
-
-                    </button>
-
-                    <button type="submit" class
-                        style="margin-left: 1rem;" *ngIf="!padre.is_innovu"
-                        (click)="createVacInscription()">
-                        Guardar
-
-                    </button>
-
-                </div>
-            </form>
-
-            <!-- INICIA FORMULARIO -->
-            <div class="row mt-4 mb-4"
-                id="card-container">
-                <div class="col" *ngFor="let son of sons; let i = index">
-                    <button class="btn btn-success"
-                        (click)="showStudent(son.id)"> {{
-                        son.first_name }} {{ son.last_name }}</button>
-                </div>
-            </div>
-            <!-- datos del estudiante al hacer click en nombre del estudiante -->
-            <div id="Servicios-estudiante mt-4">
-
-                <mat-accordion class="mt-4">
-                    <mat-expansion-panel (opened)="panelOpenState = true"
-                        (closed)="panelOpenState = false">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                {{ studentSon.first_name }}
-                                {{ studentSon.last_name }}
-
-                            </mat-panel-title>
-                            <mat-panel-description>
-                                Cédula: {{ studentSon.dni }} / Dirección: {{
-                                padre.address }}
-                            </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <form (ngSubmit)="updateStudent()">
-                            <!-- cedula -->
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label
-                                    for="dni"
-                                    class="form-label">Cédula</label>
+                                    for="address"
+                                    class="form-label">Dirección</label>
                                 <input
-                                    [(ngModel)]="studentSon.dni"
-                                    name="dni"
+                                    [(ngModel)]="padre.address"
+                                    name="addres"
                                     type="text"
                                     class="form-control"
-                                    placeholder="Cédula"
+                                    placeholder="Dirección"
                                     required />
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <!-- nombre -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label
-                                            for="first_name"
-                                            class="form-label">Nombre</label>
-                                        <input
-                                            [(ngModel)]="studentSon.first_name"
-                                            name="firs_name"
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="name"
-                                            required />
-                                    </div>
-                                </div>
-                                <!-- apellido -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label
-                                            for="last_name"
-                                            class="form-label">Apellidos</label>
-                                        <input
-                                            [(ngModel)]="studentSon.last_name"
-                                            name="last_name"
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="Apellido"
-                                            required />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- sector addres -->
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label
-                                            for="sector"
-                                            class="form-label">Sector de
-                                            Representante: {{
-                                            padre.sector_name
-                                            }}</label>
-                                        <app-select2
-                                            [options]="selectOptions"
-                                            [ngModel]="student.sector_address_id"
-                                            name="sector_address_id"
-                                            placeholder="Selecciona un sector"
-                                            (selectionChange)="onSectorChange($event)">
-                                        </app-select2>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label
-                                            for="address"
-                                            class="form-label">Dirección</label>
-                                        <input
-                                            [(ngModel)]="padre.address"
-                                            name="addres"
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="Dirección"
-                                            required />
-                                    </div>
-                                </div>
-
-                            </div>
-                            <button type="submit"
-                                class="btn btn-secondary">Guardar datos</button>
-                        </form>
-                    </mat-expansion-panel>
-
-                    <!-- FIN MATRIZ -->
-                </mat-accordion>
-                <!-- INICIA MATRIZ -->
-                <div class="table-responsive">
-                    <div class="table-container">
-
-                        <table>
-                            <thead>
-                                <tr class="text-center">
-                                    <th>
-                                        Cursos
-                                    </th>
-                                    <th
-                                        *ngFor="let week of weeks"
-                                        class="text-center">
-                                        {{week.short_name}}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    *ngFor="let service of services">
-                                    <td>
-                                        {{service.name}}
-                                    </td>
-                                    <td *ngFor="let week of weeks"
-                                        class="text-center">
-                                        <ng-container
-                                            *ngIf="activeService(week, service) === false; else checkboxTemplate">
-                                            <span
-                                                class="disabled-icon">&#10005;</span>
-                                        </ng-container>
-                                        <ng-template #checkboxTemplate>
-                                            <input
-                                                type="checkbox"
-                                                [checked]="activeService(week, service) === true"
-                                                (click)=" registerServices(week.id, service.id)">
-                                        </ng-template>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
-                </div>
+                    <button type="submit"
+                        class="btn btn-secondary">Guardar datos</button>
+                </form>
+            </mat-expansion-panel>
 
+            <!-- FIN MATRIZ -->
+        </mat-accordion>
+        <!-- INICIA MATRIZ -->
+        <div class="table-responsive">
+            <div class="table-container">
+
+                <table>
+                    <thead>
+                        <tr class="text-center">
+                            <th>
+                                Cursos
+                            </th>
+                            <th
+                                *ngFor="let week of weeks"
+                                class="text-center">
+                                {{week.short_name}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let service of services">
+                            <td>
+                                {{service.name}}
+                            </td>
+                            <td *ngFor="let week of weeks"
+                                class="text-center">
+                                <ng-container
+                                    *ngIf="activeService(week, service) === false; else checkboxTemplate">
+                                    <span
+                                        class="disabled-icon">&#10005;</span>
+                                </ng-container>
+                                <ng-template #checkboxTemplate>
+                                    <input
+                                        type="checkbox"
+                                        [checked]="activeService(week, service) === true"
+                                        (click)=" registerServices(week.id, service.id)">
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <button data-bs-toggle="modal"
-                data-bs-target="#exampleModal3"
-                type="button" class=" mt-4 mb-4">
-                <!-- <span
-                    class="button__text">Agregar</span> -->
-                <span class="button__icon"><svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24" viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke-linejoin="round"
-                        stroke-linecap="round"
-                        stroke="currentColor"
-                        height="24" fill="none"
-                        class="svg"><line y2="19" y1="5"
-                            x2="12" x1="12"></line><line
-                            y2="12" y1="12" x2="19"
-                            x1="5"></line></svg></span>
-            </button>
-        </main>
     </div>
-</div>
+
+    <div class="d-flex justify-content-between">
+        <button data-bs-toggle="modal"
+            data-bs-target="#exampleModal3"
+            type="button" class=" mt-4 mb-4">
+            <!-- <span
+                    class="button__text">Agregar</span> -->
+            <span class="button__icon"><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24" viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    stroke="currentColor"
+                    height="24" fill="none"
+                    class="svg"><line y2="19" y1="5"
+                        x2="12" x1="12"></line><line
+                        y2="12" y1="12" x2="19"
+                        x1="5"></line></svg></span>
+        </button>
+
+        <!-- Botón flotante -->
+        <button class="float-button mt-3 "
+            (click)="openTotalCostModal()">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-shopping-cart"
+                width="44"
+                height="44" viewBox="0 0 24 24" stroke-width="1"
+                stroke="#ffffff" fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z"
+                    fill="none" />
+                <path
+                    d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                <path
+                    d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                <path d="M17 17h-11v-14h-2" />
+                <path d="M6 5l14 1l-1 7h-13" />
+            </svg>
+            ${{ totalCost }}
+
+        </button>
+    </div>
+</main>
 
 <div *ngIf="isLoading" class="overlay"></div>
 <div *ngIf="isLoading" class="spinner-container">
@@ -456,6 +410,7 @@
         <p>Descuento por Hermanos: {{ discountBrothers }}</p>
         <p>Descuento por Semanas: {{ discountWeeks }}</p>
         <p>Descuento Total: {{ discountTotal | currency }}</p>
+        <p>Total servicios extra: {{ total_extras }}</p>
         <p>Total: {{ totalCost | currency }}</p>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary"

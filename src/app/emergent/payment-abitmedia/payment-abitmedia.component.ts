@@ -120,6 +120,7 @@ export class PaymentAbitmediaComponent implements OnInit {
         } else {
           this.createVacInscription();
         }
+        this.calculateTotalCost();
       }
     );
   }
@@ -310,6 +311,7 @@ export class PaymentAbitmediaComponent implements OnInit {
   discountWeeks: string = '0%';
   discountTotal: number = 0.00;
   subtotal: number = 0.00;
+  total_extras: number = 0.00;
 
   calculateTotalCost() {
     this.student.inscription_id = this.padre.id
@@ -326,6 +328,7 @@ export class PaymentAbitmediaComponent implements OnInit {
           this.discountWeeks = response.descuento_semanas || '0%';
           this.discountTotal = parseFloat(response.descuento_total) || 0.00;
           this.subtotal = parseFloat(response.subtotal) || 0.00;
+          this.total_extras = response.total_extras || 0.00;
           // console.log('funciona');
         }
       );
