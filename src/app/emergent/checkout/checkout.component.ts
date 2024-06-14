@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PaymentService } from '../../services/payment.service';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -10,21 +11,26 @@ import { ActivatedRoute } from '@angular/router';
 export class CheckoutComponent implements OnInit {
 
 
-  constructor(private _paymentService: PaymentService, private _route: ActivatedRoute) { }
+  constructor(private _paymentService: PaymentService, private _route: ActivatedRoute,
+    private _router: Router,
+
+  ) { }
   @ViewChild('fileInput', { static: false }) fileInput: any;
 
   ngOnInit() {
     this._route.params.subscribe(params => {
       this.inscription_id = +params['id'];
       this.padreCheckout = params;
-      console.log(this.padreCheckout);
-      console.log('hola');
+      this.description = 'Curso vacacional' + ' - ' + this.padreCheckout.name;
+      // console.log(this.padreCheckout);
+      // console.log('hola');
     });
 
     this.calculateTotalCost();
   }
   isVisible: boolean = false;
   padreCheckout: any;
+  description: any;
 
   //id del padre
   inscription_id: number = 0;
@@ -34,7 +40,7 @@ export class CheckoutComponent implements OnInit {
     id: 0,
     is_innovu: false,
     dni: '',
-    name: '',
+    name: 'daniela',
     email: '',
     phone: '',
     sector_address_id: 0,
@@ -42,6 +48,7 @@ export class CheckoutComponent implements OnInit {
     sector_name: '',
     bank: '',
     voucher: '',
+    method: ''
   };
 
   //variables para el pago
@@ -90,23 +97,19 @@ export class CheckoutComponent implements OnInit {
   discountTotal: number = 0.00;
   subtotal: number = 0.00;
   total_extras: number = 0.00;
+  iva: number = 0.00;
 
-  //embebe para tarjeta de credito 
-  mostrarPagoTarjeta: boolean = false;
+  showTransf: boolean = false;
 
-  toggleMostrarPago() {
-    this.mostrarPagoTarjeta = !this.mostrarPagoTarjeta;
+  mostrarFormulario() {
+    // console.log('hola');
+    this.showTransf = !this.showTransf;
   }
-
-  showTransfer() {
-    this.isVisible = !this.isVisible;
-  }
-
 
   //Obtiene costos 
   calculateTotalCost() {
     this.inscription_id;
-    console.log(`el id de  padre es ` + this.inscription_id);
+    // console.log(`el id de  padre es ` + this.inscription_id);
 
     if (this.inscription_id) {
       this._paymentService.costTotal(
@@ -121,6 +124,7 @@ export class CheckoutComponent implements OnInit {
           this.discountTotal = parseFloat(response.descuento_total) || 0.00;
           this.subtotal = parseFloat(response.subtotal) || 0.00;
           this.total_extras = response.total_extras || 0.00;
+          this.iva = response.IVA || 0.00;
           // console.log('funciona');
         }
       );
@@ -129,6 +133,8 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
+
+  //valores de abitmedia
   onSubmit() {
     // console.log('Datos del formulario:', this.payment);
 
@@ -139,7 +145,7 @@ export class CheckoutComponent implements OnInit {
     this.paymentData.third.document_type = this.payment.document_type;
     this.paymentData.third.phones = this.padreCheckout.phone;
     this.paymentData.third.address = this.padreCheckout.address;
-    this.paymentData.description = this.payment.description;
+    this.paymentData.description = this.description;
 
     this._paymentService.createPaymentRequest(this.paymentData).subscribe(
       resp => {
@@ -147,6 +153,7 @@ export class CheckoutComponent implements OnInit {
         this.responseUrl = resp.data.url;
         if (this.responseUrl) {
           window.open(this.responseUrl, '_blank');
+          // window.location.href = (this.responseUrl, '_blank');
         }
       },
       error => {
@@ -171,16 +178,34 @@ export class CheckoutComponent implements OnInit {
   }
 
 
-  uploadImage(isBefore: boolean) {
-    console.log(this.padre.voucher, this.padre.bank);
+
+  uploadImage() {
+    // console.log(this.padre.voucher, this.padre.bank);
     const file: File = this.fileInput.nativeElement.files[0];
     if (file) {
       this.convertToBase64(file).then((base64: string) => {
         const fileName = file.name;
-        this._paymentService.PaymentFile(base64, fileName,
-          this.inscription_id, this.padre.voucher, this.padre.bank
+        this._paymentService.PaymentFile(
+          base64,
+          fileName,
+          this.inscription_id,
+          this.padre.voucher,
+          this.padre.bank,
+          this.padreCheckout.name,
+          this.padreCheckout.dni,
+          this.padre.method = 'tranferencia',
+          this.padreCheckout.address ,
+          this.padreCheckout.phone,
+          this.padreCheckout.email,
+          this.description
         ).subscribe(resp => {
-          console.log(resp);
+          // console.log(resp);
+          let status: any = resp;
+          // console.log(fileName);
+          if (status.status == 'ok') {
+            alert('Se ha registrado correctamente su  comprobante de pago, el proceso ha terminado.');
+            this._router.navigate(['/payment-abitmedia']);
+          }
         });
       });
     } else {

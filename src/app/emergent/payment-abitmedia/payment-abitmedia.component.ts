@@ -16,6 +16,46 @@ export class PaymentAbitmediaComponent implements OnInit {
     private _paymentService: PaymentService
   ) { }
 
+  ngOnInit() {
+    this._paymentService.sectors().subscribe(
+      (response: any) => {
+        // console.log('hola');
+        this.sectors = response.data;
+        // Depuración adicional para ver el formato de fechas recibidas
+        // console.log('Weeks raw data:', response.weeks);
+        this.weeks = response.weeks;
+        // console.log('Weeks with formatted date:', this.weeks);
+        this.services = response.services;
+        const servicesWithDiscount = [];
+        for (let i = 0; i < this.services.length; i++) {
+          const service = this.services[i];
+          if (service.is_discount) {
+            servicesWithDiscount.push(service);
+          }
+        }
+
+        this.selectOptions = this.sectors.map(sector => ({
+          label: sector.sector,
+          value: sector.id
+        }));
+      }
+    );
+
+    this.calculateTotalCost();
+  }
+
+  studentServiceId: number = 0;
+
+  transport = {
+    sector_origin_id: 0,
+    sector_delivery_id: 0,
+    address_delivery: '',
+    address_origin: '',
+    service_student_id: 0,
+    sector_delivery_name: '',
+    sector_origin_name: ''
+  };
+
   panelOpenState = false;
 
   padre = {
@@ -38,6 +78,8 @@ export class PaymentAbitmediaComponent implements OnInit {
     sector_address_id: 0,
     inscription_id: 0,
     address: '',
+    requiere_transporte: '',
+    sector_delivery_id: 0,
   };
 
   sons: any[] = [];
@@ -64,36 +106,6 @@ export class PaymentAbitmediaComponent implements OnInit {
   selectedCourseIds: number[] = [];
 
 
-  ngOnInit() {
-    this._paymentService.sectors().subscribe(
-      (response: any) => {
-        console.log('hola');
-        this.sectors = response.data;
-        // Depuración adicional para ver el formato de fechas recibidas
-        console.log('Weeks raw data:', response.weeks);
-        this.weeks = response.weeks;
-        console.log('Weeks with formatted date:', this.weeks);
-        this.services = response.services;
-        const servicesWithDiscount = [];
-        for (let i = 0; i < this.services.length; i++) {
-          const service = this.services[i];
-          if (service.is_discount) {
-            servicesWithDiscount.push(service);
-          }
-        }
-
-        this.selectOptions = this.sectors.map(sector => ({
-          label: sector.sector,
-          value: sector.id
-        }));
-      }
-    );
-
-    this.calculateTotalCost();
-  }
-
-  
-
 
   // Método para recibir datos
   getinfoPadre() {
@@ -115,7 +127,7 @@ export class PaymentAbitmediaComponent implements OnInit {
           this.padre.address = data.address;
           this.padre.is_innovu = true;
           this.sons = data.sons;
-          this.sons = data.sons;
+          // this.sons = data.sons;
           // console.log(`es innovu? ${this.padre.is_innovu}`);
         } else if (this.responseCed.message === 'Usuario no encontrado por favor llene el registro') {
           alert('Usuario no registrado, por favor llene el formulario');
@@ -141,6 +153,7 @@ export class PaymentAbitmediaComponent implements OnInit {
     );
   }
 
+  transpServi: number = 0;
 
   registerServices(weekId: number, serviceId: number) {
     let studentServiceId = 0;
@@ -148,25 +161,45 @@ export class PaymentAbitmediaComponent implements OnInit {
       if (this.studentServicesAssignation[i].week_id == weekId
         && this.studentServicesAssignation[i].service_id == serviceId) {
         studentServiceId = this.studentServicesAssignation[i].id;
+        this.transpServi = studentServiceId;
+        // console.log(this.transpServi);
         break;
       }
     }
     this._paymentService.Addservices(studentServiceId).subscribe(resp => {
+      // console.log(resp);
+      // console.log(studentServiceId);
+      // console.log(this.transpServi);
+
       this.showStudent(this.actualStudentId);
       this.calculateTotalCost();
-    })
+    });
+
   }
 
+  //metodo para enviar datos de transporte
+
+  modalTransport(weekId: number, serviceId: number) {
+    for (let i = 0; i < this.studentServicesAssignation.length; i++) {
+      if (this.studentServicesAssignation[i].week_id == weekId
+        && this.studentServicesAssignation[i].service_id == serviceId) {
+        this.studentServiceId = this.studentServicesAssignation[i].id;
+        break;
+      }
+    }
+
+
+    this.getTransport();
+
+  }
 
   //metodo para ir la pago
 
   goCheckout() {
     const { id, name, email, dni, phone, address } = this.padre;
-    this._router.navigate(['/checkout'], {
-      queryParams: { id, name, email, dni, phone, address }
-    });
+    this._router.navigate(['/checkout', { id, name, email, dni, phone, address }]);
   }
-  
+
   notRegistered: any;
 
   createVacInscription() {
@@ -208,6 +241,7 @@ export class PaymentAbitmediaComponent implements OnInit {
   studMatriz(sonId: number) {
     this._paymentService.getStudenServices(this.actualStudentId).subscribe(
       (resp: any) => {
+        // console.log(resp);
         this.studentServicesAssignation = resp.data.services;
         // console.log(this.studentServicesAssignation);
         let conteo = 0;
@@ -283,13 +317,19 @@ export class PaymentAbitmediaComponent implements OnInit {
 
 
   updateStudent() {
+    // console.log(`addresmdelivery` + this.student.address_delivery);
+    // console.log(`sector dev estud` + this.student.sector_delivery_id);
+    // console.log(`requiere transp` + this.student.requiere_transporte);
     const son = this.sons.find((son: any) => son.id === this.actualStudentId);
     this._paymentService.updateSon(
       son.id,
       son.first_name,
       son.last_name,
-      this.padre.address,
-      this.padre.sector_address_id
+      // this.padre.address,
+      // this.padre.sector_address_id,
+      // this.student.requiere_transporte,
+      // this.student.sector_delivery_id,
+      // this.student.address_delivery
     ).subscribe(resp => {
       // console.log(resp);
       this.updStud = resp;
@@ -333,7 +373,7 @@ export class PaymentAbitmediaComponent implements OnInit {
         this.student.inscription_id
       ).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           this.totalCost = parseFloat(response.total) || 0.00;
           this.discountCourses = response.descuento_cursos || '0%';
           this.discountBrothers = response.descuento_hermanos || '0%';
@@ -352,15 +392,23 @@ export class PaymentAbitmediaComponent implements OnInit {
 
   courses: any[] = [];
   selectOptions: any[] = [];
+  selectOptions2: any[] = [];
+  selectOptions3: any[] = [];
 
   onSectorChange(selectedOptionId: any) {
     this.padre.sector_address_id = selectedOptionId;
     // console.log(this.padre.sector_address_id);
   }
 
-  // onSectorChange2(event: any, index: number) {
-  //   this.sons[index].sector_address_id = event.value;
-  // }
+  onSectorChange2(selectedOptionId2: any) {
+    this.transport.sector_origin_id = selectedOptionId2;
+
+  }
+
+  onSectorChange3(selectedOptionId3: any) {
+    this.transport.sector_delivery_id = selectedOptionId3;
+
+  }
 
   cedula: string = '';
   validateNum(event: any) {
@@ -438,7 +486,6 @@ export class PaymentAbitmediaComponent implements OnInit {
 
   onSubmit() {
     // console.log('Datos del formulario:', this.payment);
-
     // Asignar los valores del formulario a paymentData
     this.paymentData.third.name = this.padre.name;
     this.paymentData.third.email = this.padre.email;
@@ -460,6 +507,53 @@ export class PaymentAbitmediaComponent implements OnInit {
         console.error('Error al crear la solicitud de pago', error);
       }
     );
+  }
+
+  getTransport() {
+    // console.log(this.studentServiceId);
+    this._paymentService.transportService(this.studentServiceId).subscribe(
+      resp => {
+        let transport: any = resp;
+        // console.log(transport);
+        this.transport.address_delivery = transport.data.address_delivery;
+        this.transport.address_origin = transport.data.address_origin;
+        this.transport.sector_delivery_id = transport.data.sector_delivery_id;
+        this.transport.sector_origin_id = transport.data.address_origin;
+        this.transport.sector_origin_name = transport.data.sector_origin.sector;
+        this.transport.sector_delivery_name = transport.data.sector_delivery.sector;
+      }
+    );
+
+  }
+
+
+  //datos vienen desde el form de la modal
+  sendTransPort() {
+    // console.log(this.studentServiceId);
+    // console.log(this.transport.sector_delivery_id);
+    // console.log(this.transport.sector_origin_id);
+    // console.log(this.transport.address_delivery);
+    // console.log(this.transport.address_origin);
+    this._paymentService.SendTransPort(this.studentServiceId,
+      this.transport.sector_origin_id,
+      this.transport.address_origin,
+      this.transport.sector_delivery_id,
+      this.transport.address_delivery).subscribe(
+        resp => {
+          this.transport.service_student_id;
+          this.transport.sector_origin_id;
+          this.transport.address_origin;
+          this.transport.sector_delivery_id;
+          this.transport.address_delivery;
+          let transportResp: any = resp;
+          // console.log(resp);
+          if (transportResp.status === 'ok') {
+            alert('Ruta agregada con éxito');
+          } else {
+            alert('Ocurrio un error al actualizar la información, intenta de nuevo más tarde');
+          }
+        }
+      );
   }
 
 }

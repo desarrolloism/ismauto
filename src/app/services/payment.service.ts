@@ -127,15 +127,21 @@ export class PaymentService {
     id: number,
     first_name: string,
     last_name: string,
-    address: string,
-    sector_address_id: number
+    // address: string,
+    // sector_address_id: number,
+    // require_transporte: string,
+    // sector_delivery_id: number,
+    // address_delivery: string,
   ) {
     const data = {
       id,
       first_name,
       last_name,
-      address,
-      sector_address_id
+      // address,
+      // sector_address_id,
+      // require_transporte,
+      // sector_delivery_id,
+      // address_delivery
     }
     const headers = new HttpHeaders({
       'Authorization': this.auth,
@@ -218,9 +224,19 @@ export class PaymentService {
   }
 
 
-  PaymentFile(file64: any, fileName: string,
-    inscriptionId: number, numberVoucher: string,
+  PaymentFile(
+    file64: any,
+    fileName: string,
+    inscriptionId: number,
+    numberVoucher: string,
     bankName: string,
+    businessName: string,
+    rucDni: string,
+    paymentMethod: string,
+    address: string,
+    phone: string,
+    email: string,
+    description: string
   ) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
@@ -233,9 +249,53 @@ export class PaymentService {
       id: inscriptionId,
       number_voucher: numberVoucher,
       bank_name: bankName,
+      business_name: businessName,
+      ruc_dni: rucDni,
+      payment_method: paymentMethod,
+      address,
+      phone,
+      email,
+      description
     }
 
     return this._http.post(`${this.url}/payment_register`, data, { headers: headers });
+  }
+
+  //obtiene info
+  transportService(studentServiceId: number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+
+    });
+
+    const data = {
+      student_service_id: studentServiceId
+    }
+    return this._http.post(`${this.url}/service_transport`, data, { headers: headers });
+  }
+
+  //envia informacion
+  SendTransPort(studentServiceId: number,
+    sectorOriginId: number,
+    addressOrigin: string,
+    sectorDeliveryId: number,
+    addressDelivery: string
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+
+    });
+
+    const data = {
+      student_service_id: studentServiceId,
+      sector_origin_id: sectorOriginId,
+      address_origin: addressOrigin,
+      sector_delivery_id: sectorDeliveryId,
+      address_delivery: addressDelivery
+    }
+    return this._http.post(`${this.url}/update_transport`, data, { headers: headers });
   }
 
 }
