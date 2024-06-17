@@ -208,9 +208,9 @@
                         class="btn btn-secondary">Guardar datos</button>
                 </form>
             </mat-expansion-panel>
-            
+
         </mat-accordion>
-        
+
         <!-- <div class="table-responsive">
             <div class="table-container">
                 
@@ -299,7 +299,7 @@
     </div>
 </table>
 
-    <!-- FINALIZA MATRIZ -->
+<!-- FINALIZA MATRIZ -->
 
 <div *ngIf="isLoading" class="overlay"></div>
 <div *ngIf="isLoading" class="spinner-container">
@@ -454,6 +454,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="alert alert-warning" role="alert">
+                        "Si ya no necesita transporte, seleccione/escriba "Sin recorrido" en
+                         todos los campos para evitar el cobro."
+                    </div>
                     <div class="modal-footer d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">Guardar
                             cambios</button>
@@ -461,6 +465,7 @@
                             data-bs-dismiss="modal">Cerrar</a>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

@@ -119,7 +119,7 @@ export class CheckoutComponent implements OnInit {
         this.inscription_id
       ).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           this.totalCost = parseFloat(response.total) || 0.00;
           this.discountCourses = response.descuento_cursos || '0%';
           this.discountBrothers = response.descuento_hermanos || '0%';
@@ -210,7 +210,7 @@ export class CheckoutComponent implements OnInit {
           this.padre.bank,
           this.padreCheckout.name,
           this.padreCheckout.dni,
-          this.padre.method = 'tranferencia',
+          this.padre.method = 'transferencia',
           this.padreCheckout.address ,
           this.padreCheckout.phone,
           this.padreCheckout.email,
