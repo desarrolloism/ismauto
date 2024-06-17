@@ -10,7 +10,8 @@ export class PaymentService {
   private url = GLOBAL.url;
   private auth = GLOBAL.authorization;
   private apiUrl = 'https://api.abitmedia.cloud/pagomedios/v2/payment-requests';
-  private token = '3wv1x3b0eyc5zj8vxnqaiqaeiutgi7pphk4p0nbtrekg-gcpdrzsnlxihqhxgb7vszqlo';
+  // private token = '3wv1x3b0eyc5zj8vxnqaiqaeiutgi7pphk4p0nbtrekg-gcpdrzsnlxihqhxgb7vszqlo'; //token de pruebas
+  private token = 'hndnqtxtrqoi1z6cn2i-mh2-5v7uuklckeclg4uvzhoxxwqhfviqa4xzpek39uipd93uc';
 
   constructor(private _http: HttpClient) { }
 

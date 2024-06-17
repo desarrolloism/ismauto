@@ -4,7 +4,7 @@
         <div class="row justify-content-around">
             <div class="col-md-8">
                 <div class="card">
-                    <h2 class="text-center mt-2">Modificación de
+                    <h2 class="text-center mt-2">Datos de
                         facturación</h2>
                     <div class="card-body">
                         <hr>
@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        
+
                                         <input matInput type="hidden"
                                             class="form-control"
                                             [(ngModel)]="payment.description"
@@ -79,7 +79,8 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <input type="hidden"
+                                [(ngModel)]="paymentData.amount">
                             <div
                                 class="button-container d-flex justify-content-evenly">
                                 <a class="btn btn-primary"
@@ -87,8 +88,7 @@
                                     transferencia</a>
                                 <div class="divider"></div>
                                 <button mat-raised-button type="submit"
-                                    class="btn btn-primary"
-                                    (click)="onSubmit()">Tarjeta crédito
+                                    class="btn btn-primary">Tarjeta crédito
                                     o Débito</button>
                             </div>
 
@@ -98,7 +98,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card" style="height: 381px; font-size: .8rem;">
+                <div class="card" style="height: 421px; font-size: .8rem;">
                     <div class="card-body">
                         <h3 class="text-center">Resumen</h3>
                         <hr>
@@ -106,10 +106,16 @@
                             <!-- <caption>Resumen de cargos y descuentos</caption> -->
                             <tbody>
                                 <tr>
-                                    <td>Subtotal:</td>
+                                    <td>Subtotal cursos:</td>
                                     <td class="data">{{ subtotal | currency
                                         }}</td>
                                 </tr>
+                                <tr>
+                                    <td>Desc. colaborador:</td>
+                                    <td class="data">{{ innovu | currency
+                                        }}</td>
+                                </tr>
+                                
                                 <tr>
                                     <td>Descuento por Hermanos:</td>
                                     <td class="data">{{ discountBrothers }}</td>
@@ -128,18 +134,32 @@
                                     <td class="data">{{ total_extras }}</td>
                                 </tr>
                                 <tr>
+                                    <td>Subtotal:</td>
+                                    <td class="data">{{ subtotalDescuentos |
+                                        currency
+                                        }}</td>
+                                </tr>
+                                
+                                <tr>
                                     <td>IVA:</td>
                                     <td class="data">{{ iva | currency}}</td>
                                 </tr>
                                 <tr
-                                    style="background-color: #65b2e8;color: white;">
+                                    style="background-color: rgb(79, 218, 79); color: rgb(255, 255, 255);
+                                    font-weight: bold;
+                                    ">
                                     <td>Total:</td>
                                     <td class="data">{{ totalCost | currency
                                         }}</td>
                                 </tr>
                             </tbody>
                         </table>
+                       
                     </div>
+                    <!-- <p  style="background-color: limegreen; color: white;">
+                        {{ totalCost | currency
+                        }}
+                    </p> -->
                 </div>
 
             </div>
@@ -153,47 +173,41 @@
                     <form (ngSubmit)="uploadImage()">
 
                         <div class="mb-3">
-                            <label for="ruc_dni" class="form-label">
-                                CI/RUC
-                            </label>
+
                             <input
                                 [(ngModel)]="padreCheckout.dni"
                                 name="ruc_dni"
-                                type="text" class="form-control">
+                                type="hidden" class="form-control">
                         </div>
                         <div class="mb-3">
-                            
+
                             <input type="hidden"
                                 [(ngModel)]="padre.method"
                                 name="method"
                                 class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="addres"
-                                class="form-label">Dirección</label>
-                            <input type="text"
-                            class="form-control"
+
+                            <input type="hidden"
+                                class="form-control"
                                 [(ngModel)]="padreCheckout.address"
                                 name="addres">
                         </div>
 
                         <div class="mb-3">
-                            <label for="phone">Teléfono</label>
-                            <input type="text"
-                            class="form-control"
+                            <input type="hidden"
+                                class="form-control"
                                 [(ngModel)]="padreCheckout.phone"
                                 name="phone">
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label">
-                                E-mail
-                            </label>
-                            <input type="text"
-                            class="form-control"
+
+                            <input type="hidden"
+                                class="form-control"
                                 [(ngModel)]="padreCheckout.email"
                                 name="email">
-                            
+
                         </div>
                     </form>
 

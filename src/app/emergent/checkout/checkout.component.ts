@@ -40,7 +40,7 @@ export class CheckoutComponent implements OnInit {
     id: 0,
     is_innovu: false,
     dni: '',
-    name: 'daniela',
+    name: '',
     email: '',
     phone: '',
     sector_address_id: 0,
@@ -65,16 +65,17 @@ export class CheckoutComponent implements OnInit {
     },
     generate_invoice: 0,
     description: '',
-    amount: 1.08,
-    amount_with_tax: 0.5,
-    amount_without_tax: 0.5,
-    tax_value: 0.08,
+    amount: 0,
+    amount_with_tax: 0,
+    amount_without_tax: 0,
+    tax_value: 0,
     settings: [],
     notify_url: null,
     custom_value: null,
     has_cash: 0,
     has_cards: 1
   };
+
   responseUrl: string | null = null;
 
   payment = {
@@ -98,6 +99,8 @@ export class CheckoutComponent implements OnInit {
   subtotal: number = 0.00;
   total_extras: number = 0.00;
   iva: number = 0.00;
+  subtotalDescuentos : number = 0.00;
+  innovu: number = 0.00;
 
   showTransf: boolean = false;
 
@@ -116,7 +119,7 @@ export class CheckoutComponent implements OnInit {
         this.inscription_id
       ).subscribe(
         (response: any) => {
-          // console.log(response);
+          console.log(response);
           this.totalCost = parseFloat(response.total) || 0.00;
           this.discountCourses = response.descuento_cursos || '0%';
           this.discountBrothers = response.descuento_hermanos || '0%';
@@ -124,7 +127,9 @@ export class CheckoutComponent implements OnInit {
           this.discountTotal = parseFloat(response.descuento_total) || 0.00;
           this.subtotal = parseFloat(response.subtotal) || 0.00;
           this.total_extras = response.total_extras || 0.00;
+          this.subtotalDescuentos = parseFloat(response.subtotal_descuentos) || 0.00;
           this.iva = response.IVA || 0.00;
+          this.innovu = response.descuento_innnovu || 0.00;
           // console.log('funciona');
         }
       );
@@ -137,19 +142,31 @@ export class CheckoutComponent implements OnInit {
   //valores de abitmedia
   onSubmit() {
     // console.log('Datos del formulario:', this.payment);
+    // this.paymentData.third.name = this.padreCheckout.name;
+    // this.paymentData.third.email = this.padreCheckout.email;
+    // this.paymentData.third.document = this.padreCheckout.dni;
+    // this.paymentData.third.document_type = this.payment.document_type;
+    // this.paymentData.third.phones = this.padreCheckout.phone;
+    // this.paymentData.third.address = this.padreCheckout.address;
+    // this.paymentData.amount = this.paymentData.amount;
+    // this.paymentData.description = this.description;
 
-    // Asignar los valores del formulario a paymentData
+
     this.paymentData.third.name = this.padreCheckout.name;
     this.paymentData.third.email = this.padreCheckout.email;
     this.paymentData.third.document = this.padreCheckout.dni;
     this.paymentData.third.document_type = this.payment.document_type;
     this.paymentData.third.phones = this.padreCheckout.phone;
     this.paymentData.third.address = this.padreCheckout.address;
+    this.paymentData.amount = this.totalCost;
+    this.paymentData.amount_with_tax = this.subtotalDescuentos;
+    this.paymentData.amount_without_tax = 0;
+    this.paymentData.tax_value = this.iva;
     this.paymentData.description = this.description;
 
     this._paymentService.createPaymentRequest(this.paymentData).subscribe(
       resp => {
-        // console.log('Respuesta de la API:', resp);
+        // console.log('Respuesta de abitmedia:', resp);
         this.responseUrl = resp.data.url;
         if (this.responseUrl) {
           window.open(this.responseUrl, '_blank');

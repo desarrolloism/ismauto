@@ -309,6 +309,7 @@ body {
 
 .table-responsive {
     max-height: 400px;
+    font-size: .8rem;
 }
 
 /* estilos para modal */
@@ -418,7 +419,7 @@ body {
 
 /* course-list.component.css */
 table {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
     margin-top: 20px;
 }
@@ -532,7 +533,7 @@ button:hover {
 
 
 .table-container {
-    max-height: 400px; /* Ajusta la altura según tus necesidades */
+    max-height: 800px; /* Ajusta la altura según tus necesidades */
     overflow-y: auto;
     border: 1px solid #ddd;
 }

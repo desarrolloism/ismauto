@@ -47,13 +47,13 @@ export class PaymentAbitmediaComponent implements OnInit {
   studentServiceId: number = 0;
 
   transport = {
-    sector_origin_id: 0,
-    sector_delivery_id: 0,
-    address_delivery: '',
-    address_origin: '',
+    sector_origin_id: 1,
+    sector_delivery_id: 1,
+    address_delivery: 'Sin recorrido',
+    address_origin: 'Sin recorrido',
     service_student_id: 0,
-    sector_delivery_name: '',
-    sector_origin_name: ''
+    sector_delivery_name: 'Sin recorrido',
+    sector_origin_name: 'Sin recorrido'
   };
 
   panelOpenState = false;
@@ -407,7 +407,6 @@ export class PaymentAbitmediaComponent implements OnInit {
 
   onSectorChange3(selectedOptionId3: any) {
     this.transport.sector_delivery_id = selectedOptionId3;
-
   }
 
   cedula: string = '';

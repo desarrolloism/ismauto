@@ -109,11 +109,12 @@
         </div>
         <div class="d-flex justify-content-center">
             <!-- boton paraga agregar estudiante -->
-            <div class="col-md-4" *ngIf="studentSon.id">
+            <div class="col-md-4" *ngIf="padre.dni">
                 <button data-bs-toggle="modal" title="Agregar estudiante"
                     data-bs-target="#exampleModal3"
                     type="button" class="mt-2 mb-2">
-                    <span
+                    Agregar estudiante
+                    <!-- <span
                         class>
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="icon icon-tabler icon-tabler-bookmark-plus"
@@ -125,7 +126,7 @@
                                 d="M12 17l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v5" />
                             <path d="M16 19h6" />
                             <path d="M19 16v6" />
-                        </svg></span>
+                        </svg></span> -->
                 </button>
             </div>
             <div class="col-md-4"></div>
@@ -203,120 +204,73 @@
                             </div>
                         </div>
                     </div>
-
                     <button type="submit"
                         class="btn btn-secondary">Guardar datos</button>
                 </form>
             </mat-expansion-panel>
-
-            <!-- FIN MATRIZ -->
+            
         </mat-accordion>
-        <!-- INICIA MATRIZ -->
-        <div class="table-responsive">
+        
+        <!-- <div class="table-responsive">
             <div class="table-container">
-                <!-- <table>
-                    <thead>
-                        <th>Fecha:</th>
-                        <th *ngFor="let week of weeks">
-                            {{ week.date_week }}
-                        </th>
-                        <tr class="text-center">
-                            <th>
-                                Disciplina
-                            </th>
-                            <th *ngFor="let week of weeks" class="text-center">
-                                {{ week.name }}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let service of services; let i = index"
-                            [ngClass]="{
-                          'last-row': i === services.length - 1,
-                          'second-last-row': i === services.length - 2,
-                          'third-last-row': i === services.length - 3
-                        }">
-                            <td *ngIf="service.name">
-                                {{ service.name }}
-                                <span *ngIf="i >= services.length - 3"
-                                    class="extra-label">(Servicio extra)</span>
-                            </td>
-                            <td *ngFor="let week of weeks" class="text-center">
-                                <ng-container
-                                    *ngIf="activeService(week, service) === false; else checkboxTemplate">
-                                    <span class="disabled-icon">&#10005;</span>
-                                </ng-container>
-                                <ng-template #checkboxTemplate>
-                                    <input
-                                        [attr.data-bs-toggle]="i === services.length - 1 ? 'modal' : null"
-                                        [attr.data-bs-target]="i === services.length - 1 ? '#exampleModalTransporte' : null"
-                                        type="checkbox" 
-                                        [checked]="activeService(week, service) === true"
-                                        (click)="i !== services.length - 1 ? registerServices(week.id, service.id) : null"> 
-
-
-                                </ng-template>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> -->
-                <table>
-
-                    <thead>
-                        <th>Fecha:</th>
-                        <th
-                            *ngFor="let week of weeks">
-                            {{ week.date_week }}
-                        </th>
-                        <tr class="text-center">
-                            <th>
-                                Disciplina
-                            </th>
-                            <th
-                                *ngFor="let week of weeks"
-                                class="text-center">
-                                {{week.name}}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let service of services; let i = index"
-                            [ngClass]="{
-                            'last-row': i === services.length - 1,
-                            'second-last-row': i === services.length - 2,
-                            'third-last-row': i === services.length - 3
-                        }">
-                            <td *ngIf="service.name">
-                                {{service.name}}
-                                <span *ngIf="i >= services.length - 3"
-                                    class="extra-label">(Servicio extra)</span>
-                            </td>
-                            <td *ngFor="let week of weeks" class="text-center">
-                                <ng-container
-                                    *ngIf="activeService(week, service) === false; else checkboxTemplate">
-                                    <span class="disabled-icon">&#10005;</span>
-                                </ng-container>
-                                <ng-template #checkboxTemplate>
-                                    <input
-                                        type="checkbox"
-                                        *ngIf="service.name != 'TRANSPORTE'"
-                                        [checked]="activeService(week, service) === true"
-                                        (click)="registerServices(week.id, service.id)">
-                                    <input *ngIf="service.name == 'TRANSPORTE'"
-                                        data-bs-toggle="modal"
-                                        [checked]="activeService(week, service) === true"
-                                        data-bs-target="#exampleModalTransporte"
-                                        type="checkbox"
-                                        (click)="modalTransport(week.id, service.id);">
-                                </ng-template>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                
             </div>
-        </div>
-
+        </div> -->
     </div>
+</main>
+
+<!-- INICIA MATRIZ -->
+<table class="container">
+    <thead>
+        <th>Fecha:</th>
+        <th class="text-center"
+            *ngFor="let week of weeks">
+            {{ week.date_week }}
+        </th>
+        <tr class="text-center">
+            <th>
+                Disciplina
+            </th>
+            <th
+                *ngFor="let week of weeks"
+                class="text-center">
+                {{week.name}}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let service of services; let i = index"
+            [ngClass]="{
+            'last-row': i === services.length - 1,
+            'second-last-row': i === services.length - 2,
+            'third-last-row': i === services.length - 3
+        }">
+            <td *ngIf="service.name">
+                {{service.name}}
+                <span *ngIf="i >= services.length - 3"
+                    class="extra-label">(Servicio extra)</span>
+            </td>
+            <td *ngFor="let week of weeks" class="text-center">
+                <ng-container
+                    *ngIf="activeService(week, service) === false; else checkboxTemplate">
+                    <span class="disabled-icon">&#10005;</span>
+                </ng-container>
+                <ng-template #checkboxTemplate>
+                    <input
+                        type="checkbox"
+                        *ngIf="service.name != 'TRANSPORTE'"
+                        [checked]="activeService(week, service) === true"
+                        (click)="registerServices(week.id, service.id)">
+                    <input *ngIf="service.name == 'TRANSPORTE'"
+                        data-bs-toggle="modal"
+                        [checked]="activeService(week, service) === true"
+                        data-bs-target="#exampleModalTransporte"
+                        type="checkbox"
+                        (click)="modalTransport(week.id, service.id);">
+                </ng-template>
+            </td>
+        </tr>
+    </tbody>
 
     <div class="d-flex justify-content-between">
 
@@ -343,7 +297,9 @@
             {{ totalCost | currency }}
         </button>
     </div>
-</main>
+</table>
+
+    <!-- FINALIZA MATRIZ -->
 
 <div *ngIf="isLoading" class="overlay"></div>
 <div *ngIf="isLoading" class="spinner-container">
@@ -442,7 +398,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header d-flex justify-content-center">
-                <h1 class="modal-title text-center fs-5" id="exampleModalLabel">Seleccione
+                <h1 class="modal-title text-center fs-5"
+                    id="exampleModalLabel">Seleccione
                     sectores para recorrido</h1>
             </div>
             <div class="modal-body">
@@ -451,7 +408,7 @@
                         <div class="col-md-6 border-end">
                             <label for="sector_inicia" class="form-label">Sector
                                 Inicia</label>
-                                <p>{{ transport.sector_origin_name }}</p>
+                            <p>{{ transport.sector_origin_name }}</p>
                             <div class="mb-3 d-flex justify-content-center">
                                 <app-select2
                                     [options]="selectOptions"
@@ -474,7 +431,7 @@
                         <div class="col-md-6">
                             <label for="sector_termina"
                                 class="form-label">Sector de entrega</label>
-                                <p>{{ transport.sector_delivery_name }}</p>
+                            <p>{{ transport.sector_delivery_name }}</p>
 
                             <div class="mb-3 d-flex justify-content-center">
                                 <app-select2
@@ -487,9 +444,10 @@
                             </div>
                             <div class="mb-3">
                                 <label for="address_delivery"
-                                    class="form-label">Dirección de entrega</label>
+                                    class="form-label">Dirección de
+                                    entrega</label>
                                 <input
-                                class="text-center"
+                                    class="text-center"
                                     name="address_delivery"
                                     type="text"
                                     [(ngModel)]="transport.address_delivery" />
@@ -497,7 +455,8 @@
                         </div>
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        <button type="submit" class="btn btn-primary">Guardar
+                            cambios</button>
                         <a type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">Cerrar</a>
                     </div>
