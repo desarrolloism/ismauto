@@ -13,6 +13,7 @@ import { UserdataComponent } from './user/userdata/userdata.component';
 import { PaymentAbitmediaComponent } from './emergent/payment-abitmedia/payment-abitmedia.component';
 import { ErroruserComponent } from './scholarships/erroruser/erroruser.component';
 import { CheckoutComponent } from './emergent/checkout/checkout.component';
+import { PaymentAdministrationComponent } from './emergent/payment-administration/payment-administration.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
   //abitmedia
   { path: 'payment-abitmedia', component: PaymentAbitmediaComponent },
   { path: 'checkout', component: CheckoutComponent },
+  { path: 'payment-administration', component: PaymentAdministrationComponent },
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

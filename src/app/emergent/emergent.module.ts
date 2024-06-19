@@ -10,12 +10,14 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { RouterModule } from '@angular/router';
 import {MatDividerModule} from '@angular/material/divider';
+import { PaymentAdministrationComponent } from './payment-administration/payment-administration.component';
 
 @NgModule({
   declarations: [
     PaymentAbitmediaComponent,
     Select2Component,
     CheckoutComponent,
+    PaymentAdministrationComponent,
   ],
   imports: [
     CommonModule,

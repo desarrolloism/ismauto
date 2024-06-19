@@ -301,4 +301,20 @@ export class PaymentService {
     return this._http.post(`${this.url}/update_transport`, data, { headers: headers });
   }
 
+
+
+  //servicio de colecturia
+  getAllPayments(state: string){
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+
+    });
+    
+    const data = {
+      state
+    }
+    return this._http.post(`${this.url}/payments_camp`, data, { headers: headers });
+  }
+
 }

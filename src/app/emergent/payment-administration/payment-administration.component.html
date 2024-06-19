@@ -1,0 +1,12 @@
+<p>payment-administration works!</p>
+<button (click)="togglePaymentView('PAGADO')">VER PAGADOS</button>
+<button (click)="togglePaymentView('INICIANDO')">VER INICIADOS</button>
+
+<div *ngFor="let payment of allPayments">
+    <div>
+        {{ payment.name }}
+    </div>
+        <div>
+            {{ payment.name }}
+        </div>
+</div>
