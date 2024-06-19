@@ -1,9 +1,9 @@
 import {
   MatCommonModule
-} from "./chunk-KAOHOWKR.js";
+} from "./chunk-53ANOGY6.js";
 import {
   DOCUMENT
-} from "./chunk-4RGAYZY4.js";
+} from "./chunk-GKWQAKPA.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionStrategy,
@@ -39,7 +39,7 @@ import {
   ɵɵelementStart,
   ɵɵstyleProp,
   ɵɵtemplate
-} from "./chunk-XFTDIOXS.js";
+} from "./chunk-UY3YHEDC.js";
 import "./chunk-J4B6MK7R.js";
 
 // node_modules/@angular/material/fesm2022/progress-bar.mjs

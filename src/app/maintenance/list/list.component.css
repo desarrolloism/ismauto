@@ -58,7 +58,7 @@ h4 {
 
 
 .search-bar {
-    border-radius: 20px;
+    border-radius: 5px;
     overflow: hidden;
     border: 1px solid #ccc;
 
@@ -90,7 +90,7 @@ h4 {
 }
 
 .btn {
-    border-radius: 20px;
+    border-radius: 5px;
     color: #828282;
 }
 
@@ -295,4 +295,9 @@ a.nav-link:hover {
 
 .filtrar {
     font-size: 0.8rem;
+}
+
+.info p {
+    color: #828282;
+    font-size: .8rem;
 }

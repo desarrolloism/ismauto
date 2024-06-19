@@ -63,38 +63,88 @@
 
 <div class="container-fluid mt-2">
     <div class="row bodychart">
-        <div class="col-md-1 col-lg-1 ml-sm-auto"></div>
-        <main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
+        <main role="main" class="col-md-9 col-lg-9 ml-sm-auto px-4">
             <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
-                    <div class="card shadow overflow-auto stats">
-                        <div class="card-body">
-                            <div class="card shadow menu text-center ">
-                                <!-- administra casos como jefe -->
-                                <div>
-                                    <p><i
-                                            class="fa-solid fa-chart-line"></i>
-                                        Estadísticas Mantenimiento ({{
-                                        responseCases?.length
-                                        }})</p>
-                                </div>
+                <div class="cards overflow-auto stats">
+                    <div class="card-body">
+                        <div class=" text-center ">
+                            <!-- administra casos como jefe -->
+                            <div>
+                                <h3><i
+                                        class="fa-solid fa-chart-line"></i>
+                                    Estadísticas Mantenimiento ({{
+                                    responseCases?.length
+                                    }})</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="chart-container">
+                                <canvas id="MyChart" width="300"
+                                    height="300"></canvas>
                             </div>
                             <div class="row">
-                                <div class="chart-container">
-                                    <canvas id="MyChart" width="300"
-                                        height="300"></canvas>
-                                </div>
-                                <div class="row">
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-1"></div>
+
             </div>
         </main>
-        <div class="col-md-1 col-lg-1 ml-sm-auto"></div>
+        <div class="col-md-3 col-lg-3 ml-sm-auto overflow-auto info">
+            <div class="cards">
+                <b><i
+                        class="fa-solid fa-chart-line"></i> Estadísticas de
+                    Mantenimiento</b>
+                <p>
+                    La gráfica muestra el estado actual de casos
+                    (iniciando, en proceso, etc.), útil para gestionar el
+                    flujo de trabajo.
+
+                </p>
+                <hr>
+                <b><i class="fa-regular fa-paper-plane"></i> Creación de
+                    Casos</b>
+                <p>
+                    Para crear un caso de mantenimiento u otro departamento,
+                    debe ingresar al
+                    proceso desde el menu izquierdo
+                    <i class="fa-solid fa-bars"></i>.
+
+                </p>
+            </div>
+
+            <div class="cards">
+                <b><i class="fa-regular fa-file-lines"></i> Obtener
+                    resportería</b>
+                <p>
+                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
+                    podemos escoger la opción de reportería del proceso que
+                    necesitemos, esto nos llevará a una nueva página para
+                    visualizar la información.
+
+                </p>
+                <hr>
+                <b><i class="fa-solid fa-sliders"></i> Configuración de
+                    usuario</b>
+                <p>
+                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
+                    podemos editar la configuración de usuario, especificamente
+                    cambiar la contraseñas.
+                </p>
+            </div>
+            <div class="cards">
+                <b><i class="fa-solid fa-bug"></i> Errores del sistema:</b>
+                <p>
+                    En caso de percatarse de un error, mal funcionamiento,
+                    pérdida de información, etc. puede contactarse por correo:
+                    <span><a
+                            href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=153&ct=1718814047&rver=7.0.6738.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fcobrandid%3dab0455a0-8d03-46b9-b18b-df2f57b9e44c%26nlp%3d1%26RpsCsrfState%3dbf483ca7-451a-d186-b498-f788b8acb025&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=ab0455a0-8d03-46b9-b18b-df2f57b9e44c"
+                            target="_blank">asisdesarrollo&commat;ism.edu.ec</a></span>
+                </p>
+                <!-- <hr> -->
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -178,8 +228,6 @@
     <button mat-menu-item (click)="logout()">Cerrar sesión</button>
 </mat-menu>
 
-
-
 <!-- modal estatica para cambio de clave -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
@@ -248,9 +296,10 @@
                         <button type="submit" class="btn btn-primary"
                             [disabled]="passwordForm.invalid">Cambiar
                             contraseña</button>
-                            <button type="button"
+                        <button type="button"
                             routerLink="/login"
-                            class="btn btn-secondary">Regresar al inicio</button>
+                            class="btn btn-secondary">Regresar al
+                            inicio</button>
                     </div>
                 </form>
 

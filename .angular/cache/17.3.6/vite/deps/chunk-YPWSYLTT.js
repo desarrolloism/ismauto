@@ -4,19 +4,19 @@ import {
   style,
   transition,
   trigger
-} from "./chunk-OQ63HKSM.js";
+} from "./chunk-VRAXK3DO.js";
 import {
   Directionality,
   MatCommonModule,
   ObserversModule,
   Platform,
   coerceBooleanProperty
-} from "./chunk-KAOHOWKR.js";
+} from "./chunk-53ANOGY6.js";
 import {
   CommonModule,
   DOCUMENT,
   NgTemplateOutlet
-} from "./chunk-4RGAYZY4.js";
+} from "./chunk-GKWQAKPA.js";
 import {
   ANIMATION_MODULE_TYPE,
   Attribute,
@@ -80,7 +80,7 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate,
   ɵɵviewQuery
-} from "./chunk-XFTDIOXS.js";
+} from "./chunk-UY3YHEDC.js";
 
 // node_modules/@angular/cdk/fesm2022/observers/private.mjs
 var loopLimitExceededErrorHandler = (e) => {
@@ -864,6 +864,9 @@ var MatFormFieldControl = _MatFormFieldControl;
     type: Directive
   }], null, null);
 })();
+function getMatFormFieldPlaceholderConflictError() {
+  return Error("Placeholder attribute and child element were both specified.");
+}
 function getMatFormFieldDuplicatedHintError(align) {
   return Error(`A hint was already declared for 'align="${align}"'.`);
 }
@@ -1564,13 +1567,21 @@ var MatFormFieldModule = _MatFormFieldModule;
 
 export {
   MatLabel,
+  MAT_ERROR,
   MatError,
   MatHint,
+  MAT_PREFIX,
   MatPrefix,
+  MAT_SUFFIX,
   MatSuffix,
+  matFormFieldAnimations,
   MatFormFieldControl,
+  getMatFormFieldPlaceholderConflictError,
+  getMatFormFieldDuplicatedHintError,
+  getMatFormFieldMissingControlError,
   MAT_FORM_FIELD,
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormField,
   MatFormFieldModule
 };
-//# sourceMappingURL=chunk-SU6LHQFH.js.map
+//# sourceMappingURL=chunk-YPWSYLTT.js.map

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { CasesService } from '../../services/cases.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { NgForm } from '@angular/forms';
-
+import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 declare var bootstrap: any;
 
@@ -43,10 +43,18 @@ export class MainComponent {
     phone_number: ''
   }
 
+  firstFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
+  isLinear = false;
 
   constructor(private _casesServ: CasesService,
     private _router: Router,
-    private _notiServ: NotificationsService
+    private _notiServ: NotificationsService,
+    private _formBuilder: FormBuilder
   ) {
     this.token = localStorage.getItem('token');
     this.getCases();

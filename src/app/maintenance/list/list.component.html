@@ -26,7 +26,7 @@
 
     <div class="d-flex justify-content-center mt-2" style="margin-right: 10px;">
         <div class="input-group mb-2 search-bar">
-            <input type="text" class="form-control search-input"
+            <input type="text" class="form-control "
                 placeholder="Buscar descripción o sitio"
                 aria-label="Buscar"
                 aria-describedby="basic-addon2" (keyup)="filterSearch()"
@@ -64,7 +64,6 @@
             style="margin-right: .5rem;"
             matTooltip="Regresar al Inicio"
             class="text-white btn-nv" mat-button>
-            <!-- <i class="fa-solid fa-house"></i> -->
             <svg xmlns="http://www.w3.org/2000/svg"
                 class="icon icon-tabler icon-tabler-home-2" width="24"
                 height="24"
@@ -79,8 +78,6 @@
         </button>
 
         <mat-menu #process="matMenu">
-            <!-- <button mat-menu-item
-                [matMenuTriggerFor]="vertebrates">Mantenimiento</button> -->
             <button mat-menu-item routerLink="/list"
                 [matMenuTriggerFor]="maintenance">Mantenimiento</button>
         </mat-menu>
@@ -97,13 +94,156 @@
             [matMenuTriggerFor]="menu"><i
                 class="fa-regular fa-user"></i></button>
     </div>
-
 </nav>
 
-<mat-menu #menu="matMenu">
-    <button mat-menu-item routerLink="/userdata">Configuración</button>
-    <button mat-menu-item (click)="logout()">Cerrar sesión</button>
-</mat-menu>
+<div class="container mt-2 ">
+    <div class="d-flex justify-content-between">
+        <button class="btn filtrar btn2 mb-2" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#statusCollapse" aria-expanded="false"
+            aria-controls="statusCollapse">
+            Filtrar por estado
+        </button>
+        <div class="collapse text-center" id="statusCollapse">
+            <!-- Lista de estados -->
+            @for (status of statuses; track $index) {
+            <a class=" mb-2 filtrar"
+                style="margin-right: 5px;color: #828282;cursor: pointer;"
+                (click)="filterStatus(status)"
+                [class.active]="selectedStatus === status">{{ status }}</a>
+            }
+            <a class="btn btn2 mb-2 filtrar"
+                (click)="clearStatusFilter()">Quitar
+                filtro</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row overflow-auto">
+        <div class="col-lg-9 col-md-9">
+            <div class="row overflow-auto d-flex justify-content-center"
+                style="max-height: 600px;margin-top: -.8rem;">
+                <div
+                    class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+                    <div class="col" *ngFor="let maintenance of filtrarMant">
+                        <div class="card card-sm">
+                            <div class="card-body p-2">
+                                <h6 class="card-title mb-1">{{
+                                    maintenance.type_incident }} - {{
+                                    maintenance.case.status.name
+                                    }}</h6>
+                                <p class="card-text mb-0"><small
+                                        class="text-muted">ID:</small> {{
+                                    maintenance.id }}</p>
+                                <p class="card-text mb-0"><small
+                                        class="text-muted">Sitio:</small> {{
+                                    maintenance.site }}</p>
+                                <p class="card-text mb-1"><small
+                                        class="text-muted">Puntuación:</small>
+                                    {{ maintenance.score ? maintenance.score +
+                                    '/5' : 'Sin calificar' }}</p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center">
+                                    <!-- <small class="text-muted">{{
+                                        maintenance.case.status.name }}</small> -->
+                                    <a
+                                        routerLink="/maint-detail/{{ maintenance.id }}"
+                                        class="btn btn-sm btn2">Ver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-paginator
+                        [length]="totalPages"
+                        [pageSize]="1"
+                        [pageIndex]="actualPage - 1"
+                        (page)="list($event.pageIndex + 1)">
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 d-flex">
+            <div class="row overflow-auto d-flex justify-content-center mb-3"
+                style="max-height: 600px;margin-top: -.8rem;">
+                <div class="row g-3 info justify-content-center">
+                    <div class="card card-sm">
+                        <div class="p-2">
+                            <b><i class="fa-solid fa-filter"></i> Filtrar
+                                casos</b>
+                            <p>
+                                En la barra de búsqueda podemos realizar un
+                                filtrado mediante la
+                                descripción del caso o el sitio. Además dando
+                                click en el boton "Filtrar por estado"
+                                podremos observar todos los tickets según el
+                                estado que elegimos y podremos
+                                quitar ese filtro de ser necesario.
+                            </p>
+                            <hr>
+                            <b><i class="fa-regular fa-square-plus"></i> Crear
+                                caso</b>
+                            <p>
+
+                                En la barra principal podemos observar el icono
+                                <i class="fa-regular fa-paper-plane"></i>. Para
+                                crear un caso de mantenimiento solo debemos
+                                llenar el formulario.
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="card card-sm">
+                        <div class="p-2">
+                            <b><i class="fa-solid fa-layer-group"></i>
+                                Procesos</b>
+                            <p>
+                                En este apartado podemos revisar todos los
+                                procesos disponibles,
+                                ademas de acceder a la reportería de cada uno de
+                                manera rápida.
+                            </p>
+                            <hr>
+                            <b><i class="fa-solid fa-list"></i> Listado de
+                                tickets</b>
+                            <p>
+                                Página actual, aquí podemos observar un listado
+                                de todos los casos asignados a mantenimiento y
+                                logística además de mostrar información corta de
+                                cada caso.
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <div class="card card-sm">
+                        <div class="p-2">
+                            <b><i class="fa-solid fa-bug"></i> Errores del
+                                sistema:</b>
+                            <p>
+                                En caso de percatarse de un error, mal
+                                funcionamiento,
+                                pérdida de información, etc. puede contactarse
+                                por correo:
+                                <span><a
+                                        href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=153&ct=1718814047&rver=7.0.6738.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fcobrandid%3dab0455a0-8d03-46b9-b18b-df2f57b9e44c%26nlp%3d1%26RpsCsrfState%3dbf483ca7-451a-d186-b498-f788b8acb025&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=ab0455a0-8d03-46b9-b18b-df2f57b9e44c"
+                                        target="_blank">asisdesarrollo&commat;ism.edu.ec</a></span>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <!-- offcanvas-menu.component.html -->
 <div class="offcanvas offcanvas-start custom-offcanvas" tabindex="-1"
@@ -113,7 +253,6 @@
         <img routerLink="/main" src="assets/images/logo.png"
             style="margin-right: 1rem;" alt="Logo"
             width="60" class="d-inline-block">
-        <!-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menú</h5> -->
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
             aria-label="Close"></button>
     </div>
@@ -151,16 +290,20 @@
                 sesión
             </a>
             <hr>
-            <!-- <div class="offcanvas-header">
-                <h5 class="offcanvas-title"
-                    id="offcanvasExampleLabel">Procesos</h5>
-            </div> -->
             <a
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 routerLink="/list">
                 <i class="fa-solid fa-screwdriver-wrench icons"></i>
                 Mantenimiento
             </a>
+
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/maincreate">
+                <i class="fa-regular fa-paper-plane icons"></i>
+                Crear Ticket
+            </a>
+
             <hr>
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title"
@@ -179,94 +322,8 @@
                 privacidad</span> / ISM© 2024 / All Rights Reserved.</p>
     </div>
 </div>
-
-<div class="container mt-2">
-    <div class="d-flex justify-content-between">
-        <button class="btn filtrar btn2 mb-2" type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#statusCollapse" aria-expanded="false"
-            aria-controls="statusCollapse">
-            Filtrar por estado
-        </button>
-        <div class="collapse text-center" id="statusCollapse">
-            <!-- Lista de estados -->
-            @for (status of statuses; track $index) {
-            <a class="btn mb-2 btn2 filtrar" style="margin-right: 5px;"
-                (click)="filterStatus(status)"
-                [class.active]="selectedStatus === status">{{ status }}</a>
-            }
-            <button class="btn mb-2 btn2 filtrar"
-                (click)="clearStatusFilter()">Quitar
-                filtro</button>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="row overflow-auto d-flex justify-content-center"
-                style="max-height: 600px;margin-top: -.8rem;">
-                <div
-                    class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
-                    <div class="col" *ngFor="let maintenance of filtrarMant">
-                        <div class="card card-sm">
-                            <div class="card-body p-2">
-                                <h6 class="card-title mb-1">{{
-                                    maintenance.type_incident }} - {{
-                                    maintenance.case.status.name
-                                    }}</h6>
-                                <p class="card-text mb-0"><small
-                                        class="text-muted">ID:</small> {{
-                                    maintenance.id }}</p>
-                                <p class="card-text mb-0"><small
-                                        class="text-muted">Sitio:</small> {{
-                                    maintenance.site }}</p>
-                                <p class="card-text mb-1"><small
-                                        class="text-muted">Puntuación:</small>
-                                    {{ maintenance.score ? maintenance.score +
-                                    '/5' : 'Sin calificar' }}</p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center">
-                                    <!-- <small class="text-muted">{{
-                                        maintenance.case.status.name }}</small> -->
-                                    <a
-                                        routerLink="/maint-detail/{{ maintenance.id }}"
-                                        class="btn btn-sm btn2">Ver</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <mat-paginator
-                [length]="totalPages"
-                [pageSize]="1"
-                [pageIndex]="actualPage - 1"
-                (page)="list($event.pageIndex + 1)">
-            </mat-paginator>
-
-            <!-- <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                    <li class="page-item">
-                        <a class="page-link" *ngIf="actualPage > 1"
-                            (click)="list(actualPage-1)">Anterior</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" routerLink="#" enabled>{{
-                            actualPage
-                            }}</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" *ngIf="actualPage < totalPages"
-                            (click)="list(actualPage+1)">Siguiente</a>
-                    </li>
-                </ul>
-            </nav> -->
-        </div>
-    </div>
-</div>
+<!-- menu de botones -->
+<mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/userdata">Configuración</button>
+    <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+</mat-menu>

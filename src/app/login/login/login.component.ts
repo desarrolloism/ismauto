@@ -42,7 +42,7 @@ export class LoginComponent {
         localStorage.setItem('userData', JSON.stringify(this.responseUrl.data));
         this._router.navigate(['/main']);
       } else if( this.responseUrl.status == 'Error') {
-        alert('El usuario no existe, por favor registrese con sistemas');
+        alert('El usuario o contraseña son incorrectos');
       } else {
         alert('Usuario o contraseña incorrectos');
       }

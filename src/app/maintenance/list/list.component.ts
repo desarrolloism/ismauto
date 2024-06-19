@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { MaintenanceService } from '../../services/maintenance.service';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-list',
@@ -37,7 +36,9 @@ export class ListComponent {
   ) {
     this.token = localStorage.getItem('token');
     this.list(this.actualPage);
+
   }
+
 
   ngOnInit() {
     this.getAvatar();
