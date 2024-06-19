@@ -2,12 +2,12 @@ import {
   ScrollDispatcher,
   ScrollingModule,
   ViewportRuler
-} from "./chunk-54W2SL56.js";
+} from "./chunk-3DOYHHMY.js";
 import {
   DomPortalOutlet,
   PortalModule,
   TemplatePortal
-} from "./chunk-S2JE5DA5.js";
+} from "./chunk-JOFUZXBK.js";
 import {
   BidiModule,
   Directionality,
@@ -19,11 +19,11 @@ import {
   coerceCssPixelValue,
   hasModifierKey,
   supportsScrollBehavior
-} from "./chunk-2YA2B2CW.js";
+} from "./chunk-KAOHOWKR.js";
 import {
   DOCUMENT,
   Location
-} from "./chunk-P7C6X2J5.js";
+} from "./chunk-4RGAYZY4.js";
 import {
   ANIMATION_MODULE_TYPE,
   ApplicationRef,
@@ -61,7 +61,7 @@ import {
   ɵɵdefineNgModule,
   ɵɵdirectiveInject,
   ɵɵinject
-} from "./chunk-UNKIY53J.js";
+} from "./chunk-XFTDIOXS.js";
 import {
   __spreadProps,
   __spreadValues
@@ -2757,6 +2757,8 @@ export {
   OverlayConfig,
   FlexibleConnectedPositionStrategy,
   Overlay,
+  CdkOverlayOrigin,
+  CdkConnectedOverlay,
   OverlayModule
 };
-//# sourceMappingURL=chunk-VXEYXCNN.js.map
+//# sourceMappingURL=chunk-TMI74ZCK.js.map

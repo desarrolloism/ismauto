@@ -19,6 +19,7 @@ import { ScholarshipsModule } from './scholarships/scholarships.module';
 import { EmergentModule } from './emergent/emergent.module';
 import { OnlyNumbersDirective } from './only-numbers.directive';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [
@@ -41,8 +42,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     GeneralscoreModule,
     ScholarshipsModule,
     EmergentModule,
-    MatAutocompleteModule
-    
+    MatAutocompleteModule,
+    UserModule
   ],
   providers: [
     provideAnimationsAsync()

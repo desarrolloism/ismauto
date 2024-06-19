@@ -83,13 +83,9 @@
                                 [(ngModel)]="paymentData.amount">
                             <div
                                 class="button-container d-flex justify-content-evenly">
-                                <a class="btn btn-primary"
-                                    (click)="mostrarFormulario()">Pago por
-                                    transferencia</a>
+                                <a class="btn btn-primary" (click)="setPaymentMethod('Transferencia')">Pago por transferencia</a>
                                 <div class="divider"></div>
-                                <button mat-raised-button type="submit"
-                                    class="btn btn-primary">Tarjeta crédito
-                                    o Débito</button>
+                                <button mat-raised-button type="submit" class="btn btn-primary" (click)="setPaymentMethod('Tarjeta de Crédito')">Tarjeta crédito o Débito</button>
                             </div>
 
                         </form>
@@ -115,7 +111,7 @@
                                     <td class="data">{{ innovu | currency
                                         }}</td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td>Descuento por Hermanos:</td>
                                     <td class="data">{{ discountBrothers }}</td>
@@ -139,7 +135,7 @@
                                         currency
                                         }}</td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td>IVA:</td>
                                     <td class="data">{{ iva | currency}}</td>
@@ -154,7 +150,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                       
+
                     </div>
                     <!-- <p  style="background-color: limegreen; color: white;">
                         {{ totalCost | currency
@@ -237,7 +233,21 @@
                         <input type="file" #fileInput
                             class="form-control mb-3" />
                         <button (click)="uploadImage()"
-                            class="btn btn-primary">Subir archivo</button>
+                            class="btn btn-primary">Registrar pago</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="showCredit">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Suba captura del pago</label>
+                        <input type="file" #fileInput
+                            class="form-control mb-3" />
+                        <button (click)="uploadImage()"
+                            class="btn btn-primary">Registrar pago</button>
                     </div>
                 </div>
             </div>

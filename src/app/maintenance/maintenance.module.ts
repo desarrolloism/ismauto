@@ -9,9 +9,12 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatButtonModule} from '@angular/material/button';
-import {MatDividerModule} from '@angular/material/divider';
 import { MaincreateComponent } from './maincreate/maincreate.component';
 import { MaintDetailComponent } from './maint-detail/maint-detail.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 @NgModule({
@@ -30,6 +33,10 @@ import { MaintDetailComponent } from './maint-detail/maint-detail.component';
     RouterModule,
     LoginModule,
     FormsModule,
+    MatProgressBarModule,
+    MatMenuModule,
+    MatTooltipModule,
+    MatPaginatorModule
   ],
   exports: [
     MaincreateComponent,

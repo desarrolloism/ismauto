@@ -36,7 +36,7 @@ export class LoginComponent {
       this.responseUrl =  resp;
       // console.log(this.responseUrl);
       if(this.responseUrl.status == 'OK'){
-        console.log(this.responseUrl.data.token);
+        // console.log(this.responseUrl.data.token);
 
         localStorage.setItem('token', this.responseUrl.data.token);
         localStorage.setItem('userData', JSON.stringify(this.responseUrl.data));

@@ -115,7 +115,7 @@ export class MaintDetailComponent implements OnInit {
         this.mainDetalle.has_risk = this.maintenance.has_risk;
         this.mainDetalle.status_id = this.maintenance.case.status_id;
         this.mainDetalle.user_to_assign_id = this.maintenance.case.user_to_assign_id;
-        console.log(`el ide del user es `+this.mainDetalle.user_to_assign_id);
+        // console.log(`el ide del user es `+this.mainDetalle.user_to_assign_id);
         this.mainDetalle.institute_id = this.maintenance.case.institute_id;
         this.mainDetalle.solution = this.maintenance.solution;
         this.mainDetalle.type_incident = this.maintenance.type_incident;
@@ -131,7 +131,7 @@ export class MaintDetailComponent implements OnInit {
           // Establecer is_before en false para las fotos subidas después del cambio de estado
           photo.is_before = photoCreatedAt < statusChangedDate;
         });
-        console.log(this.maintenance);
+        // console.log(this.maintenance);
       } else {
         alert('Error de detalle, por favor notifique al administrador');
       }

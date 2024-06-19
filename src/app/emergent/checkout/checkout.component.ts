@@ -99,14 +99,22 @@ export class CheckoutComponent implements OnInit {
   subtotal: number = 0.00;
   total_extras: number = 0.00;
   iva: number = 0.00;
-  subtotalDescuentos : number = 0.00;
+  subtotalDescuentos: number = 0.00;
   innovu: number = 0.00;
 
   showTransf: boolean = false;
+  showCredit: boolean = false;
 
   mostrarFormulario() {
     // console.log('hola');
     this.showTransf = !this.showTransf;
+    this.padre.method = 'Transferencia';
+  }
+
+  mostrarTarjeta() {
+    // console.log('hola');
+    this.showCredit = !this.showCredit;
+    this.padre.method = 'Tarjeta de Crédito';
   }
 
   //Obtiene costos 
@@ -163,12 +171,16 @@ export class CheckoutComponent implements OnInit {
     this.paymentData.amount_without_tax = 0;
     this.paymentData.tax_value = this.iva;
     this.paymentData.description = this.description;
+    this.padre.method = 'Tarjeta de Crédito';
+
 
     this._paymentService.createPaymentRequest(this.paymentData).subscribe(
       resp => {
         // console.log('Respuesta de abitmedia:', resp);
         this.responseUrl = resp.data.url;
         if (this.responseUrl) {
+          this.showCredit = true;
+          alert('Se abrirá una nueva página para realizar el pago, luego de realizar la transacción no olvide subir una captura para validar el pago.');
           window.open(this.responseUrl, '_blank');
           // window.location.href = (this.responseUrl, '_blank');
         }
@@ -195,9 +207,23 @@ export class CheckoutComponent implements OnInit {
   }
 
 
+  setPaymentMethod(method: string) {
+    console.log('setPaymentMethod llamada con:', method);
+    
+    if (method === 'Transferencia' || method === 'Tarjeta de Crédito') {
+      this.padre.method = method;
+      this.showTransf = method === 'Transferencia';
+      this.showCredit = method === 'Tarjeta de Crédito';
+      console.log('padre.method asignado a:', this.padre.method);
+    } else {
+      console.log('Método de pago no válido:', method);
+    }
+  }
+
 
   uploadImage() {
     // console.log(this.padre.voucher, this.padre.bank);
+    console.log(this.padre.method);
     const file: File = this.fileInput.nativeElement.files[0];
     if (file) {
       this.convertToBase64(file).then((base64: string) => {
@@ -210,11 +236,12 @@ export class CheckoutComponent implements OnInit {
           this.padre.bank,
           this.padreCheckout.name,
           this.padreCheckout.dni,
-          this.padre.method = 'transferencia',
-          this.padreCheckout.address ,
+          this.padre.method,
+          this.padreCheckout.address,
           this.padreCheckout.phone,
           this.padreCheckout.email,
-          this.description
+          this.description,
+          this.totalCost
         ).subscribe(resp => {
           // console.log(resp);
           let status: any = resp;
@@ -229,6 +256,7 @@ export class CheckoutComponent implements OnInit {
       alert('Ocurrió un error, ha cargado una imagen? de no ser asi contacte con el administrador del sistema');
     }
   }
+
 
 }
 

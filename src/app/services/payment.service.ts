@@ -237,7 +237,8 @@ export class PaymentService {
     address: string,
     phone: string,
     email: string,
-    description: string
+    description: string,
+    paymentTotal: number
   ) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
@@ -256,7 +257,8 @@ export class PaymentService {
       address,
       phone,
       email,
-      description
+      description,
+      payment_total: paymentTotal
     }
 
     return this._http.post(`${this.url}/payment_register`, data, { headers: headers });
