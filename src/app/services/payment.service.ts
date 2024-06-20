@@ -304,17 +304,41 @@ export class PaymentService {
 
 
   //servicio de colecturia
-  getAllPayments(state: string){
+  getAllPayments(state: string) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json'
 
     });
-    
+
     const data = {
       state
     }
     return this._http.post(`${this.url}/payments_camp`, data, { headers: headers });
+  }
+
+  //actualiza el estado del pago
+  updatePayment(id: number, new_state: string) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+    const data = {
+      id,
+      new_state
+    }
+    return this._http.post(`${this.url}/update_payment_state`, data, { headers: headers });
+  }
+
+  getPaymentPhoto(id: number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+    const data = {
+      id
+    }
+    return this._http.post(`${this.url}/get_payment_photo`, data, { headers: headers });
   }
 
 }

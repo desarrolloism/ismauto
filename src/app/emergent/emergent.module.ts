@@ -11,6 +11,13 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { RouterModule } from '@angular/router';
 import {MatDividerModule} from '@angular/material/divider';
 import { PaymentAdministrationComponent } from './payment-administration/payment-administration.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { HeaderComponent } from './header/header.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTooltipModule} from '@angular/material/tooltip'; 
+
 
 @NgModule({
   declarations: [
@@ -18,6 +25,7 @@ import { PaymentAdministrationComponent } from './payment-administration/payment
     Select2Component,
     CheckoutComponent,
     PaymentAdministrationComponent,
+    HeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -28,7 +36,12 @@ import { PaymentAdministrationComponent } from './payment-administration/payment
     MatTabsModule,
     MatExpansionModule,
     RouterModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatTooltipModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

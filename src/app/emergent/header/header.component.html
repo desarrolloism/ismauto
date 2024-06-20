@@ -1,0 +1,177 @@
+
+<nav class="navbar">
+    <div class="navbar-brand d-flex align-items-center">
+        <button class="btn text-white"
+            data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+            aria-controls="offcanvasExample">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <img routerLink="/main" src="assets/images/logo.png"
+            style="margin-right: 1rem;" alt="Logo"
+            width="60" class="d-inline-block">
+        <!-- <div class="vr mx-2"></div> -->
+
+        <div class="position-relative">
+            <div class="d-flex flex-column flex-md-row align-items-center">
+                <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
+                    Hola! {{ fullname }} /
+                </p>
+                <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
+                    {{ email }}
+                    <span
+                        class="position-absolute text-white top-0 start-80 translate-middle badge rounded-pill bg-danger">
+                        <!-- {{ getTotalStatus() }} -->
+                    </span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="navbar-links">
+        <!-- procesos -->
+        <button mat-button class="text-white btn-nv"
+            matTooltip="Procesos" style="margin-right: .5rem;"
+            [matMenuTriggerFor]="process">
+            <i class="fa-solid fa-layer-group"></i>
+        </button>
+
+        <button
+            routerLink="/maincreate"
+            style="margin-right: .5rem;"
+            matTooltip="Abrir caso"
+            class="text-white btn-nv" mat-button>
+            <i class="fa-regular fa-paper-plane"></i>
+        </button>
+
+        <button
+            routerLink="/list"
+            style="margin-right: .5rem;"
+            matTooltip="Listado de tickets"
+            class="text-white btn-nv" mat-button>
+            <i class="fa-solid fa-list"></i>
+        </button>
+
+        <button
+            routerLink="/main"
+            style="margin-right: .5rem;"
+            matTooltip="Regresar al Inicio"
+            class="text-white btn-nv" mat-button>
+            <!-- <i class="fa-solid fa-house"></i> -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-home-2" width="24"
+                height="24"
+                viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
+                fill="none"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                <path d="M10 12h4v4h-4z" />
+            </svg>
+        </button>
+
+        <mat-menu #process="matMenu">
+            <!-- <button mat-menu-item
+              [matMenuTriggerFor]="vertebrates">Mantenimiento</button> -->
+            <button mat-menu-item routerLink="/list"
+                [matMenuTriggerFor]="maintenance">Mantenimiento</button>
+        </mat-menu>
+
+        <mat-menu #maintenance="matMenu">
+            <button mat-menu-item>
+                Reporte
+                de mantenimiento</button>
+        </mat-menu>
+
+        <button
+            matTooltip="Configuración de usuario"
+            class="text-white btn-nv" mat-button
+            [matMenuTriggerFor]="menu"><i
+                class="fa-regular fa-user"></i></button>
+    </div>
+
+</nav>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/userdata">Configuración</button>
+    <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+</mat-menu>
+
+<!-- offcanvas-menu.component.html -->
+<div class="offcanvas offcanvas-start custom-offcanvas" tabindex="-1"
+    id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
+    style="border-radius: 10px; width: 250px;">
+    <div class="offcanvas-header">
+        <img routerLink="/main" src="assets/images/logo.png"
+            style="margin-right: 1rem;" alt="Logo"
+            width="60" class="d-inline-block">
+        <!-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menú</h5> -->
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <nav class="flex-column">
+            <a
+                class="nav-link text-center py-2 px-3 w-100 text-start">
+                <i class="fa-regular fa-circle-user icons fa-2x"></i>{{ fullname
+                }} <span style="color: #828282;">{{ email }}</span>
+            </a>
+            <hr>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/main">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="icon icons icon-tabler icon-tabler-home-2" width="24"
+                    height="24" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="black"
+                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                    <path d="M10 12h4v4h-4z" />
+                </svg> Inicio
+            </a>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/userdata">
+                <i class="fa-solid fa-sliders icons"></i> Configuración
+            </a>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                (click)="logout()">
+                <i class="fa-solid fa-right-from-bracket icons"></i> Cerrar
+                sesión
+            </a>
+            <hr>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/list">
+                <i class="fa-solid fa-screwdriver-wrench icons"></i>
+                Mantenimiento
+            </a>
+
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/maincreate">
+                <i class="fa-regular fa-paper-plane  icons"></i>
+                Crear Ticket
+            </a>
+            <hr>
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title"
+                    id="offcanvasExampleLabel">Reportes</h5>
+            </div>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                (click)="maintenanceReport()">
+                <i class="fa-solid fa-circle icons"></i> Rep. mantenimiento
+            </a>
+        </nav>
+    </div>
+    <div class="offcanvas-footer text-center mt-auto py-3 px-3">
+        <hr class="mb-2">
+        <p class="mb-0 text-muted"><span class="text-danger">Política de
+                privacidad</span> / ISM© 2024 / All Rights Reserved.</p>
+    </div>
+</div>

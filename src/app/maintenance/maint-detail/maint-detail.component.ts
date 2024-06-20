@@ -105,6 +105,7 @@ export class MaintDetailComponent implements OnInit {
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
+      console.log(this.maintenanceUrl);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
@@ -122,16 +123,11 @@ export class MaintDetailComponent implements OnInit {
         this.mainDetalle.site = this.maintenance.site;
         this.mainDetalle.score = this.maintenance.score;
         this.mainDetalle.description_incident = this.maintenance.description_incident;
-        // Obtener la fecha en que se cambió el estado a 'ENTREGADO'
         const statusChangedDate = new Date(this.maintenance.case.status.updated_at);
-        // Iterar sobre las fotos
         this.maintenance.photos.forEach((photo: any) => {
-          // Obtener la fecha de creación de la foto
           const photoCreatedAt = new Date(photo.created_at);
-          // Establecer is_before en false para las fotos subidas después del cambio de estado
           photo.is_before = photoCreatedAt < statusChangedDate;
         });
-        // console.log(this.maintenance);
       } else {
         alert('Error de detalle, por favor notifique al administrador');
       }

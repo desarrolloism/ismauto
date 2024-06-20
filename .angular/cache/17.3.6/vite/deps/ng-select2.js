@@ -1,9 +1,9 @@
 import {
   NG_VALUE_ACCESSOR
-} from "./chunk-MD75TKV4.js";
+} from "./chunk-KHQUI5RU.js";
 import {
   CommonModule
-} from "./chunk-GKWQAKPA.js";
+} from "./chunk-46BW6HYR.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,7 +32,8 @@ import {
   ɵɵprojectionDef,
   ɵɵqueryRefresh,
   ɵɵviewQuery
-} from "./chunk-UY3YHEDC.js";
+} from "./chunk-QGVXM6TF.js";
+import "./chunk-AFKBMBZT.js";
 import "./chunk-J4B6MK7R.js";
 
 // node_modules/ng-select2/fesm2020/ng-select2.mjs
