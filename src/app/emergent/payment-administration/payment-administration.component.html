@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header-app></app-header-app>
 
 <ng-container
     *ngIf="email === 'quitomantenimiento@ism.edu.ec'; else noPermission">
@@ -7,7 +7,7 @@
         <mat-tab label="PAGADOS ({{ paidPayments.length }})">
             <div
                 class="mt-3 d-flex justify-content-center justify-content-evenly">
-                <button mat-raised-button color="primary"
+                <button mat-raised-button class="bg-success text-white"
                     (click)="filterPayments('Transferencia')">Transferencia</button>
                 <button mat-raised-button color="primary"
                     (click)="filterPayments('Tarjeta de Crédito')">Tarjeta
@@ -15,6 +15,9 @@
                 <button mat-raised-button color="warn"
                     (click)="clearFilter()">Limpiar filtros</button>
             </div>
+
+            <!-- TABLA PARA APROBAR O RECHAZAR PAGOS -->
+
             <div class="container my-4 d-flex justify-content-center">
                 <table class="table text-center">
                     <thead>
@@ -59,6 +62,8 @@
                                 <mat-accordion>
                                     <mat-expansion-panel
                                         (opened)="getPhoto(payment.id)">
+                                        <!-- MUESTRA INFO DE PAGO -->
+
                                         <mat-expansion-panel-header>
                                             <mat-panel-title>Comprobante de
                                                 pago:</mat-panel-title>
@@ -77,32 +82,30 @@
                                                 'Pago por Abitmedia' }}
                                             </mat-panel-description>
                                         </mat-expansion-panel-header>
+                                        <!-- MUESTRA INFO DE PAGO -->
+
+                                        <!-- muestra foto  -->
                                         <div
                                             class="row mt-2 d-flex justify-content-center">
                                             <div class="col-md-6">
+                                                <!-- {{paymentPhotos[payment.id]}} -->
                                                 <ng-container
-                                                    *ngIf="updatingPaymentId !== payment.id; else loadingPhoto">
-                                                    <a
-                                                        *ngIf="paymentPhotos[payment.id]"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal">
-                                                        <img
-                                                            [src]="paymentPhotos[payment.id]"
-                                                            alt="Comprobante de pago"
-                                                            class="img-fluid">
-                                                    </a>
-                                                    <p
-                                                        *ngIf="!paymentPhotos[payment.id]">No
-                                                        hay foto disponible</p>
+                                                    *ngIf="paymentPhotos[payment.id]; else loadingPhoto">
+                                                    <img
+                                                        class="img-thumbnail"
+                                                        width="80%"
+                                                        src="{{paymentPhotos[payment.id]}}">
                                                 </ng-container>
                                                 <ng-template #loadingPhoto>
                                                     <div class="spinner"></div>
                                                 </ng-template>
                                             </div>
+                                            <!-- muestra foto  -->
+                                            <!-- muestra botones  -->
                                             <div
                                                 class="col-md-6 d-flex justify-content-evenly">
                                                 <ng-container
-                                                    *ngIf="updatingPaymentId !== payment.id; else updatingSpinner">
+                                                    *ngIf="updatingSpinner">
                                                     <button class="bg-success"
                                                         mat-raised-button
                                                         matTooltip="Aprobar pago"
@@ -122,6 +125,8 @@
                                                     <div class="spinner"></div>
                                                 </ng-template>
                                             </div>
+                                            <!-- muestra botones  -->
+
                                         </div>
                                     </mat-expansion-panel>
                                 </mat-accordion>
@@ -130,6 +135,8 @@
                     </tbody>
                 </table>
             </div>
+            <!-- TABLA PARA APROBAR O RECHAZAR PAGOS -->
+
         </mat-tab>
         <!-- pagos iniciados -->
         <mat-tab label="INICIADOS ({{ initiatedPayments.length }})">
@@ -181,9 +188,9 @@
             <mat-tab label="APROBADOS ({{ approvedPayments.length }})">
                 <div class="container my-4 d-flex justify-content-center">
                     <mat-list>
-                        <mat-list-item
-                            >
-                            <table class="table text-center" *ngFor="let payment of approvedPayments">
+                        <mat-list-item>
+                            <table class="table text-center"
+                                *ngFor="let payment of approvedPayments">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -196,8 +203,7 @@
                                         <!-- <th>Acción</th> -->
                                     </tr>
                                 </thead>
-                                <tbody
-                                   >
+                                <tbody>
                                     <!-- Row with payment data -->
                                     <tr>
                                         <td>{{ payment.name }}</td>

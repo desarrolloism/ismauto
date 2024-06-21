@@ -41,7 +41,7 @@ export class MaintenanceService {
   create(token: any, form: any) {
 
     // console.log(form.institute_id);
-    // console.log(token);
+    console.log(token);
 
     const headers = new HttpHeaders({
       'Authorization': this.auth,
@@ -91,7 +91,7 @@ export class MaintenanceService {
   }
 
 
-  uploadFile(token: any, file64: any, fileName: string, maintId: any,isBefore: boolean) {
+  uploadFile(token: any, file64: any, fileName: string, maintId: any, isBefore: boolean) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',

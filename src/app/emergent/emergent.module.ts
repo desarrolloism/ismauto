@@ -14,10 +14,9 @@ import { PaymentAdministrationComponent } from './payment-administration/payment
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import { HeaderComponent } from './header/header.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
-
+import { HeaderModule } from '../header/header.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     Select2Component,
     CheckoutComponent,
     PaymentAdministrationComponent,
-    HeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +39,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    HeaderModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

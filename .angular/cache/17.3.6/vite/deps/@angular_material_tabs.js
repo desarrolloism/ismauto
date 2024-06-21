@@ -1,20 +1,20 @@
 import {
   CdkScrollable,
   ViewportRuler
-} from "./chunk-TOS47FEK.js";
+} from "./chunk-CVJQGPLY.js";
 import {
   CdkPortal,
   CdkPortalOutlet,
   TemplatePortal
-} from "./chunk-PMS4C35C.js";
-import "./chunk-A5H4KREP.js";
+} from "./chunk-DGUOAT7T.js";
+import "./chunk-63XKDSOV.js";
 import {
   animate,
   state,
   style,
   transition,
   trigger
-} from "./chunk-E4RIOJTO.js";
+} from "./chunk-VRAXK3DO.js";
 import {
   CdkMonitorFocus,
   CdkObserveContent,
@@ -29,13 +29,14 @@ import {
   SPACE,
   hasModifierKey,
   normalizePassiveListenerOptions
-} from "./chunk-E3YEPI5H.js";
+} from "./chunk-B5ZR3D4A.js";
 import {
   DOCUMENT
-} from "./chunk-46BW6HYR.js";
+} from "./chunk-GKWQAKPA.js";
 import {
   ANIMATION_MODULE_TYPE,
   Attribute,
+  BehaviorSubject,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -43,6 +44,7 @@ import {
   ContentChild,
   ContentChildren,
   Directive,
+  EMPTY,
   ElementRef,
   EventEmitter,
   Inject,
@@ -51,20 +53,32 @@ import {
   InputFlags,
   NgModule,
   NgZone,
+  Observable,
   Optional,
   Output,
   QueryList,
+  Subject,
+  Subscription,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
   ViewEncapsulation$1,
   booleanAttribute,
+  distinctUntilChanged,
+  filter,
   forwardRef,
   fromEvent,
   inject,
   merge,
   numberAttribute,
+  of,
   setClassMetadata,
+  skip,
+  startWith,
+  switchMap,
+  take,
+  takeUntil,
+  timer,
   ɵɵInheritDefinitionFeature,
   ɵɵInputTransformsFeature,
   ɵɵNgOnChangesFeature,
@@ -106,23 +120,7 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate,
   ɵɵviewQuery
-} from "./chunk-QGVXM6TF.js";
-import {
-  BehaviorSubject,
-  EMPTY,
-  Observable,
-  Subject,
-  Subscription,
-  distinctUntilChanged,
-  filter,
-  of,
-  skip,
-  startWith,
-  switchMap,
-  take,
-  takeUntil,
-  timer
-} from "./chunk-AFKBMBZT.js";
+} from "./chunk-UY3YHEDC.js";
 import "./chunk-J4B6MK7R.js";
 
 // node_modules/@angular/material/fesm2022/tabs.mjs

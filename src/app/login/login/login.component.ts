@@ -34,7 +34,7 @@ export class LoginComponent {
   onSubmit(){
     this._loginService.login(this.user.username, this.user.password).subscribe(resp =>{
       this.responseUrl =  resp;
-      // console.log(this.responseUrl);
+      console.log(this.responseUrl);
       if(this.responseUrl.status == 'OK'){
         // console.log(this.responseUrl.data.token);
 

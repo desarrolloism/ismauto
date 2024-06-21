@@ -1,4 +1,5 @@
 <!-- <app-header></app-header> -->
+<!-- <app-header-app></app-header-app> -->
 
 <nav class="navbar">
     <div class="navbar-brand d-flex align-items-center">
@@ -15,9 +16,15 @@
         <div class="position-relative">
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
-                    Hola! {{ fullname }}
+                    Hola! {{ fullname }} /
                 </p>
-
+                <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
+                    {{ email }}
+                    <span
+                        class="position-absolute text-white top-0 start-80 translate-middle badge rounded-pill bg-danger">
+                        <!-- {{ getTotalStatus() }} -->
+                    </span>
+                </p>
             </div>
         </div>
 
@@ -44,13 +51,12 @@
         </button>
 
         <button
-            routerLink="/maincreate"
             style="margin-right: .5rem;"
             matTooltip="Abrir caso"
+            [matMenuTriggerFor]="menuCasos"
             class="text-white btn-nv" mat-button>
             <i class="fa-regular fa-paper-plane"></i>
         </button>
-
         <button
             routerLink="/list"
             style="margin-right: .5rem;"
@@ -296,12 +302,18 @@
                 <i class="fa-solid fa-screwdriver-wrench icons"></i>
                 Mantenimiento
             </a>
-
             <a
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
-                routerLink="/maincreate">
-                <i class="fa-regular fa-paper-plane icons"></i>
-                Crear Ticket
+                routerLink="/createproject">
+                <i class="fa-solid fa-laptop-code icons"></i>
+                Desarrollo e innovación
+            </a>
+
+            <a *ngIf="email === 'quitomantenimiento@ism.edu.ec'"
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/payment-administration">
+                <i class="fa-solid fa-coins icons"></i>
+                Colecturía
             </a>
 
             <hr>
@@ -326,4 +338,10 @@
 <mat-menu #menu="matMenu">
     <button mat-menu-item routerLink="/userdata">Configuración</button>
     <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+</mat-menu>
+
+<mat-menu #menuCasos="matMenu">
+    <button mat-menu-item routerLink="/maincreate">Mantenimiento</button>
+    <button mat-menu-item routerLink="/createproject">Desarrollo e
+        innovación</button>
 </mat-menu>

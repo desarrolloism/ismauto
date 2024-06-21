@@ -36,9 +36,8 @@ export class PaymentAdministrationComponent implements OnInit {
   }
 
   urlFiles = GLOBAL.url;
-  urlPhotos = this.urlFiles + "/files/payments/campaments/";
+  urlPhotos = this.urlFiles + "/files/payments/camps/";
   paymentPhotos: { [key: number]: string } = {};
-
 
   paymentPhoto: string | null = null;
 
@@ -115,37 +114,38 @@ export class PaymentAdministrationComponent implements OnInit {
   //actualiza estado
   updateStatus(id: number, newStatus: string) {
     this.updatingPaymentId = id;
-    this.paymentService.updatePayment(id, newStatus).subscribe(
-      (resp: any) => {
-        console.log('Pago actualizado:', resp);
-        this.loadPayments('PAGADO');
-        this.loadPayments('INICIANDO');
-        this.loadPayments('PAGO RECHAZADO');
-        this.loadPayments('PAGO APROBADO');
-        this.updatingPaymentId = null;
-      }
-    );
+    let action = newStatus === 'PAGO APROBADO' ? 'aprobar' : 'rechazar';
+
+    if (window.confirm(`¿Está seguro de que desea ${action} este pago?`)) {
+      this.paymentService.updatePayment(id, newStatus).subscribe(
+        (resp: any) => {
+          console.log(`Pago ${action}ado:`, resp);
+          this.loadPayments('PAGADO');
+          this.loadPayments('INICIANDO');
+          this.loadPayments('PAGO RECHAZADO');
+          this.loadPayments('PAGO APROBADO');
+          this.updatingPaymentId = null;
+        }
+      );
+    } else {
+      this.updatingPaymentId = null;
+    }
   }
 
   getPhoto(id: number) {
-    if (this.paymentPhotos[id]) {
-      // Si ya tenemos la foto, no necesitamos cargarla de nuevo
-      return;
-    }
     this.updatingPaymentId = id;
     this.paymentService.getPaymentPhoto(id).subscribe(
       (resp: any) => {
-        console.log(resp);
-        if (resp.status === 'ok' && resp.data && resp.data.photo) {
-          this.paymentPhotos[id] = this.urlPhotos + resp.data.photo;
+        // console.log(resp);
+        // console.log(this.updatingPaymentId);
+        // console.log('url es', this.urlPhotos);
+        // console.log(resp.image_url);
+        if (resp.status === 'ok' && resp.image_url) {
+          this.paymentPhotos[id] = this.urlPhotos + '/' + resp.image_url;
+          // console.log('FOTO ES ', this.paymentPhotos[id]);
         } else {
-          console.error('Respuesta inesperada al obtener la foto del pago');
+          console.log('error');
         }
-        this.updatingPaymentId = null;
-      },
-      error => {
-        console.error('Error al obtener la foto del pago:', error);
-        this.updatingPaymentId = null;
       }
     );
   }

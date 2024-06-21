@@ -20,6 +20,8 @@ import { EmergentModule } from './emergent/emergent.module';
 import { OnlyNumbersDirective } from './only-numbers.directive';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UserModule } from './user/user.module';
+import { ProjectsModule } from './projects/projects.module';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { UserModule } from './user/user.module';
     ScholarshipsModule,
     EmergentModule,
     MatAutocompleteModule,
-    UserModule
+    UserModule,
+    MaintenanceModule,
+    ProjectsModule
   ],
   providers: [
     provideAnimationsAsync()

@@ -13,6 +13,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatListModule} from '@angular/material/list';
+import { HeaderModule } from '../header/header.module';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import {MatListModule} from '@angular/material/list';
     MatInputModule,
     MatFormFieldModule,
     MatStepperModule,
-    MatListModule
+    MatListModule,
+    HeaderModule
   ]
 })
 export class HomeModule { }

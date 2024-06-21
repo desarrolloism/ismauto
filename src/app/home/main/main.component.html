@@ -1,3 +1,4 @@
+<!-- <app-header-app></app-header-app> -->
 <nav class="navbar">
     <div class="navbar-brand d-flex align-items-center">
         <button class="btn text-white" (click)="toggleMenu()"
@@ -202,7 +203,14 @@
                 <i class="fa-solid fa-screwdriver-wrench icons"></i>
                 Mantenimiento
             </a>
+            
             <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/createproject">
+                <i class="fa-solid fa-laptop-code icons"></i>
+                Desarrollo e innovación
+            </a>
+            <a *ngIf="email === 'quitomantenimiento@ism.edu.ec'"
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 routerLink="/payment-administration">
                 <i class="fa-solid fa-coins icons"></i>
