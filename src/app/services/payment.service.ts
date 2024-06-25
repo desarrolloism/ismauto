@@ -330,6 +330,8 @@ export class PaymentService {
     return this._http.post(`${this.url}/update_payment_state`, data, { headers: headers });
   }
 
+
+  //obtiene la imagen del pago
   getPaymentPhoto(id: number) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
@@ -339,6 +341,52 @@ export class PaymentService {
       id
     }
     return this._http.post(`${this.url}/get_payment_photo`, data, { headers: headers });
+  }
+
+  //obtiene datos de facturacion
+
+  GetFacturingData(id: Number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+
+    const data = {
+      id
+    }
+    return this._http.post(`${this.url}/get_collecting_payments`, data, { headers: headers });
+  }
+
+
+  //obtienes estudiantes de facturacion
+  SonsFacturation(id: number) {
+
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+
+    const data = {
+      id
+    }
+    return this._http.post(`${this.url}/son_in_service`, data, { headers: headers });
+  }
+
+
+  //BUSCA FACTURAS
+  searchInscription(search: string, page: number) {
+
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+
+    const data = {
+      'search': search,
+      'page': page,
+    }
+
+    return this._http.post(`${this.url}/find_vacinscription`, data, { headers: headers });
   }
 
 }

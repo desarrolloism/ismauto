@@ -47,6 +47,14 @@ export class PaymentAdministrationComponent implements OnInit {
   last_name: string = '';
   fullname: string = '';
 
+  facData: any = {};
+  facSonData: any = [];
+
+  paymentSearch: string = '';
+
+  filteredInitiatedPayments: any[] = [];
+  filteredApprovedPayments: any[] = [];
+  filteredRejectedPayments: any[] = [];
 
   readonly panelOpenState = signal(false);
 
@@ -69,14 +77,17 @@ export class PaymentAdministrationComponent implements OnInit {
   ngOnInit() {
     this.loadPayments('PAGADO');
     this.loadPayments('INICIANDO');
-    this.loadPayments('PAGO RECHAZADO');
+    this.loadPayments('PAGO PENDIENTE');
     this.loadPayments('PAGO APROBADO');
     this.getAvatar();
+    this.facData = {};
+    this.facSonData = [];
   }
 
   filterPayments(paymentMethod: string) {
     this.filteredPaidPayments = this.paidPayments.filter((payment: { payment_method: string; }) => payment.payment_method === paymentMethod);
   }
+
 
 
   getAvatar() {
@@ -99,18 +110,19 @@ export class PaymentAdministrationComponent implements OnInit {
           break;
         case 'INICIANDO':
           this.initiatedPayments = resp.data;
+          this.filteredInitiatedPayments = [...this.initiatedPayments];
           break;
-        case 'PAGO RECHAZADO':
+        case 'PAGO PENDIENTE':
           this.rejectedPayments = resp.data;
+          this.filteredRejectedPayments = [...this.rejectedPayments];
           break;
         case 'PAGO APROBADO':
           this.approvedPayments = resp.data;
+          this.filteredApprovedPayments = [...this.approvedPayments];
           break;
-        default:
       }
     });
   }
-
   //actualiza estado
   updateStatus(id: number, newStatus: string) {
     this.updatingPaymentId = id;
@@ -119,24 +131,24 @@ export class PaymentAdministrationComponent implements OnInit {
     if (window.confirm(`¿Está seguro de que desea ${action} este pago?`)) {
       this.paymentService.updatePayment(id, newStatus).subscribe(
         (resp: any) => {
-          console.log(`Pago ${action}ado:`, resp);
+          // console.log(`Pago ${action}ado:`, resp);
+          console.log(resp);
           this.loadPayments('PAGADO');
           this.loadPayments('INICIANDO');
-          this.loadPayments('PAGO RECHAZADO');
+          this.loadPayments('PAGO PENDIENTE');
           this.loadPayments('PAGO APROBADO');
-          this.updatingPaymentId = null;
+          // this.updatingPaymentId = null;
         }
       );
-    } else {
-      this.updatingPaymentId = null;
     }
   }
 
   getPhoto(id: number) {
     this.updatingPaymentId = id;
+    this.GetFacture(id);
+    this.GetSonFacturation(id);
     this.paymentService.getPaymentPhoto(id).subscribe(
       (resp: any) => {
-        // console.log(resp);
         // console.log(this.updatingPaymentId);
         // console.log('url es', this.urlPhotos);
         // console.log(resp.image_url);
@@ -147,6 +159,66 @@ export class PaymentAdministrationComponent implements OnInit {
           console.log('error');
         }
       }
+    );
+  }
+
+  //obtiene datos de la factura
+  GetFacture(id: number) {
+    this.updatingPaymentId = id;
+    this.paymentService.GetFacturingData(id).subscribe(
+      (resp: any) => {
+        this.facData = resp.data;
+        // console.log(this.facData);
+      }
+    );
+
+  }
+
+  //SonsFacturation
+
+  GetSonFacturation(id: number) {
+    this.updatingPaymentId = id;
+    this.paymentService.SonsFacturation(id).subscribe(
+      (resp: any) => {
+        this.facSonData = resp.data;
+        // console.log(this.facSonData);
+      }
+    );
+  }
+
+  //busca pagos 
+
+  searchPayments(page: number) {
+    this.paymentService.searchInscription(this.paymentSearch, page).subscribe(resp => {
+      // console.log(resp);
+    })
+  }
+
+  filterSearch() {
+    const searchTerm = this.paymentSearch.toLowerCase();
+
+    this.filteredPaidPayments = this.paidPayments.filter((payment: { name: string; dni: string; email: string; }) =>
+      payment.name.toLowerCase().includes(searchTerm) ||
+      payment.dni.toLowerCase().includes(searchTerm) ||
+      payment.email.toLowerCase().includes(searchTerm)
+    );
+
+    this.filteredInitiatedPayments = this.initiatedPayments.filter((payment: { name: string; dni: string; email: string; }) =>
+      payment.name.toLowerCase().includes(searchTerm) ||
+      payment.dni.toLowerCase().includes(searchTerm) ||
+      payment.email.toLowerCase().includes(searchTerm)
+    );
+
+    this.filteredApprovedPayments = this.approvedPayments.filter((payment: { name: string; dni: string; email: string; }) =>
+      payment.name.toLowerCase().includes(searchTerm) ||
+      payment.dni.toLowerCase().includes(searchTerm) ||
+      payment.email.toLowerCase().includes(searchTerm)
+    );
+
+    this.filteredRejectedPayments = this.rejectedPayments.filter((payment: { name: string; dni: string; email: string; }) =>
+      payment.name.toLowerCase().includes(searchTerm) ||
+      payment.dni.toLowerCase().includes(searchTerm) ||
+      payment.email.toLowerCase().includes(searchTerm)
     );
   }
 

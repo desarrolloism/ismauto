@@ -3,15 +3,18 @@
     <h2>Nnovupro</h2>
     <form (ngSubmit)="onSubmit()">
       <div class="form-login">
-          <div class="input-container">
-              <input type="text" id="username" name="username" placeholder="Nombre de usuario" [(ngModel)]="user.username" required>
-            </div>
-            <div class="input-container">
-              <input type="password" id="password" name="password" placeholder="Contraseña" [(ngModel)]="user.password" required>
-            </div>
-            <div class="button-container">
-              <button type="submit">Iniciar sesión</button>
-            </div>
+        <div class="input-container">
+          <input type="text" id="username" name="username"
+            placeholder="Nombre de usuario" [(ngModel)]="user.username"
+            required>
+        </div>
+        <div class="input-container">
+          <input type="password" id="password" name="password"
+            placeholder="Contraseña" [(ngModel)]="user.password" required>
+        </div>
+        <div class="button-container">
+          <button type="submit">Iniciar sesión</button>
+        </div>
       </div>
     </form>
   </div>

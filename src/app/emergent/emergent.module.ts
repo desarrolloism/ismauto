@@ -17,6 +17,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
 import { HeaderModule } from '../header/header.module';
+import {MatGridListModule} from '@angular/material/grid-list'; 
+
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { HeaderModule } from '../header/header.module';
     MatButtonModule,
     MatMenuModule,
     MatTooltipModule,
-    HeaderModule
+    HeaderModule,
+    MatGridListModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })
