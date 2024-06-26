@@ -29,7 +29,8 @@ export class ListComponent {
   myMant: any;
   fullname: string = '';
 
-
+  //abre el menu de colecturi
+  colecturiaExpanded: boolean = false;
 
   constructor(private _maintService: MaintenanceService,
     private _router: Router
@@ -42,6 +43,11 @@ export class ListComponent {
 
   ngOnInit() {
     this.getAvatar();
+  }
+
+  //abre el menu de colecturia
+  toggleColecturia() {
+    this.colecturiaExpanded = !this.colecturiaExpanded;
   }
 
   list(page: number) {

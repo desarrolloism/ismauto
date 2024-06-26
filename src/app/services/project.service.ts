@@ -16,12 +16,12 @@ export class ProjectService {
 
   createProject(
     token: any,
+    instituteId: string,
     endDate: string,
     projectName: string,
     description: string,
-    departament: string,
+    department: string,
     state: string,
-    instituteId: string
   ) {
       
     const headers = new HttpHeaders({
@@ -32,12 +32,12 @@ export class ProjectService {
 
     const data = {
       "app": "/project",
+      institute_id: instituteId,
       end_date: endDate,
       project_name: projectName,
       description: description,
-      departament: departament,
+      department,
       state: state,
-      institute_id: instituteId
     }
     return this._http.post(`${this.url}/create_project`, data, { headers: headers });
   }

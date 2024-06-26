@@ -61,16 +61,16 @@ export class CreateprojectComponent implements OnInit {
     console.log('fecha ', project.end_date);
     console.log('estado ', project.state);
     console.log('campus ', project.campus);
-    console.log('token ', this.token);
+    // console.log('token ', this.token);
 
     this._projectService.createProject(
       this.token,
+      project.campus,
       project.end_date,
       project.project_name,
       project.description,
       project.departament,
       project.state,
-      project.campus
     ).subscribe(
       resp => {
         console.log(resp);

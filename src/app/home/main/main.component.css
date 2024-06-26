@@ -399,6 +399,14 @@ body {
     margin-right: .9rem;
 }
 
+.cards1 {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #ab0a3d63;
+}
+
 .cards {
     border: 1px solid #ccc;
     border-radius: 5px;

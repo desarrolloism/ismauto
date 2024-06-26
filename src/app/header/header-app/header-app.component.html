@@ -11,7 +11,7 @@
             width="60" class="d-inline-block">
         <!-- <div class="vr mx-2"></div> -->
 
-        <div class="position-relative">
+        <!-- <div class="position-relative">
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
                     Hola! {{ fullname }} /
@@ -20,37 +20,36 @@
                     {{ email }}
                     <span
                         class="position-absolute text-white top-0 start-80 translate-middle badge rounded-pill bg-danger">
-                        <!-- {{ getTotalStatus() }} -->
                     </span>
                 </p>
             </div>
-        </div>
+        </div> -->
 
     </div>
 
     <div class="navbar-links">
         <!-- procesos -->
-        <button mat-button class="text-white btn-nv"
+        <!-- <button mat-button class="text-white btn-nv"
             matTooltip="Procesos" style="margin-right: .5rem;"
             [matMenuTriggerFor]="process">
             <i class="fa-solid fa-layer-group"></i>
-        </button>
+        </button> -->
 
         <button
             style="margin-right: .5rem;"
-            matTooltip="Abrir caso"
+            matTooltip="Abrir ticket"
             [matMenuTriggerFor]="menuCasos"
             class="text-white btn-nv" mat-button>
             <i class="fa-regular fa-paper-plane"></i>
         </button>
 
-        <button
+        <!-- <button
             routerLink="/list"
             style="margin-right: .5rem;"
             matTooltip="Listado de tickets"
             class="text-white btn-nv" mat-button>
             <i class="fa-solid fa-list"></i>
-        </button>
+        </button> -->
 
         <button
             routerLink="/main"
@@ -201,6 +200,9 @@
         </nav>
     </div>
     <div class="offcanvas-footer text-center mt-auto py-3 px-3">
+        <small><i class="fa-solid fa-bug"></i> En caso de encontrar un error
+            comuníquese con soporte técnico. <a href="https://help.ism.edu.ec/"
+                target="_blank">help.ism.edu.ec / ext.2000 / 2209</a></small>
         <hr class="mb-2">
         <p class="mb-0 text-muted"><span class="text-danger">Política de
                 privacidad</span> / ISM© 2024 / All Rights Reserved.</p>
