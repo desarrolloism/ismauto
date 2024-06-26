@@ -18,6 +18,9 @@ export class HeaderAppComponent {
   last_name: string = '';
   fullname: string = '';
 
+    //abre el menu de colecturi
+    colecturiaExpanded: boolean = false;
+
   ngOnInit() {
     this.getAvatar();
   }
@@ -51,4 +54,10 @@ export class HeaderAppComponent {
   maintenanceReport() {
     window.open('https://lookerstudio.google.com/embed/reporting/8077023e-eb9d-4f9d-89bd-cee1846baa4c/page/HyMqD', '_blank');
   }
+
+
+    //abre el menu de colecturia
+    toggleColecturia() {
+      this.colecturiaExpanded = !this.colecturiaExpanded;
+    }
 }

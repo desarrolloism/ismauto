@@ -165,10 +165,28 @@
             </a>
             <a *ngIf="email === 'quitomantenimiento@ism.edu.ec'"
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
-                routerLink="/payment-administration">
+                (click)="toggleColecturia()">
                 <i class="fa-solid fa-coins icons"></i>
                 Colecturía
+                <i class="fa-solid fa-chevron-down ms-auto"
+                    [ngClass]="{'rotate': colecturiaExpanded}"></i>
             </a>
+
+            <div class="colecturia-submenu"
+                [ngClass]="{'expanded': colecturiaExpanded}">
+                <a
+                    class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                    routerLink="/payment-administration">
+                    <i class="fa-solid fa-cash-register icons"></i>
+                    Administración de pagos
+                </a>
+                <!-- <a
+                    class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                    routerLink="/financial-reports">
+                    <i class="fa-solid fa-chart-line icons"></i>
+                    Reportes financieros
+                </a> -->
+            </div>
 
             <hr>
             <div class="offcanvas-header">

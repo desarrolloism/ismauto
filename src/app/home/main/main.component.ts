@@ -14,6 +14,10 @@ declare var bootstrap: any;
   styleUrl: './main.component.css'
 })
 export class MainComponent {
+  //abre el menu de colecturi
+  colecturiaExpanded: boolean = false;
+
+  //variables para info del usuario
   avatar: string = '';
   name: string = '';
   email: string = '';
@@ -126,7 +130,10 @@ export class MainComponent {
     )
   }
 
-  
+  //abre el menu de colecturia
+  toggleColecturia() {
+    this.colecturiaExpanded = !this.colecturiaExpanded;
+  }
 
   getTotalStatus() {
     if (this.responseTotals && this.responseTotals.length > 0) {

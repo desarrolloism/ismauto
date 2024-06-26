@@ -24,11 +24,14 @@ export class CheckoutComponent implements OnInit {
     this._route.params.subscribe(params => {
       this.inscription_id = +params['id'];
       this.padreCheckout = params;
+      // console.log('padre check', this.padreCheckout);
       this.description = 'Curso vacacional' + ' - ' + this.padreCheckout.name;
-      console.log('el inscrip es ', this.inscription_id);
+      // console.log('el inscrip es ', this.inscription_id);
     });
 
     this.calculateTotalCost();
+    this.getDinersPrice();
+    this.costWhithoutDinners();
   }
 
 
@@ -104,6 +107,18 @@ export class CheckoutComponent implements OnInit {
     innovu: 0
   };
 
+  originalCost = {
+    totalCost: 0,
+    discountBrothers: '0%',
+    discountWeeks: '0%',
+    discountTotal: 0,
+    subtotal: 0,
+    total_extras: 0,
+    subtotalDescuentos: 0,
+    iva: 0,
+    innovu: 0
+  }
+
   //variables de costos 
   totalCost: number = 0;
   selectedCourses: any[] = [];
@@ -116,10 +131,12 @@ export class CheckoutComponent implements OnInit {
   iva: number = 0.00;
   subtotalDescuentos: number = 0.00;
   innovu: number = 0.00;
+  diners: number = 0.00;
 
   showTransf: boolean = false;
   showCredit: boolean = false;
   isDinersSelected: boolean = false;
+
 
   mostrarFormulario() {
     // console.log('hola');
@@ -133,11 +150,22 @@ export class CheckoutComponent implements OnInit {
     this.padre.method = 'Tarjeta de Crédito';
   }
 
+
+  getDinersPrice() {
+    this._paymentService.sendDiners(this.inscription_id).subscribe(
+      (resp: any) => {
+        // console.log( resp.data);
+        this.diners = resp.data.total;
+        // console.log('Respuesta de Diners:', this.diners);
+      }
+    )
+  }
+
   sendDiners() {
     if (confirm('¿Está seguro que desea proceder con el pago usando Diners?')) {
       this._paymentService.sendDiners(this.inscription_id).subscribe(
         (resp: any) => {
-          console.log('Respuesta de Diners:', resp);
+          // console.log('Respuesta de Diners:', resp);
           if (resp.status === 'ok' && resp.data) {
             this.updatePrices(resp.data);
             this.isDinersSelected = true;
@@ -171,6 +199,25 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
+  costWhithoutDinners() {
+    this._paymentService.costTotal(this.inscription_id).subscribe(
+      (response: any) => {
+        // console.log('costWhithoutDinners', response);
+        // this.originalCost = response.total;
+        this.originalCost.subtotal = response.subtotal;
+        this.originalCost.innovu = response.descuento_innnovu;
+        this.originalCost.discountBrothers = response.descuento_hermanos;
+        this.originalCost.discountWeeks = response.descuento_semanas;
+        this.originalCost.discountTotal = response.descuento_total;
+        this.originalCost.total_extras = response.total_extras;
+        this.originalCost.subtotalDescuentos = response.subtotal_descuentos;
+        this.originalCost.totalCost = response.total;
+        this.originalCost.iva = response.IVA;
+      }
+    );
+  }
+
+
   updatePrices(prices: any) {
     this.totalCost = parseFloat(prices.total) || 0;
     this.discountCourses = prices.descuento_cursos || '0%';
@@ -189,7 +236,7 @@ export class CheckoutComponent implements OnInit {
       this.updatePrices(this.originalPrices);
     } else {
       console.error('No se encontraron precios originales para restaurar');
-      this.calculateTotalCost(); // Recalcular si no hay precios originales
+      this.calculateTotalCost();
     }
   }
 
@@ -237,7 +284,7 @@ export class CheckoutComponent implements OnInit {
 
           if (confirm(message)) {
             let confirmationMessage = this.isDinersSelected
-              ? 'Se abrirá una nueva página para realizar el pago con Diners Club, luego de realizar la transacción no olvide subir una captura para validar el pago.'
+              ? 'Se abrirá una nueva página para realizar el pago con Diners, luego de realizar la transacción no olvide subir una captura para validar el pago.'
               : 'Se abrirá una nueva página para realizar el pago, luego de realizar la transacción no olvide subir una captura para validar el pago.';
             alert(confirmationMessage);
             window.open(this.responseUrl, '_blank');
@@ -270,25 +317,25 @@ export class CheckoutComponent implements OnInit {
 
 
   setPaymentMethod(method: string) {
-    console.log('setPaymentMethod llamada con:', method);
+    // console.log('setPaymentMethod llamada con:', method);
 
     if (method === 'Transferencia' || method === 'Tarjeta de Crédito') {
       this.padre.method = method;
       this.showTransf = method === 'Transferencia';
       this.showCredit = method === 'Tarjeta de Crédito';
-      console.log('padre.method asignado a:', this.padre.method);
+      // console.log('padre.method asignado a:', this.padre.method);
 
       if (this.isDinersSelected) {
         this.restoreOriginalPrices();
         this.isDinersSelected = false;
       }
     } else {
-      console.log('Método de pago no válido:', method);
+      // console.log('Método de pago no válido:', method);
     }
 
     // Verificar si los precios son 0 y recalcular si es necesario
     if (this.totalCost === 0) {
-      console.log('Precios en 0, recalculando...');
+      // console.log('Precios en 0, recalculando...');
       this.calculateTotalCost();
     }
   }
@@ -296,7 +343,7 @@ export class CheckoutComponent implements OnInit {
 
   uploadImage() {
     // console.log(this.padre.voucher, this.padre.bank);
-    console.log(this.padre.method);
+    // console.log(this.padre.method);
     const file: File = this.fileInput.nativeElement.files[0];
     if (file) {
       this.convertToBase64(file).then((base64: string) => {
