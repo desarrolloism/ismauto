@@ -11,7 +11,7 @@ body {
     font-weight: 500;
 }
 
-.sidebar {
+/* .sidebar {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -19,14 +19,14 @@ body {
     z-index: 100;
     padding: 48px 0 0;
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-}
+} */
 
-.sidebar .nav-link {
+/* .sidebar .nav-link {
     font-weight: 500;
     color: #333;
-}
+} */
 
-.sidebar .nav-link .feather {
+/* .sidebar .nav-link .feather {
     margin-right: 4px;
     color: #727272;
 }
@@ -42,13 +42,13 @@ body {
 
 .nav-link:hover {
     color: #0056b3;
-}
+} */
 
 .form-control {
     margin-bottom: 1rem;
 }
 
-@media (max-width: 767.98px) {
+/* @media (max-width: 767.98px) {
     .sidebar {
         display: none;
     }
@@ -62,7 +62,7 @@ body {
     .sidebar {
         display: block;
     }
-}
+} */
 
 .card-client {
     background: #ab0a3d;
@@ -309,6 +309,7 @@ body {
 
 .table-responsive {
     max-height: 400px;
+    font-size: .8rem;
 }
 
 /* estilos para modal */
@@ -418,7 +419,7 @@ body {
 
 /* course-list.component.css */
 table {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
     margin-top: 20px;
 }
@@ -532,7 +533,7 @@ button:hover {
 
 
 .table-container {
-    max-height: 400px; /* Ajusta la altura según tus necesidades */
+    max-height: 800px; /* Ajusta la altura según tus necesidades */
     overflow-y: auto;
     border: 1px solid #ddd;
 }
@@ -558,5 +559,36 @@ button:hover {
 }
 
 .table-container th {
-    background: #f1f1f1; /* Fondo del thead */
+    background: #f1f1f1; 
+}
+
+.extra-label {
+    font-size: 0.8em; 
+    color: rgb(0, 0, 0);
+    margin-left: 5px; 
+}
+
+
+.last-row {
+    background-color: #ff9e18; 
+}
+
+.last-row td {
+    color: black; 
+}
+
+/* .second-last-row {
+    
+} */
+
+.second-last-row td {
+    color: #9e28b5; 
+}
+
+.third-last-row {
+    background-color: #65b2e8;
+}
+
+.third-last-row td {
+    color: #00008b; 
 }

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { MaintenanceService } from '../../services/maintenance.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -26,13 +27,18 @@ export class ListComponent {
   email: string = '';
   last_name: string = '';
   myMant: any;
+  fullname: string = '';
+
+
 
   constructor(private _maintService: MaintenanceService,
-
+    private _router: Router
   ) {
     this.token = localStorage.getItem('token');
     this.list(this.actualPage);
+
   }
+
 
   ngOnInit() {
     this.getAvatar();
@@ -50,7 +56,7 @@ export class ListComponent {
           this.myMant = this.responseUrl.maintenance;
           this.allMant = this.responseUrl.maintenance;
           this.maintenances = this.allMant;
-          console.log(this.maintenances);
+          // console.log(this.maintenances);
         }
       }
     )
@@ -72,10 +78,25 @@ export class ListComponent {
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
+
+    this.fullname = this.name + ' ' + this.last_name
   }
 
   clearStatusFilter() {
     this.selectedStatus = '';
     this.filterStatus('');
   }
+
+
+  logout() {
+    if (window.confirm('¿Está seguro de que desea salir?')) {
+      localStorage.clear();
+      this._router.navigate(['/login']);
+    }
+  }
+
+  maintenanceReport() {
+    window.open('https://lookerstudio.google.com/embed/reporting/8077023e-eb9d-4f9d-89bd-cee1846baa4c/page/HyMqD', '_blank');
+  }
+
 }

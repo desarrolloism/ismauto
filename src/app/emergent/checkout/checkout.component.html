@@ -1,0 +1,266 @@
+<div class="background-image">
+    <div class="container">
+        <h1 class="text-center mt-4">Pago de cursos vacacionales</h1>
+        <div class="row justify-content-around">
+            <div class="col-md-8">
+                <div class="card">
+                    <h2 class="text-center mt-2">Datos de
+                        facturación</h2>
+                    <div class="card-body">
+                        <hr>
+                        <form (ngSubmit)="onSubmit()" #paymentForm="ngForm"
+                            class="form-container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <mat-label
+                                            class="form-label">Cédula</mat-label>
+                                        <input matInput type="text"
+                                            class="form-control"
+                                            [(ngModel)]="padreCheckout.dni"
+                                            name="document"
+                                            maxlength="13" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <mat-label class="form-label">Nombre
+                                            Completo</mat-label>
+                                        <input matInput type="text"
+                                            class="form-control"
+                                            [(ngModel)]="padreCheckout.name"
+                                            name="name"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <mat-label
+                                            class="form-label">E-mail</mat-label>
+                                        <input matInput type="email"
+                                            class="form-control"
+                                            [(ngModel)]="padreCheckout.email"
+                                            name="email"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <mat-label
+                                            class="form-label">Teléfono</mat-label>
+                                        <input matInput type="text"
+                                            class="form-control"
+                                            [(ngModel)]="padreCheckout.phone"
+                                            name="phones"
+                                            maxlength="10" required>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3 form-label">
+                                        <mat-label>Dirección</mat-label>
+                                        <input matInput type="text"
+                                            class="form-control"
+                                            [(ngModel)]="padreCheckout.address"
+                                            name="address" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+
+                                        <input matInput type="hidden"
+                                            class="form-control"
+                                            [(ngModel)]="payment.description"
+                                            name="description" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden"
+                                [(ngModel)]="paymentData.amount">
+                            <div
+                                class="button-container d-flex justify-content-evenly">
+
+                                <div class="divider"></div>
+                                <a mat-raised-button type="button"
+                                    class="btn btn-primary"
+                                    (click)="sendDiners()">Pago con
+                                    DinersClub</a>
+                                <button mat-raised-button type="submit"
+                                    class="btn btn-primary"
+                                    (click)="setPaymentMethod('Tarjeta de Crédito')">Tarjeta
+                                    crédito o Débito</button>
+                                <a class="btn btn-primary" mat-raised-button
+                                    (click)="setPaymentMethod('Transferencia')">Transferencia</a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="height: 421px; font-size: .8rem;">
+                    <div class="card-body">
+                        <h3 class="text-center">Resumen</h3>
+                        <hr>
+                        <table class="table mb-2">
+                            <!-- <caption>Resumen de cargos y descuentos</caption> -->
+                            <tbody>
+                                <tr>
+                                    <td>Subtotal cursos:</td>
+                                    <td class="data">{{ subtotal | currency
+                                        }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Desc. colaborador:</td>
+                                    <td class="data">{{ innovu | currency
+                                        }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Descuento por Hermanos:</td>
+                                    <td class="data">{{ discountBrothers }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Descuento por Semanas:</td>
+                                    <td class="data">{{ discountWeeks }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Descuento Total:</td>
+                                    <td class="data">{{ discountTotal | currency
+                                        }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total servicios extra:</td>
+                                    <td class="data">{{ total_extras }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Subtotal:</td>
+                                    <td class="data">{{ subtotalDescuentos |
+                                        currency
+                                        }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>IVA:</td>
+                                    <td class="data">{{ iva | currency}}</td>
+                                </tr>
+                                <tr
+                                    style="background-color: rgb(67, 172, 67); color: rgb(255, 255, 255);
+                                    font-weight: bold;
+                                    ">
+                                    <td>Total:</td>
+                                    <td class="data">{{ totalCost | currency
+                                        }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- <p  style="background-color: limegreen; color: white;">
+                        {{ totalCost | currency
+                        }}
+                    </p> -->
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Formulario de pago por transferencia -->
+        <div *ngIf="showTransf">
+            <div class="card mt-2">
+                <div class="card-body">
+
+                    <form (ngSubmit)="uploadImage()">
+
+                        <div class="mb-3">
+
+                            <input
+                                [(ngModel)]="padreCheckout.dni"
+                                name="ruc_dni"
+                                type="hidden" class="form-control">
+                        </div>
+                        <div class="mb-3">
+
+                            <input type="hidden"
+                                [(ngModel)]="padre.method"
+                                name="method"
+                                class="form-control">
+                        </div>
+                        <div class="mb-3">
+
+                            <input type="hidden"
+                                class="form-control"
+                                [(ngModel)]="padreCheckout.address"
+                                name="addres">
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="hidden"
+                                class="form-control"
+                                [(ngModel)]="padreCheckout.phone"
+                                name="phone">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <input type="hidden"
+                                class="form-control"
+                                [(ngModel)]="padreCheckout.email"
+                                name="email">
+
+                        </div>
+                    </form>
+
+                    <h2 class="card-title text-center">Pago por
+                        transferencia</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Entidad
+                                    bancaria</label>
+                                <input [(ngModel)]="padre.bank" type="text"
+                                    class="form-control"
+                                    placeholder="Escribe tu banco">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Agregue número de
+                                    comprobante de pago</label>
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="padre.voucher">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Suba una imagen</label>
+                        <input type="file" #fileInput
+                            class="form-control mb-3" />
+                        <button (click)="uploadImage()"
+                            class="btn btn-primary">Registrar pago</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="showCredit">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Suba captura del pago</label>
+                        <input type="file" #fileInput
+                            class="form-control mb-3" />
+                        <button (click)="uploadImage()"
+                            class="btn btn-primary">Registrar pago</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

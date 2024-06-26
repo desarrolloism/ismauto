@@ -21,7 +21,7 @@ export class ScholarshipsService {
       'Authorization': this.auth,
       'Content-Type': 'application/json',
     });
-    console.log(this.auth);
+    // console.log(this.auth);
     return this._http.post(`${this.url}/scholarships`, data, { headers: headers });
   }
 }

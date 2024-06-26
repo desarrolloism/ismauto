@@ -12,6 +12,10 @@ import { MyuserComponent } from './scholarships/myuser/myuser.component';
 import { UserdataComponent } from './user/userdata/userdata.component';
 import { PaymentAbitmediaComponent } from './emergent/payment-abitmedia/payment-abitmedia.component';
 import { ErroruserComponent } from './scholarships/erroruser/erroruser.component';
+import { CheckoutComponent } from './emergent/checkout/checkout.component';
+import { PaymentAdministrationComponent } from './emergent/payment-administration/payment-administration.component';
+import { CreateprojectComponent } from './projects/createproject/createproject.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,6 +36,11 @@ const routes: Routes = [
   { path: 'erroruser', component: ErroruserComponent },
   //abitmedia
   { path: 'payment-abitmedia', component: PaymentAbitmediaComponent },
+  { path: 'checkout', component: CheckoutComponent },
+  { path: 'payment-administration', component: PaymentAdministrationComponent },
+  //projects
+  { path: 'createproject', component: CreateprojectComponent },
+
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
@@ -39,7 +48,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes ,{ useHash: true })],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

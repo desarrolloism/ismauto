@@ -1,1 +1,126 @@
-<p>userdata works!</p>
+
+<span class="header-container"><app-header-app></app-header-app></span>
+<!-- <span class="text-container text-center">{{ fullname }}</span> -->
+
+<div class="container mt-4">
+    <h6 class="text-center" style="font-size: 1.2rem;">Actualización de
+        datos</h6>
+
+    <div class="row text-center">
+        <div class="col-md-6">
+            <p><b>Usuario: </b> {{avatar}}</p>
+        </div>
+        <div class="col-md-6">
+            <p><b>Correo: </b> {{email}}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Formulario de Cambio de Contraseña -->
+    <form #passwordForm="ngForm" (ngSubmit)="onSubmit(passwordForm)">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="new_password"
+                        class="form-label changePass">Nueva
+                        contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control"
+                            id="new_password"
+                            name="new_password"
+                            placeholder="Ingrese nueva contraseña"
+                            [(ngModel)]="userPass.new_password"
+                            minlength="8" maxlength="15" required
+                            #newPassword="ngModel">
+                        <button type="button" class="btn btn-outline-secondary"
+                            id="toggleNewPassword">
+                            <i class="fa-regular fa-eye-slash"
+                                id="iconNewPassword"></i>
+                        </button>
+                    </div>
+                    <div *ngIf="newPassword.invalid && newPassword.touched"
+                        class="text-danger text-center war-lab">
+                        La contraseña debe tener entre 8 y 15 caracteres.
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+                <div class="mb-3">
+                    <label for="confirm_password"
+                        class="form-label changePass">Confirmar
+                        contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control"
+                            id="confirm_password"
+                            name="confirm_password"
+                            placeholder="Confirme su contraseña"
+                            [(ngModel)]="userPass.confirm_password"
+                            [pattern]="userPass.new_password" required
+                            #confirmPassword="ngModel">
+                        <button type="button" class="btn btn-outline-secondary"
+                            id="toggleConfirmPassword">
+                            <i class="fa-regular fa-eye-slash"
+                                id="iconConfirmPassword"></i>
+                        </button>
+                    </div>
+                    <div
+                        *ngIf="confirmPassword.invalid && confirmPassword.touched"
+                        class="text-danger text-center war-lab">
+                        Las contraseñas no coinciden.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="mb-3 d-flex justify-content-center">
+            <div class="col-md-6">
+                <label for="phone_number"
+                    class="form-label changePass">Confirmar
+                    número telefónico</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">0</span>
+                    <input type="tel" class="form-control" id="phone_number"
+                        name="phone_number"
+                        placeholder="987654321"
+                        [(ngModel)]="userPass.phone_number"
+                        pattern="\d{9}" required #phoneNumber="ngModel"
+                        (keypress)="validateNumber($event)"
+                        maxlength="9">
+                </div>
+                <div *ngIf="phoneNumber.invalid && phoneNumber.touched"
+                    class="text-danger text-center war-lab">
+                    El número de teléfono debe tener 9 dígitos.
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary"
+                [disabled]="passwordForm.invalid">Actualizar Datos</button>
+        </div>
+
+        <div aria-live="polite" aria-atomic="true"
+            class="d-flex mt-4 justify-content-center align-items-center w-100">
+            <div class="align-items-center text-bg-success border-0 toast"
+                role="alert" aria-live="assertive" aria-atomic="true"
+                #toastElement>
+                <div class="d-flex">
+                    <div class="toast-body text-center">
+                        <b>Datos guardados con éxito</b>
+                    </div>
+                    <button type="button"
+                        class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

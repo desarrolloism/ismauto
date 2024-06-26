@@ -98,13 +98,14 @@ export class MaintDetailComponent implements OnInit {
   users() {
     this._userService.all(this.token).subscribe(resp => {
       this.usersUrl = resp;
-      // console.log(this.usersUrl);
+      // console.log('users',this.usersUrl);
     });
   }
 
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
+      // console.log(this.maintenanceUrl);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
@@ -115,23 +116,18 @@ export class MaintDetailComponent implements OnInit {
         this.mainDetalle.has_risk = this.maintenance.has_risk;
         this.mainDetalle.status_id = this.maintenance.case.status_id;
         this.mainDetalle.user_to_assign_id = this.maintenance.case.user_to_assign_id;
-        console.log(`el ide del user es `+this.mainDetalle.user_to_assign_id);
+        // console.log(`el ide del user es `+this.mainDetalle.user_to_assign_id);
         this.mainDetalle.institute_id = this.maintenance.case.institute_id;
         this.mainDetalle.solution = this.maintenance.solution;
         this.mainDetalle.type_incident = this.maintenance.type_incident;
         this.mainDetalle.site = this.maintenance.site;
         this.mainDetalle.score = this.maintenance.score;
         this.mainDetalle.description_incident = this.maintenance.description_incident;
-        // Obtener la fecha en que se cambió el estado a 'ENTREGADO'
         const statusChangedDate = new Date(this.maintenance.case.status.updated_at);
-        // Iterar sobre las fotos
         this.maintenance.photos.forEach((photo: any) => {
-          // Obtener la fecha de creación de la foto
           const photoCreatedAt = new Date(photo.created_at);
-          // Establecer is_before en false para las fotos subidas después del cambio de estado
           photo.is_before = photoCreatedAt < statusChangedDate;
         });
-        console.log(this.maintenance);
       } else {
         alert('Error de detalle, por favor notifique al administrador');
       }

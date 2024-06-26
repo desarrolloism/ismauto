@@ -1,95 +1,323 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="assets/images/logo.png" alt width="100" class="d-inline-block align-text-top">
-        </a>
-        <!-- <a class="exit"> SISTEMA DE TICKETS ISM</a> -->
-        <a class="exit"><i class="fa-regular fa-circle-user"></i> Bienvenido, {{
-            avatar }}</a>
+<!-- <app-header-app></app-header-app> -->
+<nav class="navbar">
+    <div class="navbar-brand d-flex align-items-center">
+        <button class="btn text-white" (click)="toggleMenu()"
+            data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+            aria-controls="offcanvasExample">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <img routerLink="/main" src="assets/images/logo.png"
+            style="margin-right: 1rem;" alt="Logo"
+            width="60" class="d-inline-block">
+        <!-- <div class="vr mx-2"></div> -->
 
-        <a class="exit" (click)="logout()"><i class="fa-solid fa-door-open"></i> Salir</a>
+        <div class="position-relative"
+            matTooltip="Tienes {{ getTotalStatus() }} casos en proceso!">
+            <div class="d-flex flex-column flex-md-row align-items-center">
+                <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
+                    Hola! {{ fullname }} /
+                </p>
+                <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
+                    {{ email }}
+                    <span
+                        class="position-absolute text-white top-0 start-80 translate-middle badge rounded-pill bg-danger">
+                        {{ getTotalStatus() }}
+                    </span>
+                </p>
+            </div>
+        </div>
+
     </div>
+    <div class="navbar-links">
+        <!-- procesos -->
+        <button mat-button class="text-white btn-nv"
+            matTooltip="Procesos" style="margin-right: .5rem;"
+            [matMenuTriggerFor]="process"><i
+                class="fa-solid fa-list-check"></i>
+        </button>
+        <mat-menu #process="matMenu">
+            <!-- <button mat-menu-item
+                [matMenuTriggerFor]="vertebrates">Mantenimiento</button> -->
+            <button mat-menu-item routerLink="/list"
+                [matMenuTriggerFor]="maintenance">Mantenimiento</button>
+        </mat-menu>
+
+        <mat-menu #maintenance="matMenu">
+            <button mat-menu-item
+                (click)="maintenanceReport()">
+                Reporte
+                de mantenimiento</button>
+        </mat-menu>
+
+        <!-- procesos -->
+
+        <!-- usuario -->
+        <button
+            matTooltip="Configuración de usuario"
+            class="text-white btn-nv" mat-button
+            [matMenuTriggerFor]="menu"><i
+                class="fa-regular fa-user"></i></button>
+    </div>
+    <!-- usuario -->
+
 </nav>
-
-
 
 <div class="container-fluid mt-2">
     <div class="row bodychart">
-        <nav class="col-md-2 col-lg-2 card-nav sidebar text-center active">
-            <h4 class="card shadow menu">PROCESOS</h4>
-            <!-- Contenido del menú -->
-            <ul class="nav flex-column">
-                <li class="procesos__menu">
-                    <a class="procesos__menu--option position-relative" routerLink="/list">
-                        <h3>Mantenimiento </h3>
-                        <span
-                            class="position-absolute text-white top-0 start-50 translate-middle badge rounded-pill bg-danger">
-                            {{ getTotalStatus() }}
-                            <span class="visually-hidden">unread messages</span>
-                        </span>
-                    </a>
-                </li>
-                <li class="procesos__menu">
-                    <a class="procesos__menu--option position-relative">
-                        <h3>Opción 2</h3>
-                    </a>
-
-                </li>
-                <li class="procesos__menu">
-                    <a class="procesos__menu--option position-relative">
-                        <h3>Opción 2</h3>
-                    </a>
-
-                </li>
-                <li class="procesos__menu">
-                    <a class="procesos__menu--option position-relative">
-                        <h3>Opción 2</h3>
-                    </a>
-
-                </li>
-                <div class="dropdown mt-3">
-                    <button class="card shadow menu reportes" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Reportes
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" target="_blank"
-                        href="https://lookerstudio.google.com/embed/reporting/8077023e-eb9d-4f9d-89bd-cee1846baa4c/page/HyMqD">Ver
-                        reporte de Mantenimiento</a></li>   
-                      <li><a class="dropdown-item" href="#">Reporte 2</a></li>
-                      <li><a class="dropdown-item" href="#">Reporte 3</a></li>
-                    </ul>
-                  </div>
-            </ul>
-        </nav>
-
-        <main role="main" class="col-md-10 col-lg-10 ml-sm-auto px-4">
+        <main role="main" class="col-md-9 col-lg-9 ml-sm-auto px-4">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="card shadow overflow-auto stats">
-                        <div class="card-body">
-                            <div class="card shadow menu text-center ">
-                                <!-- administra casos como jefe -->
-                                <div>
-                                    <p> <i class="fa-solid fa-chart-line"></i>
-                                        Estadísticas totales ({{
-                                        responseCases?.length
-                                        }})</p>
-                                </div>
+                <div class="cards overflow-auto stats">
+                    <div class="card-body">
+                        <div class=" text-center ">
+                            <!-- administra casos como jefe -->
+                            <div>
+                                <h3><i
+                                        class="fa-solid fa-chart-line"></i>
+                                    Estadísticas Mantenimiento ({{
+                                    responseCases?.length
+                                    }})</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="chart-container">
+                                <canvas id="MyChart" width="300"
+                                    height="300"></canvas>
                             </div>
                             <div class="row">
-                                <div class="chart-container">
-                                    <canvas id="MyChart" width="300" height="300"></canvas>
-                                </div>
-                                <div class="row">
-                                    
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
             </div>
-
         </main>
+        <div class="col-md-3 col-lg-3 ml-sm-auto overflow-auto info">
+            <div class="cards">
+                <b><i
+                        class="fa-solid fa-chart-line"></i> Estadísticas de
+                    Mantenimiento</b>
+                <p>
+                    La gráfica muestra el estado actual de casos
+                    (iniciando, en proceso, etc.), útil para gestionar el
+                    flujo de trabajo.
+
+                </p>
+                <hr>
+                <b><i class="fa-regular fa-paper-plane"></i> Creación de
+                    Casos</b>
+                <p>
+                    Para crear un caso de mantenimiento u otro departamento,
+                    debe ingresar al
+                    proceso desde el menu izquierdo
+                    <i class="fa-solid fa-bars"></i>.
+
+                </p>
+            </div>
+
+            <div class="cards">
+                <b><i class="fa-regular fa-file-lines"></i> Obtener
+                    resportería</b>
+                <p>
+                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
+                    podemos escoger la opción de reportería del proceso que
+                    necesitemos, esto nos llevará a una nueva página para
+                    visualizar la información.
+
+                </p>
+                <hr>
+                <b><i class="fa-solid fa-sliders"></i> Configuración de
+                    usuario</b>
+                <p>
+                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
+                    podemos editar la configuración de usuario, especificamente
+                    cambiar la contraseñas.
+                </p>
+            </div>
+            <div class="cards">
+                <b><i class="fa-solid fa-bug"></i> Errores del sistema:</b>
+                <p>
+                    En caso de percatarse de un error, mal funcionamiento,
+                    pérdida de información, etc. puede contactarse por correo:
+                    <span><a
+                            href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=153&ct=1718814047&rver=7.0.6738.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fcobrandid%3dab0455a0-8d03-46b9-b18b-df2f57b9e44c%26nlp%3d1%26RpsCsrfState%3dbf483ca7-451a-d186-b498-f788b8acb025&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=ab0455a0-8d03-46b9-b18b-df2f57b9e44c"
+                            target="_blank">asisdesarrollo&commat;ism.edu.ec</a></span>
+                </p>
+                <!-- <hr> -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- menu izquierdo -->
+
+<!-- offcanvas-menu.component.html -->
+<div class="offcanvas offcanvas-start custom-offcanvas" tabindex="-1"
+    id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"
+    style="border-radius: 10px; width: 250px;">
+    <div class="offcanvas-header">
+        <img routerLink="/main" src="assets/images/logo.png"
+            style="margin-right: 1rem;" alt="Logo"
+            width="60" class="d-inline-block">
+        <!-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menú</h5> -->
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <nav class="flex-column">
+            <a
+                class="nav-link text-start py-2 px-3 w-100 text-start">
+                <i class="fa-regular fa-circle-user icons fa-2x"></i>{{ fullname
+                }} <span style="color: #828282;">{{ email }}</span>
+            </a>
+            <hr>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/main">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="icon icons icon-tabler icon-tabler-home-2" width="24"
+                    height="24" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="black"
+                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                    <path d="M10 12h4v4h-4z" />
+                </svg> Inicio
+            </a>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/userdata">
+                <i class="fa-solid fa-sliders icons"></i> Configuración
+            </a>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                (click)="logout()">
+                <i class="fa-solid fa-right-from-bracket icons"></i> Cerrar
+                sesión
+            </a>
+            <hr>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/list">
+                <i class="fa-solid fa-screwdriver-wrench icons"></i>
+                Mantenimiento
+            </a>
+            
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/createproject">
+                <i class="fa-solid fa-laptop-code icons"></i>
+                Desarrollo e innovación
+            </a>
+            <a *ngIf="email === 'quitomantenimiento@ism.edu.ec'"
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/payment-administration">
+                <i class="fa-solid fa-coins icons"></i>
+                Colecturía
+            </a>
+            <hr>
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title"
+                    id="offcanvasExampleLabel">Reportes</h5>
+            </div>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                (click)="maintenanceReport()">
+                <i class="fa-solid fa-circle icons"></i> Rep. mantenimiento
+            </a>
+        </nav>
+    </div>
+    <div class="offcanvas-footer text-center mt-auto py-3 px-3">
+        <hr class="mb-2">
+        <p class="mb-0 text-muted"><span class="text-danger">Política de
+                privacidad</span> / ISM© 2024 / All Rights Reserved.</p>
+    </div>
+</div>
+
+<!-- botones de menu perfil -->
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/userdata">Configuración</button>
+    <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+</mat-menu>
+
+<!-- modal estatica para cambio de clave -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-dark ">
+
+            <div class="modal-body">
+                <form #passwordForm="ngForm"
+                    (ngSubmit)="onSubmit(passwordForm)">
+                    <div class="mb-3">
+                        <h6 class="text-center" style="font-size: 1.2rem;">
+                            Para continuar debe cambiar su contraseña
+                        </h6>
+                        <hr>
+                        <label for="new_password"
+                            class="form-label changePass">Nueva
+                            contraseña</label>
+                        <input type="password" class="form-control"
+                            id="new_password" name="new_password"
+                            placeholder="Ingrese nueva contraseña"
+                            [(ngModel)]="userPass.new_password"
+                            required minlength="8" maxlength="15"
+                            #newPassword="ngModel">
+                        <div *ngIf="newPassword.invalid && newPassword.touched"
+                            class="text-danger text-center war-lab">
+                            La contraseña debe tener entre 8 y 15 caracteres.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirm_password"
+                            class="form-label changePass">Confirmar
+                            contraseña</label>
+                        <input type="password" class="form-control"
+                            id="confirm_password" name="confirm_password"
+                            placeholder="Confirme su contraseña"
+                            [(ngModel)]="userPass.confirm_password"
+                            required [pattern]="userPass.new_password"
+                            #confirmPassword="ngModel">
+                        <div
+                            *ngIf="confirmPassword.invalid && confirmPassword.touched"
+                            class="text-danger text-center war-lab">
+                            Las contraseñas no coinciden.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone_number" class="form-label changePass">
+                            Agregue su número célular</label>
+                        <div class="input-group">
+                            <span class="input-group-text"
+                                id="basic-addon1">0</span>
+                            <input type="text" class="form-control"
+                                id="phone_number" name="phone_number"
+                                placeholder="987654321"
+                                [(ngModel)]="userPass.phone_number"
+                                required="true"
+                                maxlength="9"
+                                (keypress)="onKeyPress($event)"
+                                #phoneNumber="ngModel">
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary"
+                            [disabled]="passwordForm.invalid">Cambiar
+                            contraseña</button>
+                        <button type="button"
+                            routerLink="/login"
+                            class="btn btn-secondary">Regresar al
+                            inicio</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
 </div>

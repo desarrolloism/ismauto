@@ -91,7 +91,7 @@ export class MaintenanceService {
   }
 
 
-  uploadFile(token: any, file64: any, fileName: string, maintId: any,isBefore: boolean) {
+  uploadFile(token: any, file64: any, fileName: string, maintId: any, isBefore: boolean) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',

@@ -10,9 +10,9 @@ export class LoginService {
   public url: string = GLOBAL.url;
   public auth: string = GLOBAL.authorization;
 
-  constructor( private _http: HttpClient ) { }
+  constructor(private _http: HttpClient) { }
 
-  login( username: string, password: string){
+  login(username: string, password: string) {
     const user = {
       username,
       password
@@ -21,7 +21,7 @@ export class LoginService {
       'Authorization': this.auth,
       'Content-Type': 'application/json'
     })
-    console.log(this.auth);
-    return this._http.post(`${this.url}/login`, user,{headers: headers});  
-}
+
+    return this._http.post(`${this.url}/login_ppff`, user, { headers: headers });
+  }
 }

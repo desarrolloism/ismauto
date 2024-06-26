@@ -1,0 +1,17 @@
+.header-container {
+    margin-right: auto;
+}
+
+.text-container {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.permisos {
+    padding: 1rem;
+    color: white;
+    background-color: #65b2e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

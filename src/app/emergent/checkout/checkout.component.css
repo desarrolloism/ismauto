@@ -1,0 +1,13 @@
+.data {
+    text-align: center;
+}
+
+.btn{
+    background-color: #65b2e8;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #45a049;
+    color: white;
+}
