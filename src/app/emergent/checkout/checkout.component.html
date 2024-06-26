@@ -83,9 +83,18 @@
                                 [(ngModel)]="paymentData.amount">
                             <div
                                 class="button-container d-flex justify-content-evenly">
-                                <a class="btn btn-primary" (click)="setPaymentMethod('Transferencia')">Pago por transferencia</a>
+
                                 <div class="divider"></div>
-                                <button mat-raised-button type="submit" class="btn btn-primary" (click)="setPaymentMethod('Tarjeta de Crédito')">Tarjeta crédito o Débito</button>
+                                <a mat-raised-button type="button"
+                                    class="btn btn-primary"
+                                    (click)="sendDiners()">Pago con
+                                    DinersClub</a>
+                                <button mat-raised-button type="submit"
+                                    class="btn btn-primary"
+                                    (click)="setPaymentMethod('Tarjeta de Crédito')">Tarjeta
+                                    crédito o Débito</button>
+                                <a class="btn btn-primary" mat-raised-button
+                                    (click)="setPaymentMethod('Transferencia')">Transferencia</a>
                             </div>
 
                         </form>
@@ -141,7 +150,7 @@
                                     <td class="data">{{ iva | currency}}</td>
                                 </tr>
                                 <tr
-                                    style="background-color: rgb(79, 218, 79); color: rgb(255, 255, 255);
+                                    style="background-color: rgb(67, 172, 67); color: rgb(255, 255, 255);
                                     font-weight: bold;
                                     ">
                                     <td>Total:</td>

@@ -14,7 +14,10 @@ export class CheckoutComponent implements OnInit {
   constructor(private _paymentService: PaymentService, private _route: ActivatedRoute,
     private _router: Router,
 
-  ) { }
+  ) {
+
+
+  }
   @ViewChild('fileInput', { static: false }) fileInput: any;
 
   ngOnInit() {
@@ -22,12 +25,13 @@ export class CheckoutComponent implements OnInit {
       this.inscription_id = +params['id'];
       this.padreCheckout = params;
       this.description = 'Curso vacacional' + ' - ' + this.padreCheckout.name;
-      // console.log(this.padreCheckout);
-      // console.log('hola');
+      console.log('el inscrip es ', this.inscription_id);
     });
 
     this.calculateTotalCost();
   }
+
+
   isVisible: boolean = false;
   padreCheckout: any;
   description: any;
@@ -88,6 +92,17 @@ export class CheckoutComponent implements OnInit {
     description: ''
   };
 
+  originalPrices = {
+    totalCost: 0,
+    discountBrothers: '0%',
+    discountWeeks: '0%',
+    discountTotal: 0,
+    subtotal: 0,
+    total_extras: 0,
+    subtotalDescuentos: 0,
+    iva: 0,
+    innovu: 0
+  };
 
   //variables de costos 
   totalCost: number = 0;
@@ -104,6 +119,7 @@ export class CheckoutComponent implements OnInit {
 
   showTransf: boolean = false;
   showCredit: boolean = false;
+  isDinersSelected: boolean = false;
 
   mostrarFormulario() {
     // console.log('hola');
@@ -117,49 +133,83 @@ export class CheckoutComponent implements OnInit {
     this.padre.method = 'Tarjeta de Crédito';
   }
 
-  //Obtiene costos 
-  calculateTotalCost() {
-    this.inscription_id;
-    // console.log(`el id de  padre es ` + this.inscription_id);
-
-    if (this.inscription_id) {
-      this._paymentService.costTotal(
-        this.inscription_id
-      ).subscribe(
-        (response: any) => {
-          // console.log(response);
-          this.totalCost = parseFloat(response.total) || 0.00;
-          this.discountCourses = response.descuento_cursos || '0%';
-          this.discountBrothers = response.descuento_hermanos || '0%';
-          this.discountWeeks = response.descuento_semanas || '0%';
-          this.discountTotal = parseFloat(response.descuento_total) || 0.00;
-          this.subtotal = parseFloat(response.subtotal) || 0.00;
-          this.total_extras = response.total_extras || 0.00;
-          this.subtotalDescuentos = parseFloat(response.subtotal_descuentos) || 0.00;
-          this.iva = response.IVA || 0.00;
-          this.innovu = response.descuento_innnovu || 0.00;
-          // console.log('funciona');
+  sendDiners() {
+    if (confirm('¿Está seguro que desea proceder con el pago usando Diners?')) {
+      this._paymentService.sendDiners(this.inscription_id).subscribe(
+        (resp: any) => {
+          console.log('Respuesta de Diners:', resp);
+          if (resp.status === 'ok' && resp.data) {
+            this.updatePrices(resp.data);
+            this.isDinersSelected = true;
+            this.padre.method = 'Tarjeta de Crédito - Diners';
+            this.onSubmit();
+          }
+        },
+        error => {
+          console.error('Error al obtener datos de Diners:', error);
+          this.restoreOriginalPrices();
         }
       );
     } else {
-
+      alert('Pago con Diners cancelado.');
+      this.restoreOriginalPrices();
     }
+  }
+
+
+  //Obtiene costos 
+  calculateTotalCost() {
+    if (this.inscription_id) {
+      this._paymentService.costTotal(this.inscription_id).subscribe(
+        (response: any) => {
+          this.updatePrices(response);
+          if (!this.originalPrices) {
+            this.originalPrices = { ...response };
+          }
+        }
+      );
+    }
+  }
+
+  updatePrices(prices: any) {
+    this.totalCost = parseFloat(prices.total) || 0;
+    this.discountCourses = prices.descuento_cursos || '0%';
+    this.discountBrothers = prices.descuento_hermanos || '0%';
+    this.discountWeeks = prices.descuento_semanas || '0%';
+    this.discountTotal = parseFloat(prices.descuento_total) || 0;
+    this.subtotal = parseFloat(prices.subtotal) || 0;
+    this.total_extras = parseFloat(prices.total_extras) || 0;
+    this.subtotalDescuentos = parseFloat(prices.subtotal_descuentos) || 0;
+    this.iva = parseFloat(prices.IVA) || 0;
+    this.innovu = parseFloat(prices.descuento_innnovu) || 0;
+  }
+
+  restoreOriginalPrices() {
+    if (this.originalPrices) {
+      this.updatePrices(this.originalPrices);
+    } else {
+      console.error('No se encontraron precios originales para restaurar');
+      this.calculateTotalCost(); // Recalcular si no hay precios originales
+    }
+  }
+
+  savePrices() {
+    this.originalPrices = {
+      totalCost: this.totalCost,
+      discountBrothers: this.discountBrothers,
+      discountWeeks: this.discountWeeks,
+      discountTotal: this.discountTotal,
+      subtotal: this.subtotal,
+      total_extras: this.total_extras,
+      subtotalDescuentos: this.subtotalDescuentos,
+      iva: this.iva,
+      innovu: this.innovu
+    };
   }
 
 
   //valores de abitmedia
   onSubmit() {
-    // console.log('Datos del formulario:', this.payment);
-    // this.paymentData.third.name = this.padreCheckout.name;
-    // this.paymentData.third.email = this.padreCheckout.email;
-    // this.paymentData.third.document = this.padreCheckout.dni;
-    // this.paymentData.third.document_type = this.payment.document_type;
-    // this.paymentData.third.phones = this.padreCheckout.phone;
-    // this.paymentData.third.address = this.padreCheckout.address;
-    // this.paymentData.amount = this.paymentData.amount;
-    // this.paymentData.description = this.description;
-
-
     this.paymentData.third.name = this.padreCheckout.name;
     this.paymentData.third.email = this.padreCheckout.email;
     this.paymentData.third.document = this.padreCheckout.dni;
@@ -171,18 +221,30 @@ export class CheckoutComponent implements OnInit {
     this.paymentData.amount_without_tax = 0;
     this.paymentData.tax_value = this.iva;
     this.paymentData.description = this.description;
-    this.padre.method = 'Tarjeta de Crédito';
 
+    if (!this.isDinersSelected) {
+      this.padre.method = 'Tarjeta de Crédito';
+    }
 
     this._paymentService.createPaymentRequest(this.paymentData).subscribe(
       resp => {
-        // console.log('Respuesta de abitmedia:', resp);
         this.responseUrl = resp.data.url;
         if (this.responseUrl) {
           this.showCredit = true;
-          alert('Se abrirá una nueva página para realizar el pago, luego de realizar la transacción no olvide subir una captura para validar el pago.');
-          window.open(this.responseUrl, '_blank');
-          // window.location.href = (this.responseUrl, '_blank');
+          let message = this.isDinersSelected
+            ? '¿Está seguro que desea proceder con el pago usando Diners?'
+            : '¿Está seguro que desea proceder con el pago usando tarjeta de crédito?';
+
+          if (confirm(message)) {
+            let confirmationMessage = this.isDinersSelected
+              ? 'Se abrirá una nueva página para realizar el pago con Diners Club, luego de realizar la transacción no olvide subir una captura para validar el pago.'
+              : 'Se abrirá una nueva página para realizar el pago, luego de realizar la transacción no olvide subir una captura para validar el pago.';
+            alert(confirmationMessage);
+            window.open(this.responseUrl, '_blank');
+          } else {
+            alert('Pago cancelado.');
+            // Aquí puedes agregar cualquier lógica adicional para manejar la cancelación
+          }
         }
       },
       error => {
@@ -209,14 +271,25 @@ export class CheckoutComponent implements OnInit {
 
   setPaymentMethod(method: string) {
     console.log('setPaymentMethod llamada con:', method);
-    
+
     if (method === 'Transferencia' || method === 'Tarjeta de Crédito') {
       this.padre.method = method;
       this.showTransf = method === 'Transferencia';
       this.showCredit = method === 'Tarjeta de Crédito';
       console.log('padre.method asignado a:', this.padre.method);
+
+      if (this.isDinersSelected) {
+        this.restoreOriginalPrices();
+        this.isDinersSelected = false;
+      }
     } else {
       console.log('Método de pago no válido:', method);
+    }
+
+    // Verificar si los precios son 0 y recalcular si es necesario
+    if (this.totalCost === 0) {
+      console.log('Precios en 0, recalculando...');
+      this.calculateTotalCost();
     }
   }
 

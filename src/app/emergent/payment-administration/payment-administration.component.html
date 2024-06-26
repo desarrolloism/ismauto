@@ -189,6 +189,21 @@
                                                             class="text-white fa-regular fa-circle-xmark fa-2x"></i>
                                                     </button>
                                                 </div>
+
+                                                <div
+                                                    *ngIf="showRejectionReason && updatingPaymentId === payment.id"
+                                                    class="mt-3">
+                                                    <input type="text"
+                                                        placeholder="Razón del rechazo"
+                                                        class="form-control"
+                                                        [(ngModel)]="rejectionReason">
+                                                    <button mat-raised-button
+                                                        color="warn"
+                                                        class="mt-2"
+                                                        (click)="proceedWithUpdate(payment.id, 'PAGO RECHAZADO', 'rechazar')">
+                                                        Rechazar pago
+                                                    </button>
+                                                </div>
                                                 <!-- muestra botones  -->
                                             </div>
 

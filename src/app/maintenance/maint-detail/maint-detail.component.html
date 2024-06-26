@@ -111,8 +111,8 @@
                                                 *ngFor="let photo of maintenanceUrl?.maintenance?.photos">
                                                 <ng-container
                                                     *ngIf="!photo.is_before">
-                                                    {{ urlPhotos + photo.photo
-                                                    }}
+                                                    <!-- {{ urlPhotos + photo.photo
+                                                    }} -->
                                                     <a data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal"
                                                         (click)="viewPhotoModal(photo.photo)">
@@ -281,7 +281,6 @@
                                             class="form-label">Asignado
                                             a:</label>
                                         <select
-                                            *ngIfAsignado="usersUrl && usersUrl.users"
                                             name="user_to_assign_id"
                                             id="user_to_assign_id"
                                             [(ngModel)]="mainDetalle.user_to_assign_id"

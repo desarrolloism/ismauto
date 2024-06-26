@@ -318,14 +318,15 @@ export class PaymentService {
   }
 
   //actualiza el estado del pago
-  updatePayment(id: number, new_state: string) {
+  updatePayment(id: number, newState: string, rejectionMessage: string) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json'
     });
     const data = {
       id,
-      new_state
+      new_state: newState,
+      rejection_message: rejectionMessage
     }
     return this._http.post(`${this.url}/update_payment_state`, data, { headers: headers });
   }
@@ -389,4 +390,17 @@ export class PaymentService {
     return this._http.post(`${this.url}/find_vacinscription`, data, { headers: headers });
   }
 
+  //metodo para descuento por diners
+
+  sendDiners(inscriptionId: number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+
+    const data = {
+      inscription_id: inscriptionId
+    }
+    return this._http.post(`${this.url}/button_diners`, data, { headers: headers });
+  }
 }

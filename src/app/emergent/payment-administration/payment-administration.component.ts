@@ -47,6 +47,8 @@ export class PaymentAdministrationComponent implements OnInit {
   last_name: string = '';
   fullname: string = '';
 
+
+
   facData: any = {};
   facSonData: any = [];
 
@@ -55,6 +57,10 @@ export class PaymentAdministrationComponent implements OnInit {
   filteredInitiatedPayments: any[] = [];
   filteredApprovedPayments: any[] = [];
   filteredRejectedPayments: any[] = [];
+  rejectedMessage: string = '';
+
+  showRejectionReason: boolean = false;
+  rejectionReason: string = '';
 
   readonly panelOpenState = signal(false);
 
@@ -128,16 +134,25 @@ export class PaymentAdministrationComponent implements OnInit {
     this.updatingPaymentId = id;
     let action = newStatus === 'PAGO APROBADO' ? 'aprobar' : 'rechazar';
 
+    if (newStatus === 'PAGO RECHAZADO') {
+      this.showRejectionReason = true;
+      return;  // No proceder con la actualización aún
+    }
+
+    this.proceedWithUpdate(id, newStatus, action);
+  }
+
+  proceedWithUpdate(id: number, newStatus: string, action: string) {
     if (window.confirm(`¿Está seguro de que desea ${action} este pago?`)) {
-      this.paymentService.updatePayment(id, newStatus).subscribe(
+      this.paymentService.updatePayment(id, newStatus, this.rejectionReason).subscribe(
         (resp: any) => {
-          // console.log(`Pago ${action}ado:`, resp);
           console.log(resp);
           this.loadPayments('PAGADO');
           this.loadPayments('INICIANDO');
           this.loadPayments('PAGO PENDIENTE');
           this.loadPayments('PAGO APROBADO');
-          // this.updatingPaymentId = null;
+          this.showRejectionReason = false;
+          this.rejectionReason = '';
         }
       );
     }

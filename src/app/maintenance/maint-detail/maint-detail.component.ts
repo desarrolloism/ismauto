@@ -98,14 +98,14 @@ export class MaintDetailComponent implements OnInit {
   users() {
     this._userService.all(this.token).subscribe(resp => {
       this.usersUrl = resp;
-      // console.log(this.usersUrl);
+      // console.log('users',this.usersUrl);
     });
   }
 
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
-      console.log(this.maintenanceUrl);
+      // console.log(this.maintenanceUrl);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;
