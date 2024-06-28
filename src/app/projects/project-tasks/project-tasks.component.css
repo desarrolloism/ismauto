@@ -1,0 +1,21 @@
+mat-grid-tile {
+    background: lightblue;
+  }
+  
+
+  .vertical-divider {
+    width: 1px;
+    background-color: #dee2e6; /* Color del hr por defecto en Bootstrap */
+    margin-right: 1rem;
+  }
+  
+  .border-end {
+    border-right: 1px solid #dee2e6 !important;
+    min-height: 100%;
+  }
+
+  .titles{
+    color: #696c70;
+  }
+
+  

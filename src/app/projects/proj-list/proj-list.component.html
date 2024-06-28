@@ -1,0 +1,118 @@
+<app-header-app></app-header-app>
+<h1 class="text-center mt-2">Listado de proyectos - Dep. Desarrollo e
+    Innovación</h1>
+<div class="container-fluid mt-4">
+
+    <div class="row justify-content-center mb-3">
+        <!-- boton de creacion -->
+
+        <div class="col-12 col-md-6 col-lg-4 mb-2">
+            <button class="w-30" mat-stroked-button
+                matTooltip="Crear un nuevo proyecto"
+                routerLink="/createproject">Crear proyecto
+                <i class="fa-solid fa-folder-plus"></i>
+            </button>
+        </div>
+        <!-- boton de creacion -->
+
+        <!-- barra de busqueda -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <input type="text"
+                class="form-control text-center"
+                placeholder="Buscar Ticket"
+                aria-label="Buscar"
+                aria-describedby="basic-addon2">
+        </div>
+        <!-- barra de busqueda -->
+
+    </div>
+
+    <!-- tabla de casos y tcikets -->
+
+    <div class>
+        <div class="project-list text-center mt-4">
+            <div
+                class="project-header d-none d-md-flex justify-content-between align-items-center bg-dark text-white p-2">
+                <div class="col">ID</div>
+                <div class="col">Proyectos ({{ Projects?.length }})</div>
+                <div class="col">Estado</div>
+                <div class="col"
+                    *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'desarrollo@ism.edu.ec'">Tareas</div>
+                <div class="col">Firmas</div>
+                <div class="col">Act. Estado</div>
+            </div>
+
+            <ul class="list-unstyled">
+                <li *ngFor="let ticket of Projects"
+                    class="project-item border-bottom p-2">
+                    <div
+                        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">ID: </strong>{{
+                            ticket.case_id }}
+                        </div>
+                        <div class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">Proyecto: </strong>{{
+                            ticket.project_name }}
+                        </div>
+                        <div class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">Estado: </strong>
+                            <p class="small mb-0" *ngIf="ticket.state">
+                                {{ ticket.state === 'INICIANDO' ? 'EN ANALISIS'
+                                : ticket.state }}
+                            </p>
+                        </div>
+                        <div
+                            *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'desarrollo@ism.edu.ec'"
+                            class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">Tareas: </strong>
+                            <!-- <button class="tasks btn border"
+                                matTooltip="Ver tareas del proyecto"
+                                routerLink="/project-tasks">
+                                <span class="text-muted">F: 5 /</span> B: 5
+                            </button> -->
+                            <button class="tasks btn border"
+                                matTooltip="Ver tareas del proyecto"
+                                (click)="goToProjectTasks(ticket.id)">
+                                <span class="text-muted">F: 5 /</span> B: 5
+                            </button>
+                        </div>
+                        <div class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">Firmas: </strong>
+                            <button class="tasks btn border"
+                                matTooltip="Firmas"
+                                routerLink="/createproject">
+                                <span> 5 / 5 </span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <strong class="d-md-none">Actualizar Estado:
+                            </strong>
+                            <button mat-button [matMenuTriggerFor]="state">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </button>
+                            <mat-menu #state="matMenu">
+                                <button mat-menu-item
+                                    (click)="updateProjectState(ticket.id, 'INICIANDO')">Iniciando</button>
+                                <button mat-menu-item
+                                    (click)="updateProjectState(ticket.id, 'PLANIFICACION')">Planificación</button>
+                                <button mat-menu-item
+                                    (click)="updateProjectState(ticket.id, 'DESARROLLO')">Desarrollo</button>
+                                <button mat-menu-item
+                                    (click)="updateProjectState(ticket.id, 'PRUEBAS')">Pruebas</button>
+                                <button mat-menu-item
+                                    (click)="updateProjectState(ticket.id, 'IMPLEMENTACION')">Implementación</button>
+                                <button mat-menu-item
+                                    (click)="updateProjectState(ticket.id, 'MANTENIMIENTO')">Mantenimiento</button>
+                                <!-- <button mat-menu-item
+                                    (click)="updateProjectState(ticket.case_id, 'ELIMINAR')">Eliminar</button> -->
+                            </mat-menu>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- tabla de casos y tcikets -->
+
+</div>

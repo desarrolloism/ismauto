@@ -1,0 +1,142 @@
+<app-header-app></app-header-app>
+<h1 class="text-center mt-4">Asignación de tareas</h1>
+
+<div class="p-4">
+
+    <div class="row" style="margin-top: -20px;">
+        <div class="col-md-4">
+            <div class="card project-card">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="mb-0">{{ projectDetail?.project_name }}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-5 fw-bold">Descripción:</div>
+                        <div class="col-md-7">{{ projectDetail?.description
+                            }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-5 fw-bold">Departamento:</div>
+                        <div class="col-md-7">{{ projectDetail?.department
+                            }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-5 fw-bold">F. requerida:</div>
+                        <div class="col-md-7">{{ projectDetail?.end_date
+                            }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-5 fw-bold">Estado:</div>
+                        <div class="col-md-7">
+                            <span class="badge bg-primary">{{
+                                projectDetail?.state }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light">
+                    <div class="row">
+                        <div class="col-md-6 mb-2 mb-md-0">
+                            <small class="text-muted">ID: {{ projectDetail?.id
+                                }}</small>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <small class="text-muted">CaseID: {{
+                                projectDetail?.case_id }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <!-- formulario para asingar tarear BACK -->
+
+            <div class="row mt-4">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> Nueva tarea
+                            </mat-panel-title>
+                            <mat-panel-description>Click para agregar una
+                                tarea <i style="margin-left: 10px;"
+                                    class="fa-solid fa-circle-plus"></i></mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <form class>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field appearance="outline"
+                                        class="full-width">
+                                        <mat-select
+                                            formControlName="tipoActividad"
+                                            required>
+                                            <mat-option value
+                                                disabled>Selecciona un tipo de
+                                                Actividad</mat-option>
+                                            <mat-option
+                                                value="60">Backend</mat-option>
+                                            <mat-option
+                                                value="4">Frontend</mat-option>
+
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Fecha de
+                                            asignación:</label>
+                                        <input type="date"
+                                            name="assignament_date"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Fecha de
+                                            finalización:</label>
+                                        <input type="date" name="end_date"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Tarea:</label>
+                                        <input type="text" name="name_task"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label
+                                            class="form-label">Detalle:</label>
+                                        <input type="text"
+                                            name="description_task"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group mb-3">
+                                    <input type="hidden" value="INICIANDO">
+                                    <label
+                                        class="form-label">Observación</label>
+                                    <input type="text" class="form-control"
+                                        name="observation">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary text-center">Crear
+                                tarea</button>
+                        </form>
+
+                    </mat-expansion-panel>
+
+                </mat-accordion>
+
+            </div>
+            <!-- formulario para asingar tarear BACK -->
+        </div>
+    </div>
+
+</div>

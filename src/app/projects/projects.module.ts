@@ -16,12 +16,22 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select'; 
-import {MatListModule} from '@angular/material/list'; 
+import {MatListModule} from '@angular/material/list';
+import { ProjListComponent } from './proj-list/proj-list.component'; 
+import {MatTooltipModule} from '@angular/material/tooltip'; 
+import {MatTableModule} from '@angular/material/table'; 
+import {MatMenuModule} from '@angular/material/menu'; 
+import {MatBadgeModule} from '@angular/material/badge';
+import { ProjectTasksComponent } from './project-tasks/project-tasks.component'; 
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatExpansionModule} from '@angular/material/expansion'; 
 
 
 @NgModule({
   declarations: [
-    CreateprojectComponent
+    CreateprojectComponent,
+    ProjListComponent,
+    ProjectTasksComponent
   ],
   imports: [
     CommonModule,
@@ -37,8 +47,13 @@ import {MatListModule} from '@angular/material/list';
     MatButtonModule,
     MatDatepickerModule,
     MatSelectModule,
-    MatListModule
-    
+    MatListModule,
+    MatTooltipModule,
+    MatTableModule,
+    MatMenuModule,
+    MatBadgeModule,
+    MatGridListModule,
+    MatExpansionModule
   ],
   providers: [
     provideNativeDateAdapter()

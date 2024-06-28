@@ -18,10 +18,11 @@ export class CreateprojectComponent implements OnInit {
   descriptionFormGroup!: FormGroup;
   endDateFormGroup!: FormGroup;
   campusFormGroup!: FormGroup;
+  newProject: any;
 
   constructor(
     private _projectService: ProjectService,
-    private router: Router,
+    private _router: Router,
     private _formBuilder: FormBuilder
   ) { }
 
@@ -51,7 +52,7 @@ export class CreateprojectComponent implements OnInit {
       departament: this.departmentFormGroup.value.departament,
       description: this.descriptionFormGroup.value.description,
       end_date: this.endDateFormGroup.value.end_date,
-      state: 'STARTING',
+      state: 'INICIANDO',
       campus: this.campusFormGroup.value.campus
     };
 
@@ -74,6 +75,11 @@ export class CreateprojectComponent implements OnInit {
     ).subscribe(
       resp => {
         console.log(resp);
+        this.newProject = resp;
+        if (this.newProject.status === 'ok') {
+          console.log('proyecto creado');
+          this._router.navigate(['/proj-list']);
+        }
       }
     );
   }

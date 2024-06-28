@@ -15,6 +15,8 @@ import { ErroruserComponent } from './scholarships/erroruser/erroruser.component
 import { CheckoutComponent } from './emergent/checkout/checkout.component';
 import { PaymentAdministrationComponent } from './emergent/payment-administration/payment-administration.component';
 import { CreateprojectComponent } from './projects/createproject/createproject.component';
+import { ProjListComponent } from './projects/proj-list/proj-list.component';
+import { ProjectTasksComponent } from './projects/project-tasks/project-tasks.component';
 
 
 const routes: Routes = [
@@ -40,7 +42,8 @@ const routes: Routes = [
   { path: 'payment-administration', component: PaymentAdministrationComponent },
   //projects
   { path: 'createproject', component: CreateprojectComponent },
-
+  { path: 'proj-list', component: ProjListComponent },
+  { path: 'project-tasks/:id', component: ProjectTasksComponent },
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
