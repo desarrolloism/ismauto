@@ -11,15 +11,6 @@ export class ProjListComponent implements OnInit {
   Projects: any;
   token: string | null = localStorage.getItem('token');
 
-  updateProject = {
-    id: 0,
-    end_date: '',
-    project_name: '',
-    description: '',
-    department: '',
-    state: '',
-  }
-
   //variables para correo
   name: string = '';
   email: string = '';
@@ -42,35 +33,7 @@ export class ProjListComponent implements OnInit {
       });
   }
 
-  //actualiza el estado del caso
-  updateProjectState(projectId: number, newState: string) {
-    // console.log(projectId);
-    const projectToUpdate = this.Projects.find((project: any) => project.id === projectId);
 
-    if (projectToUpdate) {
-      this.updateProject = {
-        id: projectId,
-        end_date: projectToUpdate.end_date,
-        project_name: projectToUpdate.project_name,
-        description: projectToUpdate.description,
-        department: projectToUpdate.department,
-        state: newState,
-      };
-
-      this.projectService.updateProject(
-        this.token,
-        this.updateProject.id,
-        this.updateProject.end_date,
-        this.updateProject.project_name,
-        this.updateProject.description,
-        this.updateProject.department,
-        this.updateProject.state,
-      ).subscribe(resp => {
-        // console.log(resp);
-        projectToUpdate.state = newState;
-      });
-    }
-  }
 
   //metodo para obtener datos del usuario
   getAvatar() {

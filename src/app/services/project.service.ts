@@ -122,8 +122,8 @@ export class ProjectService {
     const data = {
       project_id: projectId,
       developer_id: developerId,
-      name: nameTaks,
-      description: descriptionTask,
+      name_task: nameTaks,
+      description_task: descriptionTask,
       assignament_date: assignamentDate,
       end_date: endDate,
       state: state,
@@ -133,4 +133,53 @@ export class ProjectService {
     return this._http.post(`${this.url}/create_task`, data, { headers: headers });
 
   }
+
+  //actualiza la tarea  
+
+  updateTask(
+    token: any,
+    Id: number,
+    nameTaks: string,
+    descriptionTask: string,
+    assignamentDate: string,
+    endDate: string,
+    state: string,
+    observation: string
+  ) {
+
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+
+    const data = {
+      id: Id,
+      name_task: nameTaks,
+      description_task: descriptionTask,
+      assignament_date: assignamentDate,
+      end_date: endDate,
+      state: state,
+      observation: observation
+    }
+
+    return this._http.post(`${this.url}/update_task`, data, { headers: headers });
+  }
+  //consulta las tareas de cada caso
+
+  getTasks(
+    token: any,
+    projectId: number
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+      project_id: projectId
+    }
+    return this._http.post(`${this.url}/task_asigned`, data, { headers: headers });
+  }
+
 }

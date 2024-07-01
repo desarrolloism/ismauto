@@ -6,14 +6,14 @@
     <div class="row" style="margin-top: -20px;">
         <div class="col-md-4">
             <div class="card project-card">
-                <div class="card-header bg-secondary text-white">
+                <div class="card-header text-center bg-primary text-white">
                     <h3 class="mb-0">{{ projectDetail?.project_name }}</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body text-center">
                     <div class="row mb-3">
                         <div class="col-md-5 fw-bold">Descripción:</div>
-                        <div class="col-md-7">{{ projectDetail?.description
-                            }}</div>
+                        <div class="card col-md-7">{{ projectDetail?.description
+                            }} </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-5 fw-bold">Departamento:</div>
@@ -28,10 +28,17 @@
                     <div class="row mb-3">
                         <div class="col-md-5 fw-bold">Estado:</div>
                         <div class="col-md-7">
-                            <span class="badge bg-primary">{{
-                                projectDetail?.state }}</span>
+                            <ng-container
+                                *ngIf="!isUpdating; else updatingSpinner">
+                                <span class="badge bg-primary">{{
+                                    projectDetail?.state }}</span>
+                            </ng-container>
+                            <ng-template #updatingSpinner>
+                                <mat-spinner diameter="20"></mat-spinner>
+                            </ng-template>
                         </div>
                     </div>
+
                 </div>
                 <div class="card-footer bg-light">
                     <div class="row">
@@ -45,12 +52,36 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="col">
 
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title> Estados
+                                </mat-panel-title>
+                                <mat-panel-description>Actualizar estado
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <button mat-menu-item class="center-text"
+                                (click)="updateStatus(projectDetail.id, 'INICIANDO')">Iniciando</button>
+                            <button mat-menu-item class="center-text"
+                                (click)="updateStatus(projectDetail.id, 'PLANIFICACION')">Planificación</button>
+                            <button mat-menu-item class="center-text"
+                                (click)="updateStatus(projectDetail.id, 'DESARROLLO')">Desarrollo</button>
+                            <button mat-menu-item class="center-text"
+                                (click)="updateStatus(projectDetail.id, 'PRUEBAS')">Pruebas</button>
+                            <button mat-menu-item class="center-text"
+                                (click)="updateStatus(projectDetail.id, 'IMPLEMENTACION')">Implementación</button>
+                            <button mat-menu-item class="center-text"
+                                (click)="updateStatus(projectDetail.id, 'MANTENIMIENTO')">Mantenimiento</button>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                </div>
+            </div>
         </div>
         <div class="col-md-8">
             <!-- formulario para asingar tarear BACK -->
-
             <div class="row mt-4">
                 <mat-accordion>
                     <mat-expansion-panel>
@@ -61,32 +92,26 @@
                                 tarea <i style="margin-left: 10px;"
                                     class="fa-solid fa-circle-plus"></i></mat-panel-description>
                         </mat-expansion-panel-header>
-
-                        <form class>
+                        <form [formGroup]="taskForm"
+                            (ngSubmit)="createTask(projectDetail.id)">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <mat-form-field appearance="outline"
-                                        class="full-width">
-                                        <mat-select
-                                            formControlName="tipoActividad"
-                                            required>
-                                            <mat-option value
-                                                disabled>Selecciona un tipo de
-                                                Actividad</mat-option>
-                                            <mat-option
-                                                value="60">Backend</mat-option>
-                                            <mat-option
-                                                value="4">Frontend</mat-option>
-
-                                        </mat-select>
-                                    </mat-form-field>
+                                    <mat-radio-group
+                                        formControlName="developer_id"
+                                        aria-label="Select an option">
+                                        <mat-radio-button
+                                            [value]="4">Frontend</mat-radio-button>
+                                        <mat-radio-button
+                                            [value]="60">Backend</mat-radio-button>
+                                    </mat-radio-group>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Fecha de
                                             asignación:</label>
-                                        <input type="date"
-                                            name="assignament_date"
+                                        <input
+                                            formControlName="assignament_date"
+                                            type="date"
                                             class="form-control">
                                     </div>
                                 </div>
@@ -94,7 +119,9 @@
                                     <div class="form-group mb-3">
                                         <label class="form-label">Fecha de
                                             finalización:</label>
-                                        <input type="date" name="end_date"
+                                        <input
+                                            formControlName="end_date"
+                                            type="date"
                                             class="form-control">
                                     </div>
                                 </div>
@@ -103,7 +130,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="form-label">Tarea:</label>
-                                        <input type="text" name="name_task"
+                                        <input
+                                            formControlName="name_task"
+                                            type="text"
                                             class="form-control">
                                     </div>
                                 </div>
@@ -111,31 +140,121 @@
                                     <div class="form-group mb-3">
                                         <label
                                             class="form-label">Detalle:</label>
-                                        <input type="text"
-                                            name="description_task"
+                                        <input
+                                            formControlName="description_task"
+                                            type="text"
                                             class="form-control">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group mb-3">
-                                    <input type="hidden" value="INICIANDO">
-                                    <label
-                                        class="form-label">Observación</label>
-                                    <input type="text" class="form-control"
-                                        name="observation">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label
+                                            class="form-label">Instrucciones:</label>
+                                        <input
+                                            formControlName="observation"
+                                            type="text"
+                                            class="form-control">
+                                    </div>
                                 </div>
                             </div>
-                            <button class="btn btn-primary text-center">Crear
+                            <button class="btn btn-primary text-center"
+                                [disabled]="!taskForm.valid">Crear
                                 tarea</button>
                         </form>
-
                     </mat-expansion-panel>
-
                 </mat-accordion>
-
+                <div class="project-list mt-4">
+                    <mat-accordion>
+                        <mat-expansion-panel *ngFor="let task of allTasks"
+                            (opened)="panelOpened(task.id)">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title *ngIf="task.developer_id == 4">
+                                    Frontend
+                                </mat-panel-title>
+                                <mat-panel-title *ngIf="task.developer_id != 4">
+                                    Backend
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    {{ task.state }}
+                                </mat-panel-description>
+                                <mat-panel-description>
+                                    Asignado: {{ task.assignament_date | date }}
+                                </mat-panel-description>
+                                <mat-panel-description>
+                                    Finaliza: {{ task.end_date | date }}
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form [formGroup]="updateForms[task.id]"
+                                        (ngSubmit)="updateTask(task.id)"
+                                        *ngIf="updateForms[task.id]">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label
+                                                        for="name_task">Tarea:</label>
+                                                    <input type="text"
+                                                        formControlName="name_task"
+                                                        class="form-control">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label
+                                                        for="description_task">Descripción:</label>
+                                                    <textarea
+                                                        formControlName="description_task"
+                                                        class="form-control"></textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label
+                                                        for="assignament_date">Fecha
+                                                        Asignada:</label>
+                                                    <input type="date"
+                                                        formControlName="assignament_date"
+                                                        class="form-control">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label for="end_date">Fecha
+                                                        de Fin:</label>
+                                                    <input type="date"
+                                                        formControlName="end_date"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label
+                                                        for="observation">Detalle:</label>
+                                                    <textarea
+                                                        formControlName="observation"
+                                                        class="form-control"></textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label
+                                                        for="state">Estado:</label>
+                                                    <select
+                                                        formControlName="state"
+                                                        class="form-control">
+                                                        <option
+                                                            *ngFor="let state of taskStates"
+                                                            [value]="state">{{state}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit"
+                                            class="btn btn-primary"
+                                            [disabled]="updateForms[task.id].invalid">Actualizar
+                                            tarea</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
             </div>
-            <!-- formulario para asingar tarear BACK -->
         </div>
     </div>
 

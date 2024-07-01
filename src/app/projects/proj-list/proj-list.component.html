@@ -39,7 +39,6 @@
                 <div class="col"
                     *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'desarrollo@ism.edu.ec'">Tareas</div>
                 <div class="col">Firmas</div>
-                <div class="col">Act. Estado</div>
             </div>
 
             <ul class="list-unstyled">
@@ -55,22 +54,21 @@
                             <strong class="d-md-none">Proyecto: </strong>{{
                             ticket.project_name }}
                         </div>
+                        
+
                         <div class="col mb-2 mb-md-0">
                             <strong class="d-md-none">Estado: </strong>
-                            <p class="small mb-0" *ngIf="ticket.state">
-                                {{ ticket.state === 'INICIANDO' ? 'EN ANALISIS'
-                                : ticket.state }}
+                            <p class="tasks btn border" style="cursor: default;"
+                                matTooltip="Firmas" *ngIf="ticket.state">
+                                <span> {{ ticket.state === 'INICIANDO' ? 'EN ANALISIS'
+                                : ticket.state }} </span>
                             </p>
                         </div>
+
                         <div
                             *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'desarrollo@ism.edu.ec'"
                             class="col mb-2 mb-md-0">
                             <strong class="d-md-none">Tareas: </strong>
-                            <!-- <button class="tasks btn border"
-                                matTooltip="Ver tareas del proyecto"
-                                routerLink="/project-tasks">
-                                <span class="text-muted">F: 5 /</span> B: 5
-                            </button> -->
                             <button class="tasks btn border"
                                 matTooltip="Ver tareas del proyecto"
                                 (click)="goToProjectTasks(ticket.id)">
@@ -85,29 +83,7 @@
                                 <span> 5 / 5 </span>
                             </button>
                         </div>
-                        <div class="col">
-                            <strong class="d-md-none">Actualizar Estado:
-                            </strong>
-                            <button mat-button [matMenuTriggerFor]="state">
-                                <i class="fa-solid fa-caret-down"></i>
-                            </button>
-                            <mat-menu #state="matMenu">
-                                <button mat-menu-item
-                                    (click)="updateProjectState(ticket.id, 'INICIANDO')">Iniciando</button>
-                                <button mat-menu-item
-                                    (click)="updateProjectState(ticket.id, 'PLANIFICACION')">Planificación</button>
-                                <button mat-menu-item
-                                    (click)="updateProjectState(ticket.id, 'DESARROLLO')">Desarrollo</button>
-                                <button mat-menu-item
-                                    (click)="updateProjectState(ticket.id, 'PRUEBAS')">Pruebas</button>
-                                <button mat-menu-item
-                                    (click)="updateProjectState(ticket.id, 'IMPLEMENTACION')">Implementación</button>
-                                <button mat-menu-item
-                                    (click)="updateProjectState(ticket.id, 'MANTENIMIENTO')">Mantenimiento</button>
-                                <!-- <button mat-menu-item
-                                    (click)="updateProjectState(ticket.case_id, 'ELIMINAR')">Eliminar</button> -->
-                            </mat-menu>
-                        </div>
+                       
                     </div>
                 </li>
             </ul>

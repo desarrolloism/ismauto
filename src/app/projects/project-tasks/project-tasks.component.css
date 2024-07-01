@@ -18,4 +18,49 @@ mat-grid-tile {
     color: #696c70;
   }
 
-  
+  .center-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column; 
+}
+
+
+.project-list {
+  width: 100%;
+}
+
+.project-header {
+  text-align: center;
+}
+
+.task-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-align: left; /* Alinea el texto a la izquierda en cada columna */
+}
+
+.task-col {
+  flex: 1;
+  padding: 0 10px;
+  min-width: 150px; /* Ajusta este valor según el tamaño deseado */
+  word-break: break-word; /* Evita el desbordamiento del contenido */
+}
+
+.task-col strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.project-header .col, .task-row .col {
+  text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+}
+
+@media (max-width: 767px) {
+  .task-col {
+      text-align: left;
+  }
+}

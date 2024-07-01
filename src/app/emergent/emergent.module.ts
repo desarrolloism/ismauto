@@ -18,7 +18,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
 import { HeaderModule } from '../header/header.module';
 import {MatGridListModule} from '@angular/material/grid-list'; 
-
+import {MatCardModule} from '@angular/material/card'; 
 
 @NgModule({
   declarations: [
@@ -43,7 +43,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatMenuModule,
     MatTooltipModule,
     HeaderModule,
-    MatGridListModule
+    MatGridListModule,
+    MatCardModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })

@@ -25,6 +25,8 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { ProjectTasksComponent } from './project-tasks/project-tasks.component'; 
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatExpansionModule} from '@angular/material/expansion'; 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatRadioModule} from '@angular/material/radio'; 
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatMenuModule,
     MatBadgeModule,
     MatGridListModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatRadioModule
   ],
   providers: [
     provideNativeDateAdapter()
