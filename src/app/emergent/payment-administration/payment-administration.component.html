@@ -148,32 +148,111 @@
                                                                 }}</p></div>
                                                     </div>
                                                 </div>
-                                                <table class border="1">
+                                                <table>
                                                     <thead>
                                                         <tr>
                                                             <th>DNI</th>
-                                                            <th>Nombre
-                                                                Completo</th>
-                                                            <th>Pago</th>
+                                                            <th>Nombre</th>
                                                             <th>ID</th>
+                                                            <th>Acciones</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr
+                                                        <ng-container
                                                             *ngFor="let son of facSonData">
-                                                            <td>{{ son.dni
-                                                                }}</td>
-                                                            <td>{{
-                                                                son.first_name
-                                                                }} {{
-                                                                son.last_name
-                                                                }}</td>
-                                                            <td>{{
-                                                                son.total_amount
-                                                                }}</td>
-                                                            <td>{{ son.son_id
-                                                                }}</td>
-                                                        </tr>
+                                                            <tr>
+                                                                <td>{{ son.dni
+                                                                    }}</td>
+                                                                <td>{{
+                                                                    son.first_name
+                                                                    }} {{
+                                                                    son.last_name
+                                                                    }}</td>
+                                                                <td>{{
+                                                                    son.son_id
+                                                                    }}</td>
+                                                                <td>
+                                                                    <button
+                                                                        mat-raised-button
+                                                                        (click)="toggleVisible(son.son_id)">
+                                                                        {{
+                                                                        isVisible(son.son_id)
+                                                                        ?
+                                                                        'Ocultar'
+                                                                        :
+                                                                        'Detalles'
+                                                                        }}
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr
+                                                                *ngIf="isVisible(son.son_id)">
+                                                                <td colspan="4">
+                                                                    <div
+                                                                        class="service-details">
+                                                                        <h4>Detalles
+                                                                            de
+                                                                            servicios:</h4>
+                                                                        <table
+                                                                            class="inner-table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Servicio</th>
+                                                                                    <th>Semana</th>
+                                                                                    <th>Precio</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+
+                                                                                <tr
+                                                                                    *ngFor="let service of getAdditionalServices(son.services)">
+                                                                                    <td>{{
+                                                                                        service.service_name
+                                                                                        }}</td>
+                                                                                    <td>Semana
+                                                                                        {{
+                                                                                        service.week_id
+                                                                                        }}</td>
+                                                                                    <td>{{
+                                                                                        service.ammount
+                                                                                        }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td
+                                                                                        colspan="2">Total
+                                                                                        (Solo
+                                                                                        disciplinas):</td>
+                                                                                    <td>{{
+                                                                                        son.service_totals.servicios
+                                                                                        }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td
+                                                                                        colspan="2">Almuerzo</td>
+                                                                                    <td>{{
+                                                                                        son.service_totals.almuerzo
+                                                                                        }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td
+                                                                                        colspan="2">Refrigerio</td>
+                                                                                    <td>{{
+                                                                                        son.service_totals.refrigerio
+                                                                                        }}</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td
+                                                                                        colspan="2">Transporte</td>
+                                                                                    <td>{{
+                                                                                        son.service_totals.transporte
+                                                                                        }}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </ng-container>
                                                     </tbody>
                                                 </table>
 
@@ -242,7 +321,7 @@
                                     <th>Correo</th>
                                     <th>Inscripción</th>
                                     <th>Desc. Colaborador</th>
-                                    <th>Pago</th>
+                                    <!-- <th>Pago</th> -->
                                     <!-- <th>Acción</th> -->
                                 </tr>
                             </thead>
@@ -265,7 +344,7 @@
                                         <ng-template
                                             #noDiscount>No</ng-template>
                                     </td>
-                                    <td>{{ payment.payment_total }}$</td>
+                                    <!-- <td>{{ payment.payment_total }}$</td> -->
                                 </tr>
                             </table>
                         </mat-list-item>
@@ -316,6 +395,7 @@
                                         </td>
                                         <td>{{ payment.payment_total }}$</td>
                                     </tr>
+                                    
                                     <tr>
                                         <td colspan="12"
                                             style="border: none;">
@@ -410,36 +490,114 @@
                                                                             }}</p></div>
                                                                 </div>
                                                             </div>
-                                                            <table class
-                                                                border="1">
+                                                            <table>
                                                                 <thead>
                                                                     <tr>
                                                                         <th>DNI</th>
-                                                                        <th>Nombre
-                                                                            Completo</th>
-                                                                        <th>Pago</th>
+                                                                        <th>Nombre</th>
                                                                         <th>ID</th>
+                                                                        <th>Acciones</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr
+                                                                    <ng-container
                                                                         *ngFor="let son of facSonData">
-                                                                        <td>{{
-                                                                            son.dni
-                                                                            }}</td>
-                                                                        <td>{{
-                                                                            son.first_name
-                                                                            }}
-                                                                            {{
-                                                                            son.last_name
-                                                                            }}</td>
-                                                                        <td>{{
-                                                                            son.total_amount
-                                                                            }}</td>
-                                                                        <td>{{
-                                                                            son.son_id
-                                                                            }}</td>
-                                                                    </tr>
+                                                                        <tr>
+                                                                            <td>{{
+                                                                                son.dni
+                                                                                }}</td>
+                                                                            <td>{{
+                                                                                son.first_name
+                                                                                }}
+                                                                                {{
+                                                                                son.last_name
+                                                                                }}</td>
+                                                                            <td>{{
+                                                                                son.son_id
+                                                                                }}</td>
+                                                                            <td>
+                                                                                <button
+                                                                                    mat-raised-button
+                                                                                    (click)="toggleVisible(son.son_id)">
+                                                                                    {{
+                                                                                    isVisible(son.son_id)
+                                                                                    ?
+                                                                                    'Ocultar'
+                                                                                    :
+                                                                                    'Detalles'
+                                                                                    }}
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr
+                                                                            *ngIf="isVisible(son.son_id)">
+                                                                            <td
+                                                                                colspan="4">
+                                                                                <div
+                                                                                    class="service-details">
+                                                                                    <h4>Detalles
+                                                                                        de
+                                                                                        servicios:</h4>
+                                                                                    <table
+                                                                                        class="inner-table">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th>Servicio</th>
+                                                                                                <th>Semana</th>
+                                                                                                <th>Precio</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+
+                                                                                            <tr
+                                                                                                *ngFor="let service of getAdditionalServices(son.services)">
+                                                                                                <td>{{
+                                                                                                    service.service_name
+                                                                                                    }}</td>
+                                                                                                <td>Semana
+                                                                                                    {{
+                                                                                                    service.week_id
+                                                                                                    }}</td>
+                                                                                                <td>{{
+                                                                                                    service.ammount
+                                                                                                    }}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td
+                                                                                                    colspan="2">Total
+                                                                                                    (Solo
+                                                                                                    disciplinas):</td>
+                                                                                                <td>{{
+                                                                                                    son.service_totals.servicios
+                                                                                                    }}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td
+                                                                                                    colspan="2">Almuerzo</td>
+                                                                                                <td>{{
+                                                                                                    son.service_totals.almuerzo
+                                                                                                    }}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td
+                                                                                                    colspan="2">Refrigerio</td>
+                                                                                                <td>{{
+                                                                                                    son.service_totals.refrigerio
+                                                                                                    }}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td
+                                                                                                    colspan="2">Transporte</td>
+                                                                                                <td>{{
+                                                                                                    son.service_totals.transporte
+                                                                                                    }}</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </ng-container>
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -597,36 +755,114 @@
                                                                                 }}</p></div>
                                                                     </div>
                                                                 </div>
-                                                                <table class
-                                                                    border="1">
+                                                                <table>
                                                                     <thead>
                                                                         <tr>
                                                                             <th>DNI</th>
-                                                                            <th>Nombre
-                                                                                Completo</th>
-                                                                            <th>Pago</th>
+                                                                            <th>Nombre</th>
                                                                             <th>ID</th>
+                                                                            <th>Acciones</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <tr
+                                                                        <ng-container
                                                                             *ngFor="let son of facSonData">
-                                                                            <td>{{
-                                                                                son.dni
-                                                                                }}</td>
-                                                                            <td>{{
-                                                                                son.first_name
-                                                                                }}
-                                                                                {{
-                                                                                son.last_name
-                                                                                }}</td>
-                                                                            <td>{{
-                                                                                son.total_amount
-                                                                                }}</td>
-                                                                            <td>{{
-                                                                                son.son_id
-                                                                                }}</td>
-                                                                        </tr>
+                                                                            <tr>
+                                                                                <td>{{
+                                                                                    son.dni
+                                                                                    }}</td>
+                                                                                <td>{{
+                                                                                    son.first_name
+                                                                                    }}
+                                                                                    {{
+                                                                                    son.last_name
+                                                                                    }}</td>
+                                                                                <td>{{
+                                                                                    son.son_id
+                                                                                    }}</td>
+                                                                                <td>
+                                                                                    <button
+                                                                                        mat-raised-button
+                                                                                        (click)="toggleVisible(son.son_id)">
+                                                                                        {{
+                                                                                        isVisible(son.son_id)
+                                                                                        ?
+                                                                                        'Ocultar'
+                                                                                        :
+                                                                                        'Detalles'
+                                                                                        }}
+                                                                                    </button>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr
+                                                                                *ngIf="isVisible(son.son_id)">
+                                                                                <td
+                                                                                    colspan="4">
+                                                                                    <div
+                                                                                        class="service-details">
+                                                                                        <h4>Detalles
+                                                                                            de
+                                                                                            servicios:</h4>
+                                                                                        <table
+                                                                                            class="inner-table">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th>Servicio</th>
+                                                                                                    <th>Semana</th>
+                                                                                                    <th>Precio</th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody>
+
+                                                                                                <tr
+                                                                                                    *ngFor="let service of getAdditionalServices(son.services)">
+                                                                                                    <td>{{
+                                                                                                        service.service_name
+                                                                                                        }}</td>
+                                                                                                    <td>Semana
+                                                                                                        {{
+                                                                                                        service.week_id
+                                                                                                        }}</td>
+                                                                                                    <td>{{
+                                                                                                        service.ammount
+                                                                                                        }}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td
+                                                                                                        colspan="2">Total
+                                                                                                        (Solo
+                                                                                                        disciplinas):</td>
+                                                                                                    <td>{{
+                                                                                                        son.service_totals.servicios
+                                                                                                        }}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td
+                                                                                                        colspan="2">Almuerzo</td>
+                                                                                                    <td>{{
+                                                                                                        son.service_totals.almuerzo
+                                                                                                        }}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td
+                                                                                                        colspan="2">Refrigerio</td>
+                                                                                                    <td>{{
+                                                                                                        son.service_totals.refrigerio
+                                                                                                        }}</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td
+                                                                                                        colspan="2">Transporte</td>
+                                                                                                    <td>{{
+                                                                                                        son.service_totals.transporte
+                                                                                                        }}</td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </ng-container>
                                                                     </tbody>
                                                                 </table>
                                                             </div>

@@ -403,4 +403,16 @@ export class PaymentService {
     }
     return this._http.post(`${this.url}/button_diners`, data, { headers: headers });
   }
+
+
+  getDetailCourses(id: number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+    const data = {
+      id
+    }
+    return this._http.post(`${this.url}/son_in_service`, data, { headers: headers });
+  }
 }

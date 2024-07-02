@@ -136,21 +136,11 @@ p {
 
 .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #09f;
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border-left-color: #09f;
-    animation: spin 1s ease infinite;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    animation: spin 1s linear infinite;
 }
 
 .facturacion-info {
@@ -214,3 +204,69 @@ p {
 .facData {
     font-size: .7rem;
 }
+
+.horizontal-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    font-size: 8px;
+    /* Permite que los ítems se envuelvan si hay muchos */
+}
+
+.horizontal-list mat-list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 10px;
+    /* Espaciado entre ítems */
+}
+
+.horizontal-list mat-icon {
+    margin-right: 8px;
+}
+
+
+.horizontal-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* Permite que los ítems se envuelvan si hay muchos */
+}
+
+.horizontal-list mat-list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 10px;
+    /* Espaciado entre ítems */
+}
+
+.horizontal-list mat-icon {
+    margin-right: 8px;
+}
+
+.service-details {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+  }
+  
+  .inner-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .inner-table th, .inner-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .inner-table th {
+    background-color: #f2f2f2;
+  }
