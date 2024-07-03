@@ -297,6 +297,10 @@ export class PaymentAbitmediaComponent implements OnInit {
   // Método para actualizar información del padre
   upPadre: any;
   updatePadre() {
+    if (!this.validateEmail()) {
+      alert('Por favor, ingrese un correo electrónico válido');
+      return;
+    }
     // console.log(`padre` + this.padre.sector_address_id);
     this._paymentService.update(
       this.padre.id,
@@ -424,6 +428,11 @@ export class PaymentAbitmediaComponent implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 1300);
+  }
+
+  validateEmail(): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(this.padre.email);
   }
 
   sectors: any[] = [];
