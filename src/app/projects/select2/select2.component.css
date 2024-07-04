@@ -1,0 +1,50 @@
+.select2-container {
+    position: relative;
+    width: 300px;
+}
+
+.select2-selection {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 9px;
+    cursor: pointer;
+}
+
+.select2-placeholder {
+    color: #aaa;
+}
+
+.select2-arrow {
+    float: right;
+}
+
+.select2-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    background: #fff;
+    z-index: 1000;
+}
+
+.select2-search {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.select2-options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.select2-options li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.select2-options li:hover {
+    background: #f0f0f0;
+}

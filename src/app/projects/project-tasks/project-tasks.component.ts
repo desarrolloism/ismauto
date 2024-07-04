@@ -17,6 +17,14 @@ export class ProjectTasksComponent implements OnInit {
   isUpdating: boolean = false;
   allTasks: any;
   taskId = 0;
+  taskForm!: FormGroup;
+
+  stateOrder = {
+    'INICIANDO': 0,
+    'EN PROCESO': 1,
+    'EN REVISION': 2,
+    'TERMINADO': 3
+  };
 
   updateForms: { [key: number]: FormGroup } = {};
   taskStates = ['INICIANDO', 'EN PROCESO', 'EN REVISION', 'TERMINADO'];
@@ -31,13 +39,14 @@ export class ProjectTasksComponent implements OnInit {
     observation: ''
   }
 
-  taskForm!: FormGroup;
+
   constructor(
     private route: ActivatedRoute,
     private _projectService: ProjectService,
     private fb: FormBuilder
   ) {
     this.initForm();
+    console.log(this.token);
     // this.getProjectTasks(this.token, this.projectId);
   }
 
@@ -85,7 +94,8 @@ export class ProjectTasksComponent implements OnInit {
           console.log(resp);
           alert('Tarea creada con exito');
           this.getProjectTasks(this.projectId);
-          this.taskForm.reset(); 
+          this.sortTasks();
+          this.taskForm.reset();
         } else {
           alert('Error al crear la tarea');
         }
@@ -141,7 +151,7 @@ export class ProjectTasksComponent implements OnInit {
   getProjectTasks(projectId: number) {
     this._projectService.getTasks(this.token, projectId).subscribe((resp: any) => {
       this.allTasks = resp.data;
-      // console.log('las tareasson', this.allTasks);
+      this.sortTasks();
     });
   }
 
@@ -168,10 +178,22 @@ export class ProjectTasksComponent implements OnInit {
         updatedTask.state,
         updatedTask.observation
       ).subscribe(resp => {
-        // console.log(resp);
         this.getProjectTasks(this.projectId);
+        this.sortTasks();
       });
     }
   }
+
+  //metodos para ordenar tareas por estado 
+
+  sortTasks() {
+    this.allTasks.sort((a: { state: string; }, b: { state: string; }) => {
+      const stateA = a.state as keyof typeof this.stateOrder;
+      const stateB = b.state as keyof typeof this.stateOrder;
+      return this.stateOrder[stateA] - this.stateOrder[stateB];
+    });
+  }
+
+
 
 }

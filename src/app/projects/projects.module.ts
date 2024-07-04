@@ -8,6 +8,7 @@ import { CreateprojectComponent } from './createproject/createproject.component'
 import { LoginModule } from '../login/login.module';
 import { HeaderModule } from '../header/header.module';
 
+
 //angular material
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -28,14 +29,19 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatRadioModule} from '@angular/material/radio';
 import { SignaturesComponent } from './signatures/signatures.component'; 
-
+import { MatTabsModule } from '@angular/material/tabs';
+import { Select2Component } from './select2/select2.component';
+import {MatCardModule} from '@angular/material/card'; 
+import {MatIconModule} from '@angular/material/icon'; 
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
     CreateprojectComponent,
     ProjListComponent,
     ProjectTasksComponent,
-    SignaturesComponent
+    SignaturesComponent,
+    Select2Component,
   ],
   imports: [
     CommonModule,
@@ -59,7 +65,11 @@ import { SignaturesComponent } from './signatures/signatures.component';
     MatGridListModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTabsModule,
+    MatCardModule,
+    MatIconModule,
+    MatChipsModule
   ],
   providers: [
     provideNativeDateAdapter()

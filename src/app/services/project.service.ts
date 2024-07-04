@@ -225,5 +225,57 @@ export class ProjectService {
     return this._http.post(`${this.url}/confirmation_signature`, data, { headers: headers });
   }
 
+  //obtiene usuarios
+  getUsers(token: any) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {}
+    return this._http.post(`${this.url}/user_list`, data, { headers: headers });
+  }
+
+
+  //agrega firmas para usuarios
+
+  addSignature(
+    token: any,
+    projectId: number,
+    userId: number,
+    isAcepted: boolean,
+    dateAccepted: string
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+      project_id: projectId,
+      user_id: userId,
+      is_accepted: isAcepted,
+      date_accepted: dateAccepted
+    }
+    return this._http.post(`${this.url}/create_signature`, data, { headers: headers });
+  }
+
+  getSignatures(
+    token:any,
+    projectId: number
+  ){
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+
+    const data = {
+      project_id: projectId
+    }
+
+    return this._http.post(`${this.url}/show_signature`, data, { headers: headers });
+  }
+
 
 }

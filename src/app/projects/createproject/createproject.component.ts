@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
 
 
 @Component({
@@ -23,8 +23,13 @@ export class CreateprojectComponent implements OnInit {
   constructor(
     private _projectService: ProjectService,
     private _router: Router,
-    private _formBuilder: FormBuilder
-  ) { }
+    private _formBuilder: FormBuilder,
+    private dateAdapter: DateAdapter<Date>
+  ) {
+
+    this.dateAdapter.setLocale('es-ES');
+
+  }
 
   ngOnInit() {
     this.projectNameFormGroup = this._formBuilder.group({
@@ -43,6 +48,10 @@ export class CreateprojectComponent implements OnInit {
       campus: ['', Validators.required]
     });
 
+    const today = this.dateAdapter.today();
+    this.endDateFormGroup.patchValue({
+      end_date: today
+    });
   }
 
 

@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body text-center">
                     <div class="row mb-3">
-                        <div class="col-md-5 fw-bold">Descripción:</div>
+                        <div class="col-md-5 fw-bold">Observaciones:</div>
                         <div class="card col-md-7">{{ projectDetail?.description
                             }} </div>
                     </div>
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="col-md-8">
-            <!-- formulario para asingar tarear BACK -->
+            <!-- formulario para asingar tarear BACK y front -->
             <div class="row mt-4">
                 <mat-accordion>
                     <mat-expansion-panel>
@@ -95,7 +95,7 @@
                         <form [formGroup]="taskForm"
                             (ngSubmit)="createTask(projectDetail.id)">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="mb-3 d-flex justify-content-center">
                                     <mat-radio-group
                                         formControlName="developer_id"
                                         aria-label="Select an option">
@@ -104,6 +104,18 @@
                                         <mat-radio-button
                                             [value]="8">Backend</mat-radio-button>
                                     </mat-radio-group>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row d-flex justify-content-evenly">
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Tarea:</label>
+                                        <input
+                                            formControlName="name_task"
+                                            type="text"
+                                            class="form-control">
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group mb-3">
@@ -125,37 +137,29 @@
                                             class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label class="form-label">Tarea:</label>
-                                        <input
-                                            formControlName="name_task"
-                                            type="text"
-                                            class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label
-                                            class="form-label">Detalle:</label>
-                                        <input
-                                            formControlName="description_task"
-                                            type="text"
-                                            class="form-control">
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label
                                             class="form-label">Observaciones:</label>
-                                        <input
+                                        <textarea
                                             formControlName="observation"
                                             type="text"
                                             class="form-control">
+                                            </textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label
+                                            class="form-label">Detalle:</label>
+                                        <textarea
+                                            formControlName="description_task"
+                                            type="text"
+                                            class="form-control">
+                                            </textarea>
                                     </div>
                                 </div>
                             </div>
@@ -165,6 +169,11 @@
                         </form>
                     </mat-expansion-panel>
                 </mat-accordion>
+
+                <!-- formulario para asingar tarear BACK y front -->
+
+                <!-- muestra las tareas de BACK y front ademas de actualizarlas -->
+
                 <div class="project-list mt-4">
                     <mat-accordion>
                         <mat-expansion-panel *ngFor="let task of allTasks"
@@ -202,7 +211,7 @@
                                                 </div>
                                                 <div class="form-group mb-3">
                                                     <label
-                                                        for="description_task">Descripción:</label>
+                                                        for="description_task">Observaciones:</label>
                                                     <textarea
                                                         formControlName="description_task"
                                                         class="form-control"></textarea>
@@ -254,6 +263,8 @@
                         </mat-expansion-panel>
                     </mat-accordion>
                 </div>
+                <!-- muestra las tareas de BACK y front ademas de actualizarlas -->
+
             </div>
         </div>
     </div>
