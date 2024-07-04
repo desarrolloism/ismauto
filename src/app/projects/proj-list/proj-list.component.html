@@ -48,23 +48,23 @@
                         class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
                         <div class="col mb-2 mb-md-0">
                             <strong class="d-md-none">ID: </strong>{{
-                            ticket.case_id }}
+                            ticket.id }}
                         </div>
                         <div class="col mb-2 mb-md-0">
                             <strong class="d-md-none">Proyecto: </strong>{{
                             ticket.project_name }}
                         </div>
-                        
 
                         <div class="col mb-2 mb-md-0">
                             <strong class="d-md-none">Estado: </strong>
                             <p class="tasks btn border" style="cursor: default;"
                                 matTooltip="Firmas" *ngIf="ticket.state">
-                                <span> {{ ticket.state === 'INICIANDO' ? 'EN ANALISIS'
-                                : ticket.state }} </span>
+                                <span> {{ ticket.state === 'INICIANDO' ?
+                                    'EN ANALISIS'
+                                    : ticket.state }} </span>
                             </p>
                         </div>
-
+                        <!-- muestra tareas de front y back -->
                         <div
                             *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'desarrollo@ism.edu.ec'"
                             class="col mb-2 mb-md-0">
@@ -72,18 +72,21 @@
                             <button class="tasks btn border"
                                 matTooltip="Ver tareas del proyecto"
                                 (click)="goToProjectTasks(ticket.id)">
-                                <span class="text-muted">F: 5 /</span> B: 5
+                                <span class="text-muted">Front: {{
+                                    ticket.frontTasks?.length || 0 }} /</span>
+                                Back: {{ ticket.backTasks?.length || 0 }}
                             </button>
                         </div>
+                        <!-- muestra tareas de front y back -->
                         <div class="col mb-2 mb-md-0">
                             <strong class="d-md-none">Firmas: </strong>
                             <button class="tasks btn border"
                                 matTooltip="Firmas"
-                                routerLink="/createproject">
+                                (click)="projectSignatures(ticket.id)">
+                                Firmas
                                 <span> 5 / 5 </span>
                             </button>
                         </div>
-                       
                     </div>
                 </li>
             </ul>

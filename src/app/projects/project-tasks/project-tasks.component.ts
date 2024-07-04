@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./project-tasks.component.css']
 })
 export class ProjectTasksComponent implements OnInit {
+
   projectId: number = 0;
   token: string | null = localStorage.getItem('token');
   projectDetail: any;
@@ -19,7 +20,6 @@ export class ProjectTasksComponent implements OnInit {
 
   updateForms: { [key: number]: FormGroup } = {};
   taskStates = ['INICIANDO', 'EN PROCESO', 'EN REVISION', 'TERMINADO'];
-
 
   newTask = {
     developer_id: 0,
@@ -39,18 +39,16 @@ export class ProjectTasksComponent implements OnInit {
   ) {
     this.initForm();
     // this.getProjectTasks(this.token, this.projectId);
-
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.projectId = +params['id'];
-      console.log(this.projectId);
+      // console.log(this.projectId);
     });
     this.getDetail();
     this.getProjectTasks(this.projectId);
   }
-
 
   //inicializa el formulario de creacion
   initForm() {
@@ -63,7 +61,6 @@ export class ProjectTasksComponent implements OnInit {
       observation: ['', Validators.required]
     });
   }
-
 
   //crea una nueva tarea
   createTask(projectId: number) {
@@ -88,15 +85,14 @@ export class ProjectTasksComponent implements OnInit {
           console.log(resp);
           alert('Tarea creada con exito');
           this.getProjectTasks(this.projectId);
-          this.taskForm.reset();  // Limpiar el formulario
+          this.taskForm.reset(); 
         } else {
-
+          alert('Error al crear la tarea');
         }
 
       });
     }
   }
-
 
   //inicializa el formulario de actualizacion
   initUpdateForm(task: any) {
@@ -116,16 +112,14 @@ export class ProjectTasksComponent implements OnInit {
     this._projectService.getProjectDetail(this.token, this.projectId).subscribe(
       (resp: any) => {
         this.projectDetail = resp.data;
-        console.log(this.projectDetail);
+        // console.log(this.projectDetail);
       }
     );
   }
 
-
   //actualiza el estado del proyecto
   updateStatus(projectId: number, newStatus: string) {
     this.isUpdating = true; // Mostrar spinner
-
     this._projectService.updateProject(
       this.token,
       this.projectDetail.id,
@@ -136,19 +130,18 @@ export class ProjectTasksComponent implements OnInit {
       newStatus
     ).subscribe(
       (resp: any) => {
-        console.log(resp);
+        // console.log(resp);
         this.projectDetail.state = newStatus;
         this.isUpdating = false;
       }
     );
   }
 
-
   //obtiene las tareas mediante el project ID
   getProjectTasks(projectId: number) {
     this._projectService.getTasks(this.token, projectId).subscribe((resp: any) => {
       this.allTasks = resp.data;
-      console.log('las tareasson', this.allTasks);
+      // console.log('las tareasson', this.allTasks);
     });
   }
 
@@ -160,7 +153,6 @@ export class ProjectTasksComponent implements OnInit {
       this.updateForms[taskId] = this.initUpdateForm(task);
     }
   }
-
 
   //Actualiza las tareas
   updateTask(taskId: number) {
@@ -176,7 +168,7 @@ export class ProjectTasksComponent implements OnInit {
         updatedTask.state,
         updatedTask.observation
       ).subscribe(resp => {
-        console.log(resp);
+        // console.log(resp);
         this.getProjectTasks(this.projectId);
       });
     }

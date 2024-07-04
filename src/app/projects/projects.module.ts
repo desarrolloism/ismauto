@@ -26,14 +26,16 @@ import { ProjectTasksComponent } from './project-tasks/project-tasks.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatExpansionModule} from '@angular/material/expansion'; 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {MatRadioModule} from '@angular/material/radio'; 
+import {MatRadioModule} from '@angular/material/radio';
+import { SignaturesComponent } from './signatures/signatures.component'; 
 
 
 @NgModule({
   declarations: [
     CreateprojectComponent,
     ProjListComponent,
-    ProjectTasksComponent
+    ProjectTasksComponent,
+    SignaturesComponent
   ],
   imports: [
     CommonModule,

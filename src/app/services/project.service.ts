@@ -182,4 +182,48 @@ export class ProjectService {
     return this._http.post(`${this.url}/task_asigned`, data, { headers: headers });
   }
 
+  //consulta tareas de cada campos front y back
+
+  developerTasks(
+    token: any,
+    projectId: number,
+    developerId: number
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+
+    const data = {
+      project_id: projectId,
+      developer_id: developerId
+    }
+    return this._http.post(`${this.url}/developer_task`, data, { headers: headers });
+  }
+
+  //crea firmas para usuarios
+
+  confirmationSignature(
+    token: any,
+    projectId: number,
+    userId: number,
+    isAcepted: boolean,
+    dateAccepted: string
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+      project_id: projectId,
+      user_id: userId,
+      is_acepted: isAcepted,
+      date_accepted: dateAccepted
+    }
+    return this._http.post(`${this.url}/confirmation_signature`, data, { headers: headers });
+  }
+
+
 }

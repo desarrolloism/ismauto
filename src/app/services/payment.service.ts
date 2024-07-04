@@ -278,7 +278,7 @@ export class PaymentService {
     return this._http.post(`${this.url}/service_transport`, data, { headers: headers });
   }
 
-  //envia informacion
+  //envia informacion de transporte
   SendTransPort(studentServiceId: number,
     sectorOriginId: number,
     addressOrigin: string,

@@ -77,7 +77,7 @@ export class CreateprojectComponent implements OnInit {
         console.log(resp);
         this.newProject = resp;
         if (this.newProject.status === 'ok') {
-          console.log('proyecto creado');
+          alert('Proyecto creado exitosamente');
           this._router.navigate(['/proj-list']);
         }
       }

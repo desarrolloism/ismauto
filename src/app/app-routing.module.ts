@@ -17,7 +17,7 @@ import { PaymentAdministrationComponent } from './emergent/payment-administratio
 import { CreateprojectComponent } from './projects/createproject/createproject.component';
 import { ProjListComponent } from './projects/proj-list/proj-list.component';
 import { ProjectTasksComponent } from './projects/project-tasks/project-tasks.component';
-
+import { SignaturesComponent } from './projects/signatures/signatures.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -44,6 +44,7 @@ const routes: Routes = [
   { path: 'createproject', component: CreateprojectComponent },
   { path: 'proj-list', component: ProjListComponent },
   { path: 'project-tasks/:id', component: ProjectTasksComponent },
+  { path: 'signatures/:id', component: SignaturesComponent },
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

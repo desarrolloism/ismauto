@@ -19,7 +19,7 @@ export class PaymentAbitmediaComponent implements OnInit {
   ngOnInit() {
     this._paymentService.sectors().subscribe(
       (response: any) => {
-        // console.log('hola');
+        // console.log(response);
         this.sectors = response.data;
         // Depuración adicional para ver el formato de fechas recibidas
         // console.log('Weeks raw data:', response.weeks);

@@ -86,11 +86,11 @@
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
-                            <mat-panel-title> Nueva tarea
+                            <mat-panel-title> <i
+                                    class="fa-solid fa-circle-plus"></i>
                             </mat-panel-title>
-                            <mat-panel-description>Click para agregar una
-                                tarea <i style="margin-left: 10px;"
-                                    class="fa-solid fa-circle-plus"></i></mat-panel-description>
+                            <mat-panel-description>Agregar una
+                                tarea </mat-panel-description>
                         </mat-expansion-panel-header>
                         <form [formGroup]="taskForm"
                             (ngSubmit)="createTask(projectDetail.id)">
