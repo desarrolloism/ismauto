@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
-import { state } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-project-tasks',
@@ -40,13 +41,21 @@ export class ProjectTasksComponent implements OnInit {
   }
 
 
+  // Variables para correo
+  name: string = '';
+  email: string = '';
+  last_name: string = '';
+  fullname: string = '';
+
+
   constructor(
     private route: ActivatedRoute,
     private _projectService: ProjectService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.initForm();
-    console.log(this.token);
+    // console.log(this.token);
     // this.getProjectTasks(this.token, this.projectId);
   }
 
@@ -57,7 +66,25 @@ export class ProjectTasksComponent implements OnInit {
     });
     this.getDetail();
     this.getProjectTasks(this.projectId);
+    this.getAvatar();
   }
+
+  //cambia de color segun el estado
+  getStateClass(state: string): string {
+    switch (state) {
+      case 'INICIANDO':
+        return 'state-iniciando';
+      case 'EN PROCESO':
+        return 'state-en-proceso';
+      case 'EN REVISION':
+        return 'state-en-revision';
+      case 'TERMINADO':
+        return 'state-terminado';
+      default:
+        return '';
+    }
+  }
+
 
   //inicializa el formulario de creacion
   initForm() {
@@ -91,7 +118,7 @@ export class ProjectTasksComponent implements OnInit {
         newTask.observation
       ).subscribe((resp: any) => {
         if (resp.status == 'ok') {
-          console.log(resp);
+          // console.log(resp);
           alert('Tarea creada con exito');
           this.getProjectTasks(this.projectId);
           this.sortTasks();
@@ -151,6 +178,7 @@ export class ProjectTasksComponent implements OnInit {
   getProjectTasks(projectId: number) {
     this._projectService.getTasks(this.token, projectId).subscribe((resp: any) => {
       this.allTasks = resp.data;
+      // console.log(this.allTasks);
       this.sortTasks();
     });
   }
@@ -194,6 +222,42 @@ export class ProjectTasksComponent implements OnInit {
     });
   }
 
+  //llama al metodo para eliminar proyecto
 
+  deleteProject() {
+    if (confirm('¿Está seguro de eliminar ' + this.projectDetail.project_name + ' , esto eliminará todas sus tareas e información?')) {
+      if (confirm('Se eliminaran todos los datos.')) {
+        this.deleteActualProject();
+      } else {
+        alert('Eliminacion de ' + this.projectDetail.project_name + ' cancelada');
+      }
+    }
+  }
+
+
+  //elimina el proyecto
+  deleteActualProject() {
+    this._projectService.deleteProject(this.token, this.projectId).subscribe(resp => {
+      // console.log(resp);
+      this.router.navigate(['/proj-list']);
+    });
+  }
+
+  //redirije a firmas
+  projectSignatures(projectId: number) {
+    this.router.navigate(['/signatures', projectId]);
+  }
+
+  //obtiene los datos del usuario
+  getAvatar() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    this.name = userData.first_name;
+    this.last_name = userData.last_name;
+    this.email = userData.email;
+    this.fullname = this.name + ' ' + this.last_name;
+    // console.log(this.fullname);
+    // console.log(this.email);
+    // console.log(this.email);
+  }
 
 }

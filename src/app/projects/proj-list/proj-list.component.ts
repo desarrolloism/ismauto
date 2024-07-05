@@ -33,6 +33,7 @@ export class ProjListComponent implements OnInit {
     this.projectService.getTickets(token).subscribe(
       (resp: any) => {
         this.Projects = resp.data;
+        // console.log(this.Projects);
         this.Projects.forEach((project: { id: number; }) => {
           this.frontTask(project.id, this.dev_front);
           this.backTask(project.id, this.dev_back);

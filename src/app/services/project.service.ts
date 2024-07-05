@@ -85,6 +85,24 @@ export class ProjectService {
     return this._http.post(`${this.url}/update_project`, data, { headers: headers });
   }
 
+
+  //elimina proyectos
+  deleteProject(token: any, projectId: number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+
+    const data = {
+      project_id: projectId
+    }
+
+    return this._http.post(`${this.url}/delete_project`, data, { headers: headers });
+  }
+
+
+
   //obtiene detalles del proyecto
   getProjectDetail(token: any, projectId: number) {
     const headers = new HttpHeaders({
@@ -261,21 +279,36 @@ export class ProjectService {
   }
 
   getSignatures(
-    token:any,
+    token: any,
     projectId: number
-  ){
+  ) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',
       'Token': token
     });
-
     const data = {
       project_id: projectId
     }
-
     return this._http.post(`${this.url}/show_signature`, data, { headers: headers });
   }
 
+
+  aproveSignature(
+    token: any,
+    projectId: number,
+    userId: number
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+      project_id: projectId,
+      user_id: userId
+    }
+    return this._http.post(`${this.url}/accept_signature`, data, { headers: headers });
+  }
 
 }

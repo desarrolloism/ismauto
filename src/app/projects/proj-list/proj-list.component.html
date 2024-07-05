@@ -37,7 +37,7 @@
                 <div class="col">Proyectos ({{ Projects?.length }})</div>
                 <div class="col">Estado</div>
                 <div class="col"
-                    *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'desarrollo@ism.edu.ec'">Tareas</div>
+                    *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec' || email == 'desarrollo@ism.edu.ec'">Tareas</div>
                 <div class="col">Firmas</div>
             </div>
 
@@ -66,7 +66,7 @@
                         </div>
                         <!-- muestra tareas de front y back -->
                         <div
-                            *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'desarrollo@ism.edu.ec'"
+                            *ngIf="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec'"
                             class="col mb-2 mb-md-0">
                             <strong class="d-md-none">Tareas: </strong>
                             <button class="tasks btn border"
@@ -84,7 +84,7 @@
                                 matTooltip="Firmas"
                                 (click)="projectSignatures(ticket.id)">
                                 Firmas
-                                <span> 5 / 5 </span>
+                                <!-- <span> 5 / 5 </span> -->
                             </button>
                         </div>
                     </div>

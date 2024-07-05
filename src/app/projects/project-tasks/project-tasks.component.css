@@ -64,3 +64,27 @@ mat-grid-tile {
       text-align: left;
   }
 }
+
+.state-badge {
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+
+.state-iniciando {
+  background-color: #df1f1f; 
+}
+
+.state-en-proceso {
+  background-color: #FFA500; 
+}
+
+.state-en-revision {
+  background-color: #3532cc; 
+}
+
+.state-terminado {
+  background-color: #18ad18; 
+}

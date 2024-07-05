@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col" *ngIf="email == 'desarrollo@ism.edu.ec'">
 
                     <mat-accordion>
                         <mat-expansion-panel>
@@ -73,17 +73,25 @@
                             <button mat-menu-item class="center-text"
                                 (click)="updateStatus(projectDetail.id, 'IMPLEMENTACION')">Implementación</button>
                             <button mat-menu-item class="center-text"
-                                (click)="updateStatus(projectDetail.id, 'MANTENIMIENTO')">Mantenimiento</button>
+                                (click)="updateStatus(projectDetail.id, 'FINZALIZADO')">Finalizado</button>
                         </mat-expansion-panel>
                     </mat-accordion>
-
                 </div>
+                <button mat-button class="mt-2" color="primary"
+                    (click)="projectSignatures(projectDetail.id)">
+                    Ver firmas
+
+                </button>
+                <button *ngIf="email == 'desarrollo@ism.edu.ec'" mat-button
+                    class="mt-2" color="warn"
+                    (click)="deleteProject()"> Eliminar este
+                    proyecto</button>
             </div>
         </div>
         <div class="col-md-8">
             <!-- formulario para asingar tarear BACK y front -->
             <div class="row mt-4">
-                <mat-accordion>
+                <mat-accordion *ngIf="email == 'desarrollo@ism.edu.ec'">
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
                             <mat-panel-title> <i
@@ -172,12 +180,15 @@
 
                 <!-- formulario para asingar tarear BACK y front -->
 
-                <!-- muestra las tareas de BACK y front ademas de actualizarlas -->
+                <!-- muestra las tareas de BACK y front ademas de actualizar estado -->
 
                 <div class="project-list mt-4">
                     <mat-accordion>
                         <mat-expansion-panel *ngFor="let task of allTasks"
-                            (opened)="panelOpened(task.id)">
+                            (opened)="panelOpened(task.id)"
+                            [hidden]="
+                            (email === 'asisdesarrollo3@ism.edu.ec' && task.developer_id == 4) ||
+                            (email === 'asisdesarrollo@ism.edu.ec' && task.developer_id != 4)">
                             <mat-expansion-panel-header>
                                 <mat-panel-title *ngIf="task.developer_id == 4">
                                     Frontend
@@ -186,7 +197,10 @@
                                     Backend
                                 </mat-panel-title>
                                 <mat-panel-description>
-                                    {{ task.state }}
+                                    <span
+                                        [ngClass]="['state-badge', getStateClass(task.state)]">
+                                        {{ task.state }}
+                                    </span>
                                 </mat-panel-description>
                                 <mat-panel-description>
                                     Asignado: {{ task.assignament_date | date }}
@@ -196,74 +210,117 @@
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <div class="row">
+                                <div class="col-md-12"
+                                    *ngIf="email != 'desarrollo@ism.edu.ec'">
+                                    <div class="row text-center">
+                                        <div class="col-md-4">
+                                            <p><b>Tarea:</b> {{ task.name_task
+                                                }}</p>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p><b>Descripción: </b>{{
+                                                task.description_task }}</p>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p><b>Observaciones: </b>{{
+                                                task.observation }}</p>
+
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
                                     <form [formGroup]="updateForms[task.id]"
                                         (ngSubmit)="updateTask(task.id)"
                                         *ngIf="updateForms[task.id]">
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-3">
-                                                    <label
-                                                        for="name_task">Tarea:</label>
-                                                    <input type="text"
-                                                        formControlName="name_task"
-                                                        class="form-control">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-3" *ngIf="email == 'desarrollo@ism.edu.ec'">
+                                                        <div
+                                                            class="form-group mb-3">
+                                                            <label
+                                                                for="name_task">Tarea:</label>
+                                                            <input type="text"
+                                                                formControlName="name_task"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3" *ngIf="email == 'desarrollo@ism.edu.ec'">
+                                                        <div
+                                                            class="form-group mb-3">
+                                                            <label
+                                                                for="assignament_date">Fecha
+                                                                Asignada:</label>
+                                                            <input type="date"
+                                                                formControlName="assignament_date"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3" *ngIf="email == 'desarrollo@ism.edu.ec'">
+                                                        <div
+                                                            class="form-group mb-3">
+                                                            <label
+                                                                for="end_date">Fecha
+                                                                de Fin:</label>
+                                                            <input type="date"
+                                                                formControlName="end_date"
+                                                                class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div
+                                                            class="form-group mb-3">
+                                                            <label
+                                                                for="state">Estado:</label>
+                                                            <select
+                                                                formControlName="state"
+                                                                class="form-control">
+                                                                <option
+                                                                    *ngFor="let state of taskStates"
+                                                                    [value]="state">{{state}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group mb-3">
-                                                    <label
-                                                        for="description_task">Observaciones:</label>
-                                                    <textarea
-                                                        formControlName="description_task"
-                                                        class="form-control"></textarea>
-                                                </div>
-                                                <div class="form-group mb-3">
-                                                    <label
-                                                        for="assignament_date">Fecha
-                                                        Asignada:</label>
-                                                    <input type="date"
-                                                        formControlName="assignament_date"
-                                                        class="form-control">
-                                                </div>
-                                                <div class="form-group mb-3">
-                                                    <label for="end_date">Fecha
-                                                        de Fin:</label>
-                                                    <input type="date"
-                                                        formControlName="end_date"
-                                                        class="form-control">
-                                                </div>
+
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group mb-3">
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group mb-3"
+                                                    *ngIf="email == 'desarrollo@ism.edu.ec'">
                                                     <label
                                                         for="observation">Detalle:</label>
                                                     <textarea
                                                         formControlName="observation"
                                                         class="form-control"></textarea>
                                                 </div>
-                                                <div class="form-group mb-3">
+                                                <div class="form-group mb-3" *ngIf="email == 'desarrollo@ism.edu.ec'">
                                                     <label
-                                                        for="state">Estado:</label>
-                                                    <select
-                                                        formControlName="state"
-                                                        class="form-control">
-                                                        <option
-                                                            *ngFor="let state of taskStates"
-                                                            [value]="state">{{state}}</option>
-                                                    </select>
+                                                        for="description_task">Observaciones:</label>
+                                                    <textarea
+                                                        formControlName="description_task"
+                                                        class="form-control"></textarea>
                                                 </div>
+
                                             </div>
                                         </div>
                                         <button type="submit"
                                             class="btn btn-primary"
-                                            [disabled]="updateForms[task.id].invalid">Actualizar
-                                            tarea</button>
+                                            [disabled]="updateForms[task.id].invalid">
+                                            Actualizar tarea
+                                        </button>
                                     </form>
                                 </div>
+
                             </div>
                         </mat-expansion-panel>
                     </mat-accordion>
                 </div>
-                <!-- muestra las tareas de BACK y front ademas de actualizarlas -->
+                <!-- muestra las tareas de BACK y front ademas de actualizar estado -->
+                
 
             </div>
         </div>
