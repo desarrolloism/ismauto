@@ -1,0 +1,88 @@
+<app-header-app></app-header-app>
+
+<h1 class="text-center mt-4">Asignación/confirmación de firmas</h1>
+
+<mat-card class="project-card">
+    <mat-card-header>
+        <div class="card-header-content">
+            <mat-card-title>{{ projectDetail?.project_name }} - ID: {{
+                projectDetail?.id }}</mat-card-title>
+            <mat-card-subtitle>{{ projectDetail?.department
+                }}</mat-card-subtitle>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="d-flex justify-content-evenly mt-4">
+            <div class="mat-icon col-md-3 d-flex justify-content-center">
+                <i class="fa-regular fa-file-code fa-2x"></i>
+            </div>
+            <div class="mat-icon col-md-3 d-flex justify-content-center">
+                <i class="fa-solid fa-info fa-2x"></i>
+            </div>
+            <div class="mat-icon col-md-3 d-flex justify-content-center">
+                <i class="fa-regular fa-calendar-check fa-2x"></i>
+            </div>
+            <div class="mat-icon col-md-3 d-flex justify-content-center">
+                <i class="fa-solid fa-fingerprint fa-2x"></i>
+            </div>
+        </div>
+        <div class="d-flex justify-content-evenly mt-4">
+            <div class="col-md-3 d-flex justify-content-center">
+                <span>Descripción: {{ projectDetail?.description }}</span>
+            </div>
+            <div class="col-md-3" style="font-size: .5rem;">
+                <div class="row text-center">
+                    <span>Pedido: {{ projectDetail?.end_date | date }}</span>
+                    <span> Fecha de cierre: {{
+                        getExtendedDate(projectDetail?.end_date) }}</span>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex justify-content-center">
+                <span>Estado: {{ projectDetail?.state }}</span>
+            </div>
+            <div class="col-md-3 d-flex justify-content-center">
+                <span>ID de Caso: {{ projectDetail?.case_id }}</span>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<!-- <button (click)="addSignature()" class="btn btn-primary">agregar</button> -->
+
+<div class="signature-list-container">
+    <app-select2 class="d-flex mb-4 justify-content-center"
+        *ngIf="projectDetail?.state == 'IMPLEMENTACION' && email ==  'desarrollo@ism.edu.ec'"
+        [options]="allUsers"
+        placeholder="Seleccionar usuario"
+        (selectionChange)="onUserSelected($event)">
+    </app-select2>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Lista de Firmas</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item *ngFor="let signature of allSignatures">
+                    <div class="signature-item">
+                        <div class="signature-info">
+                            <span class="name">{{signature.user_name}}</span>
+                            <span class="date">Enviado:
+                                {{signature.date_accepted | date}}</span>
+                        </div>
+                        <mat-chip>
+                            {{signature.is_accepted ? 'Confirmado' :
+                            'Pendiente'}}
+                        </mat-chip>
+                        <mat-radio-button
+                            *ngIf="canSign(signature)"
+                            (change)="acceptSignature(signature.id, signature.user_id)">
+                            Firmar
+                        </mat-radio-button>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+
+        </mat-card-content>
+    </mat-card>
+</div>

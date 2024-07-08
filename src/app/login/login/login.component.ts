@@ -53,7 +53,7 @@ export class LoginComponent {
     this._loginService.login(this.user.username, this.user.password).subscribe(
       resp => {
         this.responseUrl = resp;
-        console.log(this.responseUrl);
+        // console.log(this.responseUrl);
         if (this.responseUrl.status === 'Created') {
           alert(this.responseUrl.message + ' por favor inicia sesión nuevamente');
           window.location.reload();
@@ -76,6 +76,5 @@ export class LoginComponent {
       }
     );
   }
-
 
 }

@@ -399,6 +399,14 @@ body {
     margin-right: .9rem;
 }
 
+.cards1 {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #ab0a3d63;
+}
+
 .cards {
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -451,4 +459,23 @@ g
 .overflow-auto::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0.1);
     /* Color del track en WebKit */
+}
+
+.colecturia-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.colecturia-submenu.expanded {
+    max-height: 200px;
+
+}
+
+.fa-chevron-down {
+    transition: transform 0.3s ease-out;
+}
+
+.fa-chevron-down.rotate {
+    transform: rotate(180deg);
 }

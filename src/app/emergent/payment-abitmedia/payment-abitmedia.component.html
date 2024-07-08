@@ -75,18 +75,28 @@
                             name="phone" type="text"
                             class="form-control"
                             id="phone"
+                            (keypress)="validateNum($event)"
                             maxlength="10"
                             required>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <label for="email"
-                            class="form-label">Email</label>
+                        <label for="email" class="form-label">Email</label>
                         <input
-                            [(ngModel)]="padre.email" name="email"
-                            type="email" class="form-control" id="email"
-                            required>
+                            [(ngModel)]="padre.email"
+                            name="email"
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            required
+                            #emailInput="ngModel"
+                            [class.is-invalid]="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+                        <div
+                            *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)"
+                            class="invalid-feedback">
+                            Por favor, ingrese un correo electrónico válido.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -455,8 +465,9 @@
                         </div>
                     </div>
                     <div class="alert alert-warning" role="alert">
-                        "Si ya no necesita transporte, seleccione/escriba "Sin recorrido" en
-                         todos los campos para evitar el cobro."
+                        "Si ya no necesita transporte, seleccione/escriba
+                        "Sin recorrido" en
+                        todos los campos para evitar el cobro."
                     </div>
                     <div class="modal-footer d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">Guardar

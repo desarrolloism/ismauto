@@ -1,3 +1,10 @@
 .card-sm b{
     font-size: 12px;
 }
+
+.cards1 {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #ab0a3d63;
+}

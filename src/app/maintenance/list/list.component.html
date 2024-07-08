@@ -9,17 +9,17 @@
             <i class="fa-solid fa-bars"></i>
         </button>
         <img routerLink="/main" src="assets/images/logo.png"
-            style="margin-right: 1rem;" alt="Logo"
+            style="margin-right: 1rem;cursor: pointer;" alt="Logo"
             width="60" class="d-inline-block">
         <!-- <div class="vr mx-2"></div> -->
 
         <div class="position-relative">
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
-                    Hola! {{ fullname }} /
+                    Listado de Tickets para mantenimiento
                 </p>
                 <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
-                    {{ email }}
+                    <!-- {{ email }} -->
                     <span
                         class="position-absolute text-white top-0 start-80 translate-middle badge rounded-pill bg-danger">
                         <!-- {{ getTotalStatus() }} -->
@@ -33,37 +33,52 @@
 
     <div class="d-flex justify-content-center mt-2" style="margin-right: 10px;">
         <div class="input-group mb-2 search-bar">
-            <input type="text" class="form-control "
-                placeholder="Buscar descripción o sitio"
-                aria-label="Buscar"
-                aria-describedby="basic-addon2" (keyup)="filterSearch()"
-                [(ngModel)]="maintSearch">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon2">
+                    <!-- Replace with your icon -->
+                    <i class="fa-solid fa-filter"></i>
+                </span>
+                <input type="text" class="form-control" id="filterInput"
+                    placeholder="Filtrar tickets"
+                    aria-label="Buscar"
+                    aria-describedby="basic-addon2"
+                    (keyup)="filterSearch()"
+                    [(ngModel)]="maintSearch">
+            </div>
+
         </div>
     </div>
     <!-- barra de busqueda -->
     <div class="navbar-links">
 
         <!-- procesos -->
-        <button mat-button class="text-white btn-nv"
+        <!-- <button mat-button class="text-white btn-nv"
             matTooltip="Procesos" style="margin-right: .5rem;"
             [matMenuTriggerFor]="process">
             <i class="fa-solid fa-layer-group"></i>
-        </button>
+        </button> -->
 
+        <button mat-button class="text-white btn-nv"
+            matTooltip="Abrir ticket de mantenimiento"
+            style="margin-right: .5rem;"
+            routerLink="/maincreate">
+            <i class="fa-regular fa-paper-plane"></i>
+        </button>
+        <!-- 
         <button
             style="margin-right: .5rem;"
-            matTooltip="Abrir caso"
+            matTooltip="Abrir ticket"
             [matMenuTriggerFor]="menuCasos"
             class="text-white btn-nv" mat-button>
             <i class="fa-regular fa-paper-plane"></i>
-        </button>
-        <button
+        </button> -->
+        <!-- <button
             routerLink="/list"
             style="margin-right: .5rem;"
             matTooltip="Listado de tickets"
             class="text-white btn-nv" mat-button>
             <i class="fa-solid fa-list"></i>
-        </button>
+        </button> -->
 
         <button
             routerLink="/main"
@@ -108,7 +123,7 @@
             data-bs-toggle="collapse"
             data-bs-target="#statusCollapse" aria-expanded="false"
             aria-controls="statusCollapse">
-            Filtrar por estado
+            <i class="fa-solid fa-filter"></i> Filtrar por estado
         </button>
         <div class="collapse text-center" id="statusCollapse">
             <!-- Lista de estados -->
@@ -135,7 +150,8 @@
                     <div class="col" *ngFor="let maintenance of filtrarMant">
                         <div class="card card-sm">
                             <div class="card-body p-2">
-                                <h6 class="card-title mb-1">{{
+                                <h6 class="card-title mb-1"
+                                    style="font-size: 12px;">{{
                                     maintenance.type_incident }} - {{
                                     maintenance.case.status.name
                                     }}</h6>
@@ -153,9 +169,9 @@
                                     class="d-flex justify-content-between align-items-center">
                                     <!-- <small class="text-muted">{{
                                         maintenance.case.status.name }}</small> -->
-                                    <a
+                                    <a style="color: #828282;"
                                         routerLink="/maint-detail/{{ maintenance.id }}"
-                                        class="btn btn-sm btn2">Ver</a>
+                                        class>Ver</a>
                                 </div>
                             </div>
                         </div>
@@ -175,38 +191,43 @@
         </div>
         <div class="col-lg-3 col-md-3 d-flex">
             <div class="row overflow-auto d-flex justify-content-center mb-3"
-                style="max-height: 600px;margin-top: -.8rem;">
+                style="margin-top: -.8rem;">
                 <div class="row g-3 info justify-content-center">
-                    <div class="card card-sm">
+                    <div class="text-center" style="color: black;">
+                        <i class="fa-solid fa-circle-info"></i> Manual de
+                        usuario
+                    </div>
+                    <div class="card cards1 card-sm">
                         <div class="p-2">
                             <b><i class="fa-solid fa-filter"></i> Filtrar
-                                casos</b>
+                                por estado</b>
                             <p>
-                                En la barra de búsqueda podemos realizar un
-                                filtrado mediante la
-                                descripción del caso o el sitio. Además dando
-                                click en el boton "Filtrar por estado"
-                                podremos observar todos los tickets según el
-                                estado que elegimos y podremos
-                                quitar ese filtro de ser necesario.
+                                Filtra tickets por descripción o sitio en la
+                                barra de búsqueda, o por estado con el botón
+                                "Filtrar por estado".
                             </p>
-                            <hr>
-                            <b><i class="fa-regular fa-square-plus"></i> Crear
-                                caso</b>
+
+                        </div>
+                    </div>
+                    <div class="card cards1 card-sm">
+                        <div class="p-2">
+                            <i class="fa-regular fa-paper-plane"></i>
+                            <b> Crear
+                                ticket</b>
                             <p>
 
-                                En la barra principal podemos observar el icono
-                                <i class="fa-regular fa-paper-plane"></i>. Para
-                                crear un caso de mantenimiento solo debemos
-                                llenar el formulario.
+                                En la barra principal podemos realizar la
+                                creación de un
+                                ticket llenando los datos que el formulario
+                                presenta.
                             </p>
 
                         </div>
                     </div>
 
-                    <div class="card card-sm">
+                    <div class="card cards1 card-sm">
                         <div class="p-2">
-                            <b><i class="fa-solid fa-layer-group"></i>
+                            <!-- <b><i class="fa-solid fa-layer-group"></i>
                                 Procesos</b>
                             <p>
                                 En este apartado podemos revisar todos los
@@ -214,31 +235,13 @@
                                 ademas de acceder a la reportería de cada uno de
                                 manera rápida.
                             </p>
-                            <hr>
+                            <hr> -->
                             <b><i class="fa-solid fa-list"></i> Listado de
                                 tickets</b>
                             <p>
-                                Página actual, aquí podemos observar un listado
-                                de todos los casos asignados a mantenimiento y
-                                logística además de mostrar información corta de
-                                cada caso.
-                            </p>
-
-                        </div>
-                    </div>
-
-                    <div class="card card-sm">
-                        <div class="p-2">
-                            <b><i class="fa-solid fa-bug"></i> Errores del
-                                sistema:</b>
-                            <p>
-                                En caso de percatarse de un error, mal
-                                funcionamiento,
-                                pérdida de información, etc. puede contactarse
-                                por correo:
-                                <span><a
-                                        href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=153&ct=1718814047&rver=7.0.6738.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fcobrandid%3dab0455a0-8d03-46b9-b18b-df2f57b9e44c%26nlp%3d1%26RpsCsrfState%3dbf483ca7-451a-d186-b498-f788b8acb025&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=ab0455a0-8d03-46b9-b18b-df2f57b9e44c"
-                                        target="_blank">asisdesarrollo&commat;ism.edu.ec</a></span>
+                                Lista de todos los casos asignados a
+                                mantenimiento y logística, con información breve
+                                de cada uno.
                             </p>
 
                         </div>
@@ -304,18 +307,36 @@
             </a>
             <a
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
-                routerLink="/createproject">
+                routerLink="/proj-list">
                 <i class="fa-solid fa-laptop-code icons"></i>
                 Desarrollo e innovación
             </a>
 
-            <a *ngIf="email === 'quitomantenimiento@ism.edu.ec'"
+            <a
+                *ngIf="email === 'colecturia@ism.edu.ec' || email === 'asisdesarrollo@ism.edu.ec'"
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
-                routerLink="/payment-administration">
+                (click)="toggleColecturia()">
                 <i class="fa-solid fa-coins icons"></i>
                 Colecturía
+                <i class="fa-solid fa-chevron-down ms-auto"
+                    [ngClass]="{'rotate': colecturiaExpanded}"></i>
             </a>
 
+            <div class="colecturia-submenu"
+                [ngClass]="{'expanded': colecturiaExpanded}">
+                <a
+                    class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                    routerLink="/payment-administration">
+                    <i class="fa-solid fa-cash-register icons"></i>
+                    Cursos vacacionales
+                </a>
+                <!-- <a
+                    class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                    routerLink="/financial-reports">
+                    <i class="fa-solid fa-chart-line icons"></i>
+                    Reportes financieros
+                </a> -->
+            </div>
             <hr>
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title"
@@ -329,6 +350,10 @@
         </nav>
     </div>
     <div class="offcanvas-footer text-center mt-auto py-3 px-3">
+        <small><i class="fa-solid fa-bug"></i> En caso de encontrar un error
+            comuníquese con soporte técnico. <a href="https://help.ism.edu.ec/"
+                target="_blank">help.ism.edu.ec / ext.2000 / 2209</a></small>
+
         <hr class="mb-2">
         <p class="mb-0 text-muted"><span class="text-danger">Política de
                 privacidad</span> / ISM© 2024 / All Rights Reserved.</p>
@@ -342,6 +367,6 @@
 
 <mat-menu #menuCasos="matMenu">
     <button mat-menu-item routerLink="/maincreate">Mantenimiento</button>
-    <button mat-menu-item routerLink="/createproject">Desarrollo e
+    <button mat-menu-item routerLink="/proj-list">Desarrollo e
         innovación</button>
 </mat-menu>

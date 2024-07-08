@@ -19,7 +19,7 @@ export class PaymentAbitmediaComponent implements OnInit {
   ngOnInit() {
     this._paymentService.sectors().subscribe(
       (response: any) => {
-        // console.log('hola');
+        // console.log(response);
         this.sectors = response.data;
         // Depuración adicional para ver el formato de fechas recibidas
         // console.log('Weeks raw data:', response.weeks);
@@ -297,6 +297,10 @@ export class PaymentAbitmediaComponent implements OnInit {
   // Método para actualizar información del padre
   upPadre: any;
   updatePadre() {
+    if (!this.validateEmail()) {
+      alert('Por favor, ingrese un correo electrónico válido');
+      return;
+    }
     // console.log(`padre` + this.padre.sector_address_id);
     this._paymentService.update(
       this.padre.id,
@@ -424,6 +428,11 @@ export class PaymentAbitmediaComponent implements OnInit {
     setTimeout(() => {
       this.isLoading = false;
     }, 1300);
+  }
+
+  validateEmail(): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(this.padre.email);
   }
 
   sectors: any[] = [];

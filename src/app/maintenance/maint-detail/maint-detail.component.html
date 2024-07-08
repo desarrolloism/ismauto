@@ -1,29 +1,23 @@
 <div>
     <app-header-app></app-header-app>
+    <h1 class="text-center p-3">Detalle de ticket - ID:{{ maintenance.id}}</h1>
     <div class="container mt-3">
         <div class="row">
-            <!-- Detalle del problema -->
-            <div class="col-lg-6">
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button button-lila-obscuro"
-                                type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne"
-                                aria-expanded="true"
-                                aria-controls="collapseOne">
-                                Detalle del problema: {{
-                                maintenanceUrl?.maintenance?.type_incident
-                                }} -
-                                {{maintenanceUrl?.maintenance?.case?.created
-                                }}
-                            </button>
-                        </h2>
-                        <div id="collapseOne"
-                            class="accordion-collapse collapse show "
-                            aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
+            <div class="col-md-9">
+                <div class="row">
+                    <!-- Detalle del problema -->
+                    <div class="col-lg-12" *ngIf="!isAdmin">
+                        <mat-accordion>
+                            <!-- hideToggle -->
+                            <mat-expansion-panel expanded="true" hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title><b>Actividad:</b></mat-panel-title>
+                                    <mat-panel-description> {{
+                                        maintenanceUrl?.maintenance?.type_incident
+                                        }} -
+                                        {{maintenanceUrl?.maintenance?.case?.created
+                                        }} </mat-panel-description>
+                                </mat-expansion-panel-header>
                                 <p><b>Descripción del problema:</b> {{
                                     maintenanceUrl?.maintenance?.description_incident
                                     }}</p>
@@ -34,162 +28,218 @@
                                 <p><b>Estado: </b> {{
                                     maintenanceUrl?.maintenance?.case?.status?.name
                                     }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
+                            </mat-expansion-panel>
 
-                    <div class="col-lg-12">
-                        <div class="accordion" id="accordionGaleria">
-                            <!-- Galería de fotos con el problema -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header"
-                                    id="headingGaleria">
-                                    <button class="accordion-button"
-                                        type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseGaleria"
-                                        aria-expanded="true"
-                                        aria-controls="collapseGaleria">
-                                        <b>GALERÍA DE FOTOS CON EL PROBLEMA</b>
-                                    </button>
-                                </h2>
-                                <div id="collapseGaleria"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="headingGaleria"
-                                    data-bs-parent="#accordionGaleria">
-                                    <div class="accordion-body">
-                                        <div class="row">
-                                            <div class="col"
-                                                *ngFor="let photo of maintenanceUrl?.maintenance?.photos ">
-                                                <ng-container
-                                                    *ngIf="!photo.is_before">
-                                                    <a data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal"
-                                                        (click)="viewPhotoModal(photo.photo)">
-                                                        <img
-                                                            src="{{ urlPhotos + photo.photo }}"
-                                                            alt="..."
-                                                            class="img-thumbnail"
-                                                            width="100px">
-                                                    </a>
-                                                </ng-container>
-                                            </div>
-                                        </div>
-                                        <!-- Input para subir nuevas imágenes -->
-                                        <hr>
-                                        <div>
-                                            <input type="file" #fileInput
-                                                class="form-control mb-3" />
-                                            <button (click)="uploadImage(true)"
-                                                class="btn btn-primary">Subir
-                                                archivo</button>
+                        </mat-accordion>
+
+                        <div class="mt-4">
+                            <mat-accordion>
+                                <mat-expansion-panel expanded="true">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title> Galería para:
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            Fotos con problema
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div class="row">
+                                        <div class="col"
+                                            *ngFor="let photo of maintenanceUrl?.maintenance?.photos ">
+                                            <ng-container
+                                                *ngIf="!photo.is_before">
+                                                <a data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                                    (click)="viewPhotoModal(photo.photo)">
+                                                    <img
+                                                        src="{{ urlPhotos + photo.photo }}"
+                                                        alt="..."
+                                                        class="img-thumbnail"
+                                                        width="100px">
+                                                </a>
+                                            </ng-container>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- Galería de fotos después del arreglo -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header"
-                                    id="headingGaleriaDespues">
-                                    <button class="accordion-button"
-                                        type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseGaleriaDespues"
-                                        aria-expanded="true"
-                                        aria-controls="collapseGaleriaDespues">
-                                        <b>GALERÍA DE FOTOS DESPUÉS DEL
-                                            ARREGLO</b>
-                                    </button>
-                                </h2>
-                                <div id="collapseGaleriaDespues"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="headingGaleriaDespues"
-                                    data-bs-parent="#accordionGaleria">
-                                    <div class="accordion-body">
-                                        <div class="row mt-3">
-                                            <div class="col"
-                                                *ngFor="let photo of maintenanceUrl?.maintenance?.photos">
-                                                <ng-container
-                                                    *ngIf="!photo.is_before">
-                                                    <!-- {{ urlPhotos + photo.photo
-                                                    }} -->
-                                                    <a data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal"
-                                                        (click)="viewPhotoModal(photo.photo)">
-                                                        <img
-                                                            src="{{ urlPhotos + photo.photo }}"
-                                                            alt="..."
-                                                            class="img-thumbnail"
-                                                            width="100px">
-                                                    </a>
-                                                </ng-container>
-                                            </div>
-                                        </div>
-                                        <!-- Input para subir nuevas imágenes -->
-                                        <hr>
-                                        <div>
-                                            <input type="file" #fileInput
-                                                class="form-control mb-3" />
-                                            <button (click)="uploadImage(false)"
-                                                class="btn btn-primary">Subir
-                                                archivo</button>
+                                    <!-- Input para subir nuevas imágenes -->
+                                    <hr>
+                                    <div>
+                                        <input type="file" #fileInput
+                                            class="form-control mb-3" />
+                                        <button (click)="uploadImage(true)"
+                                            class="btn btn-primary">Subir
+                                            archivo</button>
+                                    </div>
+                                </mat-expansion-panel>
+
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title> Galería para:
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            Fotos con Solución
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div class="row mt-3">
+                                        <div class="col"
+                                            *ngFor="let photo of maintenanceUrl?.maintenance?.photos">
+                                            <ng-container
+                                                *ngIf="!photo.is_before">
+                                                <!-- {{ urlPhotos + photo.photo
+                                            }} -->
+                                                <a data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                                    (click)="viewPhotoModal(photo.photo)">
+                                                    <img
+                                                        src="{{ urlPhotos + photo.photo }}"
+                                                        alt="..."
+                                                        class="img-thumbnail"
+                                                        width="100px">
+                                                </a>
+                                            </ng-container>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                    <!-- Input para subir nuevas imágenes -->
+                                    <hr>
+                                    <div>
+                                        <input type="file" #fileInput
+                                            class="form-control mb-3" />
+                                        <button (click)="uploadImage(false)"
+                                            class="btn btn-primary">Subir
+                                            archivo</button>
+                                    </div>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+
                         </div>
+
                     </div>
-                </div>
-                <!-- inicia modal de fotos -->
-                <div class="modal fade" id="exampleModal" tabindex="-1"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title"
-                                    id="exampleModalLabel">Foto {{ photografy
-                                    }}</h3>
-                                <button type="button" class="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <img [src]="urlPhotos + photografy" alt="..."
-                                    class="img-thumbnail" width="100%">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Cerrar</button>
-                            </div>
+                    <div class="col-lg-6" *ngIf="isAdmin">
+                        <mat-accordion>
+                            <!-- hideToggle -->
+                            <mat-expansion-panel expanded="true" hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title><b>Actividad:</b></mat-panel-title>
+                                    <mat-panel-description> {{
+                                        maintenanceUrl?.maintenance?.type_incident
+                                        }} -
+                                        {{maintenanceUrl?.maintenance?.case?.created
+                                        }} </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <p><b>Descripción del problema:</b> {{
+                                    maintenanceUrl?.maintenance?.description_incident
+                                    }}</p>
+                                <p><b>Sitio del problema: </b> {{
+                                    maintenanceUrl?.maintenance?.site }}</p>
+                                <p><b>Prioridad: </b> {{
+                                    maintenanceUrl?.maintenance?.priority }}</p>
+                                <p><b>Estado: </b> {{
+                                    maintenanceUrl?.maintenance?.case?.status?.name
+                                    }}</p>
+                            </mat-expansion-panel>
+
+                        </mat-accordion>
+
+                        <div class="mt-4">
+                            <mat-accordion>
+                                <mat-expansion-panel expanded="true">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title> Galería para:
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            Fotos con problema
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div class="row">
+                                        <div class="col"
+                                            *ngFor="let photo of maintenanceUrl?.maintenance?.photos ">
+                                            <ng-container
+                                                *ngIf="!photo.is_before">
+                                                <a data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                                    (click)="viewPhotoModal(photo.photo)">
+                                                    <img
+                                                        src="{{ urlPhotos + photo.photo }}"
+                                                        alt="..."
+                                                        class="img-thumbnail"
+                                                        width="100px">
+                                                </a>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <!-- Input para subir nuevas imágenes -->
+                                    <hr>
+                                    <div>
+                                        <input type="file" #fileInput
+                                            class="form-control mb-3" />
+                                        <button (click)="uploadImage(true)"
+                                            class="btn btn-primary">Subir
+                                            archivo</button>
+                                    </div>
+                                </mat-expansion-panel>
+
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title> Galería para:
+                                        </mat-panel-title>
+                                        <mat-panel-description>
+                                            Fotos con Solución
+                                        </mat-panel-description>
+                                    </mat-expansion-panel-header>
+                                    <div class="row mt-3">
+                                        <div class="col"
+                                            *ngFor="let photo of maintenanceUrl?.maintenance?.photos">
+                                            <ng-container
+                                                *ngIf="!photo.is_before">
+                                                <!-- {{ urlPhotos + photo.photo
+                                            }} -->
+                                                <a data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                                    (click)="viewPhotoModal(photo.photo)">
+                                                    <img
+                                                        src="{{ urlPhotos + photo.photo }}"
+                                                        alt="..."
+                                                        class="img-thumbnail"
+                                                        width="100px">
+                                                </a>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <!-- Input para subir nuevas imágenes -->
+                                    <hr>
+                                    <div>
+                                        <input type="file" #fileInput
+                                            class="form-control mb-3" />
+                                        <button (click)="uploadImage(false)"
+                                            class="btn btn-primary">Subir
+                                            archivo</button>
+                                    </div>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+
                         </div>
+
                     </div>
-                </div>
-                <!-- fin modal de fotos -->
-            </div>
-            <!-- Formulario -->
-            <div class="col-lg-6">
-                <div class="accordion" id="accordionExample2">
-                    <div *ngIf="isAdmin" class="accordion-item vibrate">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button button-lila-obscuro"
-                                type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo"
-                                aria-expanded="true"
-                                aria-controls="collapseTwo">
-                                Formulario para Jefatura
-                            </button>
-                        </h2>
-                        <div id="collapseTwo"
-                            class="accordion-collapse collapse show"
-                            aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample2">
-                            <div class="accordion-body">
+
+                    <!-- Formulario para jefatura-->
+                    <div class="col-lg-6">
+
+                        <mat-accordion *ngIf="isAdmin">
+                            <!-- hideToggle -->
+                            <mat-expansion-panel expanded="true" hideToggle>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title><b
+                                            class="text-center">Formulario para
+                                            jefatura:</b></mat-panel-title>
+
+                                </mat-expansion-panel-header>
+
                                 <form (ngSubmit)="onSubmit()">
                                     <div class="row text-center">
                                         <!-- Fecha estimada -->
                                         <div class="mb-3 col-lg-6">
-                                            <label for="date_estimated_delivery"
-                                                class="form-label">Fecha de
+                                            <label
+                                                for="date_estimated_delivery"
+                                                class="form-label">Fecha
+                                                de
                                                 entrega:</label>
                                             <input type="date"
                                                 id="date_estimated_delivery"
@@ -217,12 +267,15 @@
                                     </div>
                                     <div class="row">
                                         <!-- Tiene riesgo -->
-                                        <div class="mb-3 col-lg-6 text-center">
-                                            <label class="form-label">¿Tiene
+                                        <div
+                                            class="mb-3 col-lg-6 text-center">
+                                            <label
+                                                class="form-label">¿Tiene
                                                 riesgo?</label>
                                             <div
                                                 class="d-flex flex-row justify-content-center">
-                                                <div class="form-check me-3">
+                                                <div
+                                                    class="form-check me-3">
                                                     <input
                                                         class="form-check-input"
                                                         type="radio"
@@ -248,12 +301,14 @@
                                                 <a
                                                     href="../../../assets/files/statics/AST.docx"><h4><i
                                                             class="fa-solid fa-download"></i>
-                                                        Descagar formulario
+                                                        Descagar
+                                                        formulario
                                                         AST.docx</h4></a>
                                             </div>
                                         </div>
                                         <!-- Nivel de prioridad -->
-                                        <div class="mb-3 col-lg-6 text-center">
+                                        <div
+                                            class="mb-3 col-lg-6 text-center">
                                             <label
                                                 class="form-label">Prioridad:</label>
                                             <div
@@ -300,19 +355,112 @@
                                             [(ngModel)]="mainDetalle.solution"
                                             rows="6"></textarea>
                                     </div>
-                                    <button type="submit" hre
+                                    <button type="submit"
                                         class="btn btn-primary">Enviar</button>
                                 </form>
-                            </div>
-                        </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
                     </div>
                 </div>
+
+            </div>
+            <div class="col-md-3">
+                <div class="text-center" style="color: black;">
+                    <i class="fa-solid fa-circle-info"></i> Manual de usuario
+                </div>
+                <!-- MANUAL PARA USUARIO -->
+
+                <div class="cards1 mt-2" *ngIf="!isAdmin">
+                    <b><i class="fa-solid fa-image"></i> Subir imagen</b>
+                    <p class="text-dark">
+                        En la sección <b>"galería para fotos con poblema"</b>
+                        podemos subir una imagen para la descripción del caso.
+
+                    </p>
+                    <hr>
+                    <b><i class="fa-solid fa-spinner"></i> Estado del caso</b>
+                    <p class="text-dark">
+                        en la sección principal podemos observar un campo
+                        llamado estado, que nos indicará el estado de nuestro
+                        ticket.
+
+                    </p>
+                </div>
+
+                <div class="cards1" *ngIf="!isAdmin">
+                    <b><i class="fa-solid fa-star"></i> Calificación de
+                        ticket</b>
+                    <p class="text-dark">
+                        Cuando el proceso sea entregado no olvides calificarlo
+                        para que continuemos mejorando!
+                    </p>
+
+                </div>
+                <!-- MANUAL PARA USUARIO -->
+
+                <!-- MANUAL PARA ADMINISTRADOR -->
+
+                <div class="cards1 mt-2" *ngIf="isAdmin">
+
+                    <b><i class="fa-regular fa-file-lines"></i> Formulario para
+                        jefatura</b>
+                    <p class="text-dark">
+                        Ingrese la fecha de entrega, estado, riesgo, prioridad,
+                        asignado y comentario del proyecto. Luego, revise y haga
+                        clic en "Enviar" para registrar la información.
+                    </p>
+                </div>
+                <div class="cards1" *ngIf="isAdmin">
+                    <b><i class="fa-solid fa-image"></i> Subir imagen</b>
+                    <p class="text-dark">
+                        Cuando el
+                        ticket este listo debemos agregar una imagen en el
+                        apartado <b>"Galería
+                            para: Fotos con Solución" antes de marcar el estado
+                            como ENTREGADO.</b>
+                    </p>
+                    
+                </div>
+                <div class="cards1" *ngIf="isAdmin">
+                    
+                    <b><i class="fa-solid fa-star"></i> Calificación de
+                        ticket</b>
+                    <p class="text-dark">
+                        Cuando el proceso sea entregado el usuario podrá
+                        calificar la atención del ticket!
+                    </p>
+                </div>
+                <!-- MANUAL PARA ADMINISTRADOR -->
             </div>
         </div>
-        <!-- <div *ngIf="isAdmin" class="mt-4 p-4 bg-light border">
-            <input type="file" #fileInput class="form-control mb-3" />
-            <button (click)="uploadFile()" class="btn btn-primary">Subir
-                archivo</button>
-        </div> -->
     </div>
 </div>
+<!-- inicia modal de fotos -->
+<div class="modal fade" id="exampleModal" tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"
+                    id="exampleModalLabel">Foto {{
+                    photografy
+                    }}</h3>
+                <button type="button" class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img [src]="urlPhotos + photografy"
+                    alt="..."
+                    class="img-thumbnail" width="100%">
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- fin modal de fotos -->

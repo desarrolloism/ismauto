@@ -14,6 +14,10 @@ declare var bootstrap: any;
   styleUrl: './main.component.css'
 })
 export class MainComponent {
+  //abre el menu de colecturi
+  colecturiaExpanded: boolean = false;
+
+  //variables para info del usuario
   avatar: string = '';
   name: string = '';
   email: string = '';
@@ -73,7 +77,6 @@ export class MainComponent {
       this.last_name = this.urlAPI.data.last_name;
       this.email = this.urlAPI.data.email;
       this.phone = this.urlAPI.data.phone_number;
-      // console.log(this.phone);
       if (this.changePass) {
         this.showModal();
       }
@@ -103,10 +106,6 @@ export class MainComponent {
     this.last_name = userData.last_name;
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
-    // console.log(this.avatar);
-    // console.log(this.name);
-    // console.log(this.last_name);
-    // console.log(this.email);
   }
 
   getCases() {
@@ -117,8 +116,7 @@ export class MainComponent {
         if (this.responseApi.status == 'OK') {
           this.responseCases = this.responseApi.cases;
           this.responseTotals = this.responseApi.totals;
-          // console.log(this.responseTotals);
-          // console.log(this.responseCases);
+
           this.getAvatar();
           this.generateChart();
         }
@@ -126,7 +124,10 @@ export class MainComponent {
     )
   }
 
-  
+  //abre el menu de colecturia
+  toggleColecturia() {
+    this.colecturiaExpanded = !this.colecturiaExpanded;
+  }
 
   getTotalStatus() {
     if (this.responseTotals && this.responseTotals.length > 0) {

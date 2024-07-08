@@ -1,0 +1,24 @@
+.table {
+    font-size: .7rem;
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.5rem;
+    }
+
+    .tasks {
+        font-size: .2rem;
+    }
+
+}
+
+.tasks {
+    font-size: .7rem;
+    font-weight: normal;
+}

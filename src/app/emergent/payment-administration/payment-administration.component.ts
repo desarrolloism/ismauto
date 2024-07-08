@@ -237,4 +237,27 @@ export class PaymentAdministrationComponent implements OnInit {
     );
   }
 
+  visibleServices: { [key: string]: boolean } = {};
+
+  toggleVisible(sonId: string) {
+    this.visibleServices[sonId] = !this.visibleServices[sonId];
+  }
+
+  isVisible(sonId: string): boolean {
+    return this.visibleServices[sonId] || false;
+  }
+
+  getPriceForService(services: any[], serviceName: string): string {
+    const service = services.find(s => s.service_name.toUpperCase() === serviceName);
+    return service ? service.ammount : '0.00';
+  }
+
+  getAdditionalServices(services: any[]): any[] {
+    const mainServices = [''];
+    return services
+      .filter(s => !mainServices.includes(s.service_name.toUpperCase()))
+      .sort((a, b) => a.week_id - b.week_id);
+  }
+
+
 }

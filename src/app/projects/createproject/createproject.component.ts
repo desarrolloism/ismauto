@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
 
 
 @Component({
@@ -18,12 +18,18 @@ export class CreateprojectComponent implements OnInit {
   descriptionFormGroup!: FormGroup;
   endDateFormGroup!: FormGroup;
   campusFormGroup!: FormGroup;
+  newProject: any;
 
   constructor(
     private _projectService: ProjectService,
-    private router: Router,
-    private _formBuilder: FormBuilder
-  ) { }
+    private _router: Router,
+    private _formBuilder: FormBuilder,
+    private dateAdapter: DateAdapter<Date>
+  ) {
+
+    this.dateAdapter.setLocale('es-ES');
+
+  }
 
   ngOnInit() {
     this.projectNameFormGroup = this._formBuilder.group({
@@ -42,6 +48,10 @@ export class CreateprojectComponent implements OnInit {
       campus: ['', Validators.required]
     });
 
+    const today = this.dateAdapter.today();
+    this.endDateFormGroup.patchValue({
+      end_date: today
+    });
   }
 
 
@@ -51,29 +61,35 @@ export class CreateprojectComponent implements OnInit {
       departament: this.departmentFormGroup.value.departament,
       description: this.descriptionFormGroup.value.description,
       end_date: this.endDateFormGroup.value.end_date,
-      state: 'STARTING',
+      state: 'INICIANDO',
       campus: this.campusFormGroup.value.campus
     };
 
-    console.log('nombre ', project.project_name);
-    console.log('departamento ', project.departament);
-    console.log('descrip ', project.description);
-    console.log('fecha ', project.end_date);
-    console.log('estado ', project.state);
-    console.log('campus ', project.campus);
-    console.log('token ', this.token);
+    // console.log('nombre ', project.project_name);
+    // console.log('departamento ', project.departament);
+    // console.log('descrip ', project.description);
+    // console.log('fecha ', project.end_date);
+    // console.log('estado ', project.state);
+    // console.log('campus ', project.campus);
+    // console.log('token ', this.token);
 
     this._projectService.createProject(
+      
       this.token,
+      project.campus,
       project.end_date,
       project.project_name,
       project.description,
       project.departament,
       project.state,
-      project.campus
     ).subscribe(
       resp => {
-        console.log(resp);
+        // console.log(resp);
+        this.newProject = resp;
+        if (this.newProject.status === 'ok') {
+          alert('Proyecto creado exitosamente');
+          this._router.navigate(['/proj-list']);
+        }
       }
     );
   }

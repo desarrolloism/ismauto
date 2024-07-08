@@ -47,3 +47,32 @@ h1 {
     color: #828282;
     font-size: .8rem;
 }
+
+.cards1 {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #ab0a3d63;
+}
+
+.cards1 b {
+    color: black;
+}
+
+.cards1 p {
+    color: black;
+}
+
+.next:hover {
+    background-color: #0a1f8f;
+    color: white;
+    transition: ease-in .1s;
+}
+
+.send:hover {
+    background-color: #0a8f11;
+    color: white;
+    transition: ease-in .1s;
+
+}

@@ -278,7 +278,7 @@ export class PaymentService {
     return this._http.post(`${this.url}/service_transport`, data, { headers: headers });
   }
 
-  //envia informacion
+  //envia informacion de transporte
   SendTransPort(studentServiceId: number,
     sectorOriginId: number,
     addressOrigin: string,
@@ -402,5 +402,17 @@ export class PaymentService {
       inscription_id: inscriptionId
     }
     return this._http.post(`${this.url}/button_diners`, data, { headers: headers });
+  }
+
+
+  getDetailCourses(id: number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+    const data = {
+      id
+    }
+    return this._http.post(`${this.url}/son_in_service`, data, { headers: headers });
   }
 }

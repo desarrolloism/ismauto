@@ -7,14 +7,23 @@
             <i class="fa-solid fa-bars"></i>
         </button>
         <img routerLink="/main" src="assets/images/logo.png"
-            style="margin-right: 1rem;" alt="Logo"
+            style="margin-right: 1rem;cursor: pointer;" alt="Logo"
             width="60" class="d-inline-block">
         <!-- <div class="vr mx-2"></div> -->
 
         <div class="position-relative"
             matTooltip="Tienes {{ getTotalStatus() }} casos en proceso!">
             <div class="d-flex flex-column flex-md-row align-items-center">
+
                 <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
+                    <!-- {{ email }} -->Inicio
+                    <span
+                        class="position-absolute text-white top-0 start-80 translate-middle badge rounded-pill bg-danger">
+                        {{ getTotalStatus() }}
+                    </span>
+                </p>
+
+                <!-- <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
                     Hola! {{ fullname }} /
                 </p>
                 <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
@@ -23,7 +32,7 @@
                         class="position-absolute text-white top-0 start-80 translate-middle badge rounded-pill bg-danger">
                         {{ getTotalStatus() }}
                     </span>
-                </p>
+                </p> -->
             </div>
         </div>
 
@@ -92,20 +101,25 @@
             </div>
         </main>
         <div class="col-md-3 col-lg-3 ml-sm-auto overflow-auto info">
-            <div class="cards">
-                <b><i
-                        class="fa-solid fa-chart-line"></i> Estadísticas de
+            <div class="text-center" style="color: black;">
+                <i class="fa-solid fa-circle-info"></i> Manual de usuario
+            </div>
+            <div class="cards1 mt-2">
+                <b><i class="fa-solid fa-chart-line"></i> Estadísticas de
                     Mantenimiento</b>
-                <p>
+                <p class="text-dark">
                     La gráfica muestra el estado actual de casos
                     (iniciando, en proceso, etc.), útil para gestionar el
                     flujo de trabajo.
 
                 </p>
-                <hr>
+
+            </div>
+
+            <div class="cards1">
                 <b><i class="fa-regular fa-paper-plane"></i> Creación de
                     Casos</b>
-                <p>
+                <p class="text-dark">
                     Para crear un caso de mantenimiento u otro departamento,
                     debe ingresar al
                     proceso desde el menu izquierdo
@@ -114,35 +128,27 @@
                 </p>
             </div>
 
-            <div class="cards">
+            <div class="cards1">
                 <b><i class="fa-regular fa-file-lines"></i> Obtener
                     resportería</b>
-                <p>
+                <p class="text-dark">
                     En el menú izquierdo <i class="fa-solid fa-bars"></i>
                     podemos escoger la opción de reportería del proceso que
                     necesitemos, esto nos llevará a una nueva página para
                     visualizar la información.
 
                 </p>
-                <hr>
+
+            </div>
+
+            <div class="cards1">
                 <b><i class="fa-solid fa-sliders"></i> Configuración de
                     usuario</b>
-                <p>
+                <p class="text-dark">
                     En el menú izquierdo <i class="fa-solid fa-bars"></i>
                     podemos editar la configuración de usuario, especificamente
                     cambiar la contraseñas.
                 </p>
-            </div>
-            <div class="cards">
-                <b><i class="fa-solid fa-bug"></i> Errores del sistema:</b>
-                <p>
-                    En caso de percatarse de un error, mal funcionamiento,
-                    pérdida de información, etc. puede contactarse por correo:
-                    <span><a
-                            href="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=153&ct=1718814047&rver=7.0.6738.0&wp=MBI_SSL&wreply=https%3a%2f%2foutlook.live.com%2fowa%2f%3fcobrandid%3dab0455a0-8d03-46b9-b18b-df2f57b9e44c%26nlp%3d1%26RpsCsrfState%3dbf483ca7-451a-d186-b498-f788b8acb025&id=292841&aadredir=1&CBCXT=out&lw=1&fl=dob%2cflname%2cwld&cobrandid=ab0455a0-8d03-46b9-b18b-df2f57b9e44c"
-                            target="_blank">asisdesarrollo&commat;ism.edu.ec</a></span>
-                </p>
-                <!-- <hr> -->
             </div>
 
         </div>
@@ -203,19 +209,38 @@
                 <i class="fa-solid fa-screwdriver-wrench icons"></i>
                 Mantenimiento
             </a>
-            
+
             <a
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
-                routerLink="/createproject">
+                routerLink="/proj-list">
                 <i class="fa-solid fa-laptop-code icons"></i>
                 Desarrollo e innovación
             </a>
-            <a *ngIf="email === 'quitomantenimiento@ism.edu.ec'"
+
+            <a *ngIf="email === 'colecturia@ism.edu.ec' || email === 'asisdesarrollo@ism.edu.ec'"
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
-                routerLink="/payment-administration">
+                (click)="toggleColecturia()">
                 <i class="fa-solid fa-coins icons"></i>
                 Colecturía
+                <i class="fa-solid fa-chevron-down ms-auto"
+                    [ngClass]="{'rotate': colecturiaExpanded}"></i>
             </a>
+
+            <div class="colecturia-submenu"
+                [ngClass]="{'expanded': colecturiaExpanded}">
+                <a
+                    class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                    routerLink="/payment-administration">
+                    <i class="fa-solid fa-cash-register icons"></i>
+                    Cursos vacacionales
+                </a>
+                <!-- <a
+                    class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                    routerLink="/financial-reports">
+                    <i class="fa-solid fa-chart-line icons"></i>
+                    Reportes financieros
+                </a> -->
+            </div>
             <hr>
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title"
@@ -229,6 +254,10 @@
         </nav>
     </div>
     <div class="offcanvas-footer text-center mt-auto py-3 px-3">
+        <small><i class="fa-solid fa-bug"></i> En caso de encontrar un error
+            comuníquese con soporte técnico. <a href="https://help.ism.edu.ec/"
+                target="_blank">help.ism.edu.ec / ext.2000 / 2209</a></small>
+
         <hr class="mb-2">
         <p class="mb-0 text-muted"><span class="text-danger">Política de
                 privacidad</span> / ISM© 2024 / All Rights Reserved.</p>

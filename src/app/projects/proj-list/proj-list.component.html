@@ -1,0 +1,97 @@
+<app-header-app></app-header-app>
+<h1 class="text-center mt-2">Listado de proyectos - Dep. Desarrollo e
+    Innovación</h1>
+<div class="container-fluid mt-4">
+
+    <div class="row justify-content-center mb-3">
+        <!-- boton de creacion -->
+
+        <div class="col-12 col-md-6 col-lg-4 mb-2">
+            <button class="w-30" mat-stroked-button
+                matTooltip="Crear un nuevo proyecto"
+                routerLink="/createproject">Crear proyecto
+                <i class="fa-solid fa-folder-plus"></i>
+            </button>
+        </div>
+        <!-- boton de creacion -->
+
+        <!-- barra de busqueda -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <input type="text"
+                class="form-control text-center"
+                placeholder="Buscar Ticket"
+                aria-label="Buscar"
+                aria-describedby="basic-addon2">
+        </div>
+        <!-- barra de busqueda -->
+
+    </div>
+
+    <!-- tabla de casos y tcikets -->
+
+    <div class="container overflow-auto" style="width: 80%;height: 500px;">
+        <div class="project-list text-center mt-4">
+            <div
+                class="project-header d-none d-md-flex justify-content-between align-items-center bg-dark text-white p-2">
+                <div class="col">ID</div>
+                <div class="col">Proyectos ({{ Projects?.length }})</div>
+                <div class="col">Estado</div>
+                <div class="col"
+                    *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec' || email == 'desarrollo@ism.edu.ec'">Tareas</div>
+                <div class="col">Firmas</div>
+            </div>
+
+            <ul class="list-unstyled">
+                <li *ngFor="let ticket of Projects"
+                    class="project-item border-bottom p-2">
+                    <div
+                        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">ID: </strong>{{
+                            ticket.id }}
+                        </div>
+                        <div class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">Proyecto: </strong>{{
+                            ticket.project_name }}
+                        </div>
+
+                        <div class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">Estado: </strong>
+                            <p class="tasks btn border" style="cursor: default;"
+                                matTooltip="Firmas" *ngIf="ticket.state">
+                                <span> {{ ticket.state === 'INICIANDO' ?
+                                    'EN ANALISIS'
+                                    : ticket.state }} </span>
+                            </p>
+                        </div>
+                        <!-- muestra tareas de front y back -->
+                        <div
+                            *ngIf="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec'"
+                            class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">Tareas: </strong>
+                            <button class="tasks btn border"
+                                matTooltip="Ver tareas del proyecto"
+                                (click)="goToProjectTasks(ticket.id)">
+                                <span class="text-muted">Front: {{
+                                    ticket.frontTasks?.length || 0 }} /</span>
+                                Back: {{ ticket.backTasks?.length || 0 }}
+                            </button>
+                        </div>
+                        <!-- muestra tareas de front y back -->
+                        <div class="col mb-2 mb-md-0">
+                            <strong class="d-md-none">Firmas: </strong>
+                            <button class="tasks btn border"
+                                matTooltip="Firmas"
+                                (click)="projectSignatures(ticket.id)">
+                                Firmas
+                                <!-- <span> 5 / 5 </span> -->
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- tabla de casos y tcikets -->
+
+</div>

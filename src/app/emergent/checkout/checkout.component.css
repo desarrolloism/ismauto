@@ -11,3 +11,26 @@
     background-color: #45a049;
     color: white;
 }
+.beneficiary-card {
+    max-width: 400px;
+    margin: 20px auto;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.beneficiary-card mat-card-header {
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.beneficiary-card mat-card-title {
+    font-size: 1.2em;
+}
+
+.beneficiary-card mat-card-content p {
+    margin: 0;
+    padding: 5px 0;
+}

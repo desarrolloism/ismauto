@@ -20,6 +20,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { HeaderModule } from "../header/header.module";
+import {MatExpansionModule} from '@angular/material/expansion'; 
+import {MatListModule} from '@angular/material/list'; 
 
 @NgModule({
     declarations: [
@@ -47,7 +49,9 @@ import { HeaderModule } from "../header/header.module";
         MatStepperModule,
         ReactiveFormsModule,
         MatSelectModule,
-        HeaderModule
+        HeaderModule,
+        MatExpansionModule,
+        MatListModule
     ]
 })
 export class MaintenanceModule { }

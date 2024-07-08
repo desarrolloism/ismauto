@@ -87,8 +87,8 @@
                                 <div class="divider"></div>
                                 <a mat-raised-button type="button"
                                     class="btn btn-primary"
-                                    (click)="sendDiners()">Pago con
-                                    DinersClub</a>
+                                    (click)="sendDiners()">Pago solo socios
+                                    exclusivos Diners Club</a>
                                 <button mat-raised-button type="submit"
                                     class="btn btn-primary"
                                     (click)="setPaymentMethod('Tarjeta de Crédito')">Tarjeta
@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card" style="height: 421px; font-size: .8rem;">
+                <div class="card" style="height: 471px; font-size: .8rem;">
                     <div class="card-body">
                         <h3 class="text-center">Resumen</h3>
                         <hr>
@@ -112,49 +112,66 @@
                             <tbody>
                                 <tr>
                                     <td>Subtotal cursos:</td>
-                                    <td class="data">{{ subtotal | currency
+                                    <td class="data">{{ originalCost.subtotal |
+                                        currency
                                         }}</td>
                                 </tr>
                                 <tr>
                                     <td>Desc. colaborador:</td>
-                                    <td class="data">{{ innovu | currency
+                                    <td class="data">{{ originalCost.innovu |
+                                        currency
                                         }}</td>
                                 </tr>
 
                                 <tr>
                                     <td>Descuento por Hermanos:</td>
-                                    <td class="data">{{ discountBrothers }}</td>
+                                    <td class="data">{{
+                                        originalCost.discountBrothers }}</td>
                                 </tr>
                                 <tr>
                                     <td>Descuento por Semanas:</td>
-                                    <td class="data">{{ discountWeeks }}</td>
+                                    <td class="data">{{
+                                        originalCost.discountWeeks }}</td>
                                 </tr>
                                 <tr>
                                     <td>Descuento Total:</td>
-                                    <td class="data">{{ discountTotal | currency
+                                    <td class="data">{{
+                                        originalCost.discountTotal | currency
                                         }}</td>
                                 </tr>
                                 <tr>
                                     <td>Total servicios extra:</td>
-                                    <td class="data">{{ total_extras }}</td>
+                                    <td class="data">{{
+                                        originalCost.total_extras }}</td>
                                 </tr>
                                 <tr>
                                     <td>Subtotal:</td>
-                                    <td class="data">{{ subtotalDescuentos |
+                                    <td class="data">{{
+                                        originalCost.subtotalDescuentos |
                                         currency
                                         }}</td>
                                 </tr>
 
                                 <tr>
                                     <td>IVA:</td>
-                                    <td class="data">{{ iva | currency}}</td>
+                                    <td class="data">{{ originalCost.iva |
+                                        currency}}</td>
                                 </tr>
                                 <tr
                                     style="background-color: rgb(67, 172, 67); color: rgb(255, 255, 255);
                                     font-weight: bold;
                                     ">
                                     <td>Total:</td>
-                                    <td class="data">{{ totalCost | currency
+                                    <td class="data">{{
+                                        originalCost.totalCost| currency
+                                        }}</td>
+                                </tr>
+                                <tr
+                                    style="background-color:#1C64B0; color: rgb(255, 255, 255);
+                                    font-weight: bold;
+                                    ">
+                                    <td>Total con Diners Club:</td>
+                                    <td class="data">{{ diners | currency
                                         }}</td>
                                 </tr>
                             </tbody>
@@ -174,76 +191,101 @@
         <div *ngIf="showTransf">
             <div class="card mt-2">
                 <div class="card-body">
-
-                    <form (ngSubmit)="uploadImage()">
-
-                        <div class="mb-3">
-
-                            <input
-                                [(ngModel)]="padreCheckout.dni"
-                                name="ruc_dni"
-                                type="hidden" class="form-control">
-                        </div>
-                        <div class="mb-3">
-
-                            <input type="hidden"
-                                [(ngModel)]="padre.method"
-                                name="method"
-                                class="form-control">
-                        </div>
-                        <div class="mb-3">
-
-                            <input type="hidden"
-                                class="form-control"
-                                [(ngModel)]="padreCheckout.address"
-                                name="addres">
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="hidden"
-                                class="form-control"
-                                [(ngModel)]="padreCheckout.phone"
-                                name="phone">
-                        </div>
-
-                        <div class="mb-3">
-
-                            <input type="hidden"
-                                class="form-control"
-                                [(ngModel)]="padreCheckout.email"
-                                name="email">
-
-                        </div>
-                    </form>
-
                     <h2 class="card-title text-center">Pago por
                         transferencia</h2>
                     <div class="row">
+                        <div class="col-md-6"><mat-card
+                                class="beneficiary-card">
+                                <mat-card-header>
+                                    <mat-card-title class="text-center"> <img width="80%" src="../../../assets/images/Logos-6-10-20.png" alt="img produbanco"></mat-card-title>
+                                </mat-card-header>
+                                <hr>
+                                <mat-card-content>
+                                    <p><strong>Beneficiario:</strong> KZ
+                                        INSTITUTE & TRAINING CIA LTDA.</p>
+                                    <p><strong>RUC:</strong> 1793148573001</p>
+                                    <p><strong>Banco:</strong> Produbanco</p>
+                                    <p><strong>Cuenta Corriente:</strong> N°
+                                        2005292669</p>
+                                    <p><strong>Correo:</strong> <a
+                                            href="mailto:ventas1&#64;ism.edu.ec"> ventas1&#64;ism.edu.ec</a></p>
+                                </mat-card-content>
+                            </mat-card></div>
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Entidad
-                                    bancaria</label>
-                                <input [(ngModel)]="padre.bank" type="text"
-                                    class="form-control"
-                                    placeholder="Escribe tu banco">
+                            <form (ngSubmit)="uploadImage()">
+
+                                <div class="mb-3">
+
+                                    <input
+                                        [(ngModel)]="padreCheckout.dni"
+                                        name="ruc_dni"
+                                        type="hidden" class="form-control">
+                                </div>
+                                <div class="mb-3">
+
+                                    <input type="hidden"
+                                        [(ngModel)]="padre.method"
+                                        name="method"
+                                        class="form-control">
+                                </div>
+                                <div class="mb-3">
+
+                                    <input type="hidden"
+                                        class="form-control"
+                                        [(ngModel)]="padreCheckout.address"
+                                        name="addres">
+                                </div>
+
+                                <div class="mb-3">
+                                    <input type="hidden"
+                                        class="form-control"
+                                        [(ngModel)]="padreCheckout.phone"
+                                        name="phone">
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <input type="hidden"
+                                        class="form-control"
+                                        [(ngModel)]="padreCheckout.email"
+                                        name="email">
+
+                                </div>
+                            </form>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Entidad
+                                            bancaria</label>
+                                        <input [(ngModel)]="padre.bank"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Escribe tu banco">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Agregue número
+                                            de
+                                            comprobante de pago</label>
+                                        <input type="text" class="form-control"
+                                            [(ngModel)]="padre.voucher">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Agregue número de
-                                    comprobante de pago</label>
-                                <input type="text" class="form-control"
-                                    [(ngModel)]="padre.voucher">
+                                <label class="form-label">Suba una
+                                    imagen</label>
+                                <input type="file" #fileInput
+                                    class="form-control mb-3" />
+                                <button (click)="uploadImage()"
+                                    class="btn btn-primary">Registrar
+                                    pago</button>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Suba una imagen</label>
-                        <input type="file" #fileInput
-                            class="form-control mb-3" />
-                        <button (click)="uploadImage()"
-                            class="btn btn-primary">Registrar pago</button>
-                    </div>
+
                 </div>
             </div>
         </div>
