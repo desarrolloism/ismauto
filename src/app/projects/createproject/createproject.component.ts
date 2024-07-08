@@ -65,15 +65,16 @@ export class CreateprojectComponent implements OnInit {
       campus: this.campusFormGroup.value.campus
     };
 
-    console.log('nombre ', project.project_name);
-    console.log('departamento ', project.departament);
-    console.log('descrip ', project.description);
-    console.log('fecha ', project.end_date);
-    console.log('estado ', project.state);
-    console.log('campus ', project.campus);
+    // console.log('nombre ', project.project_name);
+    // console.log('departamento ', project.departament);
+    // console.log('descrip ', project.description);
+    // console.log('fecha ', project.end_date);
+    // console.log('estado ', project.state);
+    // console.log('campus ', project.campus);
     // console.log('token ', this.token);
 
     this._projectService.createProject(
+      
       this.token,
       project.campus,
       project.end_date,
@@ -83,7 +84,7 @@ export class CreateprojectComponent implements OnInit {
       project.state,
     ).subscribe(
       resp => {
-        console.log(resp);
+        // console.log(resp);
         this.newProject = resp;
         if (this.newProject.status === 'ok') {
           alert('Proyecto creado exitosamente');
