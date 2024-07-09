@@ -1,0 +1,28 @@
+/* estilos para stepper */
+.mat-stepper-vertical {
+    margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+    margin-top: 16px;
+}
+
+/* estilos para cards */
+.cards1 {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #ab0a3d63;
+}
+
+/* estilos para cards de procesos POA */
+
+.under {
+    text-decoration: underline;
+}
+
+span {
+    font-size: .8rem;
+    text-align: center;
+}

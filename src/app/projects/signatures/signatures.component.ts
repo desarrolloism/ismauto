@@ -49,7 +49,6 @@ export class SignaturesComponent {
     this.getDetail();
     this.getUsers();
     this.getallSignatures();
-
   }
 
 

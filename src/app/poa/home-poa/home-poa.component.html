@@ -1,0 +1,150 @@
+<app-header-app></app-header-app>
+
+<div class="row mt-4">
+    <div class="col-md-4 d-flex justify-content-center">
+        <h1 class="text-center">Plan operativo anual (POA)</h1>
+    </div>
+    <!-- barra de busqueda -->
+
+    <div class="col-md-4 mt-2 d-flex justify-content-center">
+        <div class>
+            <input type="text"
+                class="form-control text-center"
+                placeholder="Realice una busqueda">
+        </div>
+    </div>
+    <!-- barra de busqueda -->
+
+    <!-- boton para agregar -->
+    <div class="col-md-4 mt-2 d-flex justify-content-center">
+        <button mat-fab extended
+            color="primary"
+            routerLink="/createpoa"
+            matTooltip="Abri un nuevo POA">
+            <i class="fa-regular fa-calendar-plus fa-2x"></i>
+        </button>
+    </div>
+    <!-- boton para agregar -->
+</div>
+
+<div class="row">
+    <div class="col-md-8 mt-2 p-4 d-flex justify-content-center">
+        <!-- INICIO cards de POA para cada proceso-->
+        <div class="row">
+            <div class="col-md-4">
+                <mat-card class="poa-card bg-danger text-white">
+                    <mat-card-header>
+                        <mat-card-title>POA - Desarrollo <span>2024-2025</span>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <hr>
+                    <mat-card-content>
+                        <p><strong>Objetivo:</strong> Mejorar la eficiencia
+                            operativa.</p>
+                        <p><strong>Responsable:</strong> Juan Pérez</p>
+                        <p><strong>Plazo:</strong> Diciembre 2024</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-button class="text-white under">Ver
+                            más</button>
+                        <button mat-button
+                            class="text-white under">Editar</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+            <div class="col-md-4">
+                <mat-card class="poa-card bg-primary text-white">
+                    <mat-card-header>
+                        <mat-card-title>POA - Desarrollo
+                            <span>2024-2025</span><small></small>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <hr>
+                    <mat-card-content>
+                        <p><strong>Objetivo:</strong> Mejorar la eficiencia
+                            operativa.</p>
+                        <p><strong>Responsable:</strong> Juan Pérez</p>
+                        <p><strong>Plazo:</strong> Diciembre 2024</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-button class="text-white under">Ver
+                            más</button>
+                        <button mat-button
+                            class="text-white under">Editar</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+            <div class="col-md-4">
+                <mat-card class="poa-card bg-success text-white">
+                    <mat-card-header>
+                        <mat-card-title>POA - Desarrollo
+                            <span>2024-2025</span><small></small>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <hr>
+                    <mat-card-content>
+                        <p><strong>Objetivo:</strong> Mejorar la eficiencia
+                            operativa.</p>
+                        <p><strong>Responsable:</strong> Juan Pérez</p>
+                        <p><strong>Plazo:</strong> Diciembre 2024</p>
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-button class="text-white under">Ver
+                            más</button>
+                        <button mat-button
+                            class="text-white under">Editar</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+        <!-- FIN cards de POA para cada proceso-->
+    </div>
+
+    <div class="col-md-4 d-flex justify-content-end">
+        <!-- INICIA INFORMACION para usuario -->
+        <div class="col-md-12 col-lg-12 p-4 ml-sm-auto overflow-auto info">
+            <div class="text-center" style="color: black;">
+                <i class="fa-solid fa-circle-info"></i> Manual de usuario
+            </div>
+            <div class="cards1 mt-2">
+                <b><i class="fa-solid fa-chart-line"></i> Estadísticas de
+                    Mantenimiento</b>
+                <p class="text-dark">
+                    La gráfica muestra el estado actual de casos
+                    (iniciando, en proceso, etc.), útil para gestionar el
+                    flujo de trabajo.
+                </p>
+            </div>
+            <div class="cards1">
+                <b><i class="fa-regular fa-paper-plane"></i> Creación de
+                    Casos</b>
+                <p class="text-dark">
+                    Para crear un caso de mantenimiento u otro departamento,
+                    debe ingresar al
+                    proceso desde el menu izquierdo
+                    <i class="fa-solid fa-bars"></i>.
+                </p>
+            </div>
+            <div class="cards1">
+                <b><i class="fa-regular fa-file-lines"></i> Obtener
+                    resportería</b>
+                <p class="text-dark">
+                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
+                    podemos escoger la opción de reportería del proceso que
+                    necesitemos, esto nos llevará a una nueva página para
+                    visualizar la información.
+                </p>
+            </div>
+            <div class="cards1">
+                <b><i class="fa-solid fa-sliders"></i> Configuración de
+                    usuario</b>
+                <p class="text-dark">
+                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
+                    podemos editar la configuración de usuario, especificamente
+                    cambiar la contraseñas.
+                </p>
+            </div>
+            <!-- INICIA INFORMACION para usuario -->
+        </div>
+    </div>
+</div>

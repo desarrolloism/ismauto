@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { CasesService } from '../../services/cases.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { NgForm } from '@angular/forms';
-import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 declare var bootstrap: any;
 
@@ -113,8 +113,11 @@ export class MainComponent {
     this._casesServ.casesAll(localStorage.getItem('token')).subscribe(
       response => {
         this.responseApi = response;
+        // console.log(this.responseApi);
         if (this.responseApi.status == 'OK') {
           this.responseCases = this.responseApi.cases;
+          // console.log('casos', this.responseCases);
+
           this.responseTotals = this.responseApi.totals;
 
           this.getAvatar();

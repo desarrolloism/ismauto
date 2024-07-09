@@ -1,0 +1,189 @@
+<app-header-app></app-header-app>
+<h1 class="text-center mt-4">Crear POA</h1>
+
+<div class="p-4">
+    <div class="row">
+        <div class="col-md-4 d-flex justify-content-center overflow-auto"
+            style="height: 500px;">
+            <div class="form-group">
+                <mat-vertical-stepper [linear]="true" #stepper>
+
+                    <!-- Paso 1: Área -->
+                    <mat-step [stepControl]="areaForm">
+                        <form [formGroup]="areaForm">
+                            <ng-template matStepLabel>Área</ng-template>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Área</mat-label>
+                                <input matInput formControlName="area" required>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button
+                                    matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <!-- Paso 2: Departamento -->
+                    <mat-step [stepControl]="departmentForm">
+                        <form [formGroup]="departmentForm">
+                            <ng-template matStepLabel>Departamento</ng-template>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Departamento</mat-label>
+                                <input matInput formControlName="department"
+                                    required>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button
+                                    matStepperPrevious>Atrás</button>
+                                <button mat-button
+                                    matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <!-- Paso 3: Cédula -->
+                    <mat-step [stepControl]="ccpfForm">
+                        <form [formGroup]="ccpfForm">
+                            <ng-template matStepLabel>Cédula</ng-template>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Cédula</mat-label>
+                                <input matInput formControlName="ccpf" required>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button
+                                    matStepperPrevious>Atrás</button>
+                                <button mat-button
+                                    matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <!-- Paso 4: Nombre de POA -->
+                    <mat-step [stepControl]="nameForm">
+                        <form [formGroup]="nameForm">
+                            <ng-template matStepLabel>Nombre de
+                                POA</ng-template>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre de POA</mat-label>
+                                <input matInput formControlName="name" required>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button
+                                    matStepperPrevious>Atrás</button>
+                                <button mat-button
+                                    matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <!-- Paso 5: Responsable -->
+                    <mat-step [stepControl]="responsibleForm">
+                        <form [formGroup]="responsibleForm">
+                            <ng-template matStepLabel>Responsable</ng-template>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Responsable</mat-label>
+                                <input matInput formControlName="responsible"
+                                    required>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button
+                                    matStepperPrevious>Atrás</button>
+                                <button mat-button
+                                    matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <!-- Paso 6: Student Coach -->
+                    <mat-step [stepControl]="studentCoachForm">
+                        <form [formGroup]="studentCoachForm">
+                            <ng-template matStepLabel>Student
+                                Coach</ng-template>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Student Coach</mat-label>
+                                <input matInput formControlName="student_coach"
+                                    required>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button
+                                    matStepperPrevious>Atrás</button>
+                                <button mat-button
+                                    matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <!-- Paso 7: Objetivo -->
+                    <mat-step [stepControl]="objectiveForm">
+                        <form [formGroup]="objectiveForm">
+                            <ng-template matStepLabel>Objetivo</ng-template>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Objetivo</mat-label>
+                                <textarea matInput formControlName="objective"
+                                    rows="3" required></textarea>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button
+                                    matStepperPrevious>Atrás</button>
+                                <button mat-button
+                                    matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <!-- Paso 8: Total -->
+                    <mat-step [stepControl]="totalForm">
+                        <form [formGroup]="totalForm">
+                            <ng-template matStepLabel>Total</ng-template>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Total</mat-label>
+                                <input matInput formControlName="total"
+                                    type="number" required>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button
+                                    matStepperPrevious>Atrás</button>
+                                <button mat-button
+                                    matStepperNext>Siguiente</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                    <!-- Paso 9: Estado -->
+                    <mat-step [stepControl]="statusForm">
+                        <form [formGroup]="statusForm">
+                            <ng-template matStepLabel>Estado</ng-template>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Estado</mat-label>
+                                <mat-select formControlName="status" required>
+                                    <mat-option [value]>Seleccione un
+                                        estado</mat-option>
+                                    <mat-option *ngFor="let state of taskStates"
+                                        [value]="state">{{state}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div>
+                                <button mat-button
+                                    matStepperPrevious>Atrás</button>
+                                <button mat-button (click)="onCreate()">Crear
+                                    POA</button>
+                            </div>
+                        </form>
+                    </mat-step>
+
+                </mat-vertical-stepper>
+            </div>
+        </div>
+
+        <div class="col-md-4 d-flex justify-content-center">
+            {{ areaForm.value.area }}
+            {{ statusForm.value.status }}
+
+        </div>
+
+        <div class="col-md-4 d-flex justify-content-center">
+
+        </div>
+
+    </div>
+</div>

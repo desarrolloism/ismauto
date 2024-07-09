@@ -21,7 +21,7 @@ import { OnlyNumbersDirective } from './only-numbers.directive';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UserModule } from './user/user.module';
 import { ProjectsModule } from './projects/projects.module';
-
+import { POAModule } from './poa/poa.module';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,8 @@ import { ProjectsModule } from './projects/projects.module';
     MatAutocompleteModule,
     UserModule,
     MaintenanceModule,
-    ProjectsModule
+    ProjectsModule,
+    POAModule
   ],
   providers: [
     provideAnimationsAsync()
