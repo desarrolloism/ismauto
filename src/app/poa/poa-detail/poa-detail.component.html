@@ -1,0 +1,66 @@
+<app-header-app></app-header-app>
+<h1 class="text-center mt-4">Detalles POA - {{ poaDetail.status }}</h1>
+
+<div class="container">
+    <div class="row">
+        <form (ngSubmit)="onUpdate()">
+
+            <div class="mb-3">
+                <label for="area" class="form-label">Área:</label>
+                <input type="text" class="form-control" name="are"
+                    [(ngModel)]="poaDetail.area">
+            </div>
+            <div class="mb-3">
+                <label for="department" class="form-label">Departamento:</label>
+                <input type="text" class="form-control" name="department"
+                    [(ngModel)]="poaDetail.department">
+            </div>
+            <div class="mb-3">
+                <label for="ccpf" class="form-label">CCPF:</label>
+                <input type="text" class="form-control" name="ccpf"
+                    [(ngModel)]="poaDetail.ccpf">
+            </div>
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre del
+                    proyecto:</label>
+                <input type="text" class="form-control" name="name"
+                    [(ngModel)]="poaDetail.name">
+            </div>
+            <div class="mb-3">
+                <label for="responsible" class="form-label">Responsable:</label>
+                <input type="text" class="form-control" name="responsible"
+                    [(ngModel)]="poaDetail.responsible">
+            </div>
+            <div class="mb-3">
+                <label for="student_council" class="form-label">Consejo
+                    estudiantil:</label>
+                <input type="text" class="form-control" name="student_council"
+                    [(ngModel)]="poaDetail.student_council">
+            </div>
+            <div class="mb-3">
+                <label for="objective" class="form-label">Objetivo:</label>
+                <input type="text" class="form-control" name="objective"
+                    [(ngModel)]="poaDetail.objective">
+            </div>
+            <div class="mb-3">
+                <label for="total" class="form-label">Total:</label>
+                <input type="text" class="form-control" name="total"
+                    [(ngModel)]="poaDetail.total">
+            </div>
+            <div class="mb-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Estado:</mat-label>
+                    <mat-select name="status" [(ngModel)]="selectedStatus"
+                        required>
+                        <mat-option [value]>Seleccione un estado</mat-option>
+                        <mat-option *ngFor="let state of taskStates"
+                            [value]="state">{{state}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn  btn-primary">Actualizar</button>
+            </div>
+        </form>
+    </div>
+</div>

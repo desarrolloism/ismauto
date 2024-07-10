@@ -1,52 +1,31 @@
 <app-header-app></app-header-app>
-<h1 class="text-center mt-4">Crear POA</h1>
+<h1 class="text-center mt-4">Generar POA</h1>
 
-<div class="p-4">
-    <div class="row">
+<div class="p-4 container">
+    <div class="row d-flex justify-content-evenly">
+        <div class="col-md-6 mb-3">
+            <label for="poa" class="form-label">Cédula</label>
+            <input type="text"
+                class="form-control"
+                (change)="getCompersData()"
+                [(ngModel)]="newPoa.cedula"
+                maxlength="10"
+                name="cedula">
+        </div>
+
+    </div>
+    <div class="row" *ngIf="cedula && cedula?.nombre && cedula?.departamento">
         <div class="col-md-4 d-flex justify-content-center overflow-auto"
             style="height: 500px;">
             <div class="form-group">
                 <mat-vertical-stepper [linear]="true" #stepper>
 
-                    <!-- Paso 1: Área -->
-                    <mat-step [stepControl]="areaForm">
-                        <form [formGroup]="areaForm">
-                            <ng-template matStepLabel>Área</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Área</mat-label>
-                                <input matInput formControlName="area" required>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step>
-
-                    <!-- Paso 2: Departamento -->
-                    <mat-step [stepControl]="departmentForm">
-                        <form [formGroup]="departmentForm">
-                            <ng-template matStepLabel>Departamento</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Departamento</mat-label>
-                                <input matInput formControlName="department"
-                                    required>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step>
-
-                    <!-- Paso 3: Cédula -->
+                    <!-- Paso 3: Cedula -->
                     <mat-step [stepControl]="ccpfForm">
                         <form [formGroup]="ccpfForm">
-                            <ng-template matStepLabel>Cédula</ng-template>
+                            <ng-template matStepLabel>CCPF</ng-template>
                             <mat-form-field appearance="outline">
-                                <mat-label>Cédula</mat-label>
+                                <mat-label>CCPF</mat-label>
                                 <input matInput formControlName="ccpf" required>
                             </mat-form-field>
                             <div>
@@ -62,9 +41,9 @@
                     <mat-step [stepControl]="nameForm">
                         <form [formGroup]="nameForm">
                             <ng-template matStepLabel>Nombre de
-                                POA</ng-template>
+                                proyecto</ng-template>
                             <mat-form-field appearance="outline">
-                                <mat-label>Nombre de POA</mat-label>
+                                <mat-label>Nombre de proyecto</mat-label>
                                 <input matInput formControlName="name" required>
                             </mat-form-field>
                             <div>
@@ -76,18 +55,15 @@
                         </form>
                     </mat-step>
 
-                    <!-- Paso 5: Responsable -->
-                    <mat-step [stepControl]="responsibleForm">
-                        <form [formGroup]="responsibleForm">
-                            <ng-template matStepLabel>Responsable</ng-template>
+                    <!-- Paso 5: area -->
+                    <mat-step [stepControl]="areaForm">
+                        <form [formGroup]="areaForm">
+                            <ng-template matStepLabel>Área</ng-template>
                             <mat-form-field appearance="outline">
-                                <mat-label>Responsable</mat-label>
-                                <input matInput formControlName="responsible"
-                                    required>
+                                <mat-label>Área</mat-label>
+                                <input matInput formControlName="area" required>
                             </mat-form-field>
                             <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
                                 <button mat-button
                                     matStepperNext>Siguiente</button>
                             </div>
@@ -97,11 +73,12 @@
                     <!-- Paso 6: Student Coach -->
                     <mat-step [stepControl]="studentCoachForm">
                         <form [formGroup]="studentCoachForm">
-                            <ng-template matStepLabel>Student
-                                Coach</ng-template>
+                            <ng-template matStepLabel>Consejo
+                                estudiantil</ng-template>
                             <mat-form-field appearance="outline">
-                                <mat-label>Student Coach</mat-label>
-                                <input matInput formControlName="student_coach"
+                                <mat-label>Consejo estudiantil</mat-label>
+                                <input matInput
+                                    formControlName="student_council"
                                     required>
                             </mat-form-field>
                             <div>
@@ -165,25 +142,124 @@
                             <div>
                                 <button mat-button
                                     matStepperPrevious>Atrás</button>
-                                <button mat-button (click)="onCreate()">Crear
-                                    POA</button>
+                                    <button mat-button (click)="onCreate()">Crear POA</button>
                             </div>
                         </form>
                     </mat-step>
-
                 </mat-vertical-stepper>
             </div>
         </div>
 
+        <!-- muestra info ingresada para creacion de poa -->
         <div class="col-md-4 d-flex justify-content-center">
-            {{ areaForm.value.area }}
+
+            <mat-list>
+                <mat-list-item>
+                    <span matListItemTitle>Responsable</span>
+                    <span matListItemLine>{{ cedula?.nombre
+                        }}</span>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <span matListItemTitle>Departamento</span>
+                    <span matListItemLine>{{ cedula?.departamento }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>CCPF</span>
+                    <span matListItemLine>{{ ccpfForm.value.ccpf }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>Nombre del proyecto</span>
+                    <span matListItemLine>{{ nameForm.value.name }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>Área</span>
+                    <span matListItemLine>{{ areaForm.value.area }}</span>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <span matListItemTitle>Consejo estudiantil</span>
+                    <span matListItemLine>{{
+                        studentCoachForm.value.student_council }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>Total</span>
+                    <span matListItemLine>{{ totalForm.value.total }}</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>Estado</span>
+                    <span matListItemLine>{{ statusForm.value.status }}</span>
+                </mat-list-item>
+            </mat-list>
+
             {{ statusForm.value.status }}
-
         </div>
+        <!-- muestra info ingresada para creacion de poa -->
 
+        <!-- GUIA DE USUARIO -->
         <div class="col-md-4 d-flex justify-content-center">
-
+            <div class="col-md-12 col-lg-12 p-4 ml-sm-auto overflow-auto info">
+                <div class="text-center" style="color: black;">
+                    <i class="fa-solid fa-circle-info"></i> Manual de usuario
+                </div>
+                <div class="cards1 mt-2">
+                    <b><i class="fa-solid fa-chart-line"></i> Estadísticas de
+                        Mantenimiento</b>
+                    <p class="text-dark">
+                        La gráfica muestra el estado actual de casos
+                        (iniciando, en proceso, etc.), útil para gestionar el
+                        flujo de trabajo.
+                    </p>
+                </div>
+                <div class="cards1">
+                    <b><i class="fa-regular fa-paper-plane"></i> Creación de
+                        Casos</b>
+                    <p class="text-dark">
+                        Para crear un caso de mantenimiento u otro departamento,
+                        debe ingresar al
+                        proceso desde el menu izquierdo
+                        <i class="fa-solid fa-bars"></i>.
+                    </p>
+                </div>
+                <div class="cards1">
+                    <b><i class="fa-regular fa-file-lines"></i> Obtener
+                        resportería</b>
+                    <p class="text-dark">
+                        En el menú izquierdo <i class="fa-solid fa-bars"></i>
+                        podemos escoger la opción de reportería del proceso que
+                        necesitemos, esto nos llevará a una nueva página para
+                        visualizar la información.
+                    </p>
+                </div>
+                <div class="cards1">
+                    <b><i class="fa-solid fa-sliders"></i> Configuración de
+                        usuario</b>
+                    <p class="text-dark">
+                        En el menú izquierdo <i class="fa-solid fa-bars"></i>
+                        podemos editar la configuración de usuario,
+                        especificamente
+                        cambiar la contraseñas.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- GUIA DE USUARIO -->
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8 info-message mat-elevation-z3"
+            *ngIf="!cedula || !cedula.nombre || !cedula.departamento">
+            <mat-icon class="info-icon">info</mat-icon>
+            <p class="info-text">
+                Ingresa tu número de cédula para continuar con la creación del
+                POA, recuerda que debes estar registrado en COMPERS para
+                continuar con el proceso!
+            </p>
         </div>
 
+    </div>
+</div>
+<div class="overlay" *ngIf="isLoading">
+    <div class="spinner-container">
+        <mat-spinner></mat-spinner>
     </div>
 </div>

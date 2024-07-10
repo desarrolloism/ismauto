@@ -17,12 +17,15 @@ import { MatCardModule } from '@angular/material/card';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { CreatepoaComponent } from './createpoa/createpoa.component'; 
 import {MatSelectModule} from '@angular/material/select'; 
-
+import {MatListModule} from '@angular/material/list';
+import { PoaDetailComponent } from './poa-detail/poa-detail.component'; 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
 
 @NgModule({
   declarations: [
     HomePoaComponent,
     CreatepoaComponent,
+    PoaDetailComponent,
 
   ],
   imports: [
@@ -44,7 +47,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatTooltipModule,
     MatCardModule,
     MatBottomSheetModule,
-    MatSelectModule
+    MatSelectModule,
+    MatListModule,
+    MatProgressSpinnerModule
   ]
 })
 export class POAModule { }

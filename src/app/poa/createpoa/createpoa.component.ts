@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PoaService } from '../../services/poa.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { finalize } from 'rxjs/internal/operators/finalize';
 
 @Component({
   selector: 'app-createpoa',
@@ -18,22 +19,26 @@ export class CreatepoaComponent implements OnInit {
   objectiveForm!: FormGroup;
   totalForm!: FormGroup;
   statusForm!: FormGroup;
-
+  isLoading: boolean = false;
   token = localStorage.getItem('token');
+  cedula: any;
+
   newPoa = {
+    cedula: '',
     area: '',
-    commission: 'Compers',
+    commission: '',
     department: '',
     ccpf: '',
-    student_coach: '',
+    student_council: '',
     name: '',
     responsible: '',
     academic_year_id: 19,
     objective: '',
     total: 0,
-    status: ''
+    status: 'EN PROCESO',
   };
-  taskStates = ['INICIANDO', 'EN PROCESO', 'EN REVISION', 'TERMINADO'];
+
+  taskStates = ['INICIANDO'];
 
   constructor(
     private _router: Router,
@@ -42,11 +47,12 @@ export class CreatepoaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.token);
+    // console.log(this.token);
     this.initForms();
   }
 
   initForms() {
+
     this.areaForm = this.fb.group({
       area: ['', Validators.required]
     });
@@ -68,7 +74,7 @@ export class CreatepoaComponent implements OnInit {
     });
 
     this.studentCoachForm = this.fb.group({
-      student_coach: ['', Validators.required]
+      student_council: ['', Validators.required]
     });
 
     this.objectiveForm = this.fb.group({
@@ -84,26 +90,54 @@ export class CreatepoaComponent implements OnInit {
     });
   }
 
+  //consulta de compers la cedula
+  getCompersData() {
+    if (!this.newPoa.cedula) {
+      alert('Por favor, ingrese un número de cédula válido.');
+      return;
+    }
+
+    this.isLoading = true;
+    this._poaService.getCompers(this.token, this.newPoa.cedula)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe({
+        next: (resp: any) => {
+          this.cedula = resp.data;
+          if (this.cedula.nombre && this.cedula.departamento) {
+            console.log('Cedula encontrada');
+          } else {
+            console.log('Cedula no encontrada');
+            alert('Cédula no encontrada. Para crear un POA es necesario registrarse en Compers con talento humano.');
+            this.cedula = null;
+          }
+        }
+      });
+  }
+
+
+  //crear POA
   onCreate() {
-    if (this.areaForm.valid && this.departmentForm.valid && this.ccpfForm.valid &&
-      this.nameForm.valid && this.responsibleForm.valid && this.studentCoachForm.valid &&
+    if (this.areaForm.valid && this.ccpfForm.valid &&
+      this.nameForm.valid && this.studentCoachForm.valid &&
       this.objectiveForm.valid && this.totalForm.valid && this.statusForm.valid) {
 
       this._poaService.createPoa(
         this.token,
         this.areaForm.value.area,
         'Compers',
-        this.departmentForm.value.department,
+        this.cedula.departamento,
         this.ccpfForm.value.ccpf,
-        this.studentCoachForm.value.student_coach,
+        this.studentCoachForm.value.student_council,
         this.nameForm.value.name,
-        this.responsibleForm.value.responsible,
+        this.cedula.nombre,
         19,
         this.objectiveForm.value.objective,
         this.totalForm.value.total,
-        this.statusForm.value.status
-      ).subscribe(
-        (response: any) => {
+        this.statusForm.value.status || 'EN PROCESO'
+      ).subscribe({
+        next: (response: any) => {
           if (response && response.status === 'ok') {
             console.log('POA creado exitosamente');
             this._router.navigate(['/home-poa']);
@@ -111,7 +145,7 @@ export class CreatepoaComponent implements OnInit {
             console.error('Error al crear POA:', response);
           }
         }
-      );
+      });
     }
   }
 }
