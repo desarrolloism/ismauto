@@ -2,18 +2,6 @@
 <h1 class="text-center mt-4">Generar POA</h1>
 
 <div class="p-4 container">
-    <div class="row d-flex justify-content-evenly">
-        <div class="col-md-6 mb-3">
-            <label for="poa" class="form-label">Cédula</label>
-            <input type="text"
-                class="form-control"
-                (change)="getCompersData()"
-                [(ngModel)]="newPoa.cedula"
-                maxlength="10"
-                name="cedula">
-        </div>
-
-    </div>
     <div class="row" *ngIf="cedula && cedula?.nombre && cedula?.departamento">
         <div class="col-md-4 d-flex justify-content-center overflow-auto"
             style="height: 500px;">
@@ -102,50 +90,13 @@
                             <div>
                                 <button mat-button
                                     matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
+                                    <button mat-button (click)="onCreate()">Crear
+                                        POA</button>
                             </div>
                         </form>
                     </mat-step>
 
-                    <!-- Paso 8: Total -->
-                    <mat-step [stepControl]="totalForm">
-                        <form [formGroup]="totalForm">
-                            <ng-template matStepLabel>Total</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Total</mat-label>
-                                <input matInput formControlName="total"
-                                    type="number" required>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step>
-
-                    <!-- Paso 9: Estado -->
-                    <mat-step [stepControl]="statusForm">
-                        <form [formGroup]="statusForm">
-                            <ng-template matStepLabel>Estado</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Estado</mat-label>
-                                <mat-select formControlName="status" required>
-                                    <mat-option [value]>Seleccione un
-                                        estado</mat-option>
-                                    <mat-option *ngFor="let state of taskStates"
-                                        [value]="state">{{state}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                    <button mat-button (click)="onCreate()">Crear POA</button>
-                            </div>
-                        </form>
-                    </mat-step>
+                    
                 </mat-vertical-stepper>
             </div>
         </div>
@@ -182,17 +133,9 @@
                     <span matListItemLine>{{
                         studentCoachForm.value.student_council }}</span>
                 </mat-list-item>
-                <mat-list-item>
-                    <span matListItemTitle>Total</span>
-                    <span matListItemLine>{{ totalForm.value.total }}</span>
-                </mat-list-item>
-                <mat-list-item>
-                    <span matListItemTitle>Estado</span>
-                    <span matListItemLine>{{ statusForm.value.status }}</span>
-                </mat-list-item>
+                
             </mat-list>
 
-            {{ statusForm.value.status }}
         </div>
         <!-- muestra info ingresada para creacion de poa -->
 
@@ -250,9 +193,7 @@
             *ngIf="!cedula || !cedula.nombre || !cedula.departamento">
             <mat-icon class="info-icon">info</mat-icon>
             <p class="info-text">
-                Ingresa tu número de cédula para continuar con la creación del
-                POA, recuerda que debes estar registrado en COMPERS para
-                continuar con el proceso!
+                Un momento estamos validando la información en COMPERS.
             </p>
         </div>
 

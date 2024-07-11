@@ -18,10 +18,15 @@ export class CreatepoaComponent implements OnInit {
   studentCoachForm!: FormGroup;
   objectiveForm!: FormGroup;
   totalForm!: FormGroup;
-  statusForm!: FormGroup;
   isLoading: boolean = false;
   token = localStorage.getItem('token');
   cedula: any;
+  avatar: string = '';
+  name: string = '';
+  email: string = '';
+  last_name: string = '';
+  fullname: string = '';
+  ciUser: string = '';
 
   newPoa = {
     cedula: '',
@@ -49,6 +54,8 @@ export class CreatepoaComponent implements OnInit {
   ngOnInit() {
     // console.log(this.token);
     this.initForms();
+    this.getAvatar();
+    this.getCompersData();
   }
 
   initForms() {
@@ -81,24 +88,16 @@ export class CreatepoaComponent implements OnInit {
       objective: ['', Validators.required]
     });
 
-    this.totalForm = this.fb.group({
-      total: ['', [Validators.required, Validators.min(0)]]
-    });
-
-    this.statusForm = this.fb.group({
-      status: ['', Validators.required]
-    });
   }
 
   //consulta de compers la cedula
   getCompersData() {
-    if (!this.newPoa.cedula) {
+    if (!this.ciUser) {
       alert('Por favor, ingrese un número de cédula válido.');
       return;
     }
-
     this.isLoading = true;
-    this._poaService.getCompers(this.token, this.newPoa.cedula)
+    this._poaService.getCompers(this.token, this.ciUser)
       .pipe(
         finalize(() => this.isLoading = false)
       )
@@ -121,8 +120,7 @@ export class CreatepoaComponent implements OnInit {
   onCreate() {
     if (this.areaForm.valid && this.ccpfForm.valid &&
       this.nameForm.valid && this.studentCoachForm.valid &&
-      this.objectiveForm.valid && this.totalForm.valid && this.statusForm.valid) {
-
+      this.objectiveForm.valid) {
       this._poaService.createPoa(
         this.token,
         this.areaForm.value.area,
@@ -134,8 +132,8 @@ export class CreatepoaComponent implements OnInit {
         this.cedula.nombre,
         19,
         this.objectiveForm.value.objective,
-        this.totalForm.value.total,
-        this.statusForm.value.status || 'EN PROCESO'
+        this.newPoa.total,
+        this.newPoa.status
       ).subscribe({
         next: (response: any) => {
           if (response && response.status === 'ok') {
@@ -147,5 +145,24 @@ export class CreatepoaComponent implements OnInit {
         }
       });
     }
+  }
+
+  //cancelar POA
+  onCancel() {
+    if (window.confirm('¿Está seguro de que desea cancelar el proceso? Los datos ingresados se perderán')) {
+      this._router.navigate(['/home-poa']);
+    }
+  }
+
+  //obtiene datos del usuario
+  getAvatar() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    // console.log(userData);
+    this.avatar = userData.avatar;
+    this.name = userData.first_name;
+    this.last_name = userData.last_name;
+    this.email = userData.email;
+    this.fullname = this.name + ' ' + this.last_name
+    this.ciUser = userData.dni;
   }
 }

@@ -69,8 +69,13 @@
                                         <p class="mb-1"><strong>Consejo
                                                 estudiantil:</strong>
                                             {{poa.student_council}}</p>
-                                        <p class="mb-1"><strong>Costo:</strong>
-                                            {{poa.total}}</p>
+                                        <p *ngIf="poa.total == 0"
+                                            class="mb-1"><strong>Costo:</strong>
+                                            Sin asignar</p>
+                                        <p *ngIf="poa.total != 0"
+                                            class="mb-1"><strong>Costo:</strong>
+                                            {{poa.total}}$</p>
+
                                     </div>
                                 </div>
                                 <div

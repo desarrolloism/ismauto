@@ -34,7 +34,7 @@ export class HomePoaComponent implements OnInit {
       this.poaList = resp.data;
       this.sortPoaList();
       this.filteredPoaList = [...this.poaList];
-      console.log(resp);
+      // console.log(resp);
     });
   }
 
