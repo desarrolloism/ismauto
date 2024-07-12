@@ -1,22 +1,13 @@
 <app-header-app></app-header-app>
 
 <div class="container-fluid">
-
     <div class="row mt-4">
         <div class="col-md-4 d-flex justify-content-center">
             <h1 class="text-center">Plan operativo anual (POA)</h1>
         </div>
-        <!-- barra de busqueda -->
-
         <div class="col-md-4 mt-2 d-flex justify-content-center">
-            <div class>
-                <input type="text"
-                    class="form-control text-center"
-                    placeholder="Realice una busqueda">
-            </div>
         </div>
-        <!-- barra de busqueda -->
-
+        
         <!-- boton para agregar -->
         <div class="col-md-4 mt-2 d-flex justify-content-center">
             <button mat-fab extended
@@ -34,6 +25,14 @@
             <div class="row">
                 <div class="container mt-2 p-4 overflow-auto"
                     style="height: 500px;">
+                    <!-- barra de busqueda -->
+                    <div class="row d-flex justify-content-center mb-3">
+                        <input type="text" style="width: 500px;"
+                            class="form-control text-center"
+                            placeholder="Búsqueda por Área, Departamento o Responsable"
+                            [(ngModel)]="searchTerm" (input)="onSearch()">
+                    </div>
+                    <!-- barra de busqueda -->
                     <div class="mb-3 d-flex justify-content-center">
                         <button mat-raised-button color="primary" class="me-2"
                             (click)="filterPoa('en proceso')">En
@@ -81,7 +80,7 @@
                                 <div
                                     class="card-footer bg-transparent border-0">
                                     <button
-                                        class="btn btn-link btn-sm p-0 me-2"
+                                        class="btn btn-link btn-sm p-0 me-2 ver"
                                         (click)="goToPoa(poa.id)">Ver
                                         más</button>
                                 </div>

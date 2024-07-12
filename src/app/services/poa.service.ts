@@ -125,14 +125,14 @@ export class PoaService {
   }
 
   //obtiene datos de compers departament y nombre de la persona
-  getCompers(token:any, cedula:string){
+  getCompers(token: any, cedula: string) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
 
-    const data ={
+    const data = {
       cedula: cedula
     }
     return this._http.post(`${this.url}/poa_compers`, data, { headers: headers });
@@ -149,14 +149,14 @@ export class PoaService {
 
     const data = {
       poa_id: poaId
-    } 
+    }
     return this._http.post(`${this.url}/poa_activities_detail`, data, { headers: headers });
   }
 
   //crea actividad de poa
   createPoaActivity(
-    token: any, 
-    poaId: number, 
+    token: any,
+    poaId: number,
     activity: string,
     startDate: string,
     endDate: string,
@@ -182,15 +182,15 @@ export class PoaService {
       approved_amount: approvedAmount,
       comments: comments,
       accounting_count: accountingCount
-      
+
     }
     return this._http.post(`${this.url}/poa_activities_create`, data, { headers: headers });
   }
 
   //actualiza actividad de poa
   updatePoaActivity(
-    token: any, 
-    Id: number, 
+    token: any,
+    Id: number,
     activity: string,
     startDate: string,
     endDate: string,
@@ -203,7 +203,7 @@ export class PoaService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
-      'Token': token  
+      'Token': token
     });
 
     const data = {
@@ -218,6 +218,46 @@ export class PoaService {
       accounting_count: accountingCount
     }
     return this._http.post(`${this.url}/poa_activities_update`, data, { headers: headers });
+  }
+
+
+  //elimina actividad de poa
+  deletePoaActivity(token: any, id: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      id: id
+    }
+    return this._http.post(`${this.url}/poa_activities_delete`, data, { headers: headers });
+  }
+
+  //busca poa
+  searchPoa(token: any, search: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      search: search
+    }
+    return this._http.post(`${this.url}/poa_search`, data, { headers: headers });
+  }
+
+  //buscar actividad de poa
+  searchActivity(token: any, search: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      search: search
+    }
+    return this._http.post(`${this.url}/poa_activities_search`, data, { headers: headers });
   }
 
 }

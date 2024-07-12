@@ -23,7 +23,9 @@ export class PoaDetailComponent {
   isEditing: boolean = false;
   editingActivityId: number | null = null;
   editingActivity: any = {};
-
+  dataDeleteActivity: any;
+  searchTerm: string = '';
+  searchResults: any[] = [];
 
   upPoa = {
     area: '',
@@ -55,7 +57,7 @@ export class PoaDetailComponent {
     comments: '',
     accounting_count: ''
   }
-
+  originalActivities: any[] = [];
 
   constructor(
     private _poaService: PoaService,
@@ -77,7 +79,7 @@ export class PoaDetailComponent {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
       this.selectedStatus = this.poaDetail.status;
-      console.log(this.poaDetail);
+      // console.log(this.poaDetail);
     });
   }
 
@@ -122,12 +124,11 @@ export class PoaDetailComponent {
   //muestra lista de actividades
   showActivities() {
     this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
-      // console.log(resp);
       this.allActivities = resp.data;
-      console.log(this.allActivities);
+      this.originalActivities = [...this.allActivities]; 
+      // console.log(this.allActivities);
     });
   }
-
   //creacion de actividades
   createActivity() {
     this._poaService.createPoaActivity(
@@ -144,7 +145,6 @@ export class PoaDetailComponent {
     ).subscribe(resp => {
       this.dataActivity = resp;
       if (this.dataActivity.status === 'ok') {
-        // Cerrar el modal
         const modal = document.getElementById('exampleModal');
         if (modal) {
           const modalInstance = bootstrap.Modal.getInstance(modal);
@@ -152,7 +152,6 @@ export class PoaDetailComponent {
         }
         // Vaciar el formulario
         this.resetCreatePoaForm();
-        // Actualizar la lista de actividades
         this.showActivities();
       }
     });
@@ -173,9 +172,10 @@ export class PoaDetailComponent {
       this.editingActivity.accounting_count
     ).subscribe(resp => {
       this.dataUpdateActivity = resp;
-      console.log(this.dataUpdateActivity);
+      // console.log(this.dataUpdateActivity);
       if (this.dataUpdateActivity.status === 'ok') {
         this.showActivities();
+        alert('Actividad actualizada con éxito');
       }
     });
   }
@@ -198,7 +198,6 @@ export class PoaDetailComponent {
     this.editingActivityId = null;
   }
 
-
   // Función para resetear el formulario
   resetCreatePoaForm() {
     this.createPoa = {
@@ -219,6 +218,37 @@ export class PoaDetailComponent {
 
   //obtiene el id de la actividad 
   getActivityId(activityId: number) {
-    console.log(activityId);
+    // console.log(activityId);
   }
+  
+
+  //elimina actividad
+  deleteActivity(activityId: number) {
+    if (confirm('¿Está seguro de eliminar esta actividad, este proceso no se puede deshacer?')) {
+      this._poaService.deletePoaActivity(this.token, activityId).subscribe(resp => {
+        this.dataDeleteActivity = resp;
+        // console.log(this.dataDeleteActivity);
+        if (this.dataDeleteActivity.status === "ok") {
+          this.showActivities();
+          alert('Actividad eliminada con éxito');
+        }
+      });
+    }
+  }
+
+  //busca actividad de poa 
+  onSearch() {
+    if (!this.searchTerm.trim()) {
+      this.allActivities = [...this.originalActivities];
+    } else {
+      const searchTermLower = this.searchTerm.toLowerCase().trim();
+      this.allActivities = this.originalActivities.filter(activity => 
+        activity.activity.toLowerCase().includes(searchTermLower) ||
+        activity.resources_detail.toLowerCase().includes(searchTermLower) ||
+        activity.comments.toLowerCase().includes(searchTermLower) ||
+        activity.accounting_count.toLowerCase().includes(searchTermLower)
+      );
+    }
+  }
+
 }

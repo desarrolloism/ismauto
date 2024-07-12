@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { PoaService } from '../../services/poa.service';
 
 interface Poa {
-  id:number;
+  id: number;
   status: string;
   name: string;
   area: string;
@@ -11,6 +11,7 @@ interface Poa {
   student_council: string;
   total: number;
 }
+
 
 @Component({
   selector: 'app-home-poa',
@@ -23,9 +24,12 @@ export class HomePoaComponent implements OnInit {
   poaList: Poa[] = [];
   filteredPoaList: Poa[] = [];
   token = localStorage.getItem('token');
+  searchTerm: string = '';
+  searchResults: any[] = [];
 
   ngOnInit() {
     this.getPoaList();
+    this.onSearch();
   }
 
   //obtiene lista de poa
@@ -56,10 +60,14 @@ export class HomePoaComponent implements OnInit {
   //filtra lista de poa
   filterPoa(status: string | null) {
     if (status === null) {
-      this.filteredPoaList = [...this.poaList];
+      this.onSearch(); // Esto restablecerá la lista filtrada basada en la búsqueda actual
     } else {
-      this.filteredPoaList = this.poaList.filter(poa => 
-        poa.status.toLowerCase() === status.toLowerCase()
+      this.filteredPoaList = this.poaList.filter(poa =>
+        poa.status.toLowerCase() === status.toLowerCase() &&
+        (this.searchTerm === '' ||
+          poa.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          poa.area.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          poa.responsible.toLowerCase().includes(this.searchTerm.toLowerCase()))
       );
     }
   }
@@ -68,4 +76,22 @@ export class HomePoaComponent implements OnInit {
   goToPoa(id: number) {
     this.router.navigate(['/poa-detail', id]);
   }
+
+  //busca poa mediante ares, dep, responsable
+  onSearch() {
+    if (this.searchTerm.length > 2) {
+      this.poaService.searchPoa(this.token, this.searchTerm).subscribe(
+        (results: any) => {
+          this.filteredPoaList = results.data; // Asumiendo que la respuesta tiene una propiedad 'data'
+        },
+        (error) => {
+          console.error('Error en la búsqueda:', error);
+        }
+      );
+    } else {
+      this.filteredPoaList = [...this.poaList]; // Restaura la lista completa si la búsqueda está vacía
+    }
+  }
+
+
 }

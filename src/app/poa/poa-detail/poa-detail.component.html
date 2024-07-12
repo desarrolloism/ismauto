@@ -122,10 +122,16 @@
                         </button>
                     </div>
                 </div>
-                <h4 class="text-center">Actividades({{ allActivities?.length
+                <h4 class="text-center">Actividades ({{ allActivities?.length
                     }}):</h4>
-                <div class="overflow-auto" style="height: 500px;">
 
+                <div class="row d-flex justify-content-center mb-3">
+                    <input type="text" style="width: 350px;"
+                        class="form-control text-center"
+                        placeholder="Búsqueda por actividad o detalle de recurso"
+                        [(ngModel)]="searchTerm" (input)="onSearch()">
+                </div>
+                <div class="overflow-auto" style="height: 500px;">
                     <mat-accordion>
                         <mat-expansion-panel
                             *ngFor="let activity of allActivities"
@@ -143,80 +149,141 @@
                             </mat-expansion-panel-header>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <p
-                                        *ngIf="!isEditing || editingActivityId !== activity.id"><strong>Actividad:</strong>
-                                        {{ activity.activity }}</p>
-                                    <mat-form-field
-                                        *ngIf="isEditing && editingActivityId === activity.id">
-                                        <input matInput
-                                            [(ngModel)]="editingActivity.activity"
-                                            placeholder="Actividad">
-                                    </mat-form-field>
+                                    <div
+                                        *ngIf="!isEditing || editingActivityId !== activity.id">
+                                        <p><strong>Actividad:</strong> {{
+                                            activity.activity }}</p>
+                                        <p><strong>Detalle de recursos:</strong>
+                                            {{ activity.resources_detail }}</p>
+                                        <p><strong>Comentarios:</strong> {{
+                                            activity.comments }}</p>
+                                        <p><strong>Monto de recursos:</strong>
+                                            {{ activity.resources_amount }}</p>
+                                        <p><strong>Monto aprobado:</strong> {{
+                                            activity.approved_amount }}</p>
+                                        <p><strong>Cuenta contable:</strong> {{
+                                            activity.accounting_count }}</p>
+                                    </div>
 
-                                    <p
-                                        *ngIf="!isEditing || editingActivityId !== activity.id"><strong>Detalle
-                                            de recursos:</strong> {{
-                                        activity.resources_detail }}</p>
-                                    <mat-form-field
-                                        *ngIf="isEditing && editingActivityId === activity.id">
-                                        <textarea matInput
-                                            [(ngModel)]="editingActivity.resources_detail"
-                                            placeholder="Detalle de recursos"></textarea>
-                                    </mat-form-field>
-
-                                    <p
-                                        *ngIf="!isEditing || editingActivityId !== activity.id"><strong>Comentarios:</strong>
-                                        {{ activity.comments }}</p>
-                                    <mat-form-field
-                                        *ngIf="isEditing && editingActivityId === activity.id">
-                                        <textarea matInput
-                                            [(ngModel)]="editingActivity.comments"
-                                            placeholder="Comentarios"></textarea>
-                                    </mat-form-field>
-
-                                    <p
-                                        *ngIf="!isEditing || editingActivityId !== activity.id"><strong>Monto
-                                            de recursos:</strong> {{
-                                        activity.resources_amount }}</p>
-                                    <mat-form-field
-                                        *ngIf="isEditing && editingActivityId === activity.id">
-                                        <input matInput type="number"
-                                            [(ngModel)]="editingActivity.resources_amount"
-                                            placeholder="Monto de recursos">
-                                    </mat-form-field>
-
-                                    <p
-                                        *ngIf="!isEditing || editingActivityId !== activity.id"><strong>Monto
-                                            aprobado:</strong> {{
-                                        activity.approved_amount }}</p>
-                                    <mat-form-field
-                                        *ngIf="isEditing && editingActivityId === activity.id">
-                                        <input matInput type="number"
-                                            [(ngModel)]="editingActivity.approved_amount"
-                                            placeholder="Monto aprobado">
-                                    </mat-form-field>
-
-                                    <p
-                                        *ngIf="!isEditing || editingActivityId !== activity.id"><strong>Cuenta
-                                            contable:</strong> {{
-                                        activity.accounting_count }}</p>
-                                    <mat-form-field
-                                        *ngIf="isEditing && editingActivityId === activity.id">
-                                        <input matInput
-                                            [(ngModel)]="editingActivity.accounting_count"
-                                            placeholder="Cuenta contable">
-                                    </mat-form-field>
                                 </div>
-                                <div class="col-md-6">
+                                <div
+                                    class="col-md-6 d-flex justify-content-evenly">
                                     <button mat-raised-button color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
-                                        (click)="startEditing(activity)">Editar</button>
-                                    <button mat-raised-button color="primary"
-                                        *ngIf="isEditing && editingActivityId === activity.id"
-                                        (click)="saveChanges(activity.id)">Guardar</button>
-                                    <button mat-raised-button color="warn"
-                                        *ngIf="isEditing && editingActivityId === activity.id"
-                                        (click)="cancelEditing()">Cancelar</button>
+                                        (click)="startEditing(activity)">Editar
+                                        actividad</button>
+
+                                    <button mat-raised-button
+                                        *ngIf="!isEditing || editingActivityId !== activity.id"
+                                        style="background-color: brown;color: white;"
+                                        (click)="deleteActivity(activity.id)">Eliminar</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form
+                                        *ngIf="isEditing && editingActivityId === activity.id">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="activity"
+                                                        class="form-label">Actividad:</label>
+                                                    <input type="text"
+                                                        class="form-control"
+                                                        id="activity"
+                                                        [(ngModel)]="editingActivity.activity"
+                                                        name="activity">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label
+                                                        for="resources_amount"
+                                                        class="form-label">Monto
+                                                        de
+                                                        recursos:</label>
+                                                    <input type="number"
+                                                        class="form-control"
+                                                        id="resources_amount"
+                                                        [(ngModel)]="editingActivity.resources_amount"
+                                                        name="resources_amount"
+                                                        maxlength="6">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label for="approved_amount"
+                                                        class="form-label">Monto
+                                                        aprobado:</label>
+                                                    <input type="number"
+                                                        class="form-control"
+                                                        id="approved_amount"
+                                                        [(ngModel)]="editingActivity.approved_amount"
+                                                        name="approved_amount"
+                                                        maxlength="6">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label
+                                                        for="resources_detail"
+                                                        class="form-label">Detalle
+                                                        de
+                                                        recursos:</label>
+                                                    <textarea
+                                                        class="form-control"
+                                                        id="resources_detail"
+                                                        rows="3"
+                                                        [(ngModel)]="editingActivity.resources_detail"
+                                                        name="resources_detail"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="comments"
+                                                        class="form-label">Comentarios:</label>
+                                                    <textarea
+                                                        class="form-control"
+                                                        id="comments" rows="3"
+                                                        [(ngModel)]="editingActivity.comments"
+                                                        name="comments"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="accounting_count"
+                                                class="form-label">Cuenta
+                                                contable:</label>
+                                            <input type="text"
+                                                class="form-control"
+                                                id="accounting_count"
+                                                [(ngModel)]="editingActivity.accounting_count"
+                                                name="accounting_count">
+                                        </div>
+                                        <div
+                                            class="row d-flex justify-content-center">
+                                            <div
+                                                class=" text-center d-flex justify-content-evenly">
+                                                <button mat-raised-button
+                                                    color="primary"
+                                                    *ngIf="isEditing && editingActivityId === activity.id"
+                                                    (click)="saveChanges(activity.id)">Guardar</button>
+                                                <button mat-raised-button
+                                                    color="secondary"
+                                                    *ngIf="isEditing && editingActivityId === activity.id"
+                                                    (click)="cancelEditing()">Cancelar</button>
+
+                                                <button mat-raised-button
+                                                    style="background-color: brown;color: white;"
+                                                    (click)="deleteActivity(activity.id)">Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </mat-expansion-panel>
@@ -339,7 +406,7 @@
                                 <label for="resources_ammount"
                                     class="form-label">Monto
                                     de recursos</label>
-                                <input maxlength="7" type="number"
+                                <input maxlength="6" type="number"
                                     class="form-control"
                                     id="resources_ammount"
                                     [(ngModel)]="createPoa.resources_ammount"
@@ -353,6 +420,7 @@
                                     aprobado</label>
                                 <input maxlength="7" type="number"
                                     class="form-control"
+                                    maxlength="6"
                                     id="approved_ammount"
                                     [(ngModel)]="createPoa.approved_ammount"
                                     name="approved_ammount" required>
