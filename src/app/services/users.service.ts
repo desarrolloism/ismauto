@@ -39,4 +39,6 @@ export class UsersService {
         return this._http.get(`${this.url}/users/all`, { headers: headers });
     }
 
+
 }
+

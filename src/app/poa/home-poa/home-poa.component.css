@@ -13,14 +13,19 @@
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #ab0a3d63;
+    background-color: #ff005163;
+}
+
+.title {
+    font-size: 1rem;
+    text-transform: uppercase;
 }
 
 /* estilos para cards de procesos POA */
 
 .poa-card {
     border-width: 2px;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     font-size: 0.9rem;
 }
 
@@ -43,7 +48,7 @@
     text-decoration: none;
 }
 
-small{
+small {
     font-size: .9rem;
 }
 
@@ -54,13 +59,66 @@ small{
 }
 
 .border-primary {
-    border-color: #007bff !important;
+    color: #007bff !important;
 }
 
 .border-success {
-    border-color: #28a745 !important;
+   color: #28a745 !important;
 }
 
 .border-danger {
-    border-color: #dc3545 !important;
+    color: #dc3545 !important;
 }
+
+/* // estilos para boton ver mas */
+
+.Btn {
+    width: 130px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(15, 15, 15);
+    border: none;
+    color: white;
+    font-weight: 600;
+    gap: px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+}
+
+.svgIcon {
+    width: 16px;
+}
+
+.svgIcon path {
+    fill: white;
+}
+
+.Btn::before {
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    content: "";
+    background-color: white;
+    border-radius: 50%;
+    left: -100%;
+    top: 0;
+    transition-duration: .3s;
+    mix-blend-mode: difference;
+}
+
+.Btn:hover::before {
+    transition-duration: .3s;
+    transform: translate(100%, -50%);
+    border-radius: 0;
+}
+
+.Btn:active {
+    transform: translate(5px, 5px);
+    transition-duration: .3s;
+}
+

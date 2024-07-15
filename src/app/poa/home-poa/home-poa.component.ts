@@ -10,6 +10,7 @@ interface Poa {
   responsible: string;
   student_council: string;
   total: number;
+  academic_year_id: number;
 }
 
 
@@ -38,6 +39,7 @@ export class HomePoaComponent implements OnInit {
       this.poaList = resp.data;
       this.sortPoaList();
       this.filteredPoaList = [...this.poaList];
+      // console.log(this.poaList);
       // console.log(resp);
     });
   }
@@ -72,6 +74,12 @@ export class HomePoaComponent implements OnInit {
     }
   }
 
+
+  //cuenta cantidad de poa dependiendo del status 
+  countPoaByStatus(status: string): number {
+    return this.poaList.filter(poa => poa.status.toLowerCase() === status.toLowerCase()).length;
+  }
+
   //redirige hacia poa creado mediante el id
   goToPoa(id: number) {
     this.router.navigate(['/poa-detail', id]);
@@ -82,7 +90,7 @@ export class HomePoaComponent implements OnInit {
     if (this.searchTerm.length > 2) {
       this.poaService.searchPoa(this.token, this.searchTerm).subscribe(
         (results: any) => {
-          this.filteredPoaList = results.data; // Asumiendo que la respuesta tiene una propiedad 'data'
+          this.filteredPoaList = results.data; 
         },
         (error) => {
           console.error('Error en la búsqueda:', error);

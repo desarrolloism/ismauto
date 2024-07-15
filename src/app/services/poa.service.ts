@@ -124,6 +124,20 @@ export class PoaService {
     return this._http.post(`${this.url}/poa_update`, data, { headers: headers });
   }
 
+  //elimina el POA
+  deletePoa(token: any, id: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      id: id
+    }
+    return this._http.post(`${this.url}/poa_delete`, data, { headers: headers });
+  }
+
+
   //obtiene datos de compers departament y nombre de la persona
   getCompers(token: any, cedula: string) {
     const headers = new HttpHeaders({
@@ -258,6 +272,67 @@ export class PoaService {
       search: search
     }
     return this._http.post(`${this.url}/poa_activities_search`, data, { headers: headers });
+  }
+
+  //obtiene si el usuario del poa es admin 
+  getPoaAdmin(token: any, cedula: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      cedula
+    }
+    return this._http.post(`${this.url}/poa_admin`, data, { headers: headers });
+  }
+
+  //crea firmas
+  createSignatures(
+    token: any, 
+    poaId: number,
+    userId: number,
+    coments: string,
+    isAccepted: boolean,
+    dateAccepted: string
+  ) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      poa_id: poaId,
+      user_id: userId,
+      coments: coments,
+      is_accepted: isAccepted,
+      date_send: dateAccepted
+    }
+    return this._http.post(`${this.url}/poa_signature_create`, data, { headers: headers });
+  }
+
+  //muestra listado de firmas
+  getSignatures(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data =  {}
+    return this._http.post(`${this.url}/poa_signature_list`, data, { headers: headers });
+  }
+
+
+  // muestra listado de usuario de la base
+  allUsers(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+
+    const data = {}
+    return this._http.post(`${this.url}/user_list`, data, { headers: headers });
   }
 
 }

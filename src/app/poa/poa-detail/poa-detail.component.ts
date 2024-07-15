@@ -26,6 +26,24 @@ export class PoaDetailComponent {
   dataDeleteActivity: any;
   searchTerm: string = '';
   searchResults: any[] = [];
+  avatar: string = '';
+  name: string = '';
+  email: string = '';
+  last_name: string = '';
+  fullname: string = '';
+  is_admin: boolean = false;
+  dni: string = '';
+  users: any;
+  usersId: any;
+  signaturesList: any;
+
+
+  signature = {
+    coments: "",
+    is_accepted: false,
+    date_accepted: "",
+  }
+
 
   upPoa = {
     area: '',
@@ -57,13 +75,25 @@ export class PoaDetailComponent {
     comments: '',
     accounting_count: ''
   }
+
   originalActivities: any[] = [];
+
+  selectedUserId: any = [];
+  actualDate: any;
+
+  //Función para seleccionar el id del usuario
+  onUserSelect(event: any) {
+    this.selectedUserId = this.usersId;
+    console.log(this.usersId);
+  }
 
   constructor(
     private _poaService: PoaService,
     private _router: Router,
     private _routeActivated: ActivatedRoute
-  ) { }
+  ) {
+    this.actualDate = this.getFechaActual();
+  }
 
   ngOnInit() {
     this._routeActivated.params.subscribe(params => {
@@ -72,6 +102,20 @@ export class PoaDetailComponent {
     });
     this.getPoa();
     this.showActivities();
+    this.getAvatar();
+    this.getAdmin();
+    this.userList();
+    this.listSignatures();
+  }
+
+  //obtiene fecha actual
+  getFechaActual(): string {
+    const fecha = new Date();
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const anio = fecha.getFullYear().toString().slice(-2);
+
+    return `${dia}-${mes}-${anio}`;
   }
 
   //obtiene datos del poa
@@ -79,7 +123,7 @@ export class PoaDetailComponent {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
       this.selectedStatus = this.poaDetail.status;
-      // console.log(this.poaDetail);
+      console.log(this.poaDetail);
     });
   }
 
@@ -114,6 +158,17 @@ export class PoaDetailComponent {
     });
   }
 
+  //ELIMINAR EL POA
+  onDelete() {
+    if (window.confirm('¿Está seguro de eliminar este POA? este proceso no se puede deshacer')) {
+      this._poaService.deletePoa(this.token, this.poaId).subscribe((resp: any) => {
+        if (resp.status == 'ok') {
+          this._router.navigate(['/home-poa']);
+        }
+      });
+    }
+  }
+
   //cancela actualizacion de poa
   onCancel() {
     if (window.confirm('¿Está seguro de que desea cancelar el proceso? Los datos se perderán')) {
@@ -125,10 +180,11 @@ export class PoaDetailComponent {
   showActivities() {
     this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
       this.allActivities = resp.data;
-      this.originalActivities = [...this.allActivities]; 
+      this.originalActivities = [...this.allActivities];
       // console.log(this.allActivities);
     });
   }
+
   //creacion de actividades
   createActivity() {
     this._poaService.createPoaActivity(
@@ -220,7 +276,6 @@ export class PoaDetailComponent {
   getActivityId(activityId: number) {
     // console.log(activityId);
   }
-  
 
   //elimina actividad
   deleteActivity(activityId: number) {
@@ -242,7 +297,7 @@ export class PoaDetailComponent {
       this.allActivities = [...this.originalActivities];
     } else {
       const searchTermLower = this.searchTerm.toLowerCase().trim();
-      this.allActivities = this.originalActivities.filter(activity => 
+      this.allActivities = this.originalActivities.filter(activity =>
         activity.activity.toLowerCase().includes(searchTermLower) ||
         activity.resources_detail.toLowerCase().includes(searchTermLower) ||
         activity.comments.toLowerCase().includes(searchTermLower) ||
@@ -250,5 +305,64 @@ export class PoaDetailComponent {
       );
     }
   }
+
+  getAvatar() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    console.log(userData);
+    this.avatar = userData.avatar;
+    this.name = userData.first_name;
+    this.last_name = userData.last_name;
+    this.email = userData.email;
+    this.fullname = this.name + ' ' + this.last_name
+    this.dni = userData.dni;
+    // console.log(this.avatar);
+    // console.log(this.name);
+    // console.log(this.last_name);
+    // console.log(this.email);
+  }
+
+  getAdmin() {
+    this._poaService.getPoaAdmin(this.token, this.dni).subscribe((resp: any) => {
+      console.log(resp.data);
+      this.is_admin = resp.data.is_admin;
+      console.log(this.is_admin);
+    })
+  }
+
+  userList() {
+    this._poaService.allUsers(this.token).subscribe((resp: any) => {
+      this.users = resp.data;
+      console.log(this.users);
+    })
+  }
+
+  //creacion de firmas
+  createSignature() {
+    console.log('fecha actual', this.signature.date_accepted);
+    console.log(this.usersId);
+    console.log(this.signature.is_accepted);
+    this._poaService.createSignatures(
+      this.token,
+      this.poaId,
+      this.usersId,
+      this.signature.coments,
+      this.signature.is_accepted,
+      this.signature.date_accepted
+      // this.actualDate
+    ).subscribe((resp: any) => {
+      this.signature = resp.data;
+      console.log(this.signature);
+      this.listSignatures();
+    })
+  }
+
+  //listado de firmas
+  listSignatures() {
+    this._poaService.getSignatures(this.token).subscribe((resp: any) => {
+      this.signaturesList = resp.data;
+      console.log('firmas', this.signaturesList);
+    })
+  }
+
 
 }
