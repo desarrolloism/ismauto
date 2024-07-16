@@ -312,14 +312,16 @@ export class PoaService {
   }
 
   //muestra listado de firmas
-  getSignatures(token: any) {
+  getSignatures(token: any, poaId: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
-    const data =  {}
-    return this._http.post(`${this.url}/poa_signature_list`, data, { headers: headers });
+    const data =  {
+      poa_id: poaId
+    }
+    return this._http.post(`${this.url}/poa_signature_detail`, data, { headers: headers });
   }
 
 

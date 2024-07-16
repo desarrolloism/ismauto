@@ -34,8 +34,8 @@ import { Select2Component } from './select2/select2.component';
 import {MatCardModule} from '@angular/material/card'; 
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatChipsModule} from '@angular/material/chips';
-
-
+import {MatButtonToggleModule} from '@angular/material/button-toggle'; 
+import {MatProgressBarModule} from '@angular/material/progress-bar'; 
 @NgModule({
   declarations: [
     CreateprojectComponent,
@@ -70,7 +70,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatTabsModule,
     MatCardModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatButtonToggleModule,
+    MatProgressBarModule
   ],
   providers: [
     provideNativeDateAdapter()

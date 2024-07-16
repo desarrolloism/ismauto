@@ -29,6 +29,7 @@ mat-grid-tile {
 
 .project-list {
   width: 100%;
+  font-size: .9rem;
 }
 
 .project-header {
@@ -56,7 +57,7 @@ mat-grid-tile {
 }
 
 .project-header .col, .task-row .col {
-  text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+  text-align: left;
 }
 
 @media (max-width: 767px) {
@@ -68,7 +69,7 @@ mat-grid-tile {
 .state-badge {
   padding: 4px 8px;
   border-radius: 16px;
-  font-size: 12px;
+  font-size: 9px;
   font-weight: bold;
   color: white;
 }
@@ -87,4 +88,85 @@ mat-grid-tile {
 
 .state-terminado {
   background-color: #18ad18; 
+}
+
+.btn-group-toggle {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.btn-group-toggle .btn {
+  flex: 1 1 auto;
+  margin: 5px;
+}
+
+/* etilos para cambios de estado */
+
+.custom-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.custom-toggle-group .btn {
+  flex: 1 1 auto;
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: .8rem;
+  transition: background-color 0.3s, color 0.3s;
+  border: 1px solid #ccc;
+}
+
+.custom-toggle-group .btn.active {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.custom-toggle-group .btn:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.custom-toggle-group .btn input[type="radio"] {
+  display: none;
+}
+
+.form-control {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: .7rem;
+  width: 200px;
+}
+
+.form-group  textarea{
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: .7rem;
+  width: 600px;
+}
+
+.form-label {
+  font-size: .7rem;
+}
+
+.task_name{
+  margin-left: 5px;
+  font-size: .5rem;
+  color: #696c70;
+  text-transform: uppercase;
+}
+
+.task_date{
+  font-size: .6rem;
+  text-align: center;
+}
+
+
+.task{
+  font-size: .8rem;
+
 }

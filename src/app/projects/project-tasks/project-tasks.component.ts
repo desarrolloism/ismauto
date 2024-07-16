@@ -37,8 +37,11 @@ export class ProjectTasksComponent implements OnInit {
     assignament_date: '',
     end_date: '',
     state: 'INICIANDO',
-    observation: ''
+    observation: '',
+    responsible_counterpart: ''
   }
+
+  resposible: any;
 
 
   // Variables para correo
@@ -47,6 +50,15 @@ export class ProjectTasksComponent implements OnInit {
   last_name: string = '';
   fullname: string = '';
 
+  //variables para link
+
+  link = {
+    type_link: '',
+    name_link: '',
+    link: ''
+  }
+
+  linksList: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,6 +79,7 @@ export class ProjectTasksComponent implements OnInit {
     this.getDetail();
     this.getProjectTasks(this.projectId);
     this.getAvatar();
+    this.getLinks();
   }
 
   //cambia de color segun el estado
@@ -94,7 +107,8 @@ export class ProjectTasksComponent implements OnInit {
       description_task: ['', Validators.required],
       assignament_date: ['', Validators.required],
       end_date: ['', Validators.required],
-      observation: ['', Validators.required]
+      observation: ['', Validators.required],
+      responsible_counterpart: ['', Validators.required]
     });
   }
 
@@ -115,7 +129,8 @@ export class ProjectTasksComponent implements OnInit {
         newTask.assignament_date,
         newTask.end_date,
         newTask.state,
-        newTask.observation
+        newTask.observation,
+        newTask.responsible_counterpart
       ).subscribe((resp: any) => {
         if (resp.status == 'ok') {
           // console.log(resp);
@@ -131,6 +146,28 @@ export class ProjectTasksComponent implements OnInit {
     }
   }
 
+  //Actualiza las tareas
+  updateTask(taskId: number) {
+    if (this.updateForms[taskId] && this.updateForms[taskId].valid) {
+      const updatedTask = this.updateForms[taskId].value;
+      this._projectService.updateTask(
+        this.token,
+        taskId,
+        updatedTask.name_task,
+        updatedTask.description_task,
+        updatedTask.assignament_date,
+        updatedTask.end_date,
+        updatedTask.state,
+        updatedTask.observation,
+        updatedTask.responsible_counterpart
+      ).subscribe(resp => {
+        this.getProjectTasks(this.projectId);
+        this.sortTasks();
+      });
+    }
+  }
+
+
   //inicializa el formulario de actualizacion
   initUpdateForm(task: any) {
     return this.fb.group({
@@ -140,7 +177,8 @@ export class ProjectTasksComponent implements OnInit {
       assignament_date: [task.assignament_date, Validators.required],
       end_date: [task.end_date, Validators.required],
       state: [task.state, Validators.required],
-      observation: [task.observation, Validators.required]
+      observation: [task.observation, Validators.required],
+      responsible_counterpart: [task.responsible_counterpart, Validators.required]
     });
   }
 
@@ -178,7 +216,7 @@ export class ProjectTasksComponent implements OnInit {
   getProjectTasks(projectId: number) {
     this._projectService.getTasks(this.token, projectId).subscribe((resp: any) => {
       this.allTasks = resp.data;
-      // console.log(this.allTasks);
+      console.log(this.allTasks);
       this.sortTasks();
     });
   }
@@ -189,26 +227,6 @@ export class ProjectTasksComponent implements OnInit {
     const task = this.allTasks.find((t: any) => t.id === taskId);
     if (task) {
       this.updateForms[taskId] = this.initUpdateForm(task);
-    }
-  }
-
-  //Actualiza las tareas
-  updateTask(taskId: number) {
-    if (this.updateForms[taskId] && this.updateForms[taskId].valid) {
-      const updatedTask = this.updateForms[taskId].value;
-      this._projectService.updateTask(
-        this.token,
-        taskId,
-        updatedTask.name_task,
-        updatedTask.description_task,
-        updatedTask.assignament_date,
-        updatedTask.end_date,
-        updatedTask.state,
-        updatedTask.observation
-      ).subscribe(resp => {
-        this.getProjectTasks(this.projectId);
-        this.sortTasks();
-      });
     }
   }
 
@@ -258,6 +276,29 @@ export class ProjectTasksComponent implements OnInit {
     // console.log(this.fullname);
     // console.log(this.email);
     // console.log(this.email);
+  }
+
+  //metodo para links
+  agregarLink() {
+    console.log('num de task es',this.taskId);
+    this._projectService.addLink(
+      this.token,
+      this.taskId,
+      this.link.type_link,
+      this.link.name_link,
+      this.link.link
+    ).subscribe(resp => {
+      console.log(resp);
+      this.getLinks();
+    });
+  }
+
+  //muestra links mediante el id
+  getLinks() {
+    this._projectService.getLinks(this.token, this.taskId).subscribe((resp: any) => {
+      this.linksList = resp.data;
+      console.log('links son',this.linksList);
+    });
   }
 
 }

@@ -1,329 +1,609 @@
 <app-header-app></app-header-app>
-<h1 class="text-center mt-4">Asignación de tareas</h1>
 
-<div class="p-4">
+<div class="container">
 
-    <div class="row" style="margin-top: -20px;">
+    <div class="row p-4 container-fluid">
         <div class="col-md-4">
-            <div class="card project-card">
-                <div class="card-header text-center bg-primary text-white">
-                    <h3 class="mb-0">{{ projectDetail?.project_name }}</h3>
-                </div>
-                <div class="card-body text-center">
-                    <div class="row mb-3">
-                        <div class="col-md-5 fw-bold">Observaciones:</div>
-                        <div class="card col-md-7">{{ projectDetail?.description
-                            }} </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-5 fw-bold">Departamento:</div>
-                        <div class="col-md-7">{{ projectDetail?.department
-                            }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-5 fw-bold">F. requerida:</div>
-                        <div class="col-md-7">{{ projectDetail?.end_date
-                            }}</div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-5 fw-bold">Estado:</div>
-                        <div class="col-md-7">
-                            <ng-container
-                                *ngIf="!isUpdating; else updatingSpinner">
-                                <span class="badge bg-primary">{{
-                                    projectDetail?.state }}</span>
-                            </ng-container>
-                            <ng-template #updatingSpinner>
-                                <mat-spinner diameter="20"></mat-spinner>
-                            </ng-template>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card-footer bg-light">
-                    <div class="row">
-                        <div class="col-md-6 mb-2 mb-md-0">
-                            <small class="text-muted">ID: {{ projectDetail?.id
-                                }}</small>
-                        </div>
-                        <div class="col-md-6 text-md-end">
-                            <small class="text-muted">CaseID: {{
-                                projectDetail?.case_id }}</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col" *ngIf="email == 'desarrollo@ism.edu.ec'">
-
-                    <mat-accordion>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title> Estados
-                                </mat-panel-title>
-                                <mat-panel-description>Actualizar estado
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-                            <button mat-menu-item class="center-text"
-                                (click)="updateStatus(projectDetail.id, 'INICIANDO')">Iniciando</button>
-                            <button mat-menu-item class="center-text"
-                                (click)="updateStatus(projectDetail.id, 'PLANIFICACION')">Planificación</button>
-                            <button mat-menu-item class="center-text"
-                                (click)="updateStatus(projectDetail.id, 'DESARROLLO')">Desarrollo</button>
-                            <button mat-menu-item class="center-text"
-                                (click)="updateStatus(projectDetail.id, 'PRUEBAS')">Pruebas</button>
-                            <button mat-menu-item class="center-text"
-                                (click)="updateStatus(projectDetail.id, 'IMPLEMENTACION')">Implementación</button>
-                            <button mat-menu-item class="center-text"
-                                (click)="updateStatus(projectDetail.id, 'FINZALIZADO')">Finalizado</button>
-                        </mat-expansion-panel>
-                    </mat-accordion>
-                </div>
-                <button mat-button class="mt-2" color="primary"
-                    (click)="projectSignatures(projectDetail.id)">
-                    Ver firmas
-
-                </button>
-                <button *ngIf="email == 'desarrollo@ism.edu.ec'" mat-button
-                    class="mt-2" color="warn"
-                    (click)="deleteProject()"> Eliminar este
-                    proyecto</button>
-            </div>
         </div>
-        <div class="col-md-8">
-            <!-- formulario para asingar tarear BACK y front -->
-            <div class="row mt-4">
-                <mat-accordion *ngIf="email == 'desarrollo@ism.edu.ec'">
-                    <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title> <i
-                                    class="fa-solid fa-circle-plus"></i>
-                            </mat-panel-title>
-                            <mat-panel-description>Agregar una
-                                tarea </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <form [formGroup]="taskForm"
-                            (ngSubmit)="createTask(projectDetail.id)">
-                            <div class="row">
-                                <div class="mb-3 d-flex justify-content-center">
-                                    <mat-radio-group
-                                        formControlName="developer_id"
-                                        aria-label="Select an option">
-                                        <mat-radio-button
-                                            [value]="4">Frontend</mat-radio-button>
-                                        <mat-radio-button
-                                            [value]="8">Backend</mat-radio-button>
-                                    </mat-radio-group>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row d-flex justify-content-evenly">
-                                <div class="col-md-4">
-                                    <div class="form-group mb-3">
-                                        <label class="form-label">Tarea:</label>
-                                        <input
-                                            formControlName="name_task"
-                                            type="text"
-                                            class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group mb-3">
-                                        <label class="form-label">Fecha de
-                                            asignación:</label>
-                                        <input
-                                            formControlName="assignament_date"
-                                            type="date"
-                                            class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group mb-3">
-                                        <label class="form-label">Fecha de
-                                            finalización:</label>
-                                        <input
-                                            formControlName="end_date"
-                                            type="date"
-                                            class="form-control">
-                                    </div>
-                                </div>
+        <div class="col-md-4">
+            <h2 class="text-center" style="font-weight: normal;">
+                Asignación de tareas
+            </h2>
+        </div>
+        <div class="col-md-4 text-center text-uppercase">
+            <h2 class="text-center"
+                style="font-weight: normal;font-size: .9rem;">
+                <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
+                    aria-controls="offcanvasTop" style="text-decoration: none;">
+                    <i class="fa-solid fa-gear me-2"></i>
+                    {{projectDetail?.project_name }}
+                </a>
+            </h2>
 
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label
-                                            class="form-label">Observaciones:</label>
-                                        <textarea
-                                            formControlName="observation"
-                                            type="text"
-                                            class="form-control">
-                                            </textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label
-                                            class="form-label">Detalle:</label>
-                                        <textarea
-                                            formControlName="description_task"
-                                            type="text"
-                                            class="form-control">
-                                            </textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary text-center"
-                                [disabled]="!taskForm.valid">Crear
-                                tarea</button>
-                        </form>
-                    </mat-expansion-panel>
-                </mat-accordion>
-
-                <!-- formulario para asingar tarear BACK y front -->
-
-                <!-- muestra las tareas de BACK y front ademas de actualizar estado -->
-
-                <div class="project-list mt-4">
-                    <mat-accordion>
-                        <mat-expansion-panel *ngFor="let task of allTasks"
-                            (opened)="panelOpened(task.id)"
-                            [hidden]="
-                            (email === 'asisdesarrollo3@ism.edu.ec' && task.developer_id == 4) ||
-                            (email === 'asisdesarrollo@ism.edu.ec' && task.developer_id != 4)">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title *ngIf="task.developer_id == 4">
-                                    Frontend
-                                </mat-panel-title>
-                                <mat-panel-title *ngIf="task.developer_id != 4">
-                                    Backend
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <span
-                                        [ngClass]="['state-badge', getStateClass(task.state)]">
-                                        {{ task.state }}
-                                    </span>
-                                </mat-panel-description>
-                                <mat-panel-description>
-                                    Asignado: {{ task.assignament_date | date }}
-                                </mat-panel-description>
-                                <mat-panel-description>
-                                    Finaliza: {{ task.end_date | date }}
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-                            <div class="row">
-                                <div class="col-md-12"
-                                    *ngIf="email != 'desarrollo@ism.edu.ec'">
-                                    <div class="row text-center">
-                                        <div class="col-md-4">
-                                            <p><b>Tarea:</b> {{ task.name_task
-                                                }}</p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <p><b>Descripción: </b>{{
-                                                task.description_task }}</p>
-
-                                        </div>
-                                        <div class="col-md-4">
-                                            <p><b>Observaciones: </b>{{
-                                                task.observation }}</p>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <form [formGroup]="updateForms[task.id]"
-                                        (ngSubmit)="updateTask(task.id)"
-                                        *ngIf="updateForms[task.id]">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="col-md-3" *ngIf="email == 'desarrollo@ism.edu.ec'">
-                                                        <div
-                                                            class="form-group mb-3">
-                                                            <label
-                                                                for="name_task">Tarea:</label>
-                                                            <input type="text"
-                                                                formControlName="name_task"
-                                                                class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3" *ngIf="email == 'desarrollo@ism.edu.ec'">
-                                                        <div
-                                                            class="form-group mb-3">
-                                                            <label
-                                                                for="assignament_date">Fecha
-                                                                Asignada:</label>
-                                                            <input type="date"
-                                                                formControlName="assignament_date"
-                                                                class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3" *ngIf="email == 'desarrollo@ism.edu.ec'">
-                                                        <div
-                                                            class="form-group mb-3">
-                                                            <label
-                                                                for="end_date">Fecha
-                                                                de Fin:</label>
-                                                            <input type="date"
-                                                                formControlName="end_date"
-                                                                class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div
-                                                            class="form-group mb-3">
-                                                            <label
-                                                                for="state">Estado:</label>
-                                                            <select
-                                                                formControlName="state"
-                                                                class="form-control">
-                                                                <option
-                                                                    *ngFor="let state of taskStates"
-                                                                    [value]="state">{{state}}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group mb-3"
-                                                    *ngIf="email == 'desarrollo@ism.edu.ec'">
-                                                    <label
-                                                        for="observation">Detalle:</label>
-                                                    <textarea
-                                                        formControlName="observation"
-                                                        class="form-control"></textarea>
-                                                </div>
-                                                <div class="form-group mb-3" *ngIf="email == 'desarrollo@ism.edu.ec'">
-                                                    <label
-                                                        for="description_task">Observaciones:</label>
-                                                    <textarea
-                                                        formControlName="description_task"
-                                                        class="form-control"></textarea>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <button type="submit"
-                                            class="btn btn-primary"
-                                            [disabled]="updateForms[task.id].invalid">
-                                            Actualizar tarea
-                                        </button>
-                                    </form>
-                                </div>
-
-                            </div>
-                        </mat-expansion-panel>
-                    </mat-accordion>
-                </div>
-                <!-- muestra las tareas de BACK y front ademas de actualizar estado -->
-                
-
-            </div>
         </div>
     </div>
 
+    <div class=" container" style="margin-top: -20px;">
+        <h5>Cambiar estado de usuario:</h5>
+        <div class="col-md-12" *ngIf="email == 'desarrollo@ism.edu.ec'">
+            <div class="btn-group btn-group-toggle custom-toggle-group"
+                data-toggle="buttons">
+                <label class="btn  custom-toggle rounded-start"
+                    [class.active]="projectDetail?.state === 'INICIANDO'"
+                    (click)="updateStatus(projectDetail.id, 'INICIANDO')">
+                    Iniciando
+                </label>
+                <label class="btn  custom-toggle"
+                    [class.active]="projectDetail?.state === 'PLANIFICACION'"
+                    (click)="updateStatus(projectDetail.id, 'PLANIFICACION')">
+                    Planificación
+                </label>
+                <label class="btn  custom-toggle"
+                    [class.active]="projectDetail?.state === 'DESARROLLO'"
+                    (click)="updateStatus(projectDetail.id, 'DESARROLLO')">
+                    Desarrollo
+                </label>
+                <label class="btn  custom-toggle"
+                    [class.active]="projectDetail?.state === 'PRUEBAS'"
+                    (click)="updateStatus(projectDetail.id, 'PRUEBAS')">
+                    Pruebas
+                </label>
+                <label class="btn  custom-toggle"
+                    [class.active]="projectDetail?.state === 'IMPLEMENTACION'"
+                    (click)="updateStatus(projectDetail.id, 'IMPLEMENTACION')">
+                    Implementación
+                </label>
+                <label class="btn custom-toggle rounded-end"
+                    [class.active]="projectDetail?.state === 'FINALIZADO'"
+                    (click)="updateStatus(projectDetail.id, 'FINALIZADO')">
+                    Finalizado
+                </label>
+
+            </div>
+
+        </div>
+        <div class="row d-flex justify-content-center">
+            <ng-container *ngIf="isUpdating">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            </ng-container>
+        </div>
+        <div class="col-md-12" *ngIf="email != 'desarrollo@ism.edu.ec'">
+            <div class="btn-group-toggle custom-toggle-group"
+                data-toggle="buttons">
+                <label class="btn btn-outline-primary custom-toggle"
+                    [class.active]="projectDetail?.state === 'INICIANDO'">
+                    Iniciando
+                </label>
+                <label class="btn btn-outline-primary custom-toggle"
+                    [class.active]="projectDetail?.state === 'PLANIFICACION'">
+                    Planificación
+                </label>
+                <label class="btn btn-outline-primary custom-toggle"
+                    [class.active]="projectDetail?.state === 'DESARROLLO'">
+                    Desarrollo
+                </label>
+                <label class="btn btn-outline-primary custom-toggle"
+                    [class.active]="projectDetail?.state === 'PRUEBAS'">
+                    Pruebas
+                </label>
+                <label class="btn btn-outline-primary custom-toggle"
+                    [class.active]="projectDetail?.state === 'IMPLEMENTACION'">
+                    Implementación
+                </label>
+                <label class="btn btn-outline-primary custom-toggle"
+                    [class.active]="projectDetail?.state === 'FINALIZADO'">
+                    Finalizado
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="p-4">
+        <div class="row" style="margin-top: -20px;">
+            <div class="col-md-12">
+                <!-- formulario para asingar tarear BACK y front -->
+                <div class="row mt-4">
+                    <mat-accordion *ngIf="email == 'desarrollo@ism.edu.ec'">
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header
+                                style="background-color: #f3f1f1cc;">
+                                <mat-panel-title> <i
+                                        class="fa-solid fa-circle-plus text-primary"></i>
+                                </mat-panel-title>
+                                <mat-panel-description class="task">Agregar una
+                                    tarea </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <form [formGroup]="taskForm" class="mt-4"
+                                (ngSubmit)="createTask(projectDetail.id)">
+                                <div class="row d-flex justify-content-evenly">
+                                    <div
+                                        class="col-md-3 d-flex justify-content-center">
+                                        <div class="mb-3">
+                                            <mat-radio-group
+                                                formControlName="developer_id"
+                                                aria-label="Select an option">
+                                                <mat-radio-button
+                                                    [value]="4">Frontend</mat-radio-button>
+                                                <mat-radio-button
+                                                    [value]="8">Backend</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div
+                                        class="col-md-3 d-flex justify-content-center">
+                                        <div class="form-group mb-3">
+                                            <label
+                                                class="form-label">Tarea:</label>
+                                            <input
+                                                formControlName="name_task"
+                                                type="text"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-3 d-flex justify-content-center">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Fecha de
+                                                asignación:</label>
+                                            <input
+                                                formControlName="assignament_date"
+                                                type="date"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-3 d-flex justify-content-center">
+                                        <div class="form-group mb-3">
+                                            <label class="form-label">Fecha de
+                                                finalización:</label>
+                                            <input
+                                                formControlName="end_date"
+                                                type="date"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-3 d-flex justify-content-center">
+                                        <div class="form-group mb-3">
+                                            <label
+                                                class="form-label">Responsable:</label>
+                                            <input
+                                                formControlName="responsible_counterpart"
+                                                type="text"
+                                                class="form-control">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div
+                                        class="col-md-6 d-flex justify-content-center">
+                                        <div class="form-group mb-3">
+                                            <label
+                                                class="form-label">Observaciones:</label>
+                                            <textarea
+                                                formControlName="observation"
+                                                type="text"
+                                                class="form-control">
+                                                </textarea>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="col-md-6 d-flex justify-content-center">
+                                        <div class="form-group mb-3">
+                                            <label
+                                                class="form-label">Detalle:</label>
+                                            <textarea
+                                                formControlName="description_task"
+                                                type="text"
+                                                class="form-control">
+                                                </textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <button class="btn btn-primary text-center"
+                                    [disabled]="!taskForm.valid">Crear
+                                    tarea</button>
+                            </form>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+
+                    <!-- formulario para asingar tarear BACK y front -->
+
+                    <!-- muestra las tareas de BACK y front ademas de actualizar estado -->
+
+                    <div class="project-list mt-4 overflow-auto container"
+                        style="height: 500px;">
+                        <mat-accordion>
+                            <mat-expansion-panel *ngFor="let task of allTasks"
+                                (opened)="panelOpened(task.id)"
+                                [hidden]="
+                                (email === 'asisdesarrollo3@ism.edu.ec' && task.developer_id == 4) ||
+                                (email === 'asisdesarrollo@ism.edu.ec' && task.developer_id != 4)">
+                                <mat-expansion-panel-header
+                                    style="background-color: #f3f1f1cc;">
+                                    <mat-panel-title class="task"
+                                        *ngIf="task.developer_id == 4">
+                                        <i class="fa-solid fa-cubes me-2"></i>
+                                        Frontend <span class="task_name">{{
+                                            task.name_task
+                                            }}</span>
+                                    </mat-panel-title>
+                                    <mat-panel-title class="task"
+                                        *ngIf="task.developer_id != 4">
+                                        <i
+                                            class="fa-solid fa-code me-2"></i>Backend
+                                        <span class="task_name">{{
+                                            task.name_task
+                                            }}</span>
+                                    </mat-panel-title>
+
+                                    <mat-panel-description class="task_date">
+                                        Asignado: {{ task.assignament_date |
+                                        date }}
+                                    </mat-panel-description>
+                                    <mat-panel-description class="task_date">
+                                        Finaliza: {{ task.end_date | date }}
+                                    </mat-panel-description>
+                                    <mat-panel-description class="task">
+                                        <span
+                                            [ngClass]="['state-badge', getStateClass(task.state)]">
+                                            {{ task.state }}
+                                        </span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="row mt-4">
+
+                                    <div class="col-md-12"
+                                        *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'">
+                                        <div class="row text-center">
+
+                                            <div class="col-md-4">
+                                                <p><b>Tarea:</b> {{
+                                                    task.name_task
+                                                    }}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p><b>Descripción: </b>{{
+                                                    task.description_task }}</p>
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p><b>Observaciones: </b>{{
+                                                    task.observation }}</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12"
+                                        [hidden]="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'">
+                                        <div class="row text-center">
+
+                                            <div class="col-md-3">
+                                                <p><b>Tarea:</b> {{
+                                                    task.name_task
+                                                    }}</p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p><b>Descripción: </b>{{
+                                                    task.description_task }}</p>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p><b>Observaciones: </b>{{
+                                                    task.observation }}</p>
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <p><b>Estado: </b>{{
+                                                    task.state}}</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <form [formGroup]="updateForms[task.id]"
+                                            (ngSubmit)="updateTask(task.id)"
+                                            *ngIf="updateForms[task.id]">
+                                            <div class="row">
+                                                <div class="col-md-12 ">
+                                                    <div class="row">
+                                                        <div
+                                                            class="col-md-2 d-flex justify-content-center"
+                                                            *ngIf="email == 'desarrollo@ism.edu.ec'">
+                                                            <div
+                                                                class="form-group mb-3">
+                                                                <label
+                                                                    class="form-label"
+                                                                    for="name_task">Tarea:</label>
+                                                                <input
+                                                                    type="text"
+                                                                    formControlName="name_task"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 d-flex justify-content-center"
+                                                            *ngIf="email == 'desarrollo@ism.edu.ec'">
+                                                            <div
+                                                                class="form-group mb-3">
+                                                                <label
+                                                                    class="form-label"
+                                                                    for="assignament_date">Fecha
+                                                                    Asignada:</label>
+                                                                <input
+                                                                    type="date"
+                                                                    formControlName="assignament_date"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 d-flex justify-content-center"
+                                                            *ngIf="email == 'desarrollo@ism.edu.ec'">
+                                                            <div
+                                                                class="form-group mb-3">
+                                                                <label
+                                                                    class="form-label"
+                                                                    for="end_date">Fecha
+                                                                    de
+                                                                    Fin:</label>
+                                                                <input
+                                                                    type="date"
+                                                                    formControlName="end_date"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 d-flex justify-content-center"
+                                                            *ngIf="email == 'desarrollo@ism.edu.ec'">
+                                                            <div
+                                                                class="form-group mb-3">
+                                                                <label
+                                                                    class="form-label"
+                                                                    for="assignament_date">Responsable:</label>
+                                                                <input
+                                                                    type="text"
+                                                                    formControlName="responsible_counterpart"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 d-flex justify-content-center">
+                                                            <div
+                                                                class="form-group mb-3">
+                                                                <label
+                                                                    class="form-label"
+                                                                    for="state">Estado:</label>
+                                                                <select
+                                                                    formControlName="state"
+                                                                    class="form-control">
+                                                                    <option
+                                                                        *ngFor="let state of taskStates"
+                                                                        [value]="state">{{state}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 d-flex justify-content-center">
+                                                            <div
+                                                                class="form-group mb-3"
+                                                                *ngIf="task.developer_id == 4">
+                                                                <label
+                                                                    for="front"
+                                                                    class="form-label">Asigando
+                                                                    a:</label>
+                                                                <input
+                                                                    class="form-control"
+                                                                    type="text"
+                                                                    disabled
+                                                                    value="Frontend">
+                                                            </div>
+                                                            <div
+                                                                class="form-group mb-3"
+                                                                *ngIf="task.developer_id == 8">
+                                                                <label
+                                                                    for="nack"
+                                                                    class="form-label">Asigando
+                                                                    a:</label>
+                                                                <input
+                                                                    class="form-control"
+                                                                    type="text"
+                                                                    disabled
+                                                                    value="Backend">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+
+                                                    <div
+                                                        class="form-group mb-3"
+                                                        *ngIf="email == 'desarrollo@ism.edu.ec'">
+                                                        <label
+                                                            class="form-label"
+                                                            for="observation">Detalle:</label>
+                                                        <textarea
+                                                            formControlName="observation"
+                                                            class="form-control"></textarea>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6">
+
+                                                    <div
+                                                        class="form-group mb-3"
+                                                        *ngIf="email == 'desarrollo@ism.edu.ec'">
+                                                        <label
+                                                            class="form-label"
+                                                            for="description_task">Observaciones:</label>
+                                                        <textarea
+                                                            formControlName="description_task"
+                                                            class="form-control"></textarea>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div
+                                                    class="d-flex justify-content-center">
+                                                    <button
+                                                        style="font-size: .8rem;"
+                                                        type="submit"
+                                                        class="btn btn-primary"
+                                                        [disabled]="updateForms[task.id].invalid">
+                                                        Actualizar tarea
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <form (ngSubmit)="agregarLink()">
+                                            <div class="form-group mb-3">
+                                                <label for="type_link"
+                                                    class="form-label">Tipo de
+                                                    link</label>
+                                                <input type="text"
+                                                    [(ngModel)]="link.type_link"
+                                                    name="type_link"
+                                                    class="form-control">
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="type_link"
+                                                    class="form-label">Nombre
+                                                    del link</label>
+                                                <input type="text"
+                                                    [(ngModel)]="link.name_link"
+                                                    name="name_link"
+                                                    class="form-control">
+                                            </div>
+
+                                            <div class="form-group mb-3">
+                                                <label for="type_link"
+                                                    class="form-label">Agregue
+                                                    el link</label>
+                                                <input type="text"
+                                                    [(ngModel)]="link.link"
+                                                    name="link"
+                                                    class="form-control">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">agregar url
+                                                
+                                            </button>
+                                    
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                    <!-- muestra las tareas de BACK y front ademas de actualizar estado -->
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- offcanvas-menu.component.html -->
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop"
+        aria-labelledby="offcanvasTopLabel"
+        style="border-radius: 10px;height: 350px;">
+        <div class="offcanvas-header d-flex justify-content-end">
+
+            <!-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menú</h5> -->
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav class="flex-column">
+                <div class="offcanvas-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <h3
+                                class="text-center text-truncate text-uppercase p-2">{{
+                                projectDetail?.project_name }} -
+                                <ng-container class="text-center"
+                                    *ngIf="!isUpdating; else updatingSpinner">
+                                    <span class="badge bg-primary">{{
+                                        projectDetail?.state }}</span>
+                                </ng-container>
+                            </h3>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item text-center">
+                                    {{
+                                    projectDetail?.description }}
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between">
+                                    <strong>Departamento:</strong> {{
+                                    projectDetail?.department }}
+                                    <strong>F. requerida:</strong> {{
+                                    projectDetail?.end_date }}
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-evenly">
+                                    <strong>ID:</strong> {{ projectDetail?.id
+                                    }}
+                                    <strong>CaseID:</strong> {{
+                                    projectDetail?.case_id
+                                    }}
+                                </li>
+                                <!-- <strong>Estado:</strong> -->
+
+                                <ng-template #updatingSpinner>
+                                    <mat-spinner
+                                        diameter="20"></mat-spinner>
+                                </ng-template>
+
+                            </ul>
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="row">
+                                <div class="d-flex justify-content-center">
+                                    <button mat-button class="mt-2"
+                                        color="primary"
+                                        (click)="projectSignatures(projectDetail.id)">
+                                        Ver firmas
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="d-flex justify-content-center">
+                                    <button
+                                        *ngIf="email == 'desarrollo@ism.edu.ec'"
+                                        mat-button
+                                        class="mt-2" color="warn"
+                                        (click)="deleteProject()"> Eliminar este
+                                        proyecto</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+    </div>
 </div>

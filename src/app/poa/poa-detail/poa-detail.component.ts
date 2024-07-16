@@ -338,7 +338,7 @@ export class PoaDetailComponent {
 
   //creacion de firmas
   createSignature() {
-    console.log('fecha actual', this.signature.date_accepted);
+    console.log('fecha actual', this.actualDate);
     console.log(this.usersId);
     console.log(this.signature.is_accepted);
     this._poaService.createSignatures(
@@ -347,8 +347,7 @@ export class PoaDetailComponent {
       this.usersId,
       this.signature.coments,
       this.signature.is_accepted,
-      this.signature.date_accepted
-      // this.actualDate
+      this.actualDate
     ).subscribe((resp: any) => {
       this.signature = resp.data;
       console.log(this.signature);
@@ -358,11 +357,9 @@ export class PoaDetailComponent {
 
   //listado de firmas
   listSignatures() {
-    this._poaService.getSignatures(this.token).subscribe((resp: any) => {
+    this._poaService.getSignatures(this.token, this.poaId).subscribe((resp: any) => {
       this.signaturesList = resp.data;
       console.log('firmas', this.signaturesList);
     })
   }
-
-
 }
