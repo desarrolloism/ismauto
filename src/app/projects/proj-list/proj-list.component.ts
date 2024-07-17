@@ -12,8 +12,10 @@ export class ProjListComponent implements OnInit {
   token: string | null = localStorage.getItem('token');
   dev_front = 4;
   dev_back = 8;
+  boss = 1;
   frontTasks: any = [];
   backTasks: any = [];
+  bossTasks: any = [];
 
   // Variables para correo
   name: string = '';
@@ -37,6 +39,7 @@ export class ProjListComponent implements OnInit {
         this.Projects.forEach((project: { id: number; }) => {
           this.frontTask(project.id, this.dev_front);
           this.backTask(project.id, this.dev_back);
+          this.bossTask(project.id, this.boss);
         });
       });
   }
@@ -82,5 +85,18 @@ export class ProjListComponent implements OnInit {
       // console.log('las tareas son back', resp);
     });
   }
+
+
+    // Método para obtener las tareas del JEFE
+    bossTask(projectId: number, developerId: number) {
+      this.projectService.developerTasks(this.token, projectId, developerId).subscribe((resp: any) => {
+        const projectIndex = this.Projects.findIndex((p: { id: number; }) => p.id === projectId);
+        if (projectIndex !== 1) {
+          this.Projects[projectIndex].bossTasks = resp.data;
+        }
+        // console.log('las tareas del jefe', resp);
+      });
+    }
+  
 
 }

@@ -161,6 +161,7 @@ export class ProjectService {
   updateTask(
     token: any,
     Id: number,
+    developerId: number,
     nameTaks: string,
     descriptionTask: string,
     assignamentDate: string,
@@ -179,6 +180,7 @@ export class ProjectService {
 
     const data = {
       id: Id,
+      developer_id: developerId,
       name_task: nameTaks,
       description_task: descriptionTask,
       assignament_date: assignamentDate,

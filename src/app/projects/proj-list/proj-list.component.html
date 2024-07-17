@@ -72,9 +72,10 @@
                             <button class="tasks btn border"
                                 matTooltip="Ver tareas del proyecto"
                                 (click)="goToProjectTasks(ticket.id)">
-                                <span class="text-muted">Front: {{
+                                <span class="text-muted">F: {{
                                     ticket.frontTasks?.length || 0 }} /</span>
-                                Back: {{ ticket.backTasks?.length || 0 }}
+                                B: {{ ticket.backTasks?.length || 0 }}
+                                / J: {{ ticket.bossTasks?.length || 0 }}
                             </button>
                         </div>
                         <!-- muestra tareas de front y back -->

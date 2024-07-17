@@ -24,7 +24,9 @@
     </div>
 
     <div class=" container" style="margin-top: -20px;">
-        <h5>Cambiar estado de usuario:</h5>
+        <h5 *ngIf="email == 'desarrollo@ism.edu.ec'">Cambiar estado de
+            proyecto:</h5>
+        <h5 *ngIf="email != 'desarrollo@ism.edu.ec'">Estado de proyecto:</h5>
         <div class="col-md-12" *ngIf="email == 'desarrollo@ism.edu.ec'">
             <div class="btn-group btn-group-toggle custom-toggle-group"
                 data-toggle="buttons">
@@ -270,21 +272,17 @@
                                         *ngIf="task.developer_id == 8">
                                         <i
                                             class="fa-solid fa-code me-2"></i>Backend
-
                                     </mat-panel-title>
-
                                     <mat-panel-title class="task"
                                         *ngIf="task.developer_id == 1">
                                         <i
                                             class="fa-solid fa-user-secret me-2"></i>Jefatura
-
                                     </mat-panel-title>
                                     <mat-panel-description class="task">
                                         {{
                                         task.name_task
                                         }}
                                     </mat-panel-description>
-
                                     <mat-panel-description class="task_date">
                                         Asignado: {{ task.assignament_date |
                                         date }}
@@ -300,11 +298,9 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div class="row mt-4">
-
                                     <div class="col-md-12"
                                         *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'">
                                         <div class="row">
-
                                             <div class="row mb-3">
                                                 <p><b>Tarea:</b> {{
                                                     task.name_task
@@ -369,7 +365,7 @@
                                                 <div class="col-md-12 ">
                                                     <div class="row">
                                                         <div
-                                                            class="col-md-2 d-flex justify-content-center"
+                                                            class="col-md-4 d-flex justify-content-center"
                                                             *ngIf="email == 'desarrollo@ism.edu.ec'">
                                                             <div
                                                                 class="form-group mb-3">
@@ -383,7 +379,7 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                            class="col-md-2 d-flex justify-content-center"
+                                                            class="col-md-4 d-flex justify-content-center"
                                                             *ngIf="email == 'desarrollo@ism.edu.ec'">
                                                             <div
                                                                 class="form-group mb-3">
@@ -398,7 +394,7 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                            class="col-md-2 d-flex justify-content-center"
+                                                            class="col-md-4 d-flex justify-content-center"
                                                             *ngIf="email == 'desarrollo@ism.edu.ec'">
                                                             <div
                                                                 class="form-group mb-3">
@@ -413,23 +409,36 @@
                                                                     class="form-control">
                                                             </div>
                                                         </div>
+                                                        
+                                                    </div>
+                                                    <div class="row">
                                                         <div
-                                                            class="col-md-2 d-flex justify-content-center"
+                                                            class="col-md-4 d-flex justify-content-center"
                                                             *ngIf="email == 'desarrollo@ism.edu.ec'">
                                                             <div
                                                                 class="form-group mb-3">
                                                                 <label
                                                                     class="form-label"
                                                                     for="assignament_date">Responsable:</label>
-                                                                <input
-                                                                    type="text"
-                                                                    formControlName="responsible_counterpart"
-                                                                    class="form-control">
+                                                                
+
+                                                                    <mat-radio-group
+                                                                    formControlName="developer_id"
+                                                                    aria-label="Select an option">
+                                                                    <mat-radio-button
+                                                                        [value]="4">Frontend</mat-radio-button>
+                                                                    <mat-radio-button
+                                                                        [value]="8">Backend</mat-radio-button>
+                                                                    <mat-radio-button
+                                                                        [value]="1">Jefe de
+                                                                        desarrollo</mat-radio-button>
+                                                                </mat-radio-group>
+
                                                             </div>
                                                         </div>
                                                         <div
                                                             *ngIf="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'"
-                                                            class="col-md-2 d-flex justify-content-center">
+                                                            class="col-md-4 d-flex justify-content-center">
                                                             <div
                                                                 class="form-group mb-3">
                                                                 <label
@@ -445,36 +454,11 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                            class="col-md-2 d-flex justify-content-center">
+                                                            class="col-md-4 d-flex justify-content-center">
+
                                                             <div
                                                                 class="form-group mb-3"
-                                                                *ngIf="task.developer_id == 4">
-                                                                <label
-                                                                    for="front"
-                                                                    class="form-label">Asigando
-                                                                    a:</label>
-                                                                <input
-                                                                    class="form-control"
-                                                                    type="text"
-                                                                    disabled
-                                                                    value="Frontend">
-                                                            </div>
-                                                            <div
-                                                                class="form-group mb-3"
-                                                                *ngIf="task.developer_id == 8">
-                                                                <label
-                                                                    for="nack"
-                                                                    class="form-label">Asigando
-                                                                    a:</label>
-                                                                <input
-                                                                    class="form-control"
-                                                                    type="text"
-                                                                    disabled
-                                                                    value="Backend">
-                                                            </div>
-                                                            <div
-                                                                class="form-group mb-3"
-                                                                *ngIf="task.developer_id == 1">
+                                                                *ngIf="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'">
                                                                 <label
                                                                     for="nack"
                                                                     class="form-label">Fase:</label>
@@ -499,13 +483,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
 
                                             </div>
-                                            <div class="row">
-
-                                                <div class="col-md-6">
-
+                                            <div class="row container">
+                                                <div class="col-md-6 d-flex justify-content-center">
                                                     <div
                                                         class="form-group mb-3"
                                                         *ngIf="email == 'desarrollo@ism.edu.ec'">
@@ -516,10 +499,8 @@
                                                             formControlName="observation"
                                                             class="form-control"></textarea>
                                                     </div>
-
                                                 </div>
-                                                <div class="col-md-6">
-
+                                                <div class="col-md-6 d-flex justify-content-center">
                                                     <div
                                                         class="form-group mb-3"
                                                         *ngIf="email == 'desarrollo@ism.edu.ec'">

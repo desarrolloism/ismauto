@@ -164,6 +164,7 @@ export class ProjectTasksComponent implements OnInit {
       this._projectService.updateTask(
         this.token,
         taskId,
+        updatedTask.developer_id,
         updatedTask.name_task,
         updatedTask.description_task,
         updatedTask.assignament_date,
@@ -173,6 +174,8 @@ export class ProjectTasksComponent implements OnInit {
         updatedTask.responsible_counterpart,
         updatedTask.project_phases
       ).subscribe(resp => {
+        console.log('update devep',updatedTask.developer_id);
+        console.log(resp);
         this.getProjectTasks(this.projectId);
         this.sortTasks();
       });
@@ -229,7 +232,7 @@ export class ProjectTasksComponent implements OnInit {
   getProjectTasks(projectId: number) {
     this._projectService.getTasks(this.token, projectId).subscribe((resp: any) => {
       this.allTasks = resp.data;
-      // console.log(this.allTasks);
+      console.log(this.allTasks);
       this.sortTasks();
     });
   }
