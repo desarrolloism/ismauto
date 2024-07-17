@@ -357,16 +357,16 @@
 
                 <!-- agregar fimas -->
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary"
+                <a type="button" class="mb-2" style="text-decoration: underline;color: black;"
                     data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Launch static backdrop modal
-                </button>
+                    Agregar firmas
+                </a>
 
-                <div class *ngFor="let sig of signaturesList">
-                    <p>{{ sig.user_email }}</p>
-                    <p>{{ sig.user_name }}</p>
-                    <p>{{ sig.user_name }}</p>
-                </div>
+                <ul class="list-group" *ngFor="let sig of signaturesList">
+                    <li class="list-group-item"> {{ sig.user_name }}
+                        <span>{{ sig.user_email }}</span>
+                        <p>{{ sig.coments }}</p></li>
+                </ul>
 
             </div>
         </div>
@@ -537,14 +537,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal
-                    title</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar firma</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
+                        <label for class="form-label">Asignar usuario:</label>
                         <select (change)="onUserSelect($event)"
                             [(ngModel)]="usersId" name="usuario"
                             class="form-select"
@@ -557,25 +557,18 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for class="form-label">Comentario</label>
+                        <label for class="form-label">Comentario:</label>
                         <textarea class="form-control" type="text"
                             [(ngModel)]="signature.coments"
                             name="coments">
                             </textarea>
                     </div>
-                    <input type="date"
-                        [(ngModel)]="signature.date_accepted"
-                        name="date">
+
                     <button (click)="createSignature()" type="submit"
                         class="btn btn-primary">Enviar</button>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                    data-bs-dismiss="modal">Close</button>
-                <button type="button"
-                    class="btn btn-primary">Understood</button>
-            </div>
+
         </div>
     </div>
 </div>

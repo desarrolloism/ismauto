@@ -14,7 +14,7 @@
             <h2 class="text-center"
                 style="font-weight: normal;font-size: .9rem;">
                 <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-                    aria-controls="offcanvasTop" style="text-decoration: none;">
+                    aria-controls="offcanvasTop" style="cursor: pointer;">
                     <i class="fa-solid fa-gear me-2"></i>
                     {{projectDetail?.project_name }}
                 </a>
@@ -118,7 +118,7 @@
                                 (ngSubmit)="createTask(projectDetail.id)">
                                 <div class="row d-flex justify-content-evenly">
                                     <div
-                                        class="col-md-3 d-flex justify-content-center">
+                                        class="col-md-6 d-flex justify-content-center">
                                         <div class="mb-3">
                                             <mat-radio-group
                                                 formControlName="developer_id"
@@ -127,8 +127,39 @@
                                                     [value]="4">Frontend</mat-radio-button>
                                                 <mat-radio-button
                                                     [value]="8">Backend</mat-radio-button>
+                                                <mat-radio-button
+                                                    [value]="1">Jefe de
+                                                    desarrollo</mat-radio-button>
                                             </mat-radio-group>
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-4 mb-3">
+
+                                                <label for="project_phases"
+                                                    class="form-label">
+                                                    Fase:</label>
+                                                <select class="form-select"
+                                                    formControlName="project_phases"
+                                                    name="project_phases">
+                                                    <option
+                                                        value="ANALISIS">Análisis</option>
+                                                    <option
+                                                        value="DISENO">Diseño</option>
+                                                    <option
+                                                        value="DESARROLLO">Desarrollo</option>
+                                                    <option
+                                                        value="PRUEBAS">Pruebas</option>
+                                                    <option
+                                                        value="Despliegue">Despliegue</option>
+                                                </select>
+
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -220,7 +251,7 @@
 
                     <!-- muestra las tareas de BACK y front ademas de actualizar estado -->
 
-                    <div class="project-list mt-4 overflow-auto container"
+                    <div class="project-list mt-4  mb-3 overflow-auto container"
                         style="height: 500px;">
                         <mat-accordion>
                             <mat-expansion-panel *ngFor="let task of allTasks"
@@ -233,18 +264,26 @@
                                     <mat-panel-title class="task"
                                         *ngIf="task.developer_id == 4">
                                         <i class="fa-solid fa-cubes me-2"></i>
-                                        Frontend <span class="task_name">{{
-                                            task.name_task
-                                            }}</span>
+                                        Frontend
                                     </mat-panel-title>
                                     <mat-panel-title class="task"
-                                        *ngIf="task.developer_id != 4">
+                                        *ngIf="task.developer_id == 8">
                                         <i
                                             class="fa-solid fa-code me-2"></i>Backend
-                                        <span class="task_name">{{
-                                            task.name_task
-                                            }}</span>
+
                                     </mat-panel-title>
+
+                                    <mat-panel-title class="task"
+                                        *ngIf="task.developer_id == 1">
+                                        <i
+                                            class="fa-solid fa-user-secret me-2"></i>Jefatura
+
+                                    </mat-panel-title>
+                                    <mat-panel-description class="task">
+                                        {{
+                                        task.name_task
+                                        }}
+                                    </mat-panel-description>
 
                                     <mat-panel-description class="task_date">
                                         Asignado: {{ task.assignament_date |
@@ -264,50 +303,61 @@
 
                                     <div class="col-md-12"
                                         *ngIf="email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'">
-                                        <div class="row text-center">
+                                        <div class="row">
 
-                                            <div class="col-md-4">
+                                            <div class="row mb-3">
                                                 <p><b>Tarea:</b> {{
                                                     task.name_task
                                                     }}</p>
                                             </div>
-                                            <div class="col-md-4">
-                                                <p><b>Descripción: </b>{{
-                                                    task.description_task }}</p>
-
-                                            </div>
-                                            <div class="col-md-4">
+                                            <div class="row mb-3">
                                                 <p><b>Observaciones: </b>{{
                                                     task.observation }}</p>
 
                                             </div>
+                                            <div class="row mb-3">
+                                                <p><b>Descripción: </b>{{
+                                                    task.description_task }}</p>
+
+                                            </div>
+
                                         </div>
                                     </div>
 
                                     <div class="col-md-12"
                                         [hidden]="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'">
-                                        <div class="row text-center">
+                                        <div class="row">
 
-                                            <div class="col-md-3">
+                                            <div class="row mb-3">
                                                 <p><b>Tarea:</b> {{
                                                     task.name_task
                                                     }}</p>
                                             </div>
-                                            <div class="col-md-3">
-                                                <p><b>Descripción: </b>{{
-                                                    task.description_task }}</p>
+                                            <div class="row mb-3">
 
-                                            </div>
-                                            <div class="col-md-3">
-                                                <p><b>Observaciones: </b>{{
-                                                    task.observation }}</p>
-
-                                            </div>
-                                            <div class="col-md-3">
                                                 <p><b>Estado: </b>{{
                                                     task.state}}</p>
 
                                             </div>
+
+                                            <div class="row">
+                                                <div class="mb-3 text-truncate">
+                                                    <p><b>Observaciones: </b>{{
+                                                        task.observation }}</p>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div
+                                                    matTooltip="{{task.description_task}}"
+                                                    class="mb-3">
+
+                                                    <p><b>Descripción: </b>{{
+                                                        task.description_task
+                                                        }}</p>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
 
@@ -378,6 +428,7 @@
                                                             </div>
                                                         </div>
                                                         <div
+                                                            *ngIf="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'"
                                                             class="col-md-2 d-flex justify-content-center">
                                                             <div
                                                                 class="form-group mb-3">
@@ -421,6 +472,31 @@
                                                                     disabled
                                                                     value="Backend">
                                                             </div>
+                                                            <div
+                                                                class="form-group mb-3"
+                                                                *ngIf="task.developer_id == 1">
+                                                                <label
+                                                                    for="nack"
+                                                                    class="form-label">Fase:</label>
+                                                                <div
+                                                                    class="col-md-6">
+                                                                    <select
+                                                                        class="form-select"
+                                                                        formControlName="project_phases"
+                                                                        name="project_phases">
+                                                                        <option
+                                                                            value="ANALISIS">Análisis</option>
+                                                                        <option
+                                                                            value="DISENO">Diseño</option>
+                                                                        <option
+                                                                            value="DESARROLLO">Desarrollo</option>
+                                                                        <option
+                                                                            value="PRUEBAS">Pruebas</option>
+                                                                        <option
+                                                                            value="Despliegue">Despliegue</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -458,7 +534,8 @@
                                                 </div>
 
                                             </div>
-                                            <div class="row">
+                                            <div class="row"
+                                                *ngIf="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'">
                                                 <div
                                                     class="d-flex justify-content-center">
                                                     <button
@@ -472,44 +549,124 @@
                                             </div>
                                         </form>
 
-                                        <form (ngSubmit)="agregarLink()">
-                                            <div class="form-group mb-3">
-                                                <label for="type_link"
-                                                    class="form-label">Tipo de
-                                                    link</label>
-                                                <input type="text"
-                                                    [(ngModel)]="link.type_link"
-                                                    name="type_link"
-                                                    class="form-control">
+                                        <!-- EMPIEZAN LINKS -->
+                                        <div class="row">
+                                            <a class="text-secondary mb-3"
+                                                data-bs-toggle="collapse"
+                                                href="#collapseExample"
+                                                role="button"
+                                                aria-expanded="false"
+                                                aria-controls="collapseExample">
+                                                Agregar/ Ver Links
+                                            </a>
+
+                                            <div class="collapse"
+                                                id="collapseExample">
+                                                <div class="card card-body">
+                                                    <div class="row">
+                                                        <!-- SE AGREGA LINKS A LA TAREA -->
+                                                        <div class="col-md-6">
+
+                                                            <form
+                                                                (ngSubmit)="agregarLink()">
+                                                                <div
+                                                                    class="form-group mb-3">
+                                                                    <label
+                                                                        for="type_link"
+                                                                        class="form-label">Tipo
+                                                                        de
+                                                                        link:</label>
+
+                                                                    <select
+                                                                        class="form-select"
+                                                                        [(ngModel)]="link.type_link"
+                                                                        name="type_link">
+                                                                        <option
+                                                                            value="Requerimiento">Requerimiento</option>
+                                                                        <option
+                                                                            value="Planificación">Planificación</option>
+                                                                        <option
+                                                                            value="Reunión">Reunión</option>
+                                                                        <option
+                                                                            value="Retroalimentación">Retroalimentación</option>
+                                                                        <option
+                                                                            value="Entrega">Entrega</option>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div
+                                                                    class="form-group mb-3">
+                                                                    <label
+                                                                        for="type_link"
+                                                                        class="form-label update">Nombre
+                                                                        del
+                                                                        link:</label>
+                                                                    <input
+                                                                        type="text"
+                                                                        [(ngModel)]="link.name_link"
+                                                                        name="name_link"
+                                                                        class="form-control update">
+                                                                </div>
+
+                                                                <div
+                                                                    class="form-group mb-3">
+                                                                    <label
+                                                                        for="type_link"
+                                                                        class="form-label">Agregue
+                                                                        URL:</label>
+                                                                    <input
+                                                                        type="text"
+                                                                        [(ngModel)]="link.link"
+                                                                        name="link"
+                                                                        class="form-control update">
+                                                                </div>
+                                                                <button
+                                                                    type="submit"
+                                                                    class="btn btn-primary">Agregar
+                                                                </button>
+                                                            </form>
+                                                            <!-- SE AGREGA LINKS A LA TAREA -->
+                                                        </div>
+                                                        <!-- LISTADO DE LINKS -->
+                                                        <div class="col-md-6">
+                                                            <ol
+                                                                class="list-group"
+                                                                *ngFor="let links of linksList">
+                                                                <li
+                                                                    class="d-flex mb-3
+                                                                    enlace justify-content-between 
+                                                                    align-items-start">
+                                                                    <div
+                                                                        class="ms-2 me-auto">
+                                                                        <div
+                                                                            class="fw-bold">{{
+                                                                            links.type_link
+                                                                            }}
+                                                                            <i
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#linkModal"
+                                                                                (click)="catchLinkId(links.id)"
+                                                                                class="fa-solid fa-link update_link"></i></div>
+                                                                        <a
+                                                                            class="enlace"
+                                                                            href="{{ links.link }}"
+                                                                            target="_blank">{{
+                                                                            links.name_link
+                                                                            }}
+                                                                        </a>
+                                                                    </div>
+                                                                </li>
+                                                            </ol>
+
+                                                        </div>
+                                                        <!-- LISTADO DE LINKS -->
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div class="form-group mb-3">
-                                                <label for="type_link"
-                                                    class="form-label">Nombre
-                                                    del link</label>
-                                                <input type="text"
-                                                    [(ngModel)]="link.name_link"
-                                                    name="name_link"
-                                                    class="form-control">
-                                            </div>
-
-                                            <div class="form-group mb-3">
-                                                <label for="type_link"
-                                                    class="form-label">Agregue
-                                                    el link</label>
-                                                <input type="text"
-                                                    [(ngModel)]="link.link"
-                                                    name="link"
-                                                    class="form-control">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">agregar url
-                                                
-                                            </button>
-                                    
-                                        </form>
-
+                                            <!-- TERMINAN LINKS -->
+                                        </div>
                                     </div>
-
                                 </div>
                             </mat-expansion-panel>
                         </mat-accordion>
@@ -525,85 +682,138 @@
     <!-- offcanvas-menu.component.html -->
     <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop"
         aria-labelledby="offcanvasTopLabel"
-        style="border-radius: 10px;height: 350px;">
-        <div class="offcanvas-header d-flex justify-content-end">
-
-            <!-- <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menú</h5> -->
+        style="border-radius: 10px; height: 350px;">
+        <div
+            class="offcanvas-header d-flex justify-content-between align-items-center">
+            <h3 class="offcanvas-title text-uppercase" id="offcanvasTopLabel">
+                {{ projectDetail?.project_name }}
+                <ng-container *ngIf="!isUpdating; else updatingSpinner">
+                    <span class="badge bg-primary ml-2">{{ projectDetail?.state
+                        }}</span>
+                </ng-container>
+            </h3>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                 aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body p-0">
-            <nav class="flex-column">
-                <div class="offcanvas-body">
 
-                    <div class="row">
-                        <div class="col-md-6">
-
-                            <h3
-                                class="text-center text-truncate text-uppercase p-2">{{
-                                projectDetail?.project_name }} -
-                                <ng-container class="text-center"
-                                    *ngIf="!isUpdating; else updatingSpinner">
-                                    <span class="badge bg-primary">{{
-                                        projectDetail?.state }}</span>
-                                </ng-container>
-                            </h3>
+        <div class="offcanvas-body p-3">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Detalles del Proyecto</h5>
+                            <p class="card-text">{{ projectDetail?.description
+                                }}</p>
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item text-center">
-                                    {{
-                                    projectDetail?.description }}
+                                <li
+                                    class="list-group-item d-flex justify-content-between">
+                                    <span><strong>Departamento:</strong> {{
+                                        projectDetail?.department }}</span>
+                                    <span><strong>F. requerida:</strong> {{
+                                        projectDetail?.end_date }}</span>
                                 </li>
                                 <li
                                     class="list-group-item d-flex justify-content-between">
-                                    <strong>Departamento:</strong> {{
-                                    projectDetail?.department }}
-                                    <strong>F. requerida:</strong> {{
-                                    projectDetail?.end_date }}
+                                    <span><strong>ID:</strong> {{
+                                        projectDetail?.id }}</span>
+                                    <span><strong>CaseID:</strong> {{
+                                        projectDetail?.case_id }}</span>
                                 </li>
-                                <li
-                                    class="list-group-item d-flex justify-content-evenly">
-                                    <strong>ID:</strong> {{ projectDetail?.id
-                                    }}
-                                    <strong>CaseID:</strong> {{
-                                    projectDetail?.case_id
-                                    }}
-                                </li>
-                                <!-- <strong>Estado:</strong> -->
-
-                                <ng-template #updatingSpinner>
-                                    <mat-spinner
-                                        diameter="20"></mat-spinner>
-                                </ng-template>
-
                             </ul>
-
                         </div>
-                        <div class="col-md-6">
+                    </div>
+                </div>
 
-                            <div class="row">
-                                <div class="d-flex justify-content-center">
-                                    <button mat-button class="mt-2"
-                                        color="primary"
-                                        (click)="projectSignatures(projectDetail.id)">
-                                        Ver firmas
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="d-flex justify-content-center">
-                                    <button
-                                        *ngIf="email == 'desarrollo@ism.edu.ec'"
-                                        mat-button
-                                        class="mt-2" color="warn"
-                                        (click)="deleteProject()"> Eliminar este
-                                        proyecto</button>
-                                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Acciones</h5>
+                            <div class="d-grid gap-2">
+                                <button mat-raised-button color="primary"
+                                    (click)="projectSignatures(projectDetail.id)">
+                                    Ver firmas
+                                </button>
+                                <button *ngIf="email == 'desarrollo@ism.edu.ec'"
+                                    mat-raised-button color="warn"
+                                    (click)="deleteProject()">
+                                    Eliminar este proyecto
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </nav>
+            </div>
         </div>
+    </div>
 
+    <ng-template #updatingSpinner>
+        <mat-spinner diameter="20"></mat-spinner>
+    </ng-template>
+</div>
+
+<!-- update link Modal -->
+<div class="modal fade" id="linkModal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar
+                    link</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <form (ngSubmit)="updateLink()">
+                        <div class="form-group">
+                            <div class="mb-3">
+                                <label for="type_link" class="form-label">Tipo
+                                    de link:</label>
+                                <select class="form-select"
+                                    [(ngModel)]="update_link.type_link"
+                                    name="type_link">
+                                    <option
+                                        value="Requerimiento">Requerimiento</option>
+                                    <option
+                                        value="Planificación">Planificación</option>
+                                    <option
+                                        value="Reunión">Reunión</option>
+                                    <option
+                                        value="Retroalimentación">Retroalimentación</option>
+                                    <option
+                                        value="Entrega">Entrega</option>
+                                </select>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="name_link" class="form-label">Nombre
+                                    del enlace:</label>
+                                <input type="text" class="form-control update"
+                                    name="name_link_update"
+                                    [(ngModel)]="update_link.name_link">
+                            </div>
+                            <div class="mb-3" *ngIf="linksList">
+                                <label for="link"
+                                    class="form-label">URL:</label>
+                                <input type="text" class="form-control update"
+                                    name="link_update"
+                                    [(ngModel)]="update_link.link">
+                            </div>
+                            <div class="row">
+                                <div class>
+                                    <button type="submit"
+                                        class="btn btn-primary"
+                                        [disabled]="!linkId">Actualizar</button>
+                                    <a class="btn btn-warning"
+                                        (click)="deleteLink()">Eliminar</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

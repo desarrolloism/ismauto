@@ -14,10 +14,11 @@
     padding: 10px;
     margin-bottom: 10px;
     background-color: #ff005163;
+    font-size: .7rem;
 }
 
 .title {
-    font-size: 1rem;
+    font-size: .8rem;
     text-transform: uppercase;
 }
 
@@ -26,11 +27,11 @@
 .poa-card {
     border-width: 2px;
     /* border-radius: 8px; */
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 .poa-card .card-title {
-    font-size: .9rem;
+    font-size: .8rem;
     margin-bottom: 0.5rem;
     text-align: center;
 }
@@ -49,7 +50,7 @@
 }
 
 small {
-    font-size: .9rem;
+    font-size: .6rem;
 }
 
 /* estilos para bordes de cards segun estado del proceso */
@@ -88,6 +89,7 @@ small {
     position: relative;
     overflow: hidden;
     transition-duration: .3s;
+    font-size: 12px;
 }
 
 .svgIcon {
@@ -109,6 +111,7 @@ small {
     top: 0;
     transition-duration: .3s;
     mix-blend-mode: difference;
+    font-size: .5rem;
 }
 
 .Btn:hover::before {
@@ -122,3 +125,6 @@ small {
     transition-duration: .3s;
 }
 
+.me-2{
+    font-size: .7rem;
+}

@@ -39,9 +39,9 @@ export class PoaDetailComponent {
 
 
   signature = {
-    coments: "",
+    coments: '',
     is_accepted: false,
-    date_accepted: "",
+    date_accepted: '',
   }
 
 
@@ -340,7 +340,7 @@ export class PoaDetailComponent {
   createSignature() {
     console.log('fecha actual', this.actualDate);
     console.log(this.usersId);
-    console.log(this.signature.is_accepted);
+    console.log(this.poaId);
     this._poaService.createSignatures(
       this.token,
       this.poaId,
@@ -349,8 +349,19 @@ export class PoaDetailComponent {
       this.signature.is_accepted,
       this.actualDate
     ).subscribe((resp: any) => {
-      this.signature = resp.data;
-      console.log(this.signature);
+      if(resp.status === 'ok') {
+        this.listSignatures();
+        // Cerrar la modal
+        const modal = document.getElementById('staticBackdrop');
+        if (modal) {
+          const bootstrapModal = bootstrap.Modal.getInstance(modal);
+          if (bootstrapModal) {
+            bootstrapModal.hide();
+          }
+        }
+      }
+
+      console.log(resp);
       this.listSignatures();
     })
   }

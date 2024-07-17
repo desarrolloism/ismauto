@@ -129,7 +129,8 @@ export class ProjectService {
     endDate: string,
     state: string,
     observation: string,
-    responsibleCounterpart: string
+    responsibleCounterpart: string,
+    project_phases: string
   ) {
 
     const headers = new HttpHeaders({
@@ -147,7 +148,8 @@ export class ProjectService {
       end_date: endDate,
       state: state,
       observation: observation,
-      responsible_counterpart: responsibleCounterpart
+      responsible_counterpart: responsibleCounterpart,
+      project_phases: project_phases
     }
 
     return this._http.post(`${this.url}/create_task`, data, { headers: headers });
@@ -165,7 +167,8 @@ export class ProjectService {
     endDate: string,
     state: string,
     observation: string,
-    responsibleCounterpart: string
+    responsibleCounterpart: string,
+    project_phases: string
   ) {
 
     const headers = new HttpHeaders({
@@ -182,7 +185,8 @@ export class ProjectService {
       end_date: endDate,
       state: state,
       observation: observation,
-      responsible_counterpart: responsibleCounterpart
+      responsible_counterpart: responsibleCounterpart,
+      project_phases: project_phases
     }
 
     return this._http.post(`${this.url}/update_task`, data, { headers: headers });
@@ -340,6 +344,45 @@ export class ProjectService {
     return this._http.post(`${this.url}/create_link`, data, { headers: headers });
   }
 
+  //actualiza links
+  updateLink(
+    token: any,
+    Id: number,
+    typeLink: string,
+    nameLInk: string,
+    link: string
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+
+      id: Id,
+      type_link: typeLink,
+      name_link: nameLInk,
+      link
+    }
+    return this._http.post(`${this.url}/update_link`, data, { headers: headers });
+  }
+
+
+  //ELIMINA LINKS
+  deleteLink(
+    token: any,
+    Id: number
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+      link_id: Id
+    }
+    return this._http.post(`${this.url}/delete_link`, data, { headers: headers });
+  }
 
   //muestra todos los links
   getLinks(token: any, taskId:number){
@@ -350,10 +393,11 @@ export class ProjectService {
     });
 
     const data = {
-
       task_id: taskId
     }
 
     return this._http.post(`${this.url}/show_link`, data, { headers: headers });
   }
+
+
 }

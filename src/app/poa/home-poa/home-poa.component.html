@@ -10,7 +10,7 @@
                     <div class="row d-flex justify-content-between mb-3">
                         <div class="col-md-3">
                             <h2 class="text-center"
-                                style="font-weight: normal;">Plan operativo
+                                style="font-weight: normal; font-size: .9rem;">Plan operativo
                                 anual (POA)</h2>
                         </div>
                         <!-- barra de busqueda -->
@@ -29,7 +29,7 @@
                                 routerLink="/createpoa"
                                 matTooltip="Abrir un nuevo POA">
                                 <i
-                                    class="fa-regular fa-calendar-plus fa-2x"></i>
+                                    class="fa-regular fa-calendar-plus"></i>
                             </button>
                         </div>
                         <!-- boton para crear poa -->
@@ -49,7 +49,7 @@
                             (click)="filterPoa('rechazado')">
                             Rechazado ({{countPoaByStatus('rechazado')}})
                         </button>
-                        <button mat-raised-button color="basic"
+                        <button mat-raised-button color="basic" class="me-2"
                             (click)="filterPoa(null)">
                             Limpiar Filtro
                         </button>
