@@ -21,12 +21,12 @@ export class ProjectTasksComponent implements OnInit {
   taskId = 0;
   taskForm!: FormGroup;
 
-  stateOrder = {
-    'INICIANDO': 0,
-    'EN PROCESO': 1,
-    'EN REVISION': 2,
-    'TERMINADO': 3
-  };
+  // stateOrder = {
+  //   'INICIANDO': 0,
+  //   'EN PROCESO': 1,
+  //   'EN REVISION': 2,
+  //   'TERMINADO': 3
+  // };
 
   updateForms: { [key: number]: FormGroup } = {};
   taskStates = ['INICIANDO', 'EN PROCESO', 'EN REVISION', 'TERMINADO'];
@@ -147,7 +147,7 @@ export class ProjectTasksComponent implements OnInit {
           // console.log(resp);
           alert('Tarea creada con exito');
           this.getProjectTasks(this.projectId);
-          this.sortTasks();
+          // this.sortTasks();
           this.taskForm.reset();
         } else {
           alert('Error al crear la tarea');
@@ -159,6 +159,7 @@ export class ProjectTasksComponent implements OnInit {
 
   //Actualiza las tareas
   updateTask(taskId: number) {
+    // console.log('hola');
     if (this.updateForms[taskId] && this.updateForms[taskId].valid) {
       const updatedTask = this.updateForms[taskId].value;
       this._projectService.updateTask(
@@ -177,7 +178,7 @@ export class ProjectTasksComponent implements OnInit {
         console.log('update devep',updatedTask.developer_id);
         console.log(resp);
         this.getProjectTasks(this.projectId);
-        this.sortTasks();
+        // this.sortTasks();
       });
     }
   }
@@ -233,7 +234,7 @@ export class ProjectTasksComponent implements OnInit {
     this._projectService.getTasks(this.token, projectId).subscribe((resp: any) => {
       this.allTasks = resp.data;
       console.log(this.allTasks);
-      this.sortTasks();
+      // this.sortTasks();
     });
   }
 
@@ -249,13 +250,13 @@ export class ProjectTasksComponent implements OnInit {
 
   //metodos para ordenar tareas por estado 
 
-  sortTasks() {
-    this.allTasks.sort((a: { state: string; }, b: { state: string; }) => {
-      const stateA = a.state as keyof typeof this.stateOrder;
-      const stateB = b.state as keyof typeof this.stateOrder;
-      return this.stateOrder[stateA] - this.stateOrder[stateB];
-    });
-  }
+  // sortTasks() {
+  //   this.allTasks.sort((a: { state: string; }, b: { state: string; }) => {
+  //     const stateA = a.state as keyof typeof this.stateOrder;
+  //     const stateB = b.state as keyof typeof this.stateOrder;
+  //     return this.stateOrder[stateA] - this.stateOrder[stateB];
+  //   });
+  // }
 
   //llama al metodo para eliminar proyecto
 
