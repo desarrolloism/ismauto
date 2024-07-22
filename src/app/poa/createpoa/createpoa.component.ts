@@ -10,13 +10,18 @@ import { finalize } from 'rxjs/internal/operators/finalize';
   styleUrls: ['./createpoa.component.css']
 })
 export class CreatepoaComponent implements OnInit {
+  //variables de formulario de creacion
+  enterpriseForm!: FormGroup;
   areaForm!: FormGroup;
-  departmentForm!: FormGroup;
   ccpfForm!: FormGroup;
-  nameForm!: FormGroup;
-  responsibleForm!: FormGroup;
+  campusForm!: FormGroup;
+  departmentForm!: FormGroup;
   studentCoachForm!: FormGroup;
+  commissionForm!: FormGroup;
+  nameForm!: FormGroup;
   objectiveForm!: FormGroup;
+  responsibleForm!: FormGroup;
+
   totalForm!: FormGroup;
   isLoading: boolean = false;
   token = localStorage.getItem('token');
@@ -27,6 +32,7 @@ export class CreatepoaComponent implements OnInit {
   last_name: string = '';
   fullname: string = '';
   ciUser: string = '';
+  academicYearId: number = 0;
 
   newPoa = {
     cedula: '',
@@ -56,9 +62,18 @@ export class CreatepoaComponent implements OnInit {
     this.initForms();
     this.getAvatar();
     this.getCompersData();
+    this.getYear();
   }
 
   initForms() {
+
+    this.enterpriseForm = this.fb.group({
+      enterprise: ['', Validators.required]
+    });
+
+    this.campusForm = this.fb.group({
+      campus: ['', Validators.required]
+    });
 
     this.areaForm = this.fb.group({
       area: ['', Validators.required]
@@ -82,6 +97,10 @@ export class CreatepoaComponent implements OnInit {
 
     this.studentCoachForm = this.fb.group({
       student_council: ['', Validators.required]
+    });
+
+    this.commissionForm = this.fb.group({
+      commission: ['', Validators.required]
     });
 
     this.objectiveForm = this.fb.group({
@@ -118,13 +137,14 @@ export class CreatepoaComponent implements OnInit {
 
   //crear POA
   onCreate() {
-    if (this.areaForm.valid && this.ccpfForm.valid &&
+    if (this.enterpriseForm.valid && this.campusForm.valid &&
+      this.areaForm.valid && this.ccpfForm.valid &&
       this.nameForm.valid && this.studentCoachForm.valid &&
-      this.objectiveForm.valid) {
+      this.objectiveForm.valid && this.commissionForm.valid) {
       this._poaService.createPoa(
         this.token,
         this.areaForm.value.area,
-        'Compers',
+        this.commissionForm.value.commission,
         this.cedula.departamento,
         this.ccpfForm.value.ccpf,
         this.studentCoachForm.value.student_council,
@@ -133,7 +153,9 @@ export class CreatepoaComponent implements OnInit {
         19,
         this.objectiveForm.value.objective,
         this.newPoa.total,
-        this.newPoa.status
+        this.newPoa.status,
+        this.enterpriseForm.value.enterprise,
+        this.campusForm.value.campus,
       ).subscribe({
         next: (response: any) => {
           if (response && response.status === 'ok') {
@@ -164,5 +186,14 @@ export class CreatepoaComponent implements OnInit {
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
     this.ciUser = userData.dni;
+  }
+
+  //obtiene periodo academico
+  getYear(){
+    this._poaService.getAcademicPeriod(this.token).subscribe((resp:any)=>{
+      // console.log(resp.data);
+      this.academicYearId = resp.data;
+      console.log('periodo',this.academicYearId);
+    });
   }
 }

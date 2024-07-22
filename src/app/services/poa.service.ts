@@ -27,7 +27,10 @@ export class PoaService {
     academicYearId: number,
     objective: string,
     total: number,
-    status: string
+    status: string,
+    company: string,
+    campus: string,
+
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -37,6 +40,7 @@ export class PoaService {
 
     const data = {
       // cedula: cedula,
+
       area: area,
       commission: commission,
       department: department,
@@ -48,39 +52,33 @@ export class PoaService {
       objective: objective,
       total: total,
       status: status,
-
+      company: company,
+      campus: campus,
     }
-
     return this._http.post(`${this.url}/poa_create`, data, { headers: headers });
   }
 
   //obtiene listado de poas
-
   list(token: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
-
     const data = {}
-
     return this._http.post(`${this.url}/poa_list`, data, { headers: headers });
   }
 
   //obtiene detalle de poa por id
-
   detailPoa(token: any, id: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
-
     const data = {
       id: id
     }
-
     return this._http.post(`${this.url}/poa_detail`, data, { headers: headers });
   }
 
@@ -289,7 +287,7 @@ export class PoaService {
 
   //crea firmas
   createSignatures(
-    token: any, 
+    token: any,
     poaId: number,
     userId: number,
     coments: string,
@@ -318,12 +316,11 @@ export class PoaService {
       'Authorization': this.auth,
       'Token': token
     });
-    const data =  {
+    const data = {
       poa_id: poaId
     }
     return this._http.post(`${this.url}/poa_signature_detail`, data, { headers: headers });
   }
-
 
   // muestra listado de usuario de la base
   allUsers(token: any) {
@@ -335,6 +332,17 @@ export class PoaService {
 
     const data = {}
     return this._http.post(`${this.url}/user_list`, data, { headers: headers });
+  }
+
+  //obtiene periodo academico 
+  getAcademicPeriod(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {}
+    return this._http.post(`${this.url}/poa_year`, data, { headers: headers });
   }
 
 }

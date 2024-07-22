@@ -52,3 +52,10 @@
     justify-content: center;
     align-items: center;
   }
+
+  /* estilo para anio academico */
+  .period{
+    font-weight: bold;
+    font-size: 1rem;
+    color: darkgray;
+  }
