@@ -193,6 +193,22 @@ export class ProjectService {
 
     return this._http.post(`${this.url}/update_task`, data, { headers: headers });
   }
+
+  //eliminar tareas
+
+  deleteTask(token: any, taskId: number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+      task_id: taskId
+    }
+    return this._http.post(`${this.url}/delete_task_id`, data, { headers: headers });
+  }
+
+
   //consulta las tareas de cada caso
 
   getTasks(

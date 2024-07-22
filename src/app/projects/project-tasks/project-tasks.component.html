@@ -124,7 +124,8 @@
                                         <div class="mb-3">
                                             <mat-radio-group
                                                 formControlName="developer_id"
-                                                aria-label="Select an option">
+                                                aria-label="Select an option"
+                                                class="small-text">
                                                 <mat-radio-button
                                                     [value]="4">Frontend</mat-radio-button>
                                                 <mat-radio-button
@@ -139,7 +140,6 @@
                                         <div class="row">
                                             <div class="col-md-4"></div>
                                             <div class="col-md-4 mb-3">
-
                                                 <label for="project_phases"
                                                     class="form-label">
                                                     Fase:</label>
@@ -204,11 +204,20 @@
                                         <div class="form-group mb-3">
                                             <label
                                                 class="form-label">Responsable:</label>
-                                            <input
+                                            <select
+                                                class="form-select"
                                                 formControlName="responsible_counterpart"
-                                                type="text"
-                                                class="form-control">
-
+                                                name="project_phases">
+                                                <option
+                                                    value="Breidy Coox">Breidy
+                                                    Coox</option>
+                                                <option
+                                                    value="Hugo Espinoza">Hugo
+                                                    Espinoza</option>
+                                                <option
+                                                    value="Arturo Sarango">Arturo
+                                                    Sarango</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -358,11 +367,41 @@
                                     </div>
 
                                     <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="d-flex justify-content-end">
+                                                <i (click)="deleteTask()"
+                                                    style="cursor: pointer;"
+                                                    matTooltip="Eliminar tarea"
+                                                    class="fa-solid fa-circle-minus text-danger"></i>
+                                            </div>
+                                        </div>
+
                                         <form [formGroup]="updateForms[task.id]"
                                             (ngSubmit)="updateTask(task.id)"
                                             *ngIf="updateForms[task.id]">
                                             <div class="row">
                                                 <div class="col-md-12 ">
+                                                    <div
+                                                        class="form-group mb-3 d-flex justify-content-center">
+                                                        <label
+                                                            class="form-label"
+                                                            for="assignament_date">Responsable:</label>
+                                                        <mat-radio-group
+                                                            formControlName="developer_id"
+                                                            aria-label="Select an option">
+                                                            <mat-radio-button
+                                                                [value]="4">Frontend</mat-radio-button>
+                                                            <mat-radio-button
+                                                                [value]="8">Backend</mat-radio-button>
+                                                            <mat-radio-button
+                                                                [value]="1">Jefe
+                                                                de
+                                                                desarrollo</mat-radio-button>
+                                                        </mat-radio-group>
+
+                                                    </div>
+                                                    <hr>
+
                                                     <div class="row">
                                                         <div
                                                             class="col-md-4 d-flex justify-content-center"
@@ -409,7 +448,6 @@
                                                                     class="form-control">
                                                             </div>
                                                         </div>
-                                                        
                                                     </div>
                                                     <div class="row">
                                                         <div
@@ -418,23 +456,23 @@
                                                             <div
                                                                 class="form-group mb-3">
                                                                 <label
-                                                                    class="form-label"
-                                                                    for="assignament_date">Responsable:</label>
-                                                                
-
-                                                                    <mat-radio-group
-                                                                    formControlName="developer_id"
-                                                                    aria-label="Select an option">
-                                                                    <mat-radio-button
-                                                                        [value]="4">Frontend</mat-radio-button>
-                                                                    <mat-radio-button
-                                                                        [value]="8">Backend</mat-radio-button>
-                                                                    <mat-radio-button
-                                                                        [value]="1">Jefe de
-                                                                        desarrollo</mat-radio-button>
-                                                                </mat-radio-group>
-
+                                                                    class="form-label">Responsable:</label>
+                                                                <select
+                                                                    class="form-select"
+                                                                    formControlName="responsible_counterpart"
+                                                                    name="project_phases">
+                                                                    <option
+                                                                        value="Breidy Coox">Breidy
+                                                                        Coox</option>
+                                                                    <option
+                                                                        value="Hugo Espinoza">Hugo
+                                                                        Espinoza</option>
+                                                                    <option
+                                                                        value="Arturo Sarango">Arturo
+                                                                        Sarango</option>
+                                                                </select>
                                                             </div>
+
                                                         </div>
                                                         <div
                                                             *ngIf="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'"
@@ -461,7 +499,10 @@
                                                                 *ngIf="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'">
                                                                 <label
                                                                     for="nack"
-                                                                    class="form-label">Fase:</label>
+                                                                    class="form-label">Fase
+                                                                    ({{
+                                                                    task.project_phases
+                                                                    }}):</label>
                                                                 <div
                                                                     class="col-md-6">
                                                                     <select
@@ -488,7 +529,8 @@
 
                                             </div>
                                             <div class="row container">
-                                                <div class="col-md-6 d-flex justify-content-center">
+                                                <div
+                                                    class="col-md-6 d-flex justify-content-center">
                                                     <div
                                                         class="form-group mb-3"
                                                         *ngIf="email == 'desarrollo@ism.edu.ec'">
@@ -500,7 +542,8 @@
                                                             class="form-control"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 d-flex justify-content-center">
+                                                <div
+                                                    class="col-md-6 d-flex justify-content-center">
                                                     <div
                                                         class="form-group mb-3"
                                                         *ngIf="email == 'desarrollo@ism.edu.ec'">
@@ -511,9 +554,7 @@
                                                             formControlName="description_task"
                                                             class="form-control"></textarea>
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                             <div class="row"
                                                 *ngIf="email == 'desarrollo@ism.edu.ec' || email == 'asisdesarrollo@ism.edu.ec' || email == 'asisdesarrollo3@ism.edu.ec'">
