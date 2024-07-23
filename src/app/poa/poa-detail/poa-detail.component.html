@@ -1,7 +1,8 @@
 <app-header-app></app-header-app>
 <div class="row container">
     <div class="col-md-2 p-2 d-flex justify-content-start">
-        <button class="update" mat-raised-button color="primary" routerLink="/home-poa"> <i
+        <button class="update" mat-raised-button color="primary"
+            routerLink="/home-poa"> <i
                 class="fa-regular fa-rectangle-list me-2"></i>Listado</button>
     </div>
 </div>
@@ -17,9 +18,11 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title> Actualizar POA </mat-panel-title>
-                        <mat-panel-description class="update"> Click para abrir POA
+                        <mat-panel-description class="update"> Click para abrir
+                            POA
                         </mat-panel-description>
-                        <mat-panel-description class="update">Depto. {{ poaDetail.department}}
+                        <mat-panel-description class="update">Depto. {{
+                            poaDetail.department}}
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <form (ngSubmit)="onUpdate()">
@@ -140,8 +143,8 @@
                     <!-- barra de busqueda -->
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
                     <div class="col-md-4 mb-3 d-flex justify-content-center"
-                        *ngIf="is_admin == false">
-                        <button class="update" mat-raised-button color="primary"
+                        *ngIf="poaDetail.status != 'APROBADO'">
+                        <button *ngIf="is_admin == false" class="update" mat-raised-button color="primary"
                             data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
                             <i class="fa-solid fa-folder-plus"></i> Agregar
@@ -196,11 +199,13 @@
                             <div class="row d-flex justify-content-center">
                                 <div
                                     class="col-md-6 d-flex justify-content-evenly">
-                                    <button class="update" mat-raised-button
+                                    <div *ngIf="poaDetail.status != 'APROBADO'">
+                                        <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
                                         (click)="startEditing(activity)">Editar
                                         actividad</button>
+                                    </div>
                                     <div
                                         *ngIf="poaDetail.status == 'EN PROCESO'">
                                         <button class="update" mat-raised-button
@@ -208,6 +213,9 @@
                                             style="background-color: brown;color: white;"
                                             (click)="deleteActivity(activity.id)">Eliminar</button>
                                     </div>
+
+                                    <a *ngIf="poaDetail.status == 'APROBADO'" class="update" mat-raised-button 
+                                    (click)="downloadActivityPDF(activity); $event.stopPropagation()">PDF de la actividad</a>
 
                                 </div>
                             </div>
@@ -230,13 +238,13 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label
                                                             for="resources_amount"
                                                             class="form-label">Monto
                                                             de
-                                                            recursos:</label>
+                                                            recursos ({{ activity.resources_amount }}$):</label>
                                                         <input type="number"
                                                             class="form-control"
                                                             id="resources_amount"
@@ -245,7 +253,7 @@
                                                             maxlength="6">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label
                                                             for="resources_amount"
@@ -260,7 +268,7 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
 
                                                     <div class="mb-3">
                                                         <label
@@ -276,28 +284,11 @@
                                                     </div>
 
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label
-                                                            for="resources_detail"
-                                                            class="form-label">Detalle
-                                                            de
-                                                            recursos:</label>
-                                                        <textarea
-                                                            class="form-control"
-                                                            id="resources_detail"
-                                                            rows="3"
-                                                            [(ngModel)]="editingActivity.resources_detail"
-                                                            name="resources_detail"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-3">
 
                                                     <div class="mb-3 ">
                                                         <label for="campus"
-                                                            class="form-label">Prioridad</label>
+                                                            class="form-label">Prioridad ({{ activity.priority }}):</label>
 
                                                         <select
                                                             class="form-select"
@@ -312,6 +303,24 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="resources_detail"
+                                                            class="form-label">Detalle
+                                                            de
+                                                            recursos:</label>
+                                                        <textarea
+                                                            class="form-control"
+                                                            id="resources_detail"
+                                                            rows="3"
+                                                            [(ngModel)]="editingActivity.resources_detail"
+                                                            name="resources_detail"></textarea>
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
 
@@ -380,9 +389,13 @@
                                                     *ngIf="poaDetail.status == 'EN PROCESO'"
                                                     style="background-color: brown;color: white;"
                                                     (click)="deleteActivity(activity.id)">Eliminar</button>
+                                                    <a *ngIf="poaDetail.status == 'APROBADO'" class="update" mat-raised-button 
+                                                    (click)="downloadActivityPDF(activity); $event.stopPropagation()">Descargar
+                                                    PDF</a>
                                             </div>
                                         </div>
                                     </form>
+                                    
                                 </div>
                             </div>
                         </mat-expansion-panel>

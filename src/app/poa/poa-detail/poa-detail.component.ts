@@ -3,7 +3,8 @@ import { PoaService } from '../../services/poa.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
-
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 declare var bootstrap: any;
 
@@ -85,6 +86,89 @@ export class PoaDetailComponent {
   selectedUserId: any = [];
   actualDate: any;
 
+  //genera un pdf 
+
+  downloadActivityPDF(activity: any) {
+    const doc = new jsPDF();
+
+    // 1. Agregar logo
+    //se agg la img
+    const logoURL = 'assets/images/logo.png';
+    const logoWidth = 20;
+    const logoHeight = 10;
+    doc.addImage(logoURL, 'PNG', 10, 10, logoWidth, logoHeight);
+
+    // 2. Título principal
+    doc.setFontSize(18);
+    doc.setTextColor(41, 128, 185); // Color azul
+    doc.text(`${this.poaDetail.name}`, 105, 25, { align: 'center' });
+
+    // 3. Subtítulo
+    doc.setFontSize(14);
+    doc.setTextColor(0); // Color negro
+    doc.text(`Responsable: ${this.poaDetail.responsible}`, 105, 35, { align: 'center' });
+
+
+    // 3. Departamento
+    doc.setFontSize(12);
+    doc.setTextColor(128,128,128); // Color negro
+    doc.text(`Departamento: ${this.poaDetail.department}`, 105, 42, { align: 'center' });
+
+    // 4. Fecha de generación del informe
+    const today = new Date().toLocaleDateString();
+    doc.setFontSize(10);
+    if (this.poaDetail.academic_year_id == 19) {
+      doc.text(`Fecha de generación: 2024-2025`, 195, 10, { align: 'right' });
+    } else {
+      doc.text(`Fecha de generación: No encontrada`, 195, 10, { align: 'right' });
+    }
+
+
+    // 5. Tabla de datos
+    const columns = ['Campo', 'Valor'];
+    const data = [
+      ['Actividad', activity.activity],
+      ['Fecha de inicio', new Date(activity.start_date).toLocaleDateString()],
+      ['Fecha de fin', new Date(activity.end_date).toLocaleDateString()],
+      ['Detalle de recursos', activity.resources_detail],
+      ['Monto de recursos', activity.resources_amount],
+      ['Monto aprobado', activity.approved_amount],
+      ['Cuenta contable', activity.accounting_count],
+      ['Prioridad', activity.priority],
+    ];
+
+    (doc as any).autoTable({
+      startY: 45,
+      head: [columns],
+      body: data,
+      theme: 'striped',
+      headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+      styles: { overflow: 'linebreak', cellWidth: 'wrap' },
+      columnStyles: { 0: { cellWidth: 50 }, 1: { cellWidth: 'auto' } }
+    });
+
+    // 6. Sección de comentarios
+    const finalY = (doc as any).lastAutoTable.finalY || 45;
+    doc.text('Comentarios:', 14, finalY + 10);
+    const splitComments = doc.splitTextToSize(activity.comments, 180);
+    doc.setFontSize(10);
+    doc.text(splitComments, 14, finalY + 20);
+
+    // 7. Pie de página
+    // const pageCount = doc.internal.getNumberOfPages();
+    // doc.setFontSize(10);
+    // for (let i = 1; i <= pageCount; i++) {
+    //   doc.setPage(i);
+    //   doc.text(`Página ${i} de ${pageCount}`, 105, 290, { align: 'center' });
+    //   doc.text('Documento generado automáticamente', 105, 295, { align: 'center' });
+    // }
+
+    // 8. Guardar el PDF
+    doc.save(`actividad_${activity.id}.pdf`);
+  }
+
+
+
   //Función para seleccionar el id del usuario
   onUserSelect(event: any) {
     this.selectedUserId = this.usersId;
@@ -127,7 +211,7 @@ export class PoaDetailComponent {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
       this.selectedStatus = this.poaDetail.status;
-      // console.log(this.poaDetail);
+      console.log('detalle poa', this.poaDetail);
     });
   }
 
@@ -187,7 +271,7 @@ export class PoaDetailComponent {
     this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
       this.allActivities = resp.data;
       this.originalActivities = [...this.allActivities];
-      console.log('actividades',this.allActivities);
+      console.log('actividades', this.allActivities);
     });
   }
 
@@ -358,7 +442,7 @@ export class PoaDetailComponent {
       this.signature.is_accepted,
       this.actualDate
     ).subscribe((resp: any) => {
-      if(resp.status === 'ok') {
+      if (resp.status === 'ok') {
         this.listSignatures();
         // Cerrar la modal
         const modal = document.getElementById('staticBackdrop');
