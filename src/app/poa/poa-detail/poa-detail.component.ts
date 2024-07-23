@@ -56,6 +56,9 @@ export class PoaDetailComponent {
     academic_year_id: 19,
     objective: '',
     total: 0,
+    company: '',
+    campus: '',
+    priority: ''
   }
 
   selectedStatus: string = '';
@@ -73,7 +76,8 @@ export class PoaDetailComponent {
     resources_ammount: 0,
     approved_ammount: 0,
     comments: '',
-    accounting_count: ''
+    accounting_count: '',
+    priority: ''
   }
 
   originalActivities: any[] = [];
@@ -84,7 +88,7 @@ export class PoaDetailComponent {
   //Función para seleccionar el id del usuario
   onUserSelect(event: any) {
     this.selectedUserId = this.usersId;
-    console.log(this.usersId);
+    // console.log(this.usersId);
   }
 
   constructor(
@@ -123,7 +127,7 @@ export class PoaDetailComponent {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
       this.selectedStatus = this.poaDetail.status;
-      console.log(this.poaDetail);
+      // console.log(this.poaDetail);
     });
   }
 
@@ -148,7 +152,9 @@ export class PoaDetailComponent {
       this.upPoa.academic_year_id = this.poaDetail.academic_year_id,
       this.upPoa.objective = this.poaDetail.objective,
       this.upPoa.total = this.poaDetail.total,
-      updatedStatus
+      updatedStatus,
+      this.upPoa.company = this.poaDetail.company,
+      this.upPoa.campus = this.poaDetail.campus,
     ).subscribe((resp: any) => {
       if (resp.status == 'ok') {
         if (window.confirm('Poa actualizado con éxito, ¿desea regresar al listado?')) {
@@ -181,7 +187,7 @@ export class PoaDetailComponent {
     this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
       this.allActivities = resp.data;
       this.originalActivities = [...this.allActivities];
-      // console.log(this.allActivities);
+      console.log('actividades',this.allActivities);
     });
   }
 
@@ -197,7 +203,8 @@ export class PoaDetailComponent {
       this.createPoa.resources_ammount,
       this.createPoa.approved_ammount,
       this.createPoa.comments,
-      this.createPoa.accounting_count
+      this.createPoa.accounting_count,
+      this.createPoa.priority
     ).subscribe(resp => {
       this.dataActivity = resp;
       if (this.dataActivity.status === 'ok') {
@@ -225,7 +232,8 @@ export class PoaDetailComponent {
       this.editingActivity.resources_amount,
       this.editingActivity.approved_amount,
       this.editingActivity.comments,
-      this.editingActivity.accounting_count
+      this.editingActivity.accounting_count,
+      this.editingActivity.priority
     ).subscribe(resp => {
       this.dataUpdateActivity = resp;
       // console.log(this.dataUpdateActivity);
@@ -268,7 +276,8 @@ export class PoaDetailComponent {
       resources_ammount: 0,
       approved_ammount: 0,
       comments: '',
-      accounting_count: ''
+      accounting_count: '',
+      priority: ''
     };
   }
 
@@ -308,7 +317,7 @@ export class PoaDetailComponent {
 
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    console.log(userData);
+    // console.log(userData);
     this.avatar = userData.avatar;
     this.name = userData.first_name;
     this.last_name = userData.last_name;
@@ -323,24 +332,24 @@ export class PoaDetailComponent {
 
   getAdmin() {
     this._poaService.getPoaAdmin(this.token, this.dni).subscribe((resp: any) => {
-      console.log(resp.data);
+      // console.log(resp.data);
       this.is_admin = resp.data.is_admin;
-      console.log(this.is_admin);
+      // console.log(this.is_admin);
     })
   }
 
   userList() {
     this._poaService.allUsers(this.token).subscribe((resp: any) => {
       this.users = resp.data;
-      console.log(this.users);
+      // console.log(this.users);
     })
   }
 
   //creacion de firmas
   createSignature() {
-    console.log('fecha actual', this.actualDate);
-    console.log(this.usersId);
-    console.log(this.poaId);
+    // console.log('fecha actual', this.actualDate);
+    // console.log(this.usersId);
+    // console.log(this.poaId);
     this._poaService.createSignatures(
       this.token,
       this.poaId,
@@ -361,7 +370,7 @@ export class PoaDetailComponent {
         }
       }
 
-      console.log(resp);
+      // console.log(resp);
       this.listSignatures();
     })
   }
@@ -370,7 +379,7 @@ export class PoaDetailComponent {
   listSignatures() {
     this._poaService.getSignatures(this.token, this.poaId).subscribe((resp: any) => {
       this.signaturesList = resp.data;
-      console.log('firmas', this.signaturesList);
+      // console.log('firmas', this.signaturesList);
     })
   }
 }

@@ -20,7 +20,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatListModule} from '@angular/material/list';
 import { PoaDetailComponent } from './poa-detail/poa-detail.component'; 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
-import {MatExpansionModule} from '@angular/material/expansion'; 
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({

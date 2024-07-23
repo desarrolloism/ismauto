@@ -21,6 +21,7 @@ export class CreatepoaComponent implements OnInit {
   nameForm!: FormGroup;
   objectiveForm!: FormGroup;
   responsibleForm!: FormGroup;
+  priorityForm!: FormGroup;
 
   totalForm!: FormGroup;
   isLoading: boolean = false;
@@ -107,6 +108,7 @@ export class CreatepoaComponent implements OnInit {
       objective: ['', Validators.required]
     });
 
+
   }
 
   //consulta de compers la cedula
@@ -160,7 +162,7 @@ export class CreatepoaComponent implements OnInit {
         next: (response: any) => {
           if (response && response.status === 'ok') {
             console.log('POA creado exitosamente');
-            this._router.navigate(['/home-poa']);
+            this._router.navigate(['poa-detail', response.id]);
           } else {
             console.error('Error al crear POA:', response);
           }

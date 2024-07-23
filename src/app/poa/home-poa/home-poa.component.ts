@@ -37,27 +37,27 @@ export class HomePoaComponent implements OnInit {
   getPoaList() {
     this.poaService.list(this.token).subscribe((resp: any) => {
       this.poaList = resp.data;
-      this.sortPoaList();
+      // this.sortPoaList();
       this.filteredPoaList = [...this.poaList];
       // console.log(this.poaList);
       // console.log(resp);
     });
   }
 
-  //ordena lista de poa
-  sortPoaList() {
-    const orderMap: { [key: string]: number } = {
-      'en proceso': 0,
-      'aprobado': 1,
-      'rechazado': 2
-    };
+  //ordena lista de poa por estado
+  // sortPoaList() {
+  //   const orderMap: { [key: string]: number } = {
+  //     'en proceso': 0,
+  //     'aprobado': 1,
+  //     'rechazado': 2
+  //   };
 
-    this.poaList.sort((a, b) => {
-      const statusA = a.status.toLowerCase();
-      const statusB = b.status.toLowerCase();
-      return (orderMap[statusA] ?? 3) - (orderMap[statusB] ?? 3);
-    });
-  }
+  //   this.poaList.sort((a, b) => {
+  //     const statusA = a.status.toLowerCase();
+  //     const statusB = b.status.toLowerCase();
+  //     return (orderMap[statusA] ?? 3) - (orderMap[statusB] ?? 3);
+  //   });
+  // }
 
   //filtra lista de poa
   filterPoa(status: string | null) {

@@ -4,5 +4,30 @@
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #ab0a3d63;
+    background-color: #fc829c;
+    font-size: .7rem;
+}
+
+.form-label{
+    font-size: .7rem;
+}
+
+.form-control{
+    font-size: .8rem;
+}
+
+.form-select {
+    font-size: .8rem;
+}
+
+.update{
+    font-size: .7rem;
+}
+
+.col-md-12{
+    font-size: .7rem;
+}
+
+.dates{
+    font-size: .7rem;
 }

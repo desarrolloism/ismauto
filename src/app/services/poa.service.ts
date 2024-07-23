@@ -30,7 +30,6 @@ export class PoaService {
     status: string,
     company: string,
     campus: string,
-
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -97,7 +96,9 @@ export class PoaService {
     academicYearId: number,
     objective: string,
     total: number,
-    status: string
+    status: string,
+    company: string,
+    campus: string,
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -117,7 +118,9 @@ export class PoaService {
       academic_year_id: academicYearId,
       objective: objective,
       total: total,
-      status: status
+      status: status,
+      company: company,
+      campus: campus,
     }
     return this._http.post(`${this.url}/poa_update`, data, { headers: headers });
   }
@@ -176,7 +179,8 @@ export class PoaService {
     resourcesAmmount: number,
     approvedAmount: number,
     comments: string,
-    accountingCount: string
+    accountingCount: string,
+    priority: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -193,7 +197,8 @@ export class PoaService {
       resources_amount: resourcesAmmount,
       approved_amount: approvedAmount,
       comments: comments,
-      accounting_count: accountingCount
+      accounting_count: accountingCount,
+      priority: priority
 
     }
     return this._http.post(`${this.url}/poa_activities_create`, data, { headers: headers });
@@ -210,7 +215,8 @@ export class PoaService {
     resourcesAmmount: number,
     approvedAmount: number,
     comments: string,
-    accountingCount: string
+    accountingCount: string,
+    priority: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -227,7 +233,8 @@ export class PoaService {
       resources_amount: resourcesAmmount,
       approved_amount: approvedAmount,
       comments: comments,
-      accounting_count: accountingCount
+      accounting_count: accountingCount,
+      priority: priority
     }
     return this._http.post(`${this.url}/poa_activities_update`, data, { headers: headers });
   }

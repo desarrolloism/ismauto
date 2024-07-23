@@ -3,9 +3,6 @@ import {
   MatFormField
 } from "./chunk-Y4A7NEN7.js";
 import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-HP67LIUM.js";
-import {
   Overlay,
   OverlayConfig,
   OverlayModule
@@ -26,6 +23,9 @@ import {
   trigger
 } from "./chunk-LSGKAEYM.js";
 import "./chunk-X5XXSNL6.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-HP67LIUM.js";
 import {
   ActiveDescendantKeyManager,
   DOWN_ARROW,
