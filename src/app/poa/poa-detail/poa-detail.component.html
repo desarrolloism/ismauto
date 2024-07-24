@@ -1,20 +1,23 @@
 <app-header-app></app-header-app>
 <div class="row container">
-    <div class="col-md-2 p-2 d-flex justify-content-start">
-        <button class="update" mat-raised-button color="primary"
+    <div class="col-md-2 p-1 d-flex justify-content-start">
+        <button matTooltip="Listado de POA" class="update" mat-raised-button
+            color="primary"
             routerLink="/home-poa"> <i
-                class="fa-regular fa-rectangle-list me-2"></i>Listado</button>
+                class="fa-regular fa-rectangle-list me-2"></i>POAS</button>
     </div>
 </div>
 
-<h3 class="text-center fw-bold">Detalle: {{ poaDetail.name }} - {{
-    poaDetail.responsible }}</h3>
+<h3 class="text-center fw-bold">POA: {{ poaDetail.name }} - {{
+    poaDetail.responsible }} - <span class="text-secondary">
+        {{poaDetail.status}}</span><span class="text-secondary"> - Total: {{
+        poaDetail.total }}$</span></h3>
 
-<div class="p-4">
+<div class="container">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <!-- fomulario para actualizar POA -->
-            <mat-accordion *ngIf="is_admin == false">
+            <mat-accordion class="custom-shadow-panel">
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title> Actualizar POA </mat-panel-title>
@@ -25,7 +28,62 @@
                             poaDetail.department}}
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <form (ngSubmit)="onUpdate()">
+                    <div class="mb-3 admin" *ngIf="is_admin == true">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4>Área: <span>{{poaDetail.area}}</span></h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>CCPF: <span>{{poaDetail.ccpf}}</span></h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Nombre del proyecto:
+                                    <span>{{poaDetail.name}}</span></h4>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4>Campus:
+                                    <span>{{poaDetail.campus}}</span></h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Consejo estudiantil:
+                                    <span>{{poaDetail.student_council}}</span></h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Empresa:
+                                    <span>{{poaDetail.enterprise}}</span></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Objetivo:
+                                    <span>{{poaDetail.objective}}</span></h4>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <div class="mb-3" style="width: 30%;"
+                                *ngIf="poaDetail.status != 'APROBADO'">
+                                <label for="status"
+                                    class="form-label">Estado:</label>
+                                <select (change)="onUpdate()"
+                                    [(ngModel)]="selectedStatus"
+                                    name="status" class="form-select"
+                                    aria-label="Default select example">
+                                    <option *ngFor="let state of taskStates"
+                                        [value]="state">{{state}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <form (ngSubmit)="onUpdate()" *ngIf="is_admin == false">
+                        <h2>Formulario de actualización de POA </h2>
+
+                        <hr>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
@@ -34,6 +92,7 @@
                                     <input type="text" class="form-control"
                                         name="are" [(ngModel)]="poaDetail.area">
                                 </div>
+
                             </div>
 
                             <div class="col-md-4">
@@ -44,6 +103,7 @@
                                         name="ccpf"
                                         [(ngModel)]="poaDetail.ccpf">
                                 </div>
+
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
@@ -56,7 +116,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="campus"
                                         class="form-label">Campus
@@ -71,7 +131,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="student_council"
                                         class="form-label">Consejo
@@ -81,7 +141,7 @@
                                         [(ngModel)]="poaDetail.student_council">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="company"
                                         class="form-label">Empresa</label>
@@ -90,19 +150,7 @@
                                         [(ngModel)]="poaDetail.company">
                                 </div>
                             </div>
-                            <div class="col-md-3 d-flex justify-content-center">
-                                <div class="mb-3" style="width: 100%;">
-                                    <label for="status"
-                                        class="form-label">Estado:</label>
-                                    <select [(ngModel)]="selectedStatus"
-                                        name="status" class="form-select"
-                                        aria-label="Default select example">
-                                        <option value>Sin cambios</option>
-                                        <option *ngFor="let state of taskStates"
-                                            [value]="state">{{state}}</option>
-                                    </select>
-                                </div>
-                            </div>
+
                         </div>
                         <div class="mb-3">
                             <label for="objective"
@@ -115,8 +163,8 @@
                             <button class="update" type="submit"
                                 mat-raised-button
                                 color="primary">Actualizar</button>
-                            <a class="update" mat-raised-button
-                                (click)="onCancel()">Cancelar</a>
+                            <!-- <a class="update" mat-raised-button
+                                (click)="onCancel()">Cancelar</a> -->
                             <a *ngIf="poaDetail.status == 'EN PROCESO'"
                                 class="update" mat-raised-button color="warn"
                                 (click)="onDelete()">Eliminar POA</a>
@@ -124,18 +172,20 @@
                     </form>
                 </mat-expansion-panel>
             </mat-accordion>
+
             <!-- fin fomulario para actualizar POA -->
 
             <!-- BOTON PARA AGREGAR ACTIVIDAD -->
             <div class="row mt-4 mb-3">
                 <div class="row">
                     <div class="col-md-4 mb-3 d-flex justify-content-center"><h4
-                            class="text-center">Actividades
+                            class="text-center"><i
+                                class="fa-regular fa-clipboard me-2"></i>Actividades
                             ({{ allActivities?.length
                             }}):</h4></div>
                     <!-- barra de busqueda -->
                     <div class="col-md-4 mb-3">
-                        <input type="text"
+                        <input type="text" style="border-radius: 50px;"
                             class="form-control text-center"
                             placeholder="Búsqueda por actividad o detalle de recurso"
                             [(ngModel)]="searchTerm" (input)="onSearch()">
@@ -144,7 +194,8 @@
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
                     <div class="col-md-4 mb-3 d-flex justify-content-center"
                         *ngIf="poaDetail.status != 'APROBADO'">
-                        <button *ngIf="is_admin == false" class="update" mat-raised-button color="primary"
+                        <button *ngIf="is_admin == false" class="update"
+                            mat-raised-button color="primary"
                             data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
                             <i class="fa-solid fa-folder-plus"></i> Agregar
@@ -153,18 +204,50 @@
                     </div>
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
                 </div>
-                <div class="overflow-auto p-4" style="height: 300px;">
-                    <mat-accordion>
+
+                <!-- TABLA DE ACTIVIDADES -->
+                <div class="overflow-auto p-2">
+                    <mat-accordion class="custom-shadow-panel">
                         <mat-expansion-panel
                             *ngFor="let activity of allActivities"
                             (click)="getActivityId(activity.id)">
-                            <mat-expansion-panel-header>
+                            <mat-expansion-panel-header
+                                style="background-color: rgb(109, 121, 121)">
                                 <mat-panel-title>
-                                    {{activity.activity}}
+                                    <p matTooltip="{{activity.activity}}"
+                                        class="truncate text-white"><i
+                                            class="fa-regular fa-clipboard me-2"></i>{{activity.activity}}</p>
                                 </mat-panel-title>
+                                <mat-panel-description class="dates text-white">
+                                    <i
+                                        class="fa-regular fa-calendar me-2"></i>Inicio:
+                                    {{ activity.start_date | date }} -
+                                    Fin: {{ activity.end_date | date }} <i
+                                        class="fa-solid fa-calendar-check ms-2"></i>
+                                </mat-panel-description>
                                 <mat-panel-description class="dates">
-                                    Inicio: {{ activity.start_date | date }} -
-                                    Fin: {{ activity.end_date | date }}
+                                    <i
+                                        class="fa-solid fa-file-invoice-dollar me-2"></i>Monto
+                                    requerido: {{
+                                    activity.resources_amount }}$ -
+                                    <span
+                                        *ngIf="activity.approved_amount != '0.00'"
+                                        class="text-white"
+                                        style="margin-left: 5px;">
+                                        Monto aprobado: {{
+                                        activity.approved_amount }}$ <i
+                                            class="fa-regular fa-circle-check"></i>
+                                    </span>
+                                    <span
+                                        *ngIf="activity.approved_amount == '0.00'"
+                                        class="p-1 bg-white progress-container fw-bold"
+                                        style="border-radius: 10px; margin-left: 5px;">
+                                        En revisión
+                                        <mat-progress-bar mode="buffer"
+                                            class="progress-bar"></mat-progress-bar>
+
+                                    </span>
+
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <div class="row">
@@ -180,8 +263,8 @@
                                             {{ activity.resources_amount }}</p>
                                         <p
                                             class="text-truncate"
-                                            matTooltip="{{activity.comments}}"
-                                            *ngIf="activity.comments"><strong>Comentarios:</strong>
+                                            *ngIf="activity.comments"><strong
+                                                matTooltip="{{activity.comments}}">Comentarios:</strong>
                                             {{
                                             activity.comments }}</p>
                                         <div *ngIf="is_admin == true">
@@ -199,12 +282,13 @@
                             <div class="row d-flex justify-content-center">
                                 <div
                                     class="col-md-6 d-flex justify-content-evenly">
+                                    @if (activity.approved_amount == '0.00') {
                                     <div *ngIf="poaDetail.status != 'APROBADO'">
                                         <button class="update" mat-raised-button
-                                        color="primary"
-                                        *ngIf="!isEditing || editingActivityId !== activity.id"
-                                        (click)="startEditing(activity)">Editar
-                                        actividad</button>
+                                            color="primary"
+                                            *ngIf="!isEditing || editingActivityId !== activity.id"
+                                            (click)="startEditing(activity)">Editar
+                                            actividad</button>
                                     </div>
                                     <div
                                         *ngIf="poaDetail.status == 'EN PROCESO'">
@@ -213,9 +297,15 @@
                                             style="background-color: brown;color: white;"
                                             (click)="deleteActivity(activity.id)">Eliminar</button>
                                     </div>
+                                    } @else {
 
-                                    <a *ngIf="poaDetail.status == 'APROBADO'" class="update" mat-raised-button 
-                                    (click)="downloadActivityPDF(activity); $event.stopPropagation()">PDF de la actividad</a>
+                                    <a
+                                        class="update bg-success text-white"
+                                        mat-raised-button
+                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">Aprobado,
+                                        Descarga PDF
+                                        de la actividad!</a>
+                                    }
 
                                 </div>
                             </div>
@@ -244,7 +334,9 @@
                                                             for="resources_amount"
                                                             class="form-label">Monto
                                                             de
-                                                            recursos ({{ activity.resources_amount }}$):</label>
+                                                            recursos ({{
+                                                            activity.resources_amount
+                                                            }}$):</label>
                                                         <input type="number"
                                                             class="form-control"
                                                             id="resources_amount"
@@ -258,7 +350,9 @@
                                                         <label
                                                             for="resources_amount"
                                                             class="form-label">Fecha
-                                                            de inicio:</label>
+                                                            de inicio
+                                                            ({{activity.start_date
+                                                            | date}}):</label>
                                                         <input type="date"
                                                             class="form-control"
                                                             id="resources_amount"
@@ -274,7 +368,9 @@
                                                         <label
                                                             for="resources_amount"
                                                             class="form-label">Fecha
-                                                            de fin:</label>
+                                                            de fin
+                                                            ({{activity.end_date
+                                                            | date}}):</label>
                                                         <input type="date"
                                                             class="form-control"
                                                             id="resources_amount"
@@ -288,7 +384,10 @@
 
                                                     <div class="mb-3 ">
                                                         <label for="campus"
-                                                            class="form-label">Prioridad ({{ activity.priority }}):</label>
+                                                            class="form-label">Prioridad
+                                                            ({{
+                                                            activity.priority
+                                                            }}):</label>
 
                                                         <select
                                                             class="form-select"
@@ -320,7 +419,7 @@
                                                             name="resources_detail"></textarea>
                                                     </div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
 
@@ -389,13 +488,16 @@
                                                     *ngIf="poaDetail.status == 'EN PROCESO'"
                                                     style="background-color: brown;color: white;"
                                                     (click)="deleteActivity(activity.id)">Eliminar</button>
-                                                    <a *ngIf="poaDetail.status == 'APROBADO'" class="update" mat-raised-button 
+                                                <a
+                                                    *ngIf="poaDetail.status == 'APROBADO'"
+                                                    class="update"
+                                                    mat-raised-button
                                                     (click)="downloadActivityPDF(activity); $event.stopPropagation()">Descargar
                                                     PDF</a>
                                             </div>
                                         </div>
                                     </form>
-                                    
+
                                 </div>
                             </div>
                         </mat-expansion-panel>
@@ -404,63 +506,32 @@
 
                 <!-- agregar fimas -->
                 <!-- Button trigger modal -->
-                <a *ngIf="is_admin == false" type="button" class="mb-2"
-                    style="text-decoration: underline;color: black;"
-                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Agregar firmas
-                </a>
-
+                @if( signaturesList?.length == 1){
+                    <div class="alert alert-success" role="alert">
+                        Se ha enviado a su jefe directo para
+                    aprobación<i class="fa-solid fa-user-check ms-2"></i>
+                      </div>
+             
                 <ul class="list-group" *ngFor="let sig of signaturesList">
-                    <li class="list-group-item"> {{ sig.user_name }}
+                    <li class="list-group-item"> <b>Jefe directo:</b> {{
+                        sig.user_name }}
                         <span>{{ sig.user_email }}</span>
-                        <p>{{ sig.coments }}</p></li>
+                        <p>{{ sig.coments }}</p>
+                    </li>
                 </ul>
+                } @else {
+                <div style="width: 30%;">
+                    <a mat-raised-button *ngIf="is_admin == false" type="button"
+                        class="mb-2 bg-success text-white"
+                        data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Enviar POA
+                    </a>
+                </div>
+                }
 
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="text-center" style="color: black;">
-                <i class="fa-solid fa-circle-info"></i> Manual de usuario
-            </div>
-            <div class="cards1 mt-2">
-                <b><i class="fa-solid fa-chart-line"></i> Estadísticas de
-                    Mantenimiento</b>
-                <p class="text-dark">
-                    La gráfica muestra el estado actual de casos
-                    (iniciando, en proceso, etc.), útil para gestionar el
-                    flujo de trabajo.
-                </p>
-            </div>
-            <div class="cards1">
-                <b><i class="fa-regular fa-paper-plane"></i> Creación de
-                    Casos</b>
-                <p class="text-dark">
-                    Para crear un caso de mantenimiento u otro departamento,
-                    debe ingresar al
-                    proceso desde el menu izquierdo
-                    <i class="fa-solid fa-bars"></i>.
-                </p>
-            </div>
-            <div class="cards1">
-                <b><i class="fa-regular fa-file-lines"></i> Obtener
-                    resportería</b>
-                <p class="text-dark">
-                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
-                    podemos escoger la opción de reportería del proceso que
-                    necesitemos, esto nos llevará a una nueva página para
-                    visualizar la información.
-                </p>
-            </div>
-            <div class="cards1">
-                <b><i class="fa-solid fa-sliders"></i> Configuración de
-                    usuario</b>
-                <p class="text-dark">
-                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
-                    podemos editar la configuración de usuario, especificamente
-                    cambiar la contraseñas.
-                </p>
-            </div>
-        </div>
+
     </div>
 </div>
 
@@ -606,7 +677,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar
-                    firma</h1>
+                    jefe directo</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>

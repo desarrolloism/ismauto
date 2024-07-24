@@ -21,7 +21,7 @@ import {MatListModule} from '@angular/material/list';
 import { PoaDetailComponent } from './poa-detail/poa-detail.component'; 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import {MatProgressBarModule} from '@angular/material/progress-bar'; 
 
 @NgModule({
   declarations: [
@@ -52,7 +52,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatSelectModule,
     MatListModule,
     MatProgressSpinnerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatProgressBarModule
   ]
 })
 export class POAModule { }

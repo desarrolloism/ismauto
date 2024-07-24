@@ -86,45 +86,49 @@ export class PoaDetailComponent {
   selectedUserId: any = [];
   actualDate: any;
 
-  //genera un pdf 
-
+  //genera un pdf de la actividad
   downloadActivityPDF(activity: any) {
     const doc = new jsPDF();
 
-    // 1. Agregar logo
+    //Agregar logo
     //se agg la img
     const logoURL = 'assets/images/logo.png';
     const logoWidth = 20;
     const logoHeight = 10;
     doc.addImage(logoURL, 'PNG', 10, 10, logoWidth, logoHeight);
 
-    // 2. Título principal
-    doc.setFontSize(18);
+    //Título principal
+    doc.setFontSize(14);
     doc.setTextColor(41, 128, 185); // Color azul
     doc.text(`${this.poaDetail.name}`, 105, 25, { align: 'center' });
 
-    // 3. Subtítulo
-    doc.setFontSize(14);
+    //Subtítulo
+    doc.setFontSize(10);
     doc.setTextColor(0); // Color negro
     doc.text(`Responsable: ${this.poaDetail.responsible}`, 105, 35, { align: 'center' });
 
 
-    // 3. Departamento
-    doc.setFontSize(12);
-    doc.setTextColor(128,128,128); // Color negro
+    //Departamento
+    doc.setFontSize(8);
+    doc.setTextColor(128, 128, 128); // Color negro
     doc.text(`Departamento: ${this.poaDetail.department}`, 105, 42, { align: 'center' });
 
-    // 4. Fecha de generación del informe
+    //Fecha de generación del informe
     const today = new Date().toLocaleDateString();
     doc.setFontSize(10);
     if (this.poaDetail.academic_year_id == 19) {
-      doc.text(`Fecha de generación: 2024-2025`, 195, 10, { align: 'right' });
+      doc.text(`Periodo: 2024-2025`, 195, 10, { align: 'right' });
     } else {
-      doc.text(`Fecha de generación: No encontrada`, 195, 10, { align: 'right' });
+      doc.text(`Periodo: No encontrada`, 195, 10, { align: 'right' });
     }
 
+    // Fecha de generación en verde
+    const today1 = new Date().toLocaleDateString();
+    doc.setFontSize(8);
+    doc.setTextColor(0, 128, 0);  // Verde oscuro
+    doc.text(`Fecha de generación: ${today1}`, 195, 15, { align: 'right' });
 
-    // 5. Tabla de datos
+    //Tabla de datos
     const columns = ['Campo', 'Valor'];
     const data = [
       ['Actividad', activity.activity],
@@ -147,12 +151,26 @@ export class PoaDetailComponent {
       columnStyles: { 0: { cellWidth: 50 }, 1: { cellWidth: 'auto' } }
     });
 
-    // 6. Sección de comentarios
+    //Sección de comentarios
     const finalY = (doc as any).lastAutoTable.finalY || 45;
+    doc.setFontSize(12);
+    doc.setTextColor(0);
     doc.text('Comentarios:', 14, finalY + 10);
-    const splitComments = doc.splitTextToSize(activity.comments, 180);
+
     doc.setFontSize(10);
-    doc.text(splitComments, 14, finalY + 20);
+    const splitComments = doc.splitTextToSize(activity.comments, 180);
+
+    let yPosition = finalY + 20;
+    const pageHeight = doc.internal.pageSize.height;
+
+    splitComments.forEach((line: string) => {
+      if (yPosition + 10 > pageHeight - 20) {
+        doc.addPage();
+        yPosition = 20; // Reinicia la posición Y en la nueva página
+      }
+      doc.text(line, 14, yPosition);
+      yPosition += 7; // Incrementa la posición Y para la siguiente línea
+    });
 
     // 7. Pie de página
     // const pageCount = doc.internal.getNumberOfPages();
@@ -163,8 +181,8 @@ export class PoaDetailComponent {
     //   doc.text('Documento generado automáticamente', 105, 295, { align: 'center' });
     // }
 
-    // 8. Guardar el PDF
-    doc.save(`actividad_${activity.id}.pdf`);
+    //Guardar el PDF
+    doc.save(`actividad_${activity.activity}.pdf`);
   }
 
 
@@ -434,36 +452,43 @@ export class PoaDetailComponent {
     // console.log('fecha actual', this.actualDate);
     // console.log(this.usersId);
     // console.log(this.poaId);
-    this._poaService.createSignatures(
-      this.token,
-      this.poaId,
-      this.usersId,
-      this.signature.coments,
-      this.signature.is_accepted,
-      this.actualDate
-    ).subscribe((resp: any) => {
-      if (resp.status === 'ok') {
-        this.listSignatures();
-        // Cerrar la modal
-        const modal = document.getElementById('staticBackdrop');
-        if (modal) {
-          const bootstrapModal = bootstrap.Modal.getInstance(modal);
-          if (bootstrapModal) {
-            bootstrapModal.hide();
+    if (confirm('Está seguro de enviar a aprobar el POA? Una vez enviado no se puede deshacer ni modificar.')) {
+      this._poaService.createSignatures(
+        this.token,
+        this.poaId,
+        this.usersId,
+        this.signature.coments,
+        this.signature.is_accepted,
+        this.actualDate
+      ).subscribe((resp: any) => {
+
+
+        if (resp.status === 'ok') {
+          this.listSignatures();
+          // Cerrar la modal
+          const modal = document.getElementById('staticBackdrop');
+          if (modal) {
+            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+            if (bootstrapModal) {
+              bootstrapModal.hide();
+            }
           }
         }
-      }
 
-      // console.log(resp);
-      this.listSignatures();
-    })
+
+
+        // console.log(resp);
+        this.listSignatures();
+      });
+    }
   }
+
 
   //listado de firmas
   listSignatures() {
     this._poaService.getSignatures(this.token, this.poaId).subscribe((resp: any) => {
       this.signaturesList = resp.data;
-      // console.log('firmas', this.signaturesList);
+      console.log('firmas', this.signaturesList);
     })
   }
 }
