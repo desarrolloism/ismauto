@@ -26,7 +26,8 @@ export class PoaService {
     responsible: string,
     academicYearId: number,
     objective: string,
-    total: number,
+    totalResources: number,
+    totalAproved: number,
     status: string,
     company: string,
     campus: string,
@@ -49,7 +50,8 @@ export class PoaService {
       responsible: responsible,
       academic_year_id: academicYearId,
       objective: objective,
-      total: total,
+      total_resources: totalResources,
+      total_aproved: totalAproved,
       status: status,
       company: company,
       campus: campus,
@@ -95,7 +97,8 @@ export class PoaService {
     responsible: string,
     academicYearId: number,
     objective: string,
-    total: number,
+    totalResources: number,
+    totalAproved: number,
     status: string,
     company: string,
     campus: string,
@@ -117,7 +120,8 @@ export class PoaService {
       responsible: responsible,
       academic_year_id: academicYearId,
       objective: objective,
-      total: total,
+      total_resources: totalResources,
+      total_aproved: totalAproved,
       status: status,
       company: company,
       campus: campus,
@@ -126,14 +130,14 @@ export class PoaService {
   }
 
   //elimina el POA
-  deletePoa(token: any, id: number) {
+  deletePoa(token: any, poaId: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
     const data = {
-      id: id
+      poa_id: poaId
     }
     return this._http.post(`${this.url}/poa_delete`, data, { headers: headers });
   }

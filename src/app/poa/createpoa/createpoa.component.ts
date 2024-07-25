@@ -46,8 +46,9 @@ export class CreatepoaComponent implements OnInit {
     responsible: '',
     academic_year_id: 19,
     objective: '',
-    total: 0,
-    status: 'EN PROCESO',
+    total_resources: 0,
+    total_aproved: 0,
+    status: '',
   };
 
   taskStates = ['INICIANDO'];
@@ -154,8 +155,9 @@ export class CreatepoaComponent implements OnInit {
         this.cedula.nombre,
         19,
         this.objectiveForm.value.objective,
-        this.newPoa.total,
-        this.newPoa.status,
+        this.newPoa.total_resources,
+        this.newPoa.total_aproved,
+        this.newPoa.status = this.fullname,
         this.enterpriseForm.value.enterprise,
         this.campusForm.value.campus,
       ).subscribe({

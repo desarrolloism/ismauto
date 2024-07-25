@@ -56,7 +56,8 @@ export class PoaDetailComponent {
     responsible: '',
     academic_year_id: 19,
     objective: '',
-    total: 0,
+    total_resources: 0,
+    total_aproved: 0,
     company: '',
     campus: '',
     priority: ''
@@ -253,14 +254,23 @@ export class PoaDetailComponent {
       this.upPoa.responsible = this.poaDetail.responsible,
       this.upPoa.academic_year_id = this.poaDetail.academic_year_id,
       this.upPoa.objective = this.poaDetail.objective,
-      this.upPoa.total = this.poaDetail.total,
+      this.upPoa.total_resources = this.poaDetail.total_resources,
+      this.upPoa.total_aproved = this.poaDetail.total_aproved,
       updatedStatus,
       this.upPoa.company = this.poaDetail.company,
       this.upPoa.campus = this.poaDetail.campus,
     ).subscribe((resp: any) => {
       if (resp.status == 'ok') {
-        if (window.confirm('Poa actualizado con éxito, ¿desea regresar al listado?')) {
-          this._router.navigate(['/home-poa']);
+        this.getPoa();
+        const modal = document.getElementById('staticBackdrop');
+        if (modal) {
+          const bootstrapModal = bootstrap.Modal.getInstance(modal);
+          if (bootstrapModal) {
+            bootstrapModal.hide();
+            if (window.confirm('Poa actualizado con éxito, ¿desea regresar al listado?')) {
+              this._router.navigate(['/home-poa']);
+            }
+          }
         }
       }
     });
@@ -271,6 +281,8 @@ export class PoaDetailComponent {
     if (window.confirm('¿Está seguro de eliminar este POA? este proceso no se puede deshacer')) {
       this._poaService.deletePoa(this.token, this.poaId).subscribe((resp: any) => {
         if (resp.status == 'ok') {
+          console.log(resp);
+          console.log(this.poaId);
           this._router.navigate(['/home-poa']);
         }
       });
@@ -318,6 +330,7 @@ export class PoaDetailComponent {
         // Vaciar el formulario
         this.resetCreatePoaForm();
         this.showActivities();
+        this.getPoa();
       }
     });
   }
@@ -341,7 +354,9 @@ export class PoaDetailComponent {
       // console.log(this.dataUpdateActivity);
       if (this.dataUpdateActivity.status === 'ok') {
         this.showActivities();
+        this.getPoa();
         alert('Actividad actualizada con éxito');
+
       }
     });
   }
@@ -396,6 +411,7 @@ export class PoaDetailComponent {
         // console.log(this.dataDeleteActivity);
         if (this.dataDeleteActivity.status === "ok") {
           this.showActivities();
+          this.getPoa();
           alert('Actividad eliminada con éxito');
         }
       });
@@ -434,7 +450,7 @@ export class PoaDetailComponent {
 
   getAdmin() {
     this._poaService.getPoaAdmin(this.token, this.dni).subscribe((resp: any) => {
-      // console.log(resp.data);
+      // console.log('admin',resp.data);
       this.is_admin = resp.data.is_admin;
       // console.log(this.is_admin);
     })
@@ -461,8 +477,6 @@ export class PoaDetailComponent {
         this.signature.is_accepted,
         this.actualDate
       ).subscribe((resp: any) => {
-
-
         if (resp.status === 'ok') {
           this.listSignatures();
           // Cerrar la modal

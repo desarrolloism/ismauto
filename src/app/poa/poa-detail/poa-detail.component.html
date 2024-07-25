@@ -10,8 +10,10 @@
 
 <h3 class="text-center fw-bold">POA: {{ poaDetail.name }} - {{
     poaDetail.responsible }} - <span class="text-secondary">
-        {{poaDetail.status}}</span><span class="text-secondary"> - Total: {{
-        poaDetail.total }}$</span></h3>
+        {{poaDetail.status}}</span><span class="text-secondary"> - Total
+        requerido: {{
+        poaDetail.total_resources }}$ - Total aprobado: {{
+        poaDetail.total_aproved }}$</span></h3>
 
 <div class="container">
     <div class="row">
@@ -165,7 +167,7 @@
                                 color="primary">Actualizar</button>
                             <!-- <a class="update" mat-raised-button
                                 (click)="onCancel()">Cancelar</a> -->
-                            <a *ngIf="poaDetail.status == 'EN PROCESO'"
+                            <a *ngIf="poaDetail.status != 'APROBADO'"
                                 class="update" mat-raised-button color="warn"
                                 (click)="onDelete()">Eliminar POA</a>
                         </div>
@@ -194,7 +196,7 @@
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
                     <div class="col-md-4 mb-3 d-flex justify-content-center"
                         *ngIf="poaDetail.status != 'APROBADO'">
-                        <button *ngIf="is_admin == false" class="update"
+                        <button class="update"
                             mat-raised-button color="primary"
                             data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
@@ -251,22 +253,41 @@
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 mt-4">
                                     <div
                                         *ngIf="!isEditing || editingActivityId !== activity.id">
 
-                                        <p class="text-truncate"><strong>Detalle
+                                        <p><strong
+                                                matTooltip="{{activity.activity}}"><i
+                                                    class="fa-regular fa-clipboard me-2"></i>
+                                                Actividad:</strong>
+                                            {{ activity.activity }}</p>
+
+                                        <p><strong><i
+                                                    class="fa-solid fa-info me-2"></i>
+                                                Detalle
                                                 de recursos:</strong>
                                             {{ activity.resources_detail }}</p>
 
-                                        <p><strong>Monto de recursos:</strong>
+                                        <p><strong><i
+                                                    class="fa-solid fa-file-invoice-dollar me-2"></i>
+                                                Monto de recursos:</strong>
                                             {{ activity.resources_amount }}</p>
                                         <p
-                                            class="text-truncate"
+                                            *ngIf="activity.approved_amount != '0.00'"><strong><i
+                                                    class="fa-regular fa-circle-check me-2"></i>Monto
+                                                aprobado:</strong>
+                                            {{ activity.approved_amount }}</p>
+
+                                        <p
                                             *ngIf="activity.comments"><strong
                                                 matTooltip="{{activity.comments}}">Comentarios:</strong>
                                             {{
                                             activity.comments }}</p>
+                                        <p
+                                            *ngIf="activity.accounting_count"><strong>Cuenta
+                                                contable:</strong>
+                                            {{ activity.accounting_count }}</p>
                                         <div *ngIf="is_admin == true">
                                             <p><strong>Monto aprobado:</strong>
                                                 {{
@@ -280,10 +301,32 @@
 
                             </div>
                             <div class="row d-flex justify-content-center">
+                                @if (signaturesList?.length == 1 && is_admin ==
+                                false && activity.approved_amount == '0.00') {
+                                <div class="alert alert-secondary" role="alert">
+                                    Se ha enviado a su jefe directo para
+                                    aprobación
+                                    <mat-progress-bar
+                                        mode="indeterminate"></mat-progress-bar>
+
+                                </div>
+                                <div class="row d-flex justify-content-center">
+                                    <div style="width: 30%;">
+                                        <a
+                                            class="update bg-success text-white"
+                                            mat-raised-button
+                                            (click)="downloadActivityPDF(activity); $event.stopPropagation()">
+                                            Descarga PDF
+                                            de la actividad!</a>
+                                    </div>
+                                </div>
+
+                                } @else{
                                 <div
                                     class="col-md-6 d-flex justify-content-evenly">
                                     @if (activity.approved_amount == '0.00') {
-                                    <div *ngIf="poaDetail.status != 'APROBADO'">
+                                    <div
+                                        *ngIf="poaDetail.status != 'APROBADO' ">
                                         <button class="update" mat-raised-button
                                             color="primary"
                                             *ngIf="!isEditing || editingActivityId !== activity.id"
@@ -291,7 +334,7 @@
                                             actividad</button>
                                     </div>
                                     <div
-                                        *ngIf="poaDetail.status == 'EN PROCESO'">
+                                    *ngIf="poaDetail.status != 'APROBADO'">
                                         <button class="update" mat-raised-button
                                             *ngIf="!isEditing || editingActivityId !== activity.id "
                                             style="background-color: brown;color: white;"
@@ -299,15 +342,18 @@
                                     </div>
                                     } @else {
 
-                                    <a
-                                        class="update bg-success text-white"
+                                    }
+                                    @if (activity.approved_amount != '0.00' ||
+                                    poaDetail.status == 'APROBADO') {
+                                    <a class="update bg-success text-white"
                                         mat-raised-button
-                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">Aprobado,
+                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">
                                         Descarga PDF
                                         de la actividad!</a>
                                     }
-
                                 </div>
+                                }
+
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -485,11 +531,11 @@
                                                     (click)="cancelEditing()">Cancelar</button>
                                                 <button class="update"
                                                     mat-raised-button
-                                                    *ngIf="poaDetail.status == 'EN PROCESO'"
+                                                    *ngIf="poaDetail.status != 'APROBADO'"
                                                     style="background-color: brown;color: white;"
                                                     (click)="deleteActivity(activity.id)">Eliminar</button>
                                                 <a
-                                                    *ngIf="poaDetail.status == 'APROBADO'"
+                                                    *ngIf="poaDetail.status == 'APROBADO' "
                                                     class="update"
                                                     mat-raised-button
                                                     (click)="downloadActivityPDF(activity); $event.stopPropagation()">Descargar
@@ -506,14 +552,14 @@
 
                 <!-- agregar fimas -->
                 <!-- Button trigger modal -->
-                @if( signaturesList?.length == 1){
-                    <div class="alert alert-success" role="alert">
-                        Se ha enviado a su jefe directo para
+                @if( signaturesList?.length == 1 && is_admin == false) {
+                <div class="alert alert-success" role="alert">
+                    Se ha enviado a su jefe directo para
                     aprobación<i class="fa-solid fa-user-check ms-2"></i>
-                      </div>
-             
+                </div>
+
                 <ul class="list-group" *ngFor="let sig of signaturesList">
-                    <li class="list-group-item"> <b>Jefe directo:</b> {{
+                    <li class="list-group-item"><b>Jefe directo:</b> {{
                         sig.user_name }}
                         <span>{{ sig.user_email }}</span>
                         <p>{{ sig.coments }}</p>
@@ -685,7 +731,7 @@
                 <form>
                     <div class="mb-3">
                         <label for class="form-label">Asignar usuario:</label>
-                        <select (change)="onUserSelect($event)"
+                        <!-- <select (change)="onUserSelect($event)"
                             [(ngModel)]="usersId" name="usuario"
                             class="form-select"
                             aria-label="Default select example">
@@ -694,7 +740,21 @@
                                 [value]="user.id">
                                 {{ user.first_name }}
                             </option>
-                        </select>
+                        </select> -->
+                        <div class="mb-3" style="width: 30%;"
+                            *ngIf="poaDetail.status != 'APROBADO'">
+                            <label for="status"
+                                class="form-label">Estado:</label>
+                            <select (change)="onUpdate()"
+                                [(ngModel)]="selectedStatus"
+                                name="status" class="form-select"
+                                aria-label="Default select example">
+                                <option *ngFor="let user of users"
+                                    [value]="user.first_name">
+                                    {{ user.first_name }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for class="form-label">Comentario:</label>
