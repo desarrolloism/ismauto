@@ -37,14 +37,13 @@ export class PoaDetailComponent {
   users: any;
   usersId: any;
   signaturesList: any;
-
+  firstUser: string = '';
 
   signature = {
     coments: '',
     is_accepted: false,
     date_accepted: '',
   }
-
 
   upPoa = {
     area: '',
@@ -60,11 +59,16 @@ export class PoaDetailComponent {
     total_aproved: 0,
     company: '',
     campus: '',
-    priority: ''
+    priority: '',
+    status: '',
+    coment_rejected: '',
+    user_ci: ''
   }
 
+
   selectedStatus: string = '';
-  taskStates = ['EN PROCESO', 'APROBADO', 'RECHAZADO'];
+  taskStates = ['APROBADO', 'RECHAZADO'];
+  showRejectComment: boolean = false;
 
   createPoa = {
     poa_id: 0,
@@ -86,6 +90,12 @@ export class PoaDetailComponent {
 
   selectedUserId: any = [];
   actualDate: any;
+
+  rejectComment: string = '';
+
+
+
+
 
   //genera un pdf de la actividad
   downloadActivityPDF(activity: any) {
@@ -131,47 +141,98 @@ export class PoaDetailComponent {
 
     //Tabla de datos
     const columns = ['Campo', 'Valor'];
-    const data = [
-      ['Actividad', activity.activity],
-      ['Fecha de inicio', new Date(activity.start_date).toLocaleDateString()],
-      ['Fecha de fin', new Date(activity.end_date).toLocaleDateString()],
-      ['Detalle de recursos', activity.resources_detail],
-      ['Monto de recursos', activity.resources_amount],
-      ['Monto aprobado', activity.approved_amount],
-      ['Cuenta contable', activity.accounting_count],
-      ['Prioridad', activity.priority],
-    ];
+    if (activity.approved_amount && activity.accounting_count) {
+      const data = [
+        ['Actividad', activity.activity],
+        ['Fecha de inicio', new Date(activity.start_date).toLocaleDateString()],
+        ['Fecha de fin', new Date(activity.end_date).toLocaleDateString()],
+        ['Detalle de recursos', activity.resources_detail],
+        ['Monto de recursos', activity.resources_amount],
+        ['Monto aprobado', activity.approved_amount],
+        ['Cuenta contable', activity.accounting_count],
+        ['Prioridad', activity.priority],
+      ];
 
-    (doc as any).autoTable({
-      startY: 45,
-      head: [columns],
-      body: data,
-      theme: 'striped',
-      headStyles: { fillColor: [41, 128, 185], textColor: 255 },
-      styles: { overflow: 'linebreak', cellWidth: 'wrap' },
-      columnStyles: { 0: { cellWidth: 50 }, 1: { cellWidth: 'auto' } }
-    });
+      (doc as any).autoTable({
+        startY: 45,
+        head: [columns],
+        body: data,
+        theme: 'striped',
+        headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+        styles: { overflow: 'linebreak', cellWidth: 'wrap' },
+        columnStyles: { 0: { cellWidth: 50 }, 1: { cellWidth: 'auto' } }
+      });
+    } else {
+      const data = [
+        ['Actividad', activity.activity],
+        ['Fecha de inicio', new Date(activity.start_date).toLocaleDateString()],
+        ['Fecha de fin', new Date(activity.end_date).toLocaleDateString()],
+        ['Detalle de recursos', activity.resources_detail],
+        ['Monto de recursos', activity.resources_amount],
+        ['Monto aprobado', 'El monto aún no ha sido aprobado.'],
+        ['Cuenta contable', 'N/A'],
+        ['Prioridad', activity.priority],
+      ];
+
+      (doc as any).autoTable({
+        startY: 45,
+        head: [columns],
+        body: data,
+        theme: 'striped',
+        headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+        styles: { overflow: 'linebreak', cellWidth: 'wrap' },
+        columnStyles: { 0: { cellWidth: 50 }, 1: { cellWidth: 'auto' } }
+      });
+    }
+
+
+
 
     //Sección de comentarios
-    const finalY = (doc as any).lastAutoTable.finalY || 45;
-    doc.setFontSize(12);
-    doc.setTextColor(0);
-    doc.text('Comentarios:', 14, finalY + 10);
+    if (activity.comments) {
+      const finalY = (doc as any).lastAutoTable.finalY || 45;
+      doc.setFontSize(12);
+      doc.setTextColor(0);
+      doc.text('Comentarios:', 14, finalY + 10);
 
-    doc.setFontSize(10);
-    const splitComments = doc.splitTextToSize(activity.comments, 180);
+      doc.setFontSize(10);
+      const splitComments = doc.splitTextToSize(activity.comments, 180);
 
-    let yPosition = finalY + 20;
-    const pageHeight = doc.internal.pageSize.height;
+      let yPosition = finalY + 20;
+      const pageHeight = doc.internal.pageSize.height;
 
-    splitComments.forEach((line: string) => {
-      if (yPosition + 10 > pageHeight - 20) {
-        doc.addPage();
-        yPosition = 20; // Reinicia la posición Y en la nueva página
-      }
-      doc.text(line, 14, yPosition);
-      yPosition += 7; // Incrementa la posición Y para la siguiente línea
-    });
+      splitComments.forEach((line: string) => {
+        if (yPosition + 10 > pageHeight - 20) {
+          doc.addPage();
+          yPosition = 20; // Reinicia la posición Y en la nueva página
+        }
+        doc.text(line, 14, yPosition);
+        yPosition += 7; // Incrementa la posición Y para la siguiente línea
+      });
+    } else {
+
+      const finalY = (doc as any).lastAutoTable.finalY || 45;
+      doc.setFontSize(12);
+      doc.setTextColor(0);
+      doc.text('Comentarios:', 14, finalY + 10);
+
+      doc.setFontSize(10);
+      const splitComments = doc.splitTextToSize('Esta actividad aún no tiene comentarios.', 180);
+
+      let yPosition = finalY + 20;
+      const pageHeight = doc.internal.pageSize.height;
+
+      splitComments.forEach((line: string) => {
+        if (yPosition + 10 > pageHeight - 20) {
+          doc.addPage();
+          yPosition = 20; // Reinicia la posición Y en la nueva página
+        }
+        doc.text(line, 14, yPosition);
+        yPosition += 7; // Incrementa la posición Y para la siguiente línea
+      });
+
+    }
+
 
     // 7. Pie de página
     // const pageCount = doc.internal.getNumberOfPages();
@@ -234,46 +295,68 @@ export class PoaDetailComponent {
     });
   }
 
+  //OBTIENE SI EL POA ES APROBADO O NO
+  updateStatus(status: string) {
+    this.selectedStatus = status;
+    if (status === 'RECHAZADO') {
+      this.showRejectComment = true;
+    } else {
+      this.showRejectComment = false;
+      this.onUpdate();
+    }
+  }
+
+
   //actualiza poa
   onUpdate() {
-    let updatedStatus = this.poaDetail.status;
+    if (confirm('Está seguro de realizar esta operación?')) {
+      let updatedStatus = this.poaDetail.status;
 
-    if (this.selectedStatus && this.selectedStatus !== this.poaDetail.status) {
-      updatedStatus = this.selectedStatus;
-    }
+      if (this.selectedStatus && this.selectedStatus !== this.poaDetail.status) {
+        updatedStatus = this.selectedStatus;
+      }
 
-    this._poaService.updatePoa(
-      this.token,
-      this.poaId,
-      this.upPoa.area = this.poaDetail.area,
-      this.upPoa.commission = this.poaDetail.commission,
-      this.upPoa.department = this.poaDetail.department,
-      this.upPoa.ccpf = this.poaDetail.ccpf,
-      this.upPoa.student_council = this.poaDetail.student_council,
-      this.upPoa.name = this.poaDetail.name,
-      this.upPoa.responsible = this.poaDetail.responsible,
-      this.upPoa.academic_year_id = this.poaDetail.academic_year_id,
-      this.upPoa.objective = this.poaDetail.objective,
-      this.upPoa.total_resources = this.poaDetail.total_resources,
-      this.upPoa.total_aproved = this.poaDetail.total_aproved,
-      updatedStatus,
-      this.upPoa.company = this.poaDetail.company,
-      this.upPoa.campus = this.poaDetail.campus,
-    ).subscribe((resp: any) => {
-      if (resp.status == 'ok') {
-        this.getPoa();
-        const modal = document.getElementById('staticBackdrop');
-        if (modal) {
-          const bootstrapModal = bootstrap.Modal.getInstance(modal);
-          if (bootstrapModal) {
-            bootstrapModal.hide();
-            if (window.confirm('Poa actualizado con éxito, ¿desea regresar al listado?')) {
-              this._router.navigate(['/home-poa']);
+      // If rejecting, update the status with the creator's full name
+      if (updatedStatus === 'RECHAZADO') {
+        this.upPoa.coment_rejected = this.rejectComment;
+        updatedStatus = this.poaDetail.user_ci;
+      }
+
+      this._poaService.updatePoa(
+        this.token,
+        this.poaId,
+        this.upPoa.area = this.poaDetail.area,
+        this.upPoa.company = this.poaDetail.company,
+        this.upPoa.campus = this.poaDetail.campus,
+        this.upPoa.commission = this.poaDetail.commission,
+        this.upPoa.ccpf = this.poaDetail.ccpf,
+        this.upPoa.student_council = this.poaDetail.student_council,
+        this.upPoa.name = this.poaDetail.name,
+        this.upPoa.academic_year_id = this.poaDetail.academic_year_id,
+        this.upPoa.objective = this.poaDetail.objective,
+        this.upPoa.total_resources = this.poaDetail.total_resources,
+        this.upPoa.total_aproved = this.poaDetail.total_aproved,
+        updatedStatus,
+        this.upPoa.coment_rejected,
+        this.upPoa.user_ci = this.poaDetail.user_ci
+      ).subscribe((resp: any) => {
+        if (resp.status == 'ok') {
+          this.getPoa();
+          this.showRejectComment = false;
+          this.rejectComment = '';
+          const modal = document.getElementById('staticBackdrop');
+          if (modal) {
+            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+            if (bootstrapModal) {
+              bootstrapModal.hide();
+              if (window.confirm('Poa actualizado con éxito, ¿desea regresar al listado?')) {
+                this._router.navigate(['/home-poa']);
+              }
             }
           }
         }
-      }
-    });
+      });
+    }
   }
 
   //ELIMINAR EL POA
@@ -435,14 +518,14 @@ export class PoaDetailComponent {
 
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    // console.log(userData);
+    console.log(userData);
     this.avatar = userData.avatar;
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
     this.dni = userData.dni;
-    // console.log(this.avatar);
+    console.log(this.dni);
     // console.log(this.name);
     // console.log(this.last_name);
     // console.log(this.email);

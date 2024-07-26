@@ -9,7 +9,8 @@ interface Poa {
   area: string;
   responsible: string;
   student_council: string;
-  total: number;
+  total_resources: number;
+  total_aproved: number;
   academic_year_id: number;
 }
 
@@ -39,7 +40,7 @@ export class HomePoaComponent implements OnInit {
       this.poaList = resp.data;
       // this.sortPoaList();
       this.filteredPoaList = [...this.poaList];
-      // console.log(this.poaList);
+      console.log(this.poaList);
       // console.log(resp);
     });
   }

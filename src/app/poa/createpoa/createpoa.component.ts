@@ -49,6 +49,8 @@ export class CreatepoaComponent implements OnInit {
     total_resources: 0,
     total_aproved: 0,
     status: '',
+    coment_rejected: '',
+    user_Ci:''
   };
 
   taskStates = ['INICIANDO'];
@@ -126,6 +128,7 @@ export class CreatepoaComponent implements OnInit {
       .subscribe({
         next: (resp: any) => {
           this.cedula = resp.data;
+          console.log(this.cedula);
           if (this.cedula.nombre && this.cedula.departamento) {
             console.log('Cedula encontrada');
           } else {
@@ -160,6 +163,8 @@ export class CreatepoaComponent implements OnInit {
         this.newPoa.status = this.fullname,
         this.enterpriseForm.value.enterprise,
         this.campusForm.value.campus,
+        this.newPoa.coment_rejected,
+        this.newPoa.user_Ci = this.fullname
       ).subscribe({
         next: (response: any) => {
           if (response && response.status === 'ok') {
@@ -183,7 +188,7 @@ export class CreatepoaComponent implements OnInit {
   //obtiene datos del usuario
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    // console.log(userData);
+    console.log(userData);
     this.avatar = userData.avatar;
     this.name = userData.first_name;
     this.last_name = userData.last_name;

@@ -76,3 +76,16 @@
     text-align: center;
     font-size: .8rem;
 }   
+
+/* boton flotante */
+.fab-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .fab-button2 {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+  }

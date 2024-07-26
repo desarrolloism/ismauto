@@ -7,10 +7,11 @@
                 class="fa-regular fa-rectangle-list me-2"></i>POAS</button>
     </div>
 </div>
+<h3 class="text-center fw-bold"><span class="text-secondary">
+        Estado de edición/revisión: {{poaDetail.status}}</span></h3>
 
 <h3 class="text-center fw-bold">POA: {{ poaDetail.name }} - {{
-    poaDetail.responsible }} - <span class="text-secondary">
-        {{poaDetail.status}}</span><span class="text-secondary"> - Total
+    poaDetail.responsible }} - <span class="text-secondary"> - Total
         requerido: {{
         poaDetail.total_resources }}$ - Total aprobado: {{
         poaDetail.total_aproved }}$</span></h3>
@@ -22,7 +23,7 @@
             <mat-accordion class="custom-shadow-panel">
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
-                        <mat-panel-title> Actualizar POA </mat-panel-title>
+                        <mat-panel-title> Detalle del POA </mat-panel-title>
                         <mat-panel-description class="update"> Click para abrir
                             POA
                         </mat-panel-description>
@@ -30,7 +31,9 @@
                             poaDetail.department}}
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <div class="mb-3 admin" *ngIf="is_admin == true">
+                    <!-- cambiar para visualizacion de financioero y gerente financiero -->
+                    <div class="mb-3 admin"
+                        *ngIf="email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec' || poaDetail.status != fullname">
                         <div class="row">
                             <div class="col-md-4">
                                 <h4>Área: <span>{{poaDetail.area}}</span></h4>
@@ -43,7 +46,6 @@
                                     <span>{{poaDetail.name}}</span></h4>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-4">
                                 <h4>Campus:
@@ -55,7 +57,7 @@
                             </div>
                             <div class="col-md-4">
                                 <h4>Empresa:
-                                    <span>{{poaDetail.enterprise}}</span></h4>
+                                    <span>{{poaDetail.company}}</span></h4>
                             </div>
                         </div>
                         <div class="row">
@@ -65,24 +67,12 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12 d-flex justify-content-center">
-                            <div class="mb-3" style="width: 30%;"
-                                *ngIf="poaDetail.status != 'APROBADO'">
-                                <label for="status"
-                                    class="form-label">Estado:</label>
-                                <select (change)="onUpdate()"
-                                    [(ngModel)]="selectedStatus"
-                                    name="status" class="form-select"
-                                    aria-label="Default select example">
-                                    <option *ngFor="let state of taskStates"
-                                        [value]="state">{{state}}</option>
-                                </select>
-                            </div>
-                        </div>
-
                     </div>
+                    <!-- cambiar para visualizacion de financioero y gerente financiero -->
 
-                    <form (ngSubmit)="onUpdate()" *ngIf="is_admin == false">
+                    <!-- formulario de actualización del POA -->
+                    <form (ngSubmit)="onUpdate()"
+                        *ngIf="poaDetail.status == fullname">
                         <h2>Formulario de actualización de POA </h2>
 
                         <hr>
@@ -172,6 +162,8 @@
                                 (click)="onDelete()">Eliminar POA</a>
                         </div>
                     </form>
+                    <!-- FIN formulario de actualización del POA -->
+
                 </mat-expansion-panel>
             </mat-accordion>
 
@@ -195,7 +187,7 @@
                     <!-- barra de busqueda -->
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
                     <div class="col-md-4 mb-3 d-flex justify-content-center"
-                        *ngIf="poaDetail.status != 'APROBADO'">
+                        *ngIf="poaDetail.status == fullname">
                         <button class="update"
                             mat-raised-button color="primary"
                             data-bs-toggle="modal"
@@ -285,48 +277,22 @@
                                             {{
                                             activity.comments }}</p>
                                         <p
-                                            *ngIf="activity.accounting_count"><strong>Cuenta
+                                            *ngIf="activity.accounting_count"><strong>
+                                                <i
+                                                    class="fa-solid fa-receipt me-2"></i>Cuenta
                                                 contable:</strong>
                                             {{ activity.accounting_count }}</p>
-                                        <div *ngIf="is_admin == true">
-                                            <p><strong>Monto aprobado:</strong>
-                                                {{
-                                                activity.approved_amount }}</p>
-                                            <p><strong>Cuenta contable:</strong>
-                                                {{
-                                                activity.accounting_count }}</p>
-                                        </div>
+
                                     </div>
                                 </div>
-
                             </div>
                             <div class="row d-flex justify-content-center">
-                                @if (signaturesList?.length == 1 && is_admin ==
-                                false && activity.approved_amount == '0.00') {
-                                <div class="alert alert-secondary" role="alert">
-                                    Se ha enviado a su jefe directo para
-                                    aprobación
-                                    <mat-progress-bar
-                                        mode="indeterminate"></mat-progress-bar>
-
-                                </div>
-                                <div class="row d-flex justify-content-center">
-                                    <div style="width: 30%;">
-                                        <a
-                                            class="update bg-success text-white"
-                                            mat-raised-button
-                                            (click)="downloadActivityPDF(activity); $event.stopPropagation()">
-                                            Descarga PDF
-                                            de la actividad!</a>
-                                    </div>
-                                </div>
-
-                                } @else{
                                 <div
                                     class="col-md-6 d-flex justify-content-evenly">
-                                    @if (activity.approved_amount == '0.00') {
+                                    @if (activity.approved_amount == '0.00' &&
+                                    poaDetail.status == fullname) {
                                     <div
-                                        *ngIf="poaDetail.status != 'APROBADO' ">
+                                        *ngIf="email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
                                         <button class="update" mat-raised-button
                                             color="primary"
                                             *ngIf="!isEditing || editingActivityId !== activity.id"
@@ -334,32 +300,57 @@
                                             actividad</button>
                                     </div>
                                     <div
-                                    *ngIf="poaDetail.status != 'APROBADO'">
+                                        *ngIf="poaDetail.status != 'APROBADO'">
                                         <button class="update" mat-raised-button
                                             *ngIf="!isEditing || editingActivityId !== activity.id "
                                             style="background-color: brown;color: white;"
                                             (click)="deleteActivity(activity.id)">Eliminar</button>
                                     </div>
-                                    } @else {
-
                                     }
-                                    @if (activity.approved_amount != '0.00' ||
-                                    poaDetail.status == 'APROBADO') {
+
+                                    @if (activity.approved_amount != '0.00') {
                                     <a class="update bg-success text-white"
                                         mat-raised-button
                                         (click)="downloadActivityPDF(activity); $event.stopPropagation()">
-                                        Descarga PDF
+                                        Aprobado! Descarga PDF
                                         de la actividad!</a>
                                     }
+
+                                    @if (email == 'financiero@ism.edu.ec' &&
+                                    activity.approved_amount == "0.00") {
+                                    <button class="update" mat-raised-button
+                                        color="primary"
+                                        *ngIf="!isEditing || editingActivityId !== activity.id"
+                                        (click)="startEditing(activity)">Editar
+                                        actividad</button>
+                                    }
+
+                                    @if (email ==
+                                    'direccionfinanciera@ism.edu.ec' &&
+                                    activity.approved_amount == "0.00" ) {
+                                    <button class="update" mat-raised-button
+                                        color="primary"
+                                        *ngIf="!isEditing || editingActivityId !== activity.id"
+                                        (click)="startEditing(activity)">Editar
+                                        actividad</button>
+                                    }
+
+                                    <a
+                                        *ngIf="activity.approved_amount == '0.00'"
+                                        class="update"
+                                        mat-raised-button
+                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">Descargar
+                                        PDF</a>
                                 </div>
-                                }
 
                             </div>
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <form
                                         *ngIf="isEditing && editingActivityId === activity.id">
-                                        <div *ngIf="is_admin == false">
+                                        <div
+                                            *ngIf="poaDetail.status == fullname && email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="mb-3">
@@ -424,17 +415,14 @@
                                                             name="resources_amount"
                                                             maxlength="6">
                                                     </div>
-
                                                 </div>
                                                 <div class="col-md-3">
-
                                                     <div class="mb-3 ">
                                                         <label for="campus"
                                                             class="form-label">Prioridad
                                                             ({{
                                                             activity.priority
                                                             }}):</label>
-
                                                         <select
                                                             class="form-select"
                                                             [(ngModel)]="createPoa.priority"
@@ -469,9 +457,9 @@
                                             </div>
                                         </div>
 
-                                        <!-- solo lo puede ver y modificar el; admin -->
+                                        <!-- solo lo puede ver y modificar financieros -->
                                         <div class="row"
-                                            *ngIf="is_admin == true">
+                                            *ngIf="email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'">
                                             <p><strong>Monto requerido:</strong>
                                                 {{ activity.resources_amount
                                                 }}</p>
@@ -534,12 +522,7 @@
                                                     *ngIf="poaDetail.status != 'APROBADO'"
                                                     style="background-color: brown;color: white;"
                                                     (click)="deleteActivity(activity.id)">Eliminar</button>
-                                                <a
-                                                    *ngIf="poaDetail.status == 'APROBADO' "
-                                                    class="update"
-                                                    mat-raised-button
-                                                    (click)="downloadActivityPDF(activity); $event.stopPropagation()">Descargar
-                                                    PDF</a>
+
                                             </div>
                                         </div>
                                     </form>
@@ -548,6 +531,20 @@
                             </div>
                         </mat-expansion-panel>
                     </mat-accordion>
+                    @if (poaDetail.coment_rejected && email !=
+                    'financiero@ism.edu.ec' && email !=
+                    'direccionfinanciera@ism.edu.ec') {
+                    <!-- boton flotante para alertas -->
+                    <div style="width: 30%;">
+                        <a data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight"
+                            aria-controls="offcanvasRight"
+                            mat-fab color="warn" class="fab-button2">
+                            <i class="fa-regular fa-bell fa-2x"></i>
+                        </a>
+                    </div>
+
+                    }
                 </div>
 
                 <!-- agregar fimas -->
@@ -566,14 +563,20 @@
                     </li>
                 </ul>
                 } @else {
-                <div style="width: 30%;">
-                    <a mat-raised-button *ngIf="is_admin == false" type="button"
-                        class="mb-2 bg-success text-white"
-                        data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Enviar POA
+
+                <!-- BOTON FLOTANTE -->
+                <div style="width: 30%;" *ngIf="poaDetail.status != 'APROBADO'">
+                    <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                        *ngIf="poaDetail.status == fullname || email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'"
+                        mat-fab color="primary" class="fab-button">
+                        <mat-icon>add</mat-icon>
                     </a>
                 </div>
                 }
+                <div class="alert alert-success text-center" role="alert"
+                    *ngIf="poaDetail.status == 'APROBADO'">
+                    Este POA ha sido Aprobado!
+                </div>
 
             </div>
         </div>
@@ -594,7 +597,7 @@
             </div>
             <div class="modal-body">
                 <form (ngSubmit)="createActivity()" #activityForm="ngForm">
-                    <div *ngIf="is_admin == false">
+                    <div *ngIf="poaDetail.status == fullname">
                         <div class="mb-3">
                             <label for="activity"
                                 class="form-label">Actividad</label>
@@ -668,41 +671,6 @@
 
                         </div>
                     </div>
-
-                    <!-- solo admin puede modificar -->
-
-                    <div class="row" *ngIf="is_admin == true">
-                        <div class="mb-3">
-                            <label for="comments"
-                                class="form-label">Comentarios</label>
-                            <textarea class="form-control" id="comments"
-                                [(ngModel)]="createPoa.comments"
-                                name="comments"></textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="accounting_calculate"
-                                    class="form-label">Cuenta contable</label>
-                                <input type="text" class="form-control"
-                                    id="accounting_calculate"
-                                    [(ngModel)]="createPoa.accounting_count"
-                                    name="accounting_calculate" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="approved_ammount"
-                                    class="form-label">Monto
-                                    aprobado</label>
-                                <input maxlength="7" type="number"
-                                    class="form-control"
-                                    maxlength="6"
-                                    id="approved_ammount"
-                                    [(ngModel)]="createPoa.approved_ammount"
-                                    name="approved_ammount" required>
-                            </div>
-                        </div>
-                    </div>
                     <!-- solo admin puede modificar -->
                     <button type="submit" mat-raised-button color="primary"
                         [disabled]="activityForm.form.invalid">Crear
@@ -722,29 +690,35 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar
-                    jefe directo</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"
+                    *ngIf="email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">Enviar
+                    a revisión con jefe directo</h1>
+
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"
+                    *ngIf="email == 'financiero@ism.edu.ec' ||  email == 'direccionfinanciera@ism.edu.ec'">Aprobación
+                    de POA</h1>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                @if(email != 'financiero@ism.edu.ec' && email !=
+                'direccionfinanciera@ism.edu.ec'){
                 <form>
                     <div class="mb-3">
                         <label for class="form-label">Asignar usuario:</label>
                         <!-- <select (change)="onUserSelect($event)"
-                            [(ngModel)]="usersId" name="usuario"
-                            class="form-select"
-                            aria-label="Default select example">
-                            <option value>Seleccione un usuario</option>
-                            <option *ngFor="let user of users"
-                                [value]="user.id">
-                                {{ user.first_name }}
-                            </option>
-                        </select> -->
-                        <div class="mb-3" style="width: 30%;"
+                                [(ngModel)]="usersId" name="usuario"
+                                class="form-select"
+                                aria-label="Default select example">
+                                <option value>Seleccione un usuario</option>
+                                <option *ngFor="let user of users"
+                                    [value]="user.id">
+                                    {{ user.first_name }}
+                                </option>
+                            </select> -->
+                        <div class="mb-3" style="width: 100%;"
                             *ngIf="poaDetail.status != 'APROBADO'">
-                            <label for="status"
-                                class="form-label">Estado:</label>
                             <select (change)="onUpdate()"
                                 [(ngModel)]="selectedStatus"
                                 name="status" class="form-select"
@@ -756,19 +730,80 @@
                             </select>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for class="form-label">Comentario:</label>
-                        <textarea class="form-control" type="text"
-                            [(ngModel)]="signature.coments"
-                            name="coments">
-                            </textarea>
+                    <!-- <div class="mb-3">
+                            <label for class="form-label">Comentario:</label>
+                            <textarea class="form-control" type="text"
+                                [(ngModel)]="signature.coments"
+                                name="coments">
+                                </textarea>
+                        </div> -->
+                    <!-- <button (click)="createSignature()" type="submit"
+                        class="btn btn-primary">Enviar</button> -->
+                </form>
+                }@else {
+                <div class="col-md-12">
+                    <div class="mb-3 d-flex justify-content-evenly"
+                        *ngIf="poaDetail.status != 'APROBADO'">
+                        <button (click)="updateStatus('APROBADO')"
+                            [class.active]="selectedStatus === 'APROBADO'"
+                            color="primary"
+                            mat-raised-button>
+                            Aprobar POA
+                        </button>
+                        <button mat-raised-button
+                            (click)="updateStatus('RECHAZADO')"
+                            [class.active]="selectedStatus === 'RECHAZADO'"
+                            color="warn">
+                            Rechazar POA
+                        </button>
                     </div>
 
-                    <button (click)="createSignature()" type="submit"
-                        class="btn btn-primary">Enviar</button>
-                </form>
-            </div>
+                    <div *ngIf="showRejectComment" class="mt-3">
+                        <textarea [(ngModel)]="rejectComment"
+                            rows="4"
+                            class="form-control"
+                            placeholder="Ingrese el motivo del rechazo"></textarea>
+                        <button (click)="onUpdate()"
+                            class="btn btn-primary mt-2">
+                            Confirmar Rechazo
+                        </button>
+                    </div>
 
+                    <div class="alert alert-success" role="alert"
+                        *ngIf="poaDetail.status == 'APROBADO'">
+                        Este POA ha sido Aprobado!
+                    </div>
+                </div>
+                }
+            </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal muestra comentario de rechazo -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Observaciones de
+            rechazo de POA</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="alert alert-warning" role="alert">
+            <b>Razón de rechazo: </b>{{poaDetail.coment_rejected}}
+        </div>
+
+        <ul class="list-group" *ngFor="let coment of allActivities">
+            <b>Actividad:</b> {{ coment.activity }}
+            @if (coment.comments) {
+            <li class="list-group-item mb-3"><b>Comentario:
+                </b>{{coment.comments}}</li>
+            } @else {
+            <li class="list-group-item mb-3"><b>Comentario: </b>No se ha
+                agregado comentario.</li>
+            }
+            <hr>
+        </ul>
     </div>
 </div>

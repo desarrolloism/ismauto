@@ -106,8 +106,8 @@
                                                     'border-success': poa.status.toLowerCase() === 'aprobado',
                                                     'border-danger': poa.status.toLowerCase() === 'rechazado'}"
                                                     class="d-flex align-items-center">
-                                                    <div
-                                                        *ngIf="poa.status == 'EN PROCESO'">
+                                                    <div class="border-primary"
+                                                        *ngIf="poa.status">
                                                         <i
                                                             class="fa-solid fa-chart-simple me-2"></i>
                                                         <span>{{poa.status}}</span>
@@ -132,10 +132,10 @@
                                                     <i
                                                         class="fa-solid fa-dollar-sign me-2"></i>
                                                     <span
-                                                        *ngIf="poa.total == 0">(Sin
+                                                        *ngIf="poa.total_resources == 0">(Sin
                                                         asignar)</span>
                                                     <span
-                                                        *ngIf="poa.total != 0">{{poa.total}}$</span>
+                                                        *ngIf="poa.total_resources != 0">{{poa.total_resources}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -152,9 +152,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
         
     </div>
 

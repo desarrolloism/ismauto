@@ -31,6 +31,8 @@ export class PoaService {
     status: string,
     company: string,
     campus: string,
+    comentRejected: string,
+    userCi:string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -55,6 +57,8 @@ export class PoaService {
       status: status,
       company: company,
       campus: campus,
+      coment_rejected: comentRejected,
+      user_ci:userCi
     }
     return this._http.post(`${this.url}/poa_create`, data, { headers: headers });
   }
@@ -89,19 +93,19 @@ export class PoaService {
     token: any,
     id: number,
     area: string,
+    company: string,
+    campus: string,
     commission: string,
-    department: string,
     ccpf: string,
     studentCouncil: string,
     name: string,
-    responsible: string,
     academicYearId: number,
     objective: string,
     totalResources: number,
     totalAproved: number,
     status: string,
-    company: string,
-    campus: string,
+    comentRejected: string,
+    userCi:string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -112,19 +116,19 @@ export class PoaService {
     const data = {
       id: id,
       area: area,
+      company: company,
+      campus: campus,
       commission: commission,
-      department: department,
       ccpf: ccpf,
       student_council: studentCouncil,
       name: name,
-      responsible: responsible,
       academic_year_id: academicYearId,
       objective: objective,
       total_resources: totalResources,
       total_aproved: totalAproved,
       status: status,
-      company: company,
-      campus: campus,
+      coment_rejected: comentRejected,
+      user_ci:userCi
     }
     return this._http.post(`${this.url}/poa_update`, data, { headers: headers });
   }
@@ -156,7 +160,6 @@ export class PoaService {
     }
     return this._http.post(`${this.url}/poa_compers`, data, { headers: headers });
   }
-
 
   //muestra actividades por poa id
   showPoaActivities(token: any, poaId: number) {
@@ -202,7 +205,7 @@ export class PoaService {
       approved_amount: approvedAmount,
       comments: comments,
       accounting_count: accountingCount,
-      priority: priority
+      priority: priority,
 
     }
     return this._http.post(`${this.url}/poa_activities_create`, data, { headers: headers });
