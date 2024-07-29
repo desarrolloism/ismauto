@@ -187,7 +187,8 @@ export class PoaService {
     approvedAmount: number,
     comments: string,
     accountingCount: string,
-    priority: string
+    priority: string,
+    approvedActivity:string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -206,7 +207,7 @@ export class PoaService {
       comments: comments,
       accounting_count: accountingCount,
       priority: priority,
-
+      approved_activity: approvedActivity
     }
     return this._http.post(`${this.url}/poa_activities_create`, data, { headers: headers });
   }
@@ -223,7 +224,8 @@ export class PoaService {
     approvedAmount: number,
     comments: string,
     accountingCount: string,
-    priority: string
+    priority: string,
+    approvedActivity:string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -241,7 +243,8 @@ export class PoaService {
       approved_amount: approvedAmount,
       comments: comments,
       accounting_count: accountingCount,
-      priority: priority
+      priority: priority,
+      approved_activity: approvedActivity
     }
     return this._http.post(`${this.url}/poa_activities_update`, data, { headers: headers });
   }

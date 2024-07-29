@@ -83,7 +83,8 @@ export class PoaDetailComponent {
     approved_ammount: 0,
     comments: '',
     accounting_count: '',
-    priority: ''
+    priority: '',
+    approved_activity: ''
   }
 
   originalActivities: any[] = [];
@@ -162,6 +163,29 @@ export class PoaDetailComponent {
         styles: { overflow: 'linebreak', cellWidth: 'wrap' },
         columnStyles: { 0: { cellWidth: 50 }, 1: { cellWidth: 'auto' } }
       });
+    } else if (activity.approved_activity === 'RECHAZADO') {
+
+      const data = [
+        ['Actividad', activity.activity],
+        ['Fecha de inicio', new Date(activity.start_date).toLocaleDateString()],
+        ['Fecha de fin', new Date(activity.end_date).toLocaleDateString()],
+        ['Detalle de recursos', activity.resources_detail],
+        ['Monto de recursos', activity.resources_amount],
+        ['Monto aprobado', 'Monto para actividad rechazada.'],
+        ['Cuenta contable', 'N/A'],
+        ['Prioridad', activity.priority],
+      ];
+
+      (doc as any).autoTable({
+        startY: 45,
+        head: [columns],
+        body: data,
+        theme: 'striped',
+        headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+        styles: { overflow: 'linebreak', cellWidth: 'wrap' },
+        columnStyles: { 0: { cellWidth: 50 }, 1: { cellWidth: 'auto' } }
+      });
+
     } else {
       const data = [
         ['Actividad', activity.activity],
@@ -349,9 +373,11 @@ export class PoaDetailComponent {
             const bootstrapModal = bootstrap.Modal.getInstance(modal);
             if (bootstrapModal) {
               bootstrapModal.hide();
-              if (window.confirm('Poa actualizado con éxito, ¿desea regresar al listado?')) {
-                this._router.navigate(['/home-poa']);
-              }
+              alert('Poa actualizado con exito');
+              this._router.navigate(['/home-poa']);
+              // if (window.confirm('Poa actualizado con éxito, ¿desea regresar al listado?')) {
+              //   this._router.navigate(['/home-poa']);
+              // }
             }
           }
         }
@@ -383,8 +409,8 @@ export class PoaDetailComponent {
   showActivities() {
     this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
       this.allActivities = resp.data;
-      this.originalActivities = [...this.allActivities];
       console.log('actividades', this.allActivities);
+      this.originalActivities = [...this.allActivities];
     });
   }
 
@@ -401,7 +427,8 @@ export class PoaDetailComponent {
       this.createPoa.approved_ammount,
       this.createPoa.comments,
       this.createPoa.accounting_count,
-      this.createPoa.priority
+      this.createPoa.priority,
+      this.createPoa.approved_activity
     ).subscribe(resp => {
       this.dataActivity = resp;
       if (this.dataActivity.status === 'ok') {
@@ -431,7 +458,8 @@ export class PoaDetailComponent {
       this.editingActivity.approved_amount,
       this.editingActivity.comments,
       this.editingActivity.accounting_count,
-      this.editingActivity.priority
+      this.editingActivity.priority,
+      this.editingActivity.approved_activity
     ).subscribe(resp => {
       this.dataUpdateActivity = resp;
       // console.log(this.dataUpdateActivity);
@@ -448,6 +476,9 @@ export class PoaDetailComponent {
     this.isEditing = true;
     this.editingActivityId = activity.id;
     this.editingActivity = { ...activity };
+    if (!this.editingActivity.approved_activity) {
+      this.editingActivity.approved_activity = ''; // O un valor por defecto
+    }
   }
 
   cancelEditing() {
@@ -477,7 +508,8 @@ export class PoaDetailComponent {
       approved_ammount: 0,
       comments: '',
       accounting_count: '',
-      priority: ''
+      priority: '',
+      approved_activity: ''
     };
   }
 
@@ -500,6 +532,8 @@ export class PoaDetailComponent {
       });
     }
   }
+
+  //selecciona si se apruegba
 
   //busca actividad de poa 
   onSearch() {
@@ -587,5 +621,12 @@ export class PoaDetailComponent {
       this.signaturesList = resp.data;
       console.log('firmas', this.signaturesList);
     })
+  }
+
+
+  //deja aprobar o rechazar POA una vez las actividades hayan sido aprobadas 
+
+  allActivitiesHaveApproval(): boolean {
+    return this.allActivities.every((activity: { approved_activity: string; }) => activity.approved_activity && activity.approved_activity.trim() !== '');
   }
 }

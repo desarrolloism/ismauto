@@ -72,7 +72,7 @@
 
                     <!-- formulario de actualización del POA -->
                     <form (ngSubmit)="onUpdate()"
-                        *ngIf="poaDetail.status == fullname">
+                        *ngIf="poaDetail.status == fullname && email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
                         <h2>Formulario de actualización de POA </h2>
 
                         <hr>
@@ -187,7 +187,7 @@
                     <!-- barra de busqueda -->
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
                     <div class="col-md-4 mb-3 d-flex justify-content-center"
-                        *ngIf="poaDetail.status == fullname">
+                        *ngIf="poaDetail.status == fullname && email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
                         <button class="update"
                             mat-raised-button color="primary"
                             data-bs-toggle="modal"
@@ -232,15 +232,23 @@
                                         activity.approved_amount }}$ <i
                                             class="fa-regular fa-circle-check"></i>
                                     </span>
+                                    @if (activity.approved_amount == '0.00') {
+                                    @if(activity.approved_activity){
                                     <span
-                                        *ngIf="activity.approved_amount == '0.00'"
+                                        class="p-1 bg-danger text-white progress-container fw-bold"
+                                        style="border-radius: 10px; margin-left: 5px;">
+                                        Monto rechazado
+                                    </span>
+                                    }@else {
+                                    <span
                                         class="p-1 bg-white progress-container fw-bold"
                                         style="border-radius: 10px; margin-left: 5px;">
                                         En revisión
                                         <mat-progress-bar mode="buffer"
                                             class="progress-bar"></mat-progress-bar>
-
                                     </span>
+                                    }
+                                    }
 
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
@@ -317,7 +325,7 @@
                                     }
 
                                     @if (email == 'financiero@ism.edu.ec' &&
-                                    activity.approved_amount == "0.00") {
+                                    activity.approved_amount == "0.00" && poaDetail.status != 'APROBADO') {
                                     <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
@@ -327,7 +335,7 @@
 
                                     @if (email ==
                                     'direccionfinanciera@ism.edu.ec' &&
-                                    activity.approved_amount == "0.00" ) {
+                                    activity.approved_amount == "0.00" && poaDetail.status != 'APROBADO') {
                                     <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
@@ -453,10 +461,8 @@
                                                             name="resources_detail"></textarea>
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
-
                                         <!-- solo lo puede ver y modificar financieros -->
                                         <div class="row"
                                             *ngIf="email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'">
@@ -464,45 +470,82 @@
                                                 {{ activity.resources_amount
                                                 }}</p>
                                             <div class="mb-3">
+                                                <label class="form-label">Estado
+                                                    de aprobación de la
+                                                    actividad:</label>
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="approvalStatus"
+                                                        id="statusApproved"
+                                                        [(ngModel)]="editingActivity.approved_activity"
+                                                        value="APROBADO">
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="statusApproved">
+                                                        Aprobado
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="approvalStatus"
+                                                        id="statusRejected"
+                                                        [(ngModel)]="editingActivity.approved_activity"
+                                                        value="RECHAZADO">
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="statusRejected">
+                                                        Rechazado
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
                                                 <label for="comments"
                                                     class="form-label">Comentarios:</label>
-                                                <textarea
-                                                    class="form-control"
+                                                <textarea class="form-control"
                                                     id="comments" rows="3"
                                                     [(ngModel)]="editingActivity.comments"
                                                     name="comments"></textarea>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
 
-                                                    <label for="approved_amount"
-                                                        class="form-label">Monto
-                                                        aprobado:</label>
-                                                    <input type="number"
-                                                        class="form-control"
-                                                        id="approved_amount"
-                                                        [(ngModel)]="editingActivity.approved_amount"
-                                                        name="approved_amount"
-                                                        maxlength="6">
+                                            <div
+                                                *ngIf="editingActivity.approved_activity === 'APROBADO'">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label
+                                                                for="approved_amount"
+                                                                class="form-label">Monto
+                                                                aprobado:</label>
+                                                            <input type="number"
+                                                                class="form-control"
+                                                                id="approved_amount"
+                                                                [(ngModel)]="editingActivity.approved_amount"
+                                                                name="approved_amount"
+                                                                maxlength="6">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label
+                                                                for="accounting_count"
+                                                                class="form-label">Cuenta
+                                                                contable:</label>
+                                                            <input type="text"
+                                                                class="form-control"
+                                                                id="accounting_count"
+                                                                [(ngModel)]="editingActivity.accounting_count"
+                                                                name="accounting_count">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label
-                                                        for="accounting_count"
-                                                        class="form-label">Cuenta
-                                                        contable:</label>
-                                                    <input type="text"
-                                                        class="form-control"
-                                                        id="accounting_count"
-                                                        [(ngModel)]="editingActivity.accounting_count"
-                                                        name="accounting_count">
-                                                </div>
-                                            </div>
-
                                         </div>
-                                        <!-- solo lo puede ver y modificar el; admin -->
-
+                                        <!-- fin solo lo puede ver y modificar el; admin -->
                                         <div
                                             class="row d-flex justify-content-center">
                                             <div
@@ -703,7 +746,7 @@
             </div>
             <div class="modal-body">
                 @if(email != 'financiero@ism.edu.ec' && email !=
-                'direccionfinanciera@ism.edu.ec'){
+                'direccionfinanciera@ism.edu.ec' ){
                 <form>
                     <div class="mb-3">
                         <label for class="form-label">Asignar usuario:</label>
@@ -744,6 +787,10 @@
                 <div class="col-md-12">
                     <div class="mb-3 d-flex justify-content-evenly"
                         *ngIf="poaDetail.status != 'APROBADO'">
+                        @if (poaDetail.status == 'Cristian Vaca' ||
+                        poaDetail.status == 'VINUEZA VINUEZA') {
+
+                        @if (allActivitiesHaveApproval()) {
                         <button (click)="updateStatus('APROBADO')"
                             [class.active]="selectedStatus === 'APROBADO'"
                             color="primary"
@@ -756,8 +803,14 @@
                             color="warn">
                             Rechazar POA
                         </button>
+                        }@else {
+                        <h5>Debe aprobar o rechazar todas las actividades de
+                            este POA para continuar.</h5>
+                        }
+                        } @else {
+                        <h5>Este POA aun no ha llegado a este filtro.</h5>
+                        }
                     </div>
-
                     <div *ngIf="showRejectComment" class="mt-3">
                         <textarea [(ngModel)]="rejectComment"
                             rows="4"
@@ -768,7 +821,6 @@
                             Confirmar Rechazo
                         </button>
                     </div>
-
                     <div class="alert alert-success" role="alert"
                         *ngIf="poaDetail.status == 'APROBADO'">
                         Este POA ha sido Aprobado!
@@ -784,8 +836,14 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
     aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
+        @if (poaDetail.status != 'APROBADO') {
         <h5 class="offcanvas-title" id="offcanvasRightLabel">Observaciones de
             rechazo de POA</h5>
+        }@else {
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Historial de
+            observaciones de POA</h5>
+        }
+
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
             aria-label="Close"></button>
     </div>
@@ -799,9 +857,14 @@
             @if (coment.comments) {
             <li class="list-group-item mb-3"><b>Comentario:
                 </b>{{coment.comments}}</li>
+            <li class="list-group-item mb-3"><b>Monto aprobado:
+                </b>{{coment.approved_amount}}</li>
             } @else {
             <li class="list-group-item mb-3"><b>Comentario: </b>No se ha
                 agregado comentario.</li>
+            <li *ngIf="coment.approved_activity"
+                class="list-group-item mb-3"><b>{{ coment.approved_activity }}
+                </b></li>
             }
             <hr>
         </ul>
