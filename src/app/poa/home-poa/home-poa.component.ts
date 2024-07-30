@@ -39,6 +39,7 @@ export class HomePoaComponent implements OnInit {
   isFilterActive = false;
   isApprovedActive = false;
   isRejectedActive = false;
+  isNotStartedActive = false;
   isClearActive = false;
 
   ngOnInit() {
@@ -125,6 +126,12 @@ export class HomePoaComponent implements OnInit {
 
   toggleRejected() {
     this.isRejectedActive = !this.isRejectedActive;
+    this.isApprovedActive = false;
+    this.isClearActive = false;
+  }
+
+  toggleNotStarted() {
+    this.isNotStartedActive = !this.isNotStartedActive;
     this.isApprovedActive = false;
     this.isClearActive = false;
   }

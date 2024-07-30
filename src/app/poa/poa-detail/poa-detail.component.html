@@ -1,4 +1,5 @@
 <app-header-app></app-header-app>
+
 <div class="row container">
     <div class="col-md-2 p-1 d-flex justify-content-start">
         <button matTooltip="Listado de POA" class="update" mat-raised-button
@@ -7,6 +8,7 @@
                 class="fa-regular fa-rectangle-list me-2"></i>POAS</button>
     </div>
 </div>
+
 <h3 class="text-center fw-bold"><span class="text-secondary">
         Estado de edición/revisión: {{poaDetail.status}}</span></h3>
 
@@ -157,6 +159,7 @@
                                 color="primary">Actualizar</button>
                             <!-- <a class="update" mat-raised-button
                                 (click)="onCancel()">Cancelar</a> -->
+
                             <a *ngIf="poaDetail.status != 'APROBADO'"
                                 class="update" mat-raised-button color="warn"
                                 (click)="onDelete()">Eliminar POA</a>
@@ -295,6 +298,14 @@
                                 </div>
                             </div>
                             <div class="row d-flex justify-content-center">
+                                <div class="col-md-6 mb-3">
+                                    <a style="width: 25%;"
+                                        *ngIf="activity.approved_amount == '0.00'"
+                                        class="update"
+                                        mat-raised-button
+                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">Descargar
+                                        PDF</a>
+                                </div>
                                 <div
                                     class="col-md-6 d-flex justify-content-evenly">
                                     @if (activity.approved_amount == '0.00' &&
@@ -309,23 +320,26 @@
                                     </div>
                                     <div
                                         *ngIf="poaDetail.status != 'APROBADO'">
+                                        @if (email == 'financiero@ism.edu.ec' ||
+                                        email ==
+                                        'direccionfinanciera@ism.edu.ec') {
+
+                                        } @else {
                                         <button class="update" mat-raised-button
                                             *ngIf="!isEditing || editingActivityId !== activity.id "
                                             style="background-color: brown;color: white;"
                                             (click)="deleteActivity(activity.id)">Eliminar</button>
+                                        }
+
                                     </div>
                                     }
 
-                                    @if (activity.approved_amount != '0.00') {
-                                    <a class="update bg-success text-white"
-                                        mat-raised-button
-                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">
-                                        Aprobado! Descarga PDF
-                                        de la actividad!</a>
-                                    }
+                                    
 
                                     @if (email == 'financiero@ism.edu.ec' &&
-                                    activity.approved_amount == "0.00" && poaDetail.status != 'APROBADO') {
+                                    activity.approved_amount == "0.00" &&
+                                    poaDetail.status != 'APROBADO' &&
+                                    poaDetail.status == 'Cristian Vaca') {
                                     <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
@@ -335,22 +349,22 @@
 
                                     @if (email ==
                                     'direccionfinanciera@ism.edu.ec' &&
-                                    activity.approved_amount == "0.00" && poaDetail.status != 'APROBADO') {
+                                    activity.approved_amount == "0.00" &&
+                                    poaDetail.status != 'APROBADO') {
                                     <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
                                         (click)="startEditing(activity)">Editar
                                         actividad</button>
                                     }
-
-                                    <a
-                                        *ngIf="activity.approved_amount == '0.00'"
-                                        class="update"
-                                        mat-raised-button
-                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">Descargar
-                                        PDF</a>
                                 </div>
-
+                                @if (activity.approved_amount != '0.00') {
+                                    <a class="update bg-success text-white"
+                                        mat-raised-button style="width: 25%;"
+                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">
+                                        Aprobado! Descarga PDF
+                                        de la actividad!</a>
+                                    }
                             </div>
 
                             <div class="row">
@@ -560,16 +574,24 @@
                                                     color="secondary"
                                                     *ngIf="isEditing && editingActivityId === activity.id"
                                                     (click)="cancelEditing()">Cancelar</button>
+
+                                                @if (email ==
+                                                'financiero@ism.edu.ec' ||
+                                                email ==
+                                                'direccionfinanciera@ism.edu.ec')
+                                                {
+
+                                                } @else {
                                                 <button class="update"
                                                     mat-raised-button
                                                     *ngIf="poaDetail.status != 'APROBADO'"
                                                     style="background-color: brown;color: white;"
                                                     (click)="deleteActivity(activity.id)">Eliminar</button>
+                                                }
 
                                             </div>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </mat-expansion-panel>
@@ -610,9 +632,10 @@
                 <!-- BOTON FLOTANTE -->
                 <div style="width: 30%;" *ngIf="poaDetail.status != 'APROBADO'">
                     <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                    matTooltip="Agregar siguiente filtro"
                         *ngIf="poaDetail.status == fullname || email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'"
-                        mat-fab color="primary" class="fab-button">
-                        <mat-icon>add</mat-icon>
+                        mat-fab color="primary" class="fab-button" >
+                        <i class="fa-solid fa-users-gear fa-2x"></i>
                     </a>
                 </div>
                 }

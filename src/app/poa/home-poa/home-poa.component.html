@@ -68,7 +68,13 @@
                             Rechazado ({{countPoaByStatus('rechazado')}})
                         </button>
                         <button mat-raised-button class="me-2"
-                           
+                            [ngStyle]="{
+                                'background-color': isNotStartedActive ? 'rgb(244, 67, 54)' : 'rgb(200, 200, 200)',
+                                'color': isNotStartedActive ? 'white' : 'black' }"
+                            (click)="filterPoa('rechazado'); toggleNotStarted()">
+                            No iniciado ({{countPoaByStatus('rechazado')}})
+                        </button>
+                        <button mat-raised-button class="me-2"
                             (click)="filterPoa(null); toggleClear()">
                             Limpiar Filtro
                         </button>
