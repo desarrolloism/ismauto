@@ -68,11 +68,9 @@
                             Rechazado ({{countPoaByStatus('rechazado')}})
                         </button>
                         <button mat-raised-button class="me-2"
-                            [ngStyle]="{
-                                'background-color': isNotStartedActive ? 'rgb(244, 67, 54)' : 'rgb(200, 200, 200)',
-                                'color': isNotStartedActive ? 'white' : 'black' }"
-                            (click)="filterPoa('rechazado'); toggleNotStarted()">
-                            No iniciado ({{countPoaByStatus('rechazado')}})
+                            *ngIf="email === 'financiero@ism.edu.ec' || email === 'direccionfinanciera@ism.edu.ec'"
+                            data-bs-toggle="modal" data-bs-target="#notStarted">
+                            No iniciado ({{notStartedPoa?.length}})
                         </button>
                         <button mat-raised-button class="me-2"
                             (click)="filterPoa(null); toggleClear()">
@@ -114,7 +112,7 @@
                                                         <i
                                                             class="fa-solid fa-user-tie me-2"></i>
                                                         <span
-                                                            matTooltip="{{poa.responsible}}"
+                                                            matTooltip="Responsable: {{poa.responsible}}"
                                                             class="text-truncate">{{poa.responsible}}</span>
                                                     </div>
                                                 </div>
@@ -124,7 +122,7 @@
                                                         <i
                                                             class="fa-solid fa-users-line me-2"></i>
                                                         <span
-                                                            matTooltip="{{poa.area}}"
+                                                            matTooltip="Área: {{poa.area}}"
                                                             class="text-truncate">{{poa.area}}</span>
                                                     </div>
                                                 </div>
@@ -158,16 +156,24 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
-                                                    <div
+                                                    @if (poa.status != 'APROBADO') {
+                                                        <div
                                                         class="d-flex align-items-center">
                                                         <i
                                                             class="fa-solid fa-dollar-sign me-2"></i>
                                                         <span
                                                             *ngIf="poa.total_resources == 0">(Sin
                                                             asignar)</span>
-                                                        <span
+                                                        <span matTooltip="Total requerido"
                                                             *ngIf="poa.total_resources != 0">{{poa.total_resources}}</span>
                                                     </div>
+                                                    } @else {
+                                                        <i
+                                                            class="fa-solid fa-dollar-sign me-2"></i>
+                                                        <span matTooltip="Total aprobado" >{{poa.total_aproved}}</span>
+                                                    }
+
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -190,4 +196,41 @@
 
     </div>
 
+</div>
+
+<!-- modal para visualizar departamentos que no han iniciado el poa  -->
+<div class="modal fade" id="notStarted" tabindex="-1"
+    aria-labelledby="notStarted" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5"
+                    id="exampleModalLabel">Departamentos sin envio de POA
+                    ({{notStartedPoa?.length}})</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2 class="text-xl font-bold mb-4">Departamentos que no han
+                    iniciado:</h2>
+                <div class="grid grid-cols-3 gap-4">
+                    <div *ngFor="let dep of notStartedPoa"
+                        class="p-2 border-gray-200 rounded">
+                        <mat-card class="department-card">
+                            <mat-card-header>
+                                <mat-icon aria-hidden="false"
+                                    aria-label="Building icon">business</mat-icon>
+                                <span class="ms-2">{{ dep }}</span>
+                            </mat-card-header>
+                        </mat-card>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button mat-raised-button type="button" color="primary"
+                    data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>

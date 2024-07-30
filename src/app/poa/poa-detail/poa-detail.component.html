@@ -179,7 +179,8 @@
                             class="text-center"><i
                                 class="fa-regular fa-clipboard me-2"></i>Actividades
                             ({{ allActivities?.length
-                            }}):</h4></div>
+                            }}):</h4>
+                    </div>
                     <!-- barra de busqueda -->
                     <div class="col-md-4 mb-3">
                         <input type="text" style="border-radius: 50px;"
@@ -204,7 +205,16 @@
 
                 <!-- TABLA DE ACTIVIDADES -->
                 <div class="overflow-auto p-2">
+
                     <mat-accordion class="custom-shadow-panel">
+                        <div class="mb-3 d-flex justify-content-evenly" *ngIf="email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'">
+                            <button mat-raised-button color="primary" style="font-size: .7rem;"
+                                (click)="filterPendingActivities()">Mostrar En
+                                Revisión</button>
+                            <button mat-raised-button color="secondary" style="font-size: .7rem;"
+                                (click)="clearFilter()">Mostrar Todos</button>
+                        </div>
+
                         <mat-expansion-panel
                             *ngFor="let activity of allActivities"
                             (click)="getActivityId(activity.id)">
@@ -334,8 +344,6 @@
                                     </div>
                                     }
 
-                                    
-
                                     @if (email == 'financiero@ism.edu.ec' &&
                                     activity.approved_amount == "0.00" &&
                                     poaDetail.status != 'APROBADO' &&
@@ -359,12 +367,12 @@
                                     }
                                 </div>
                                 @if (activity.approved_amount != '0.00') {
-                                    <a class="update bg-success text-white"
-                                        mat-raised-button style="width: 25%;"
-                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">
-                                        Aprobado! Descarga PDF
-                                        de la actividad!</a>
-                                    }
+                                <a class="update bg-success text-white"
+                                    mat-raised-button style="width: 25%;"
+                                    (click)="downloadActivityPDF(activity); $event.stopPropagation()">
+                                    Aprobado! Descarga PDF
+                                    de la actividad!</a>
+                                }
                             </div>
 
                             <div class="row">
@@ -516,16 +524,6 @@
                                                     </label>
                                                 </div>
                                             </div>
-
-                                            <div class="mb-3">
-                                                <label for="comments"
-                                                    class="form-label">Comentarios:</label>
-                                                <textarea class="form-control"
-                                                    id="comments" rows="3"
-                                                    [(ngModel)]="editingActivity.comments"
-                                                    name="comments"></textarea>
-                                            </div>
-
                                             <div
                                                 *ngIf="editingActivity.approved_activity === 'APROBADO'">
                                                 <div class="row">
@@ -549,15 +547,40 @@
                                                                 for="accounting_count"
                                                                 class="form-label">Cuenta
                                                                 contable:</label>
-                                                            <input type="text"
-                                                                class="form-control"
-                                                                id="accounting_count"
+
+                                                            <!-- <ng-select
+                                                                [items]="users"
+                                                                bindLabel="first_name"
+                                                                bindValue="first_name"
+                                                                [(ngModel)]="selectedStatus"
+                                                                (change)="onUpdate()"
+                                                                name="status"
+                                                                placeholder="Elija un usuario">
+                                                            </ng-select> -->
+
+                                                            <ng-select
+                                                                [items]="accounting_list"
+                                                                bindLabel="accounting_count"
+                                                                bindValue="accounting_count"
                                                                 [(ngModel)]="editingActivity.accounting_count"
-                                                                name="accounting_count">
+                                                                name="accounting_count"
+                                                                placeholder="Elija una cuenta">
+                                                            </ng-select>
+
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="mb-3">
+                                                <label for="comments"
+                                                    class="form-label">Comentarios:</label>
+                                                <textarea class="form-control"
+                                                    id="comments" rows="3"
+                                                    [(ngModel)]="editingActivity.comments"
+                                                    name="comments"></textarea>
+                                            </div>
+
                                         </div>
                                         <!-- fin solo lo puede ver y modificar el; admin -->
                                         <div
@@ -632,9 +655,9 @@
                 <!-- BOTON FLOTANTE -->
                 <div style="width: 30%;" *ngIf="poaDetail.status != 'APROBADO'">
                     <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                    matTooltip="Agregar siguiente filtro"
+                        matTooltip="Agregar siguiente filtro"
                         *ngIf="poaDetail.status == fullname || email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'"
-                        mat-fab color="primary" class="fab-button" >
+                        mat-fab color="primary" class="fab-button">
                         <i class="fa-solid fa-users-gear fa-2x"></i>
                     </a>
                 </div>
@@ -768,6 +791,7 @@
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
                 @if(email != 'financiero@ism.edu.ec' && email !=
                 'direccionfinanciera@ism.edu.ec' ){
                 <form>
@@ -785,15 +809,15 @@
                             </select> -->
                         <div class="mb-3" style="width: 100%;"
                             *ngIf="poaDetail.status != 'APROBADO'">
-                            <select (change)="onUpdate()"
+                            <ng-select
+                                [items]="users"
+                                bindLabel="first_name"
+                                bindValue="first_name"
                                 [(ngModel)]="selectedStatus"
-                                name="status" class="form-select"
-                                aria-label="Default select example">
-                                <option *ngFor="let user of users"
-                                    [value]="user.first_name">
-                                    {{ user.first_name }}
-                                </option>
-                            </select>
+                                (change)="onUpdate()"
+                                name="status"
+                                placeholder="Elija un usuario">
+                            </ng-select>
                         </div>
                     </div>
                     <!-- <div class="mb-3">

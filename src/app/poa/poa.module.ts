@@ -23,6 +23,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar'; 
 
+
+//select 2
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
   declarations: [
     HomePoaComponent,
@@ -38,6 +42,9 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     //angular forms
     FormsModule,
     ReactiveFormsModule,
+    
+    //selet2
+    NgSelectModule,
 
     //angular material
     MatButtonModule,

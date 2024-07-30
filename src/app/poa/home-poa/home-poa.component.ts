@@ -39,13 +39,15 @@ export class HomePoaComponent implements OnInit {
   isFilterActive = false;
   isApprovedActive = false;
   isRejectedActive = false;
-  isNotStartedActive = false;
+  notStartedPoa: any;
   isClearActive = false;
+
 
   ngOnInit() {
     this.getPoaList();
     this.onSearch();
     this.getAvatar();
+    this.depsNotStarted();
   }
 
   //obtiene lista de poa
@@ -130,15 +132,18 @@ export class HomePoaComponent implements OnInit {
     this.isClearActive = false;
   }
 
-  toggleNotStarted() {
-    this.isNotStartedActive = !this.isNotStartedActive;
-    this.isApprovedActive = false;
-    this.isClearActive = false;
-  }
-
   toggleClear() {
     this.isClearActive = !this.isClearActive;
     this.isApprovedActive = false;
     this.isRejectedActive = false;
+  }
+
+
+  //obtiene departamentos que no han realizado poa
+  depsNotStarted() {
+    this.poaService.getNotStartedDeps(this.token).subscribe((resp: any) => {
+      this.notStartedPoa = resp.data;
+      console.log('dep que no han iniciado', this.notStartedPoa);
+    });
   }
 }

@@ -66,6 +66,7 @@ export class MainComponent {
 
   ngOnInit() {
     this.getNoti();
+    this.getAvatar();
   }
 
   getNoti() {

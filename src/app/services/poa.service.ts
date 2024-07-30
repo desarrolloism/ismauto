@@ -32,7 +32,7 @@ export class PoaService {
     company: string,
     campus: string,
     comentRejected: string,
-    userCi:string
+    userCi: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export class PoaService {
       company: company,
       campus: campus,
       coment_rejected: comentRejected,
-      user_ci:userCi
+      user_ci: userCi
     }
     return this._http.post(`${this.url}/poa_create`, data, { headers: headers });
   }
@@ -105,7 +105,7 @@ export class PoaService {
     totalAproved: number,
     status: string,
     comentRejected: string,
-    userCi:string
+    userCi: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ export class PoaService {
       total_aproved: totalAproved,
       status: status,
       coment_rejected: comentRejected,
-      user_ci:userCi
+      user_ci: userCi
     }
     return this._http.post(`${this.url}/poa_update`, data, { headers: headers });
   }
@@ -188,7 +188,7 @@ export class PoaService {
     comments: string,
     accountingCount: string,
     priority: string,
-    approvedActivity:string
+    approvedActivity: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -225,7 +225,7 @@ export class PoaService {
     comments: string,
     accountingCount: string,
     priority: string,
-    approvedActivity:string
+    approvedActivity: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -360,6 +360,32 @@ export class PoaService {
     });
     const data = {}
     return this._http.post(`${this.url}/poa_year`, data, { headers: headers });
+  }
+
+  //obtiene departamentos que no han realizado poa 
+  getNotStartedDeps(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+
+    const data = {}
+    return this._http.post(`${this.url}/departments_without_poa`, data, { headers: headers });
+  }
+
+  //obtiene cuentas contables
+
+  contableAccounts(token:any){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+
+    const data = {}
+
+    return this._http.post(`${this.url}/accounting_count`,data ,{ headers: headers });
   }
 
 }

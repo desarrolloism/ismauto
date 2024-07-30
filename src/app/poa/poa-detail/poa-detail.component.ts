@@ -38,6 +38,7 @@ export class PoaDetailComponent {
   usersId: any;
   signaturesList: any;
   firstUser: string = '';
+  accounting_list: any;
 
   signature = {
     coments: '',
@@ -88,15 +89,11 @@ export class PoaDetailComponent {
   }
 
   originalActivities: any[] = [];
-
+  isFilterActive: boolean = false;
   selectedUserId: any = [];
   actualDate: any;
 
   rejectComment: string = '';
-
-
-
-
 
   //genera un pdf de la actividad
   downloadActivityPDF(activity: any) {
@@ -209,9 +206,6 @@ export class PoaDetailComponent {
       });
     }
 
-
-
-
     //Sección de comentarios
     if (activity.comments) {
       const finalY = (doc as any).lastAutoTable.finalY || 45;
@@ -298,6 +292,22 @@ export class PoaDetailComponent {
     this.getAdmin();
     this.userList();
     this.listSignatures();
+    this.getAccounting();
+  }
+
+  //muestra actividades sin aprobar
+  filterPendingActivities() {
+    if (!this.isFilterActive) {
+      this.allActivities = this.originalActivities.filter(activity => activity.approved_amount == '0.00');
+      this.isFilterActive = true;
+    }
+  }
+  
+  clearFilter() {
+    if (this.isFilterActive) {
+      this.allActivities = [...this.originalActivities];
+      this.isFilterActive = false;
+    }
   }
 
   //obtiene fecha actual
@@ -409,8 +419,8 @@ export class PoaDetailComponent {
   showActivities() {
     this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
       this.allActivities = resp.data;
-      console.log('actividades', this.allActivities);
       this.originalActivities = [...this.allActivities];
+      console.log('actividades', this.allActivities);
     });
   }
 
@@ -576,7 +586,7 @@ export class PoaDetailComponent {
   userList() {
     this._poaService.allUsers(this.token).subscribe((resp: any) => {
       this.users = resp.data;
-      // console.log(this.users);
+      console.log('usuarios',this.users);
     })
   }
 
@@ -629,4 +639,15 @@ export class PoaDetailComponent {
   allActivitiesHaveApproval(): boolean {
     return this.allActivities.every((activity: { approved_activity: string; }) => activity.approved_activity && activity.approved_activity.trim() !== '');
   }
+
+  //obtiene cuenta contables 
+
+  getAccounting() {
+    this._poaService.contableAccounts(this.token).subscribe((resp: any) => {
+      this.accounting_list = resp.data;
+      console.log('cuentas contables', this.accounting_list);
+    })
+  }
+
+
 }
