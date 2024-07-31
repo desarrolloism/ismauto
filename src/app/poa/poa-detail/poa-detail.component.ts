@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PoaService } from '../../services/poa.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { UsersService } from '../../services/users.service';
 import { NgForm } from '@angular/forms';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -39,6 +40,7 @@ export class PoaDetailComponent {
   signaturesList: any;
   firstUser: string = '';
   accounting_list: any;
+  compers_list: any;
 
   signature = {
     coments: '',
@@ -85,7 +87,8 @@ export class PoaDetailComponent {
     comments: '',
     accounting_count: '',
     priority: '',
-    approved_activity: ''
+    approved_activity: '',
+    responsible:''
   }
 
   originalActivities: any[] = [];
@@ -276,7 +279,8 @@ export class PoaDetailComponent {
   constructor(
     private _poaService: PoaService,
     private _router: Router,
-    private _routeActivated: ActivatedRoute
+    private _routeActivated: ActivatedRoute,
+    private _userServ: UsersService
   ) {
     this.actualDate = this.getFechaActual();
   }
@@ -293,6 +297,7 @@ export class PoaDetailComponent {
     this.userList();
     this.listSignatures();
     this.getAccounting();
+    this.getNameCompers();
   }
 
   //muestra actividades sin aprobar
@@ -302,7 +307,7 @@ export class PoaDetailComponent {
       this.isFilterActive = true;
     }
   }
-  
+
   clearFilter() {
     if (this.isFilterActive) {
       this.allActivities = [...this.originalActivities];
@@ -384,7 +389,8 @@ export class PoaDetailComponent {
             if (bootstrapModal) {
               bootstrapModal.hide();
               alert('Poa actualizado con exito');
-              this._router.navigate(['/home-poa']);
+              window.location.reload();
+              // this._router.navigate(['/home-poa']);
               // if (window.confirm('Poa actualizado con éxito, ¿desea regresar al listado?')) {
               //   this._router.navigate(['/home-poa']);
               // }
@@ -438,7 +444,8 @@ export class PoaDetailComponent {
       this.createPoa.comments,
       this.createPoa.accounting_count,
       this.createPoa.priority,
-      this.createPoa.approved_activity
+      this.createPoa.approved_activity,
+      this.poaDetail.responsible
     ).subscribe(resp => {
       this.dataActivity = resp;
       if (this.dataActivity.status === 'ok') {
@@ -457,6 +464,10 @@ export class PoaDetailComponent {
 
   //actualizacion de actividades
   updateActivity(activityId: number) {
+    if (this.editingActivity.approved_activity === 'RECHAZADO') {
+      this.editingActivity.approved_amount = 0;
+      this.editingActivity.accounting_count = '';
+    }
     this._poaService.updatePoaActivity(
       this.token,
       activityId,
@@ -469,7 +480,8 @@ export class PoaDetailComponent {
       this.editingActivity.comments,
       this.editingActivity.accounting_count,
       this.editingActivity.priority,
-      this.editingActivity.approved_activity
+      this.editingActivity.approved_activity,
+      this.editingActivity.responsible
     ).subscribe(resp => {
       this.dataUpdateActivity = resp;
       // console.log(this.dataUpdateActivity);
@@ -519,7 +531,8 @@ export class PoaDetailComponent {
       comments: '',
       accounting_count: '',
       priority: '',
-      approved_activity: ''
+      approved_activity: '',
+      responsible: ''
     };
   }
 
@@ -586,7 +599,7 @@ export class PoaDetailComponent {
   userList() {
     this._poaService.allUsers(this.token).subscribe((resp: any) => {
       this.users = resp.data;
-      console.log('usuarios',this.users);
+      console.log('usuarios', this.users);
     })
   }
 
@@ -649,5 +662,12 @@ export class PoaDetailComponent {
     })
   }
 
+  //obtiene usuarios de compers 
+  getNameCompers(){
+    this._userServ.getCompersUser(this.token).subscribe((resp: any) => {
+      this.compers_list = resp.data;
+      console.log('compers',this.compers_list);
+    })
+  }
 
 }

@@ -91,27 +91,6 @@
 
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="ccpf"
-                                        class="form-label">CCPF:</label>
-                                    <input type="text" class="form-control"
-                                        name="ccpf"
-                                        [(ngModel)]="poaDetail.ccpf">
-                                </div>
-
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">N. del
-                                        proyecto:</label>
-                                    <input type="text" class="form-control"
-                                        name="name"
-                                        [(ngModel)]="poaDetail.name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
                                     <label for="campus"
                                         class="form-label">Campus
                                         ({{poaDetail.campus}})</label>
@@ -124,16 +103,7 @@
                                         <option value="WETS">West</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="student_council"
-                                        class="form-label">Consejo
-                                        estudiantil:</label>
-                                    <input type="text" class="form-control"
-                                        name="student_council"
-                                        [(ngModel)]="poaDetail.student_council">
-                                </div>
+
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
@@ -144,12 +114,14 @@
                                         [(ngModel)]="poaDetail.company">
                                 </div>
                             </div>
-
                         </div>
+                        
                         <div class="mb-3">
                             <label for="objective"
-                                class="form-label">Objetivo:</label>
-                            <textarea class="form-control" name="objective"
+                                class="form-label">Objetivo (max. 500
+                                caracteres):</label>
+                            <textarea maxlength="500" class="form-control"
+                                name="objective"
                                 [(ngModel)]="poaDetail.objective"></textarea>
                         </div>
 
@@ -207,11 +179,14 @@
                 <div class="overflow-auto p-2">
 
                     <mat-accordion class="custom-shadow-panel">
-                        <div class="mb-3 d-flex justify-content-evenly" *ngIf="email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'">
-                            <button mat-raised-button color="primary" style="font-size: .7rem;"
+                        <div class="mb-3 d-flex justify-content-evenly"
+                            *ngIf="email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'">
+                            <button mat-raised-button color="primary"
+                                style="font-size: .7rem;"
                                 (click)="filterPendingActivities()">Mostrar En
                                 Revisión</button>
-                            <button mat-raised-button color="secondary" style="font-size: .7rem;"
+                            <button mat-raised-button color="secondary"
+                                style="font-size: .7rem;"
                                 (click)="clearFilter()">Mostrar Todos</button>
                         </div>
 
@@ -358,7 +333,8 @@
                                     @if (email ==
                                     'direccionfinanciera@ism.edu.ec' &&
                                     activity.approved_amount == "0.00" &&
-                                    poaDetail.status != 'APROBADO') {
+                                    poaDetail.status != 'APROBADO' &&
+                                    poaDetail.status == 'VINUEZA AIDA') {
                                     <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
@@ -474,14 +450,31 @@
                                                             for="resources_detail"
                                                             class="form-label">Detalle
                                                             de
-                                                            recursos:</label>
+                                                            recursos (max. 500
+                                                            caracteres):</label>
                                                         <textarea
+                                                            maxlength="500"
                                                             class="form-control"
                                                             id="resources_detail"
                                                             rows="3"
                                                             [(ngModel)]="editingActivity.resources_detail"
                                                             name="resources_detail"></textarea>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3">
+                                                    <label
+                                                            for="responsible"
+                                                            class="form-label">Responsable:</label>
+                                                    <ng-select
+                                                        [items]="compers_list"
+                                                        bindLabel="name"
+                                                        bindValue="name"
+                                                        [(ngModel)]="editingActivity.responsible"
+                                                        name="status"
+                                                        placeholder="Elija un usuario">
+                                                    </ng-select>
                                                 </div>
                                             </div>
                                         </div>
@@ -547,17 +540,6 @@
                                                                 for="accounting_count"
                                                                 class="form-label">Cuenta
                                                                 contable:</label>
-
-                                                            <!-- <ng-select
-                                                                [items]="users"
-                                                                bindLabel="first_name"
-                                                                bindValue="first_name"
-                                                                [(ngModel)]="selectedStatus"
-                                                                (change)="onUpdate()"
-                                                                name="status"
-                                                                placeholder="Elija un usuario">
-                                                            </ng-select> -->
-
                                                             <ng-select
                                                                 [items]="accounting_list"
                                                                 bindLabel="accounting_count"
@@ -575,7 +557,8 @@
                                             <div class="mb-3">
                                                 <label for="comments"
                                                     class="form-label">Comentarios:</label>
-                                                <textarea class="form-control"
+                                                <textarea maxlength="500"
+                                                    class="form-control"
                                                     id="comments" rows="3"
                                                     [(ngModel)]="editingActivity.comments"
                                                     name="comments"></textarea>
@@ -658,7 +641,7 @@
                         matTooltip="Agregar siguiente filtro"
                         *ngIf="poaDetail.status == fullname || email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'"
                         mat-fab color="primary" class="fab-button">
-                        <i class="fa-solid fa-users-gear fa-2x"></i>
+                        <i class="fa-regular fa-share-from-square fa-2x"></i>
                     </a>
                 </div>
                 }
@@ -733,7 +716,6 @@
                                 name="resources_detail" required></textarea>
                         </div>
                         <div class="row">
-
                             <div class="mb-3 col-md-6">
                                 <label for="resources_ammount"
                                     class="form-label">Monto
@@ -744,11 +726,9 @@
                                     [(ngModel)]="createPoa.resources_ammount"
                                     name="resources_ammount" required>
                             </div>
-
                             <div class="mb-3 col-md-6">
                                 <label for="campus"
                                     class="form-label">Prioridad</label>
-
                                 <select class="form-select"
                                     [(ngModel)]="createPoa.priority"
                                     name="campus">
@@ -757,8 +737,19 @@
                                     <option value="ALTA">Alta</option>
                                 </select>
                             </div>
-
                         </div>
+                        <!-- <div class="row">
+                            <div class="mb-3">
+                                <ng-select
+                                    [items]="compers_list"
+                                    bindLabel="name"
+                                    bindValue="name"
+                                    [(ngModel)]="createPoa.responsible"
+                                    name="status"
+                                    placeholder="Elija un usuario">
+                                </ng-select>
+                            </div>
+                        </div> -->
                     </div>
                     <!-- solo admin puede modificar -->
                     <button type="submit" mat-raised-button color="primary"
@@ -797,16 +788,6 @@
                 <form>
                     <div class="mb-3">
                         <label for class="form-label">Asignar usuario:</label>
-                        <!-- <select (change)="onUserSelect($event)"
-                                [(ngModel)]="usersId" name="usuario"
-                                class="form-select"
-                                aria-label="Default select example">
-                                <option value>Seleccione un usuario</option>
-                                <option *ngFor="let user of users"
-                                    [value]="user.id">
-                                    {{ user.first_name }}
-                                </option>
-                            </select> -->
                         <div class="mb-3" style="width: 100%;"
                             *ngIf="poaDetail.status != 'APROBADO'">
                             <ng-select
@@ -820,22 +801,13 @@
                             </ng-select>
                         </div>
                     </div>
-                    <!-- <div class="mb-3">
-                            <label for class="form-label">Comentario:</label>
-                            <textarea class="form-control" type="text"
-                                [(ngModel)]="signature.coments"
-                                name="coments">
-                                </textarea>
-                        </div> -->
-                    <!-- <button (click)="createSignature()" type="submit"
-                        class="btn btn-primary">Enviar</button> -->
                 </form>
                 }@else {
                 <div class="col-md-12">
                     <div class="mb-3 d-flex justify-content-evenly"
                         *ngIf="poaDetail.status != 'APROBADO'">
                         @if (poaDetail.status == 'Cristian Vaca' ||
-                        poaDetail.status == 'VINUEZA VINUEZA') {
+                        poaDetail.status == 'VINUEZA AIDA') {
 
                         @if (allActivitiesHaveApproval()) {
                         <button (click)="updateStatus('APROBADO')"

@@ -25,8 +25,8 @@
                                     <mat-option value="LETRA PARA TODOS">Letra
                                         para todos</mat-option>
                                     <mat-option value="DIGLO">DIGLO</mat-option>
-                                    <mat-option
-                                        value="PAXDEM">PAXDEM</mat-option>
+                                    <mat-option value="PAXDEM">PAXDEM</mat-option>
+                                    <mat-option value="IMPAK">IMPAK</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <div>
@@ -48,6 +48,7 @@
                                     <mat-option value="NORTH">North</mat-option>
                                     <mat-option value="QUITO">Quito</mat-option>
                                     <mat-option value="WEST">West</mat-option>
+                                    <mat-option value="ONLINE">Online</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <div>
@@ -77,7 +78,7 @@
                     </mat-step>
 
                     <!-- Paso 4: ccpf -->
-                    <mat-step [stepControl]="ccpfForm">
+                    <!-- <mat-step [stepControl]="ccpfForm">
                         <form [formGroup]="ccpfForm">
                             <ng-template matStepLabel>CCPF</ng-template>
                             <mat-form-field appearance="outline">
@@ -91,10 +92,10 @@
                                     matStepperNext>Siguiente</button>
                             </div>
                         </form>
-                    </mat-step>
+                    </mat-step> -->
 
                     <!-- Paso 5: consejo estudiantil -->
-                    <mat-step [stepControl]="studentCoachForm">
+                    <!-- <mat-step [stepControl]="studentCoachForm">
                         <form [formGroup]="studentCoachForm">
                             <ng-template matStepLabel>Consejo
                                 estudiantil</ng-template>
@@ -111,11 +112,11 @@
                                     matStepperNext>Siguiente</button>
                             </div>
                         </form>
-                    </mat-step>
+                    </mat-step> -->
 
                     <!-- Paso 6: Comisión -->
 
-                    <mat-step [stepControl]="commissionForm">
+                    <!-- <mat-step [stepControl]="commissionForm">
                         <form [formGroup]="commissionForm">
                             <ng-template matStepLabel>
                                 Comisión
@@ -133,10 +134,10 @@
                                     matStepperNext>Siguiente</button>
                             </div>
                         </form>
-                    </mat-step>
+                    </mat-step> -->
 
                     <!-- Paso 7: nombre -->
-                    <mat-step [stepControl]="nameForm">
+                    <!-- <mat-step [stepControl]="nameForm">
                         <form [formGroup]="nameForm">
                             <ng-template matStepLabel>Nombre de
                                 proyecto</ng-template>
@@ -151,7 +152,7 @@
                                     matStepperNext>Siguiente</button>
                             </div>
                         </form>
-                    </mat-step>
+                    </mat-step> -->
 
                     <!-- Paso 8: Objetivo -->
                     <mat-step [stepControl]="objectiveForm">
@@ -160,7 +161,7 @@
                                 general</ng-template>
                             <mat-form-field appearance="outline">
                                 <mat-label>Objetivo</mat-label>
-                                <textarea matInput formControlName="objective"
+                                <textarea  maxlength="1000" matInput formControlName="objective"
                                     rows="3" required></textarea>
                             </mat-form-field>
                             <div>
@@ -242,7 +243,7 @@
                     <mat-list>
                         <mat-list-item>
                             <span matListItemTitle>CCPF</span>
-                            <span matListItemLine>{{ ccpfForm.value.ccpf
+                            <span matListItemLine>{{ ccpfForm?.value.ccpf
                                 }}</span>
                         </mat-list-item>
                     </mat-list>
@@ -256,7 +257,7 @@
                         <mat-list-item>
                             <span matListItemTitle>Consejo estudiantil</span>
                             <span matListItemLine>{{
-                                studentCoachForm.value.student_council }}</span>
+                                studentCoachForm?.value.student_council }}</span>
                         </mat-list-item>
                     </mat-list>
 
@@ -267,7 +268,7 @@
                         <mat-list-item>
                             <span matListItemTitle>Comisión</span>
                             <span matListItemLine>{{
-                                commissionForm.value.commission
+                                commissionForm?.value.commission
                                 }}</span>
                         </mat-list-item>
                     </mat-list>
@@ -281,7 +282,7 @@
                     <mat-list>
                         <mat-list-item>
                             <span matListItemTitle>Nombre del proyecto</span>
-                            <span matListItemLine>{{ nameForm.value.name
+                            <span matListItemLine>{{ nameForm?.value.name
                                 }}</span>
                         </mat-list-item>
                     </mat-list>

@@ -168,7 +168,6 @@ export class PoaService {
       'Authorization': this.auth,
       'Token': token
     });
-
     const data = {
       poa_id: poaId
     }
@@ -188,7 +187,8 @@ export class PoaService {
     comments: string,
     accountingCount: string,
     priority: string,
-    approvedActivity: string
+    approvedActivity: string,
+    responsible: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -207,7 +207,8 @@ export class PoaService {
       comments: comments,
       accounting_count: accountingCount,
       priority: priority,
-      approved_activity: approvedActivity
+      approved_activity: approvedActivity,
+      responsible
     }
     return this._http.post(`${this.url}/poa_activities_create`, data, { headers: headers });
   }
@@ -225,7 +226,8 @@ export class PoaService {
     comments: string,
     accountingCount: string,
     priority: string,
-    approvedActivity: string
+    approvedActivity: string,
+    responsible: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -244,7 +246,8 @@ export class PoaService {
       comments: comments,
       accounting_count: accountingCount,
       priority: priority,
-      approved_activity: approvedActivity
+      approved_activity: approvedActivity,
+      responsible
     }
     return this._http.post(`${this.url}/poa_activities_update`, data, { headers: headers });
   }
@@ -376,16 +379,16 @@ export class PoaService {
 
   //obtiene cuentas contables
 
-  contableAccounts(token:any){
+  contableAccounts(token: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
-
     const data = {}
-
-    return this._http.post(`${this.url}/accounting_count`,data ,{ headers: headers });
+    return this._http.post(`${this.url}/accounting_count`, data, { headers: headers });
   }
+
+  
 
 }

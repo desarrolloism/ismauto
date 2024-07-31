@@ -13,6 +13,7 @@ interface Poa {
   total_aproved: number;
   academic_year_id: number;
   user_ci: string;
+  department: string;
 }
 
 

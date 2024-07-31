@@ -28,7 +28,6 @@ export class UsersService {
         return this._http.post(`${this.url}/login`, user, { headers: headers });
     }
 
-
     all(token: any) {
 
         const headers = new HttpHeaders({
@@ -37,6 +36,20 @@ export class UsersService {
             'Token': token
         });
         return this._http.get(`${this.url}/users/all`, { headers: headers });
+    }
+
+
+    //obtiene usuarios de compers 
+    getCompersUser(token: any) {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': this.auth,
+            'Token': token
+        });
+
+        const data = {}
+
+        return this._http.post(`${this.url}/compers_user_list`, data, { headers: headers });
     }
 
 

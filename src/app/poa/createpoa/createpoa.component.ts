@@ -50,7 +50,7 @@ export class CreatepoaComponent implements OnInit {
     total_aproved: 0,
     status: '',
     coment_rejected: '',
-    user_Ci:''
+    user_Ci: ''
   };
 
   taskStates = ['INICIANDO'];
@@ -134,7 +134,8 @@ export class CreatepoaComponent implements OnInit {
           } else {
             console.log('Cedula no encontrada');
             alert('Cédula no encontrada. Para crear un POA es necesario registrarse en Compers con talento humano.');
-            this.cedula = null;
+            // this.cedula = null;
+            this._router.navigate(['/main']);
           }
         }
       });
@@ -144,9 +145,8 @@ export class CreatepoaComponent implements OnInit {
   //crear POA
   onCreate() {
     if (this.enterpriseForm.valid && this.campusForm.valid &&
-      this.areaForm.valid && this.ccpfForm.valid &&
-      this.nameForm.valid && this.studentCoachForm.valid &&
-      this.objectiveForm.valid && this.commissionForm.valid) {
+      this.areaForm.valid &&
+      this.objectiveForm.valid) {
       this._poaService.createPoa(
         this.token,
         this.areaForm.value.area,
@@ -198,11 +198,11 @@ export class CreatepoaComponent implements OnInit {
   }
 
   //obtiene periodo academico
-  getYear(){
-    this._poaService.getAcademicPeriod(this.token).subscribe((resp:any)=>{
+  getYear() {
+    this._poaService.getAcademicPeriod(this.token).subscribe((resp: any) => {
       // console.log(resp.data);
       this.academicYearId = resp.data;
-      console.log('periodo',this.academicYearId);
+      console.log('periodo', this.academicYearId);
     });
   }
 }
