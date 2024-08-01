@@ -3,15 +3,10 @@
         class="period">Periodo: {{
         academicYearId }}</span></h1>
 
-<div class="row text-center">
-    <h3>{{ cedula?.nombre }}</h3>
-    <h4 style="color: rgb(95, 92, 92);">{{
-        cedula?.departamento }}</h4>
-</div>
-
 <div class="container">
     <div class="row" *ngIf="cedula && cedula?.nombre && cedula?.departamento">
-        <div class="col-md-6 overflow-auto">
+        <div class="col-md-6 overflow-auto d-flex justify-content-center"
+            style="height: 450px;">
             <div class="form-group">
                 <mat-stepper orientation="vertical" [linear]="isLinear"
                     #stepper>
@@ -135,6 +130,74 @@
             </div>
         </div>
 
+        <!-- muestra info ingresada para creacion de poa -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title fw-bold text-center">Detalles del
+                        POA</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5><b>Responsable: </b>{{ cedula?.nombre }}</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 style="color: rgb(95, 92, 92);"><b>Departamento:
+                                </b>{{
+                                cedula?.departamento }}</h5>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div
+                                *ngIf="poaForm.get('companiesStep.companies')?.value.length > 0">
+                                <h6 class="fw-bold">Empresas seleccionadas:</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"
+                                        *ngFor="let company of poaForm.get('companiesStep.companies')?.value"><i
+                                            class="fa-solid fa-caret-right me-2"></i>{{
+                                        company }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                *ngIf="poaForm.get('campusesStep.campuses')?.value.length > 0">
+                                <h6 class="fw-bold">Campus seleccionados:</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"
+                                        *ngFor="let campus of poaForm.get('campusesStep.campuses')?.value">
+                                        <i
+                                            class="fa-solid fa-caret-right me-2"></i>{{
+                                        campus }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div *ngIf="poaForm.get('areaStep.area')?.value">
+                                <hr>
+                                <h6 class="fw-bold">Área:</h6>
+                                <p class="text-truncate" id="show_area">{{
+                                    poaForm.get('areaStep.area')?.value }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div matTooltip="{{ poaForm.get('objectiveStep.objective')?.value }} "
+                                *ngIf="poaForm.get('objectiveStep.objective')?.value">
+                                <hr>
+                                <h6 class="fw-bold">Objetivo:</h6>
+                                <p id="show_objective" class="text-truncate">{{
+                                    poaForm.get('objectiveStep.objective')?.value
+                                    }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- muestra info ingresada para creacion de poa -->
     </div>
     <div class="row d-flex justify-content-center">

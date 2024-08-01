@@ -27,6 +27,7 @@ export class CreatepoaComponent implements OnInit {
   academicYearId: number = 0;
   companies = ['ISM', 'REWA', 'CONSTRUCTEC', 'IMPAK', 'PAXDEM', 'DIGLO']; // Add all available companies
   campuses = ['QUITO', 'NORTH', 'WEST', 'KIDS', 'ONLINE'];
+  i: number = 1;
 
   newPoa = {
     cedula: '',
@@ -81,7 +82,7 @@ export class CreatepoaComponent implements OnInit {
     });
   }
 
-  
+
 
   get companiesFormArray() {
     return this.poaForm.get('companiesStep.companies') as FormArray;
@@ -148,7 +149,7 @@ export class CreatepoaComponent implements OnInit {
       const campuses = formValue.campusesStep.campuses.map((campus: string) => ({ name: campus, percentage: 0 }));
       const area = formValue.areaStep.area;
       const objective = formValue.objectiveStep.objective;
-  
+
       this._poaService.createPoa(
         this.token,
         area,

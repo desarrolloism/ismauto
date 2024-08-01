@@ -112,3 +112,11 @@
   }
 }
 
+/* estilos para lista de empresa y campus */
+.list-group-item{
+  font-size: .7rem;
+}
+
+#show_area, #show_objective{
+  font-size: .7rem;
+}
