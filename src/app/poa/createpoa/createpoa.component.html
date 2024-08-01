@@ -1,311 +1,140 @@
 <app-header-app></app-header-app>
-<h1 class="text-center mt-4">Generar POA <span class="period">Periodo: {{
+<h1 class="text-center mt-4">Generar POA <span
+        class="period">Periodo: {{
         academicYearId }}</span></h1>
 
-<div class="p-4 container">
+<div class="row text-center">
+    <h3>{{ cedula?.nombre }}</h3>
+    <h4 style="color: rgb(95, 92, 92);">{{
+        cedula?.departamento }}</h4>
+</div>
+
+<div class="container">
     <div class="row" *ngIf="cedula && cedula?.nombre && cedula?.departamento">
-        <div class="col-md-6 d-flex justify-content-center overflow-auto"
-            style="height: 500px;">
+        <div class="col-md-6 overflow-auto">
             <div class="form-group">
-                <mat-vertical-stepper [linear]="true" #stepper>
+                <mat-stepper orientation="vertical" [linear]="isLinear"
+                    #stepper>
+                    <form [formGroup]="poaForm">
+                        <mat-step [stepControl]="poaForm.get('companiesStep')!">
+                            <form formGroupName="companiesStep">
+                                <ng-template matStepLabel>Empresas</ng-template>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label
+                                                class="form-label fw-bold">Empresas</label>
+                                            <div id="checklist"
+                                                class="d-flex flex-wrap">
+                                                <div
+                                                    *ngFor="let company of companies; let i = index"
+                                                    class="form-check form-check-inline">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        [value]="company"
+                                                        id="company-{{i}}"
+                                                        (change)="onCompanyChange($event, company)">
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="company-{{i}}">{{
+                                                        company }}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button mat-button matStepperNext
+                                        [disabled]="!poaForm.get('companiesStep')!.valid">Next</button>
+                                </div>
+                            </form>
+                        </mat-step>
 
-                    <!-- Paso 1: Empresa -->
-                    <mat-step [stepControl]="enterpriseForm">
-                        <form [formGroup]="enterpriseForm">
-                            <ng-template matStepLabel>Empresa</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Empresa</mat-label>
+                        <mat-step [stepControl]="poaForm.get('campusesStep')!">
+                            <form formGroupName="campusesStep">
+                                <ng-template matStepLabel>Campus</ng-template>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label
+                                            class="form-label fw-bold">Campus</label>
+                                        <div id="checklist"
+                                            class="d-flex flex-wrap">
+                                            <div
+                                                *ngFor="let campus of campuses; let i = index"
+                                                class="form-check form-check-inline">
+                                                <input class="form-check-input"
+                                                    type="checkbox"
+                                                    [value]="campus"
+                                                    id="campus-{{i}}"
+                                                    (change)="onCampusChange($event, campus)">
+                                                <label class="form-check-label"
+                                                    for="campus-{{i}}">{{ campus
+                                                    }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button mat-button
+                                        matStepperPrevious>Back</button>
+                                    <button mat-button matStepperNext
+                                        [disabled]="!poaForm.get('campusesStep')!.valid">Next</button>
+                                </div>
+                            </form>
+                        </mat-step>
 
-                                <mat-select formControlName="enterprise"
-                                    required>
-                                    <mat-option value disabled>Selecciona una
-                                        empresa</mat-option>
-                                    <mat-option value="ISM">ISM</mat-option>
-                                    <mat-option value="REWA">REWA</mat-option>
-                                    <mat-option value="LETRA PARA TODOS">Letra
-                                        para todos</mat-option>
-                                    <mat-option value="DIGLO">DIGLO</mat-option>
-                                    <mat-option value="PAXDEM">PAXDEM</mat-option>
-                                    <mat-option value="IMPAK">IMPAK</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step>
+                        <mat-step [stepControl]="poaForm.get('areaStep')!">
+                            <form formGroupName="areaStep">
+                                <ng-template matStepLabel>Área</ng-template>
+                                <div class="mb-3" style="width: 100%;">
+                                    <mat-form-field appearance="outline"
+                                        style="width: 100%;">
+                                        <mat-label for="area">Área</mat-label>
+                                        <input matInput formControlName="area"
+                                            style="width: 100%;" type="text"
+                                            id="area" required>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <button mat-button
+                                        matStepperPrevious>Back</button>
+                                    <button mat-button matStepperNext
+                                        [disabled]="!poaForm.get('areaStep')!.valid">Next</button>
+                                </div>
+                            </form>
+                        </mat-step>
 
-                    <!-- Paso 2: campus -->
-                    <mat-step [stepControl]="campusForm">
-                        <form [formGroup]="campusForm">
-                            <ng-template matStepLabel>Campus</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Campus</mat-label>
-                                <mat-select formControlName="campus" required>
-                                    <mat-option value="NORTH">North</mat-option>
-                                    <mat-option value="QUITO">Quito</mat-option>
-                                    <mat-option value="WEST">West</mat-option>
-                                    <mat-option value="ONLINE">Online</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step>
+                        <mat-step [stepControl]="poaForm.get('objectiveStep')!">
+                            <form formGroupName="objectiveStep">
+                                <ng-template matStepLabel>Objetivo</ng-template>
+                                <div class="mb-3">
+                                    <mat-form-field appearance="outline"
+                                        style="width: 100%;">
+                                        <mat-label
+                                            for="objective">Objetivo</mat-label>
+                                        <textarea id="objective"
+                                            style="width: 100%;"
+                                            maxlength="1000" matInput
+                                            formControlName="objective"
+                                            rows="3" required></textarea>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <button mat-button
+                                        matStepperPrevious>Back</button>
+                                    <button mat-button (click)="onCreate()"
+                                        [disabled]="!poaForm.valid">Create
+                                        POA</button>
+                                </div>
+                            </form>
+                        </mat-step>
+                    </form>
+                </mat-stepper>
 
-                    <!-- Paso 3: area -->
-                    <mat-step [stepControl]="areaForm">
-                        <form [formGroup]="areaForm">
-                            <ng-template matStepLabel>Área</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Área</mat-label>
-                                <input matInput formControlName="area" required>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step>
-
-                    <!-- Paso 4: ccpf -->
-                    <!-- <mat-step [stepControl]="ccpfForm">
-                        <form [formGroup]="ccpfForm">
-                            <ng-template matStepLabel>CCPF</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>CCPF</mat-label>
-                                <input matInput formControlName="ccpf" required>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step> -->
-
-                    <!-- Paso 5: consejo estudiantil -->
-                    <!-- <mat-step [stepControl]="studentCoachForm">
-                        <form [formGroup]="studentCoachForm">
-                            <ng-template matStepLabel>Consejo
-                                estudiantil</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Consejo estudiantil</mat-label>
-                                <input matInput
-                                    formControlName="student_council"
-                                    required>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step> -->
-
-                    <!-- Paso 6: Comisión -->
-
-                    <!-- <mat-step [stepControl]="commissionForm">
-                        <form [formGroup]="commissionForm">
-                            <ng-template matStepLabel>
-                                Comisión
-                            </ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Comisión</mat-label>
-                                <input matInput
-                                    formControlName="commission"
-                                    required>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step> -->
-
-                    <!-- Paso 7: nombre -->
-                    <!-- <mat-step [stepControl]="nameForm">
-                        <form [formGroup]="nameForm">
-                            <ng-template matStepLabel>Nombre de
-                                proyecto</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Nombre de proyecto</mat-label>
-                                <input matInput formControlName="name" required>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button
-                                    matStepperNext>Siguiente</button>
-                            </div>
-                        </form>
-                    </mat-step> -->
-
-                    <!-- Paso 8: Objetivo -->
-                    <mat-step [stepControl]="objectiveForm">
-                        <form [formGroup]="objectiveForm">
-                            <ng-template matStepLabel>Objetivo
-                                general</ng-template>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Objetivo</mat-label>
-                                <textarea  maxlength="1000" matInput formControlName="objective"
-                                    rows="3" required></textarea>
-                            </mat-form-field>
-                            <div>
-                                <button mat-button
-                                    matStepperPrevious>Atrás</button>
-                                <button mat-button (click)="onCreate()">Crear
-                                    POA</button>
-                            </div>
-                        </form>
-                    </mat-step>
-
-                </mat-vertical-stepper>
             </div>
         </div>
 
-        <!-- muestra info ingresada para creacion de poa -->
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-6">
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>Responsable</span>
-                            <span matListItemLine>{{ cedula?.nombre
-                                }}</span>
-                        </mat-list-item>
-                    </mat-list>
-
-                </div>
-                <div class="col-md-6">
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>Departamento</span>
-                            <span matListItemLine>{{ cedula?.departamento
-                                }}</span>
-                        </mat-list-item>
-                    </mat-list>
-
-                </div>
-            </div>
-            <div class="row">
-
-                <div class="col-md-6">
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>Empresa</span>
-                            <span matListItemLine>{{
-                                enterpriseForm.value.enterprise
-                                }}</span>
-                        </mat-list-item>
-                    </mat-list>
-
-                </div>
-                <div class="col-md-6">
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>Campus</span>
-                            <span matListItemLine>{{ campusForm.value.campus
-                                }}</span>
-                        </mat-list-item>
-                    </mat-list>
-
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>Área</span>
-                            <span matListItemLine>{{ areaForm.value.area
-                                }}</span>
-                        </mat-list-item>
-                    </mat-list>
-
-                </div>
-                <div class="col-md-6">
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>CCPF</span>
-                            <span matListItemLine>{{ ccpfForm?.value.ccpf
-                                }}</span>
-                        </mat-list-item>
-                    </mat-list>
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>Consejo estudiantil</span>
-                            <span matListItemLine>{{
-                                studentCoachForm?.value.student_council }}</span>
-                        </mat-list-item>
-                    </mat-list>
-
-                </div>
-
-                <div class="col-md-6">
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>Comisión</span>
-                            <span matListItemLine>{{
-                                commissionForm?.value.commission
-                                }}</span>
-                        </mat-list-item>
-                    </mat-list>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>Nombre del proyecto</span>
-                            <span matListItemLine>{{ nameForm?.value.name
-                                }}</span>
-                        </mat-list-item>
-                    </mat-list>
-
-                </div>
-                <div class="col-md-6 text-truncate">
-
-                    <mat-list>
-                        <mat-list-item>
-                            <span matListItemTitle>Objetivo general</span>
-                            <span matListItemLine
-                                matTooltip="{{ objectiveForm.value.objective }}">{{
-                                objectiveForm.value.objective
-                                }}</span>
-                        </mat-list-item>
-                    </mat-list>
-
-                </div>
-            </div>
-
-            <!--  -->
-
-        </div>
         <!-- muestra info ingresada para creacion de poa -->
     </div>
     <div class="row d-flex justify-content-center">

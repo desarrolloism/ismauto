@@ -59,3 +59,56 @@
     font-size: 1rem;
     color: darkgray;
   }
+
+
+/* estilos para checkobxk */
+#checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#checklist input[type="checkbox"] {
+  display: none;
+}
+
+#checklist label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+#checklist label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid #007bff;
+  background-color: #fff;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+#checklist input[type="checkbox"]:checked + label:before {
+  content: '\2714';
+  color: #fff;
+  background-color: #007bff;
+  text-align: center;
+  line-height: 20px;
+}
+/* estilos para check box horizontal */
+@media (min-width: 768px) {
+  #checklist {
+      display: flex;
+      flex-wrap: nowrap;
+  }
+  .form-check-inline {
+      margin-right: 1rem;
+  }
+}
+

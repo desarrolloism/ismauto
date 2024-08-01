@@ -22,7 +22,7 @@ import { PoaDetailComponent } from './poa-detail/poa-detail.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar'; 
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 //select 2
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -60,7 +60,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatListModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatCheckboxModule
   ]
 })
 export class POAModule { }

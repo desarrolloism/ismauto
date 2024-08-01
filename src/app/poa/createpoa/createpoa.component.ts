@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PoaService } from '../../services/poa.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { finalize } from 'rxjs/internal/operators/finalize';
 
 @Component({
@@ -11,17 +11,8 @@ import { finalize } from 'rxjs/internal/operators/finalize';
 })
 export class CreatepoaComponent implements OnInit {
   //variables de formulario de creacion
-  enterpriseForm!: FormGroup;
-  areaForm!: FormGroup;
-  ccpfForm!: FormGroup;
-  campusForm!: FormGroup;
-  departmentForm!: FormGroup;
-  studentCoachForm!: FormGroup;
-  commissionForm!: FormGroup;
-  nameForm!: FormGroup;
-  objectiveForm!: FormGroup;
-  responsibleForm!: FormGroup;
-  priorityForm!: FormGroup;
+
+  isLinear = false;
 
   totalForm!: FormGroup;
   isLoading: boolean = false;
@@ -34,6 +25,8 @@ export class CreatepoaComponent implements OnInit {
   fullname: string = '';
   ciUser: string = '';
   academicYearId: number = 0;
+  companies = ['ISM', 'REWA', 'CONSTRUCTEC', 'IMPAK', 'PAXDEM', 'DIGLO']; // Add all available companies
+  campuses = ['QUITO', 'NORTH', 'WEST', 'KIDS', 'ONLINE'];
 
   newPoa = {
     cedula: '',
@@ -52,6 +45,7 @@ export class CreatepoaComponent implements OnInit {
     coment_rejected: '',
     user_Ci: ''
   };
+  poaForm!: FormGroup;
 
   taskStates = ['INICIANDO'];
 
@@ -63,56 +57,60 @@ export class CreatepoaComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.token);
-    this.initForms();
+    this.initForm();
     this.getAvatar();
     this.getCompersData();
     this.getYear();
   }
 
-  initForms() {
 
-    this.enterpriseForm = this.fb.group({
-      enterprise: ['', Validators.required]
+  initForm() {
+    this.poaForm = this.fb.group({
+      companiesStep: this.fb.group({
+        companies: this.fb.array([], Validators.required)
+      }),
+      campusesStep: this.fb.group({
+        campuses: this.fb.array([], Validators.required)
+      }),
+      areaStep: this.fb.group({
+        area: ['', Validators.required]
+      }),
+      objectiveStep: this.fb.group({
+        objective: ['', Validators.required]
+      })
     });
-
-    this.campusForm = this.fb.group({
-      campus: ['', Validators.required]
-    });
-
-    this.areaForm = this.fb.group({
-      area: ['', Validators.required]
-    });
-
-    this.departmentForm = this.fb.group({
-      department: ['', Validators.required]
-    });
-
-    this.ccpfForm = this.fb.group({
-      ccpf: ['', Validators.required]
-    });
-
-    this.nameForm = this.fb.group({
-      name: ['', Validators.required]
-    });
-
-    this.responsibleForm = this.fb.group({
-      responsible: ['', Validators.required]
-    });
-
-    this.studentCoachForm = this.fb.group({
-      student_council: ['', Validators.required]
-    });
-
-    this.commissionForm = this.fb.group({
-      commission: ['', Validators.required]
-    });
-
-    this.objectiveForm = this.fb.group({
-      objective: ['', Validators.required]
-    });
-
-
   }
+
+  
+
+  get companiesFormArray() {
+    return this.poaForm.get('companiesStep.companies') as FormArray;
+  }
+
+  get campusesFormArray() {
+    return this.poaForm.get('campusesStep.campuses') as FormArray;
+  }
+
+
+  //elige empresa y campus 
+  onCompanyChange(event: any, company: string) {
+    if (event.target.checked) {
+      this.companiesFormArray.push(this.fb.control(company));
+    } else {
+      const index = this.companiesFormArray.controls.findIndex(x => x.value === company);
+      this.companiesFormArray.removeAt(index);
+    }
+  }
+
+  onCampusChange(event: any, campus: string) {
+    if (event.target.checked) {
+      this.campusesFormArray.push(this.fb.control(campus));
+    } else {
+      const index = this.campusesFormArray.controls.findIndex(x => x.value === campus);
+      this.campusesFormArray.removeAt(index);
+    }
+  }
+
 
   //consulta de compers la cedula
   getCompersData() {
@@ -144,27 +142,27 @@ export class CreatepoaComponent implements OnInit {
 
   //crear POA
   onCreate() {
-    if (this.enterpriseForm.valid && this.campusForm.valid &&
-      this.areaForm.valid &&
-      this.objectiveForm.valid) {
+    if (this.poaForm.valid) {
+      const formValue = this.poaForm.value;
+      const companies = formValue.companiesStep.companies;
+      const campuses = formValue.campusesStep.campuses.map((campus: string) => ({ name: campus, percentage: 0 }));
+      const area = formValue.areaStep.area;
+      const objective = formValue.objectiveStep.objective;
+  
       this._poaService.createPoa(
         this.token,
-        this.areaForm.value.area,
-        this.commissionForm.value.commission,
+        area,
         this.cedula.departamento,
-        this.ccpfForm.value.ccpf,
-        this.studentCoachForm.value.student_council,
-        this.nameForm.value.name,
         this.cedula.nombre,
         19,
-        this.objectiveForm.value.objective,
-        this.newPoa.total_resources,
-        this.newPoa.total_aproved,
-        this.newPoa.status = this.fullname,
-        this.enterpriseForm.value.enterprise,
-        this.campusForm.value.campus,
-        this.newPoa.coment_rejected,
-        this.newPoa.user_Ci = this.fullname
+        objective,
+        0, // total_resources
+        0, // total_aproved
+        this.fullname, // status
+        companies,
+        campuses,
+        '', // coment_rejected
+        this.ciUser // user_ci
       ).subscribe({
         next: (response: any) => {
           if (response && response.status === 'ok') {
@@ -173,11 +171,15 @@ export class CreatepoaComponent implements OnInit {
           } else {
             console.error('Error al crear POA:', response);
           }
+        },
+        error: (error) => {
+          console.error('Error al crear POA:', error);
         }
       });
+    } else {
+      console.error('El formulario no es válido');
     }
   }
-
   //cancelar POA
   onCancel() {
     if (window.confirm('¿Está seguro de que desea cancelar el proceso? Los datos ingresados se perderán')) {

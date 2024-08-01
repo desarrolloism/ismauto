@@ -16,21 +16,16 @@ export class PoaService {
   //crea poa
   createPoa(
     token: any,
-    // cedula: string,
     area: string,
-    commission: string,
     department: string,
-    ccpf: string,
-    studentCouncil: string,
-    name: string,
     responsible: string,
     academicYearId: number,
     objective: string,
     totalResources: number,
     totalAproved: number,
     status: string,
-    company: string,
-    campus: string,
+    companies: string[],
+    campuses: { name: string, percentage: number }[],
     comentRejected: string,
     userCi: string
   ) {
@@ -39,24 +34,17 @@ export class PoaService {
       'Authorization': this.auth,
       'Token': token
     });
-
     const data = {
-      // cedula: cedula,
-
       area: area,
-      commission: commission,
       department: department,
-      ccpf: ccpf,
-      student_council: studentCouncil,
-      name: name,
       responsible: responsible,
       academic_year_id: academicYearId,
       objective: objective,
       total_resources: totalResources,
       total_aproved: totalAproved,
       status: status,
-      company: company,
-      campus: campus,
+      company: companies,
+      campus: campuses,
       coment_rejected: comentRejected,
       user_ci: userCi
     }
