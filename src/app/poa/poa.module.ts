@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomePoaComponent } from './home-poa/home-poa.component';
 import { RouterModule } from '@angular/router';
 import { HeaderModule } from '../header/header.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //angular material
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +12,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
 import { MatCardModule } from '@angular/material/card';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';

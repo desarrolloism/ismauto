@@ -157,13 +157,13 @@ export class CreatepoaComponent implements OnInit {
         this.cedula.nombre,
         19,
         objective,
-        0, // total_resources
-        0, // total_aproved
-        this.fullname, // status
+        0,
+        0,
+        this.fullname,
         companies,
         campuses,
-        '', // coment_rejected
-        this.ciUser // user_ci
+        '',
+        this.fullname
       ).subscribe({
         next: (response: any) => {
           if (response && response.status === 'ok') {

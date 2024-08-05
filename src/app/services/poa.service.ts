@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GLOBAL } from './global';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -77,48 +79,14 @@ export class PoaService {
 
 
   //actualiza poa
-  updatePoa(
-    token: any,
-    id: number,
-    area: string,
-    company: string,
-    campus: string,
-    commission: string,
-    ccpf: string,
-    studentCouncil: string,
-    name: string,
-    academicYearId: number,
-    objective: string,
-    totalResources: number,
-    totalAproved: number,
-    status: string,
-    comentRejected: string,
-    userCi: string
-  ) {
+  updatePoa(token: any, poaData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
 
-    const data = {
-      id: id,
-      area: area,
-      company: company,
-      campus: campus,
-      commission: commission,
-      ccpf: ccpf,
-      student_council: studentCouncil,
-      name: name,
-      academic_year_id: academicYearId,
-      objective: objective,
-      total_resources: totalResources,
-      total_aproved: totalAproved,
-      status: status,
-      coment_rejected: comentRejected,
-      user_ci: userCi
-    }
-    return this._http.post(`${this.url}/poa_update`, data, { headers: headers });
+    return this._http.post(`${this.url}/poa_update`, JSON.stringify(poaData), { headers: headers });
   }
 
   //elimina el POA

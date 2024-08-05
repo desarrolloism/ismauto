@@ -88,8 +88,9 @@ export class PoaDetailComponent {
     accounting_count: '',
     priority: '',
     approved_activity: '',
-    responsible:''
+    responsible: ''
   }
+  companies: string[] = ['Company A', 'Company B', 'Company C', 'Company D'];
 
   originalActivities: any[] = [];
   isFilterActive: boolean = false;
@@ -330,7 +331,7 @@ export class PoaDetailComponent {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
       this.selectedStatus = this.poaDetail.status;
-      console.log('detalle poa', this.poaDetail);
+      console.log('detalle poa', resp);
     });
   }
 
@@ -347,59 +348,97 @@ export class PoaDetailComponent {
 
 
   //actualiza poa
-  onUpdate() {
-    if (confirm('Está seguro de realizar esta operación?')) {
-      let updatedStatus = this.poaDetail.status;
+  allCompanies: string[] = ['ISM', 'REWA', 'CONSTRUCTEC', 'IMPAK', 'PAXDEM', 'DIGLO']; // Todas las compañías posibles
+  selectedCompany: string = '';
+  allCampus = ['QUITO', 'NORTH', 'WEST', 'KIDS', 'ONLINE'];
+  selectedCampus: string = '';
 
+
+  //verifica las empresas disponible
+  getAvailableCompanies(): string[] {
+    const selectedCompanyNames = this.poaDetail.company.map((c: { name: any; }) => c.name);
+    return this.allCompanies.filter(company => !selectedCompanyNames.includes(company));
+  }
+
+  //agrega empresas
+
+  addCompany() {
+    if (this.selectedCompany && !this.poaDetail.company.some((c: { name: string; }) => c.name === this.selectedCompany)) {
+      this.poaDetail.company.push({ name: this.selectedCompany });
+      this.selectedCompany = ''; // Reset the select
+    }
+  }
+
+  //quita empresa
+  removeCompany(companyName: string) {
+    this.poaDetail.company = this.poaDetail.company.filter((c: { name: string; }) => c.name !== companyName);
+  }
+
+  getAvailableCampus(): string[] {
+    const selectedCampusNames = this.poaDetail.campus.map((c: { name: any; }) => c.name);
+    return this.allCampus.filter(campus => !selectedCampusNames.includes(campus));
+  }
+
+  addCampus() {
+    if (this.selectedCampus && !this.poaDetail.campus.some((c: { name: string; }) => c.name === this.selectedCampus)) {
+      this.poaDetail.campus.push({ name: this.selectedCampus, percentage: 0 });
+      this.selectedCampus = ''; 
+    }
+  }
+  
+  updateCampusPercentage(index: number, percentage: number) {
+    if (percentage >= 0 && percentage <= 100) {
+      this.poaDetail.campus[index].percentage = percentage;
+    }
+  }
+
+  //quita campus
+  removeCampus(index: number) {
+    this.poaDetail.campus.splice(index, 1);
+  }
+
+  onUpdate() {
+    if (confirm('¿Está seguro de realizar esta operación?')) {
+      let updatedStatus = this.poaDetail.status;
       if (this.selectedStatus && this.selectedStatus !== this.poaDetail.status) {
         updatedStatus = this.selectedStatus;
       }
-
-      // If rejecting, update the status with the creator's full name
       if (updatedStatus === 'RECHAZADO') {
-        this.upPoa.coment_rejected = this.rejectComment;
+        this.poaDetail.coment_rejected = this.rejectComment;
         updatedStatus = this.poaDetail.user_ci;
       }
-
-      this._poaService.updatePoa(
-        this.token,
-        this.poaId,
-        this.upPoa.area = this.poaDetail.area,
-        this.upPoa.company = this.poaDetail.company,
-        this.upPoa.campus = this.poaDetail.campus,
-        this.upPoa.commission = this.poaDetail.commission,
-        this.upPoa.ccpf = this.poaDetail.ccpf,
-        this.upPoa.student_council = this.poaDetail.student_council,
-        this.upPoa.name = this.poaDetail.name,
-        this.upPoa.academic_year_id = this.poaDetail.academic_year_id,
-        this.upPoa.objective = this.poaDetail.objective,
-        this.upPoa.total_resources = this.poaDetail.total_resources,
-        this.upPoa.total_aproved = this.poaDetail.total_aproved,
-        updatedStatus,
-        this.upPoa.coment_rejected,
-        this.upPoa.user_ci = this.poaDetail.user_ci
-      ).subscribe((resp: any) => {
-        if (resp.status == 'ok') {
-          this.getPoa();
-          this.showRejectComment = false;
-          this.rejectComment = '';
-          const modal = document.getElementById('staticBackdrop');
-          if (modal) {
-            const bootstrapModal = bootstrap.Modal.getInstance(modal);
-            if (bootstrapModal) {
-              bootstrapModal.hide();
-              alert('Poa actualizado con exito');
-              window.location.reload();
-              // this._router.navigate(['/home-poa']);
-              // if (window.confirm('Poa actualizado con éxito, ¿desea regresar al listado?')) {
-              //   this._router.navigate(['/home-poa']);
-              // }
-            }
+      const updateData = {
+        id: this.poaDetail.id,
+        area: this.poaDetail.area,
+        department: this.poaDetail.department,
+        responsible: this.poaDetail.responsible,
+        academic_year_id: this.poaDetail.academic_year_id,
+        objective: this.poaDetail.objective,
+        total_resources: this.poaDetail.total_resources,
+        total_aproved: this.poaDetail.total_aproved,
+        status: updatedStatus,
+        coment_rejected: this.poaDetail.coment_rejected,
+        user_ci: this.poaDetail.user_ci,
+        company: this.poaDetail.company,
+        campus: this.poaDetail.campus
+      };
+      this._poaService.updatePoa(this.token, updateData).subscribe(
+        (resp: any) => {
+          if (resp.status === 'ok') {
+            this.getPoa();
+            this.showRejectComment = false;
+            this.rejectComment = '';
+            alert('POA actualizado con éxito');
           }
+        },
+        (error) => {
+          console.error('Error updating POA:', error);
+          alert('Error al actualizar el POA');
         }
-      });
+      );
     }
   }
+
 
   //ELIMINAR EL POA
   onDelete() {
@@ -663,10 +702,10 @@ export class PoaDetailComponent {
   }
 
   //obtiene usuarios de compers 
-  getNameCompers(){
+  getNameCompers() {
     this._userServ.getCompersUser(this.token).subscribe((resp: any) => {
       this.compers_list = resp.data;
-      console.log('compers',this.compers_list);
+      console.log('compers', this.compers_list);
     })
   }
 

@@ -75,8 +75,7 @@
                     <!-- formulario de actualización del POA -->
                     <form (ngSubmit)="onUpdate()"
                         *ngIf="poaDetail.status == fullname && email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
-                        <h2>Formulario de actualización de POA </h2>
-
+                        <h2>Formulario de actualización de POA</h2>
                         <hr>
                         <div class="row">
                             <div class="col-md-4">
@@ -84,54 +83,127 @@
                                     <label for="area"
                                         class="form-label">Área:</label>
                                     <input type="text" class="form-control"
-                                        name="are" [(ngModel)]="poaDetail.area">
+                                        name="area"
+                                        [(ngModel)]="poaDetail.area">
                                 </div>
-
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="campus"
-                                        class="form-label">Campus
-                                        ({{poaDetail.campus}})</label>
-
-                                    <select class="form-select"
-                                        [(ngModel)]="poaDetail.campus"
-                                        name="campus">
-                                        <option value="NORTH">North</option>
-                                        <option value="QUITO">Quito</option>
-                                        <option value="WETS">West</option>
-                                    </select>
-                                </div>
-
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="company"
-                                        class="form-label">Empresa</label>
+                                    <label for="department"
+                                        class="form-label">Departamento:</label>
                                     <input type="text" class="form-control"
-                                        name="company"
-                                        [(ngModel)]="poaDetail.company">
+                                        name="department"
+                                        [(ngModel)]="poaDetail.department">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="responsible"
+                                        class="form-label">Responsable:</label>
+                                    <input type="text" class="form-control"
+                                        name="responsible"
+                                        [(ngModel)]="poaDetail.responsible">
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="objective"
-                                class="form-label">Objetivo (max. 500
-                                caracteres):</label>
+                            <label for="objective" class="form-label">Objetivo
+                                (max. 500 caracteres):</label>
                             <textarea maxlength="500" class="form-control"
                                 name="objective"
                                 [(ngModel)]="poaDetail.objective"></textarea>
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Empresas:</label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <select class="form-select"
+                                        [(ngModel)]="selectedCompany"
+                                        name="selectedCompany">
+                                        <option value>Seleccione una
+                                            empresa</option>
+                                        <option
+                                            *ngFor="let company of getAvailableCompanies()"
+                                            [value]="company">{{ company
+                                            }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <button mat-raised-button type="button"
+                                        color="accent"
+                                        (click)="addCompany()"
+                                        [disabled]="!selectedCompany">Agregar
+                                        Empresa</button>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <h6>Empresas seleccionadas:</h6>
+                                <ul class="list-group">
+                                    <li
+                                        *ngFor="let company of poaDetail.company"
+                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ company.name }}
+                                        <button type="button"
+                                            class="btn btn-danger btn-sm"
+                                            (click)="removeCompany(company.name)">Quitar</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Campus:</label>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <select class="form-select"
+                                        [(ngModel)]="selectedCampus"
+                                        name="selectedCampus">
+                                        <option value>Seleccione un
+                                            campus</option>
+                                        <option
+                                            *ngFor="let campus of getAvailableCampus()"
+                                            [value]="campus">{{ campus
+                                            }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <button mat-raised-button
+                                        color="primary"
+                                        (click)="addCampus()"
+                                        [disabled]="!selectedCampus">Agregar
+                                        Campus</button>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <h6>Campus seleccionados:</h6>
+                                <ul class="list-group">
+                                    <li
+                                        *ngFor="let campus of poaDetail.campus; let i = index"
+                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ campus.name }}
+                                        <div>
+                                            <input type="number"
+                                                class="form-control d-inline-block w-auto mr-2"
+                                                [(ngModel)]="campus.percentage"
+                                                [name]="'campusPercentage' + i"
+                                                min="0" max="100"
+                                                style="width: 80px;">%
+                                            <button (click)="removeCampus(i)"
+                                                color="warn" mat-mini-fab
+                                                aria-label="Example icon button with a delete icon">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="mb-3 d-flex justify-content-evenly">
                             <button class="update" type="submit"
                                 mat-raised-button
                                 color="primary">Actualizar</button>
-                            <!-- <a class="update" mat-raised-button
-                                (click)="onCancel()">Cancelar</a> -->
-
                             <a *ngIf="poaDetail.status != 'APROBADO'"
                                 class="update" mat-raised-button color="warn"
                                 (click)="onDelete()">Eliminar POA</a>
@@ -465,8 +537,8 @@
                                             <div class="row">
                                                 <div class="mb-3">
                                                     <label
-                                                            for="responsible"
-                                                            class="form-label">Responsable:</label>
+                                                        for="responsible"
+                                                        class="form-label">Responsable:</label>
                                                     <ng-select
                                                         [items]="compers_list"
                                                         bindLabel="name"
