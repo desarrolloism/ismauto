@@ -145,9 +145,14 @@
                                         *ngFor="let company of poaDetail.company"
                                         class="list-group-item d-flex justify-content-between align-items-center">
                                         {{ company.name }}
-                                        <button type="button"
-                                            class="btn btn-danger btn-sm"
-                                            (click)="removeCompany(company.name)">Quitar</button>
+                                        
+
+                                            <button   (click)="removeCompany(company.name)"
+                                            color="warn" mat-mini-fab
+                                            aria-label="Example icon button with a delete icon">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+
                                     </li>
                                 </ul>
                             </div>

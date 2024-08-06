@@ -5,15 +5,13 @@ import { PoaService } from '../../services/poa.service';
 interface Poa {
   id: number;
   status: string;
-  name: string;
   area: string;
-  responsible: string;
-  student_council: string;
   total_resources: number;
   total_aproved: number;
   academic_year_id: number;
-  user_ci: string;
   department: string;
+  case_id: number;
+  creator?:any;
 }
 
 
@@ -42,37 +40,24 @@ export class HomePoaComponent implements OnInit {
   isRejectedActive = false;
   notStartedPoa: any;
   isClearActive = false;
-
+  caseID:any;
+  poaCreator:any;
 
   ngOnInit() {
-    this.getPoaList();
     this.onSearch();
     this.getAvatar();
-    this.depsNotStarted();
   }
 
-  //obtiene lista de poa
-  getPoaList() {
-    this.poaService.list(this.token).subscribe((resp: any) => {
-      this.poaList = resp.data;
-      // this.sortPoaList();
-      this.filteredPoaList = [...this.poaList];
-      // console.log(this.poaList);
-      console.log(this.filteredPoaList);
-    });
-  }
 
   //filtra lista de poa
   filterPoa(status: string | null) {
     if (status === null) {
-      this.onSearch(); // Esto restablecerá la lista filtrada basada en la búsqueda actual
+      this.onSearch();
     } else {
       this.filteredPoaList = this.poaList.filter(poa =>
         poa.status.toLowerCase() === status.toLowerCase() &&
         (this.searchTerm === '' ||
-          poa.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          poa.area.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          poa.responsible.toLowerCase().includes(this.searchTerm.toLowerCase()))
+          poa.area.toLowerCase().includes(this.searchTerm.toLowerCase()))
       );
     }
   }
@@ -83,10 +68,6 @@ export class HomePoaComponent implements OnInit {
     return this.poaList.filter(poa => poa.status.toLowerCase() === status.toLowerCase()).length;
   }
 
-  //redirige hacia poa creado mediante el id
-  goToPoa(id: number) {
-    this.router.navigate(['/poa-detail', id]);
-  }
 
   //busca poa mediante ares, dep, responsable
   onSearch() {
@@ -137,14 +118,5 @@ export class HomePoaComponent implements OnInit {
     this.isClearActive = !this.isClearActive;
     this.isApprovedActive = false;
     this.isRejectedActive = false;
-  }
-
-
-  //obtiene departamentos que no han realizado poa
-  depsNotStarted() {
-    this.poaService.getNotStartedDeps(this.token).subscribe((resp: any) => {
-      this.notStartedPoa = resp.data;
-      console.log('dep que no han iniciado', this.notStartedPoa);
-    });
   }
 }

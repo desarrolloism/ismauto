@@ -20,16 +20,12 @@ export class PoaService {
     token: any,
     area: string,
     department: string,
-    responsible: string,
     academicYearId: number,
     objective: string,
     totalResources: number,
     totalAproved: number,
     status: string,
-    companies: string[],
-    campuses: { name: string, percentage: number }[],
-    comentRejected: string,
-    userCi: string
+    comentRejected: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -39,18 +35,28 @@ export class PoaService {
     const data = {
       area: area,
       department: department,
-      responsible: responsible,
       academic_year_id: academicYearId,
       objective: objective,
       total_resources: totalResources,
       total_aproved: totalAproved,
       status: status,
-      company: companies,
-      campus: campuses,
       coment_rejected: comentRejected,
-      user_ci: userCi
     }
     return this._http.post(`${this.url}/poa_create`, data, { headers: headers });
+  }
+
+  //muestra el creador del poa
+
+  poaCreator(token: any, caseId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      case_id: caseId
+    }
+    return this._http.post(`${this.url}/poa_creator`, data, { headers: headers });
   }
 
   //obtiene listado de poas

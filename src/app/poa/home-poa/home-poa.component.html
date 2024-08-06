@@ -23,7 +23,6 @@
                                 [(ngModel)]="searchTerm" (input)="onSearch()">
                         </div>
                         <!-- barra de busqueda -->
-
                         <!-- boton para crear poa -->
                         <div class="col-md-3 d-flex justify-content-center">
                             <button mat-fab extended
@@ -35,7 +34,7 @@
                                     class="fa-regular fa-calendar-plus"></i>
                             </button>
                         </div>
-                        <!-- boton para crear poa -->
+                        <!-- fin boton para crear poa -->
                     </div>
                     <div class="mb-1 d-flex justify-content-center">
                         <button matTooltip="Filtrar POA" mat-raised-button
@@ -44,22 +43,12 @@
                             <i class="fa-solid fa-filter"></i>
                         </button>
                         <button
-                            *ngIf="email === 'financiero@ism.edu.ec' || email === 'direccionfinanciera@ism.edu.ec'"
                             mat-raised-button class="me-2"
                             [ngStyle]="{
                                 'background-color': isApprovedActive ? 'rgb(28, 168, 28)' : 'rgb(200, 200, 200)',
                                 'color': isApprovedActive ? 'white' : 'black'}"
                             (click)="filterPoa('aprobado'); toggleApproved()">
                             Aprobados ({{countPoaByStatus('aprobado')}})
-                        </button>
-                        <button
-                            *ngIf="email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'"
-                            mat-raised-button class="me-2"
-                            [ngStyle]="{
-                                'background-color': isApprovedActive ? 'rgb(28, 168, 28)' : 'rgb(200, 200, 200)',
-                                'color': isApprovedActive ? 'white' : 'black'}"
-                            (click)="filterPoa('aprobado'); toggleApproved()">
-                            Aprobados
                         </button>
                         <button mat-raised-button class="me-2"
                             [ngStyle]="{
@@ -68,170 +57,22 @@
                             (click)="filterPoa('rechazado'); toggleRejected()">
                             Rechazado ({{countPoaByStatus('rechazado')}})
                         </button>
-                        <button mat-raised-button class="me-2"
-                            *ngIf="email === 'financiero@ism.edu.ec' || email === 'direccionfinanciera@ism.edu.ec'"
-                            data-bs-toggle="modal" data-bs-target="#notStarted">
-                            No iniciado ({{notStartedPoa?.length}})
-                        </button>
+                        <!-- //muestra departamentos que no han iniciado -->
+                        <app-not-started-deps></app-not-started-deps>
+                        <!-- fin muestra departamentos que no han iniciado -->
+
+                        <!-- boton para limpiar filtros -->
                         <button mat-raised-button class="me-2"
                             (click)="filterPoa(null); toggleClear()">
                             Limpiar Filtro
                         </button>
+                        <!-- boton para limpiar filtros -->
+
                     </div>
-                    <div
-                        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-4 shadow"
-                        style="border-radius: .5rem;">
-                        <ng-container *ngFor="let poa of filteredPoaList">
-                            @if (email === 'financiero@ism.edu.ec' ||
-                            email === 'direccionfinanciera@ism.edu.ec' ||
-                            poa.user_ci === fullname || poa.status === fullname)
-                            {
-                            <div class="col">
-                                <div
-                                    class="card poa-card h-100 position-relative shadow-sm"
-                                    style="border: 1px solid black;">
-                                    <span
-                                        class="position-absolute top-0 end-0 badge bg-dark m-2">
-                                        ID: {{poa.id}}
-                                    </span>
-                                    <div class="card-body d-flex flex-column">
-                                        <h5 matTooltip="Responsable: {{poa.responsible}}"
-                                            class="card-title mb-3 text-center text-truncate">
-                                            <i
-                                                class="fa-regular fa-calendar me-2"></i>
-                                            {{ poa.responsible }}
-                                            <small
-                                                *ngIf="poa.academic_year_id == 19"
-                                                class="text-muted d-block mt-1">
-                                                2024/2025
-                                            </small>
-                                        </h5>
-                                        <div class="card-text flex-grow-1">
-                                            <div class="row g-2 mb-3">
-                                                <div class="col-12 col-sm-6">
-                                                    <div
-                                                        class="d-flex align-items-center">
-                                                        <i
-                                                            class="fa-solid fa-user-tie me-2"></i>
-                                                        <span
-                                                            matTooltip="Departamento: {{poa.department}}"
-                                                            class="text-truncate">{{poa.department}}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-sm-6">
-                                                    <div
-                                                        class="d-flex align-items-center">
-                                                        <i
-                                                            class="fa-solid fa-users-line me-2"></i>
-                                                        <span
-                                                            matTooltip="Área: {{poa.area}}"
-                                                            class="text-truncate">{{poa.area}}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row g-2">
-                                                <div class="col-6">
-                                                    <div [ngClass]="{
-                        'border-primary': poa.status.toLowerCase() === 'en proceso',
-                        'border-success': poa.status.toLowerCase() === 'aprobado',
-                        'border-danger': poa.status.toLowerCase() === 'rechazado'}"
-                                                        class="d-flex align-items-center">
-                                                        <div
-                                                            class="border-primary"
-                                                            *ngIf="poa.status != 'APROBADO'">
-                                                            <i
-                                                                class="fa-solid fa-chart-simple me-2"></i>
-                                                            <span>{{poa.status}}</span>
-                                                        </div>
-                                                        <div
-                                                            *ngIf="poa.status == 'APROBADO'">
-                                                            <i
-                                                                class="fa-regular fa-circle-check me-2"></i>
-                                                            <span>{{poa.status}}</span>
-                                                        </div>
-                                                        <div
-                                                            *ngIf="poa.status == 'RECHAZADO'">
-                                                            <i
-                                                                class="fa-regular fa-circle-xmark me-2"></i>
-                                                            <span>{{poa.status}}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    @if (poa.status !=
-                                                    'APROBADO') {
-                                                    <div
-                                                        class="d-flex align-items-center">
-                                                        <i
-                                                            class="fa-solid fa-dollar-sign me-2"></i>
-                                                        <span
-                                                            *ngIf="poa.total_resources == 0">(Sin
-                                                            asignar)</span>
-                                                        <span
-                                                            matTooltip="Total requerido"
-                                                            *ngIf="poa.total_resources != 0">{{poa.total_resources}}</span>
-                                                    </div>
-                                                    } @else {
-                                                    <i
-                                                        class="fa-solid fa-dollar-sign me-2"></i>
-                                                    <span
-                                                        matTooltip="Total aprobado">{{poa.total_aproved}}</span>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="card-footer bg-transparent border-1 d-flex justify-content-center text-center">
-                                        <button (click)="goToPoa(poa.id)"
-                                            class="Btn">
-                                            Detalles
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            }
-                        </ng-container>
-                    </div>
+                    <!-- listado de poa -->
+                    <app-poalist></app-poalist>
+                    <!-- fin de listado de poa -->
                 </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<!-- modal para visualizar departamentos que no han iniciado el poa  -->
-<div class="modal fade" id="notStarted" tabindex="-1"
-    aria-labelledby="notStarted" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5"
-                    id="exampleModalLabel">Departamentos sin envio de POA
-                    ({{notStartedPoa?.length}})</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h2 class="text-xl font-bold mb-4">Departamentos que no han
-                    iniciado:</h2>
-                <div class="grid grid-cols-3 gap-4">
-                    <div *ngFor="let dep of notStartedPoa"
-                        class="p-2 border-gray-200 rounded">
-                        <mat-card class="department-card">
-                            <mat-card-header>
-                                <mat-icon aria-hidden="false"
-                                    aria-label="Building icon">business</mat-icon>
-                                <span class="ms-2">{{ dep }}</span>
-                            </mat-card-header>
-                        </mat-card>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button mat-raised-button type="button" color="primary"
-                    data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

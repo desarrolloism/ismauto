@@ -17,7 +17,7 @@ export class CreatepoaComponent implements OnInit {
   totalForm!: FormGroup;
   isLoading: boolean = false;
   token = localStorage.getItem('token');
-  cedula: any;
+  compersData: any;
   avatar: string = '';
   name: string = '';
   email: string = '';
@@ -32,19 +32,13 @@ export class CreatepoaComponent implements OnInit {
   newPoa = {
     cedula: '',
     area: '',
-    commission: '',
     department: '',
-    ccpf: '',
-    student_council: '',
-    name: '',
-    responsible: '',
     academic_year_id: 19,
     objective: '',
     total_resources: 0,
     total_aproved: 0,
     status: '',
     coment_rejected: '',
-    user_Ci: ''
   };
   poaForm!: FormGroup;
 
@@ -126,9 +120,9 @@ export class CreatepoaComponent implements OnInit {
       )
       .subscribe({
         next: (resp: any) => {
-          this.cedula = resp.data;
-          console.log(this.cedula);
-          if (this.cedula.nombre && this.cedula.departamento) {
+          this.compersData = resp.data;
+          console.log(this.compersData);
+          if (this.compersData.nombre && this.compersData.departamento) {
             console.log('Cedula encontrada');
           } else {
             console.log('Cedula no encontrada');
@@ -145,29 +139,24 @@ export class CreatepoaComponent implements OnInit {
   onCreate() {
     if (this.poaForm.valid) {
       const formValue = this.poaForm.value;
-      const companies = formValue.companiesStep.companies;
-      const campuses = formValue.campusesStep.campuses.map((campus: string) => ({ name: campus, percentage: 0 }));
       const area = formValue.areaStep.area;
       const objective = formValue.objectiveStep.objective;
 
       this._poaService.createPoa(
         this.token,
         area,
-        this.cedula.departamento,
-        this.cedula.nombre,
+        this.compersData.departamento,
         19,
         objective,
         0,
         0,
         this.fullname,
-        companies,
-        campuses,
-        '',
-        this.fullname
+        ''
       ).subscribe({
         next: (response: any) => {
           if (response && response.status === 'ok') {
             console.log('POA creado exitosamente');
+            // console.log(response);
             this._router.navigate(['poa-detail', response.id]);
           } else {
             console.error('Error al crear POA:', response);
@@ -177,8 +166,6 @@ export class CreatepoaComponent implements OnInit {
           console.error('Error al crear POA:', error);
         }
       });
-    } else {
-      console.error('El formulario no es válido');
     }
   }
   //cancelar POA

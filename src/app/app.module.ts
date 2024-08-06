@@ -29,7 +29,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
   declarations: [
     AppComponent,
     OnlyNumbersDirective,
-
   ],
   imports: [
     CommonModule,
