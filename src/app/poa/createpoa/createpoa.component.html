@@ -4,82 +4,14 @@
         academicYearId }}</span></h1>
 
 <div class="container">
-    <!--  -->
-    <div class="row" *ngIf="compersData && compersData?.nombre && compersData?.departamento">
+    <div class="row"
+        *ngIf="compersData && compersData?.nombre && compersData?.departamento">
         <div class="col-md-6 overflow-auto d-flex justify-content-center"
             style="height: 450px;">
             <div class="form-group">
-                <mat-stepper orientation="vertical" [linear]="isLinear"
+                <mat-stepper orientation="vertical" [linear]="true"
                     #stepper>
                     <form [formGroup]="poaForm">
-                        <mat-step [stepControl]="poaForm.get('companiesStep')!">
-                            <form formGroupName="companiesStep">
-                                <ng-template matStepLabel>Empresas</ng-template>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label
-                                                class="form-label fw-bold">Empresas</label>
-                                            <div id="checklist"
-                                                class="d-flex flex-wrap">
-                                                <div
-                                                    *ngFor="let company of companies; let i = index"
-                                                    class="form-check form-check-inline">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="checkbox"
-                                                        [value]="company"
-                                                        id="company-{{i}}"
-                                                        (change)="onCompanyChange($event, company)">
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="company-{{i}}">{{
-                                                        company }}</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button mat-button matStepperNext
-                                        [disabled]="!poaForm.get('companiesStep')!.valid">Next</button>
-                                </div>
-                            </form>
-                        </mat-step>
-
-                        <mat-step [stepControl]="poaForm.get('campusesStep')!">
-                            <form formGroupName="campusesStep">
-                                <ng-template matStepLabel>Campus</ng-template>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label
-                                            class="form-label fw-bold">Campus</label>
-                                        <div id="checklist"
-                                            class="d-flex flex-wrap">
-                                            <div
-                                                *ngFor="let campus of campuses; let i = index"
-                                                class="form-check form-check-inline">
-                                                <input class="form-check-input"
-                                                    type="checkbox"
-                                                    [value]="campus"
-                                                    id="campus-{{i}}"
-                                                    (change)="onCampusChange($event, campus)">
-                                                <label class="form-check-label"
-                                                    for="campus-{{i}}">{{ campus
-                                                    }}</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button mat-button
-                                        matStepperPrevious>Back</button>
-                                    <button mat-button matStepperNext
-                                        [disabled]="!poaForm.get('campusesStep')!.valid">Next</button>
-                                </div>
-                            </form>
-                        </mat-step>
-
                         <mat-step [stepControl]="poaForm.get('areaStep')!">
                             <form formGroupName="areaStep">
                                 <ng-template matStepLabel>Área</ng-template>
@@ -93,10 +25,8 @@
                                     </mat-form-field>
                                 </div>
                                 <div>
-                                    <button mat-button
-                                        matStepperPrevious>Back</button>
                                     <button mat-button matStepperNext
-                                        [disabled]="!poaForm.get('areaStep')!.valid">Next</button>
+                                        [disabled]="!poaForm.get('areaStep')!.valid">Siguiente</button>
                                 </div>
                             </form>
                         </mat-step>
@@ -118,7 +48,7 @@
                                 </div>
                                 <div>
                                     <button mat-button
-                                        matStepperPrevious>Back</button>
+                                        matStepperPrevious>Regresar</button>
                                     <button mat-button (click)="onCreate()"
                                         [disabled]="!poaForm.valid">Create
                                         POA</button>
@@ -127,7 +57,6 @@
                         </mat-step>
                     </form>
                 </mat-stepper>
-
             </div>
         </div>
 
@@ -139,41 +68,13 @@
                         POA</h6>
                     <div class="row">
                         <div class="col-md-6">
-                            <h5><b>Responsable: </b>{{ compersData?.nombre }}</h5>
+                            <h5><b>Responsable: </b>{{ compersData?.nombre
+                                }}</h5>
                         </div>
                         <div class="col-md-6">
                             <h5 style="color: rgb(95, 92, 92);"><b>Departamento:
                                 </b>{{
                                 compersData?.departamento }}</h5>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div
-                                *ngIf="poaForm.get('companiesStep.companies')?.value.length > 0">
-                                <h6 class="fw-bold">Empresas seleccionadas:</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"
-                                        *ngFor="let company of poaForm.get('companiesStep.companies')?.value"><i
-                                            class="fa-solid fa-caret-right me-2"></i>{{
-                                        company }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div
-                                *ngIf="poaForm.get('campusesStep.campuses')?.value.length > 0">
-                                <h6 class="fw-bold">Campus seleccionados:</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"
-                                        *ngFor="let campus of poaForm.get('campusesStep.campuses')?.value">
-                                        <i
-                                            class="fa-solid fa-caret-right me-2"></i>{{
-                                        campus }}
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -186,7 +87,8 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div matTooltip="{{ poaForm.get('objectiveStep.objective')?.value }} "
+                            <div
+                                matTooltip="{{poaForm.get('objectiveStep.objective')?.value }} "
                                 *ngIf="poaForm.get('objectiveStep.objective')?.value">
                                 <hr>
                                 <h6 class="fw-bold">Objetivo:</h6>
@@ -196,8 +98,68 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
+                    <div class="row">
+                        @if (poaId != 0) {
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="enterprises" class="form-label">Empresas</label>
+                                    <div *ngFor="let enterprise of enterprises" class="form-check">
+                                        <input
+                                            type="checkbox"
+                                            class="form-check-input"
+                                            [id]="'enterprise-' + enterprise.id"
+                                            [checked]="isEnterpriseSelected(enterprise.id)"
+                                            (change)="toggleEnterpriseSelection($event, enterprise.id)"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            [for]="'enterprise-' + enterprise.id">
+                                            {{ enterprise.name }}
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="campuses" class="form-label">Campus</label>
+                                    <div *ngFor="let campus of campuses" class="row">
+                                        <div class="col-md-8 form-check">
+                                            <input
+                                                type="checkbox"
+                                                class="form-check-input"
+                                                [id]="'campus-' + campus.id"
+                                                [checked]="isCampusSelected(campus.id)"
+                                                (change)="toggleCampusSelection($event, campus.id)"
+                                            />
+                                            <label
+                                                class="form-check-label"
+                                                [for]="'campus-' + campus.id">
+                                                {{ campus.name }}
+                                            </label>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
+            @if (poaId != 0) {
+            <div class="row mt-2">
+                <div class="col-md-6 d-flex justify-content-center">
+                    <button mat-raised-button color="primary"
+                        (click)="goMyPoas()">
+                        Ir a mi poa</button>
+
+                </div>
+                <div class="col-md-6 d-flex justify-content-center">
+                    <button mat-raised-button color="warn"
+                        routerLink="/home-poa">
+                        Ir al listado</button>
+                </div>
+            </div>
+            }
         </div>
         <!-- muestra info ingresada para creacion de poa -->
     </div>

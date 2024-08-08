@@ -28,6 +28,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NotStartedDepsComponent } from './not-started-deps/not-started-deps.component';
 import { PoalistComponent } from './poalist/poalist.component';
+import { DetailFormPoaComponent } from './detail-form-poa/detail-form-poa.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { PoalistComponent } from './poalist/poalist.component';
     PoaDetailComponent,
     NotStartedDepsComponent,
     PoalistComponent,
+    DetailFormPoaComponent,
   ],
   imports: [
     CommonModule,

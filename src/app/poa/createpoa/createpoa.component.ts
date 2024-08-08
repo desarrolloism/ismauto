@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PoaService } from '../../services/poa.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/internal/operators/finalize';
 
 @Component({
@@ -10,39 +10,27 @@ import { finalize } from 'rxjs/internal/operators/finalize';
   styleUrls: ['./createpoa.component.css']
 })
 export class CreatepoaComponent implements OnInit {
-  //variables de formulario de creacion
-
-  isLinear = false;
-
-  totalForm!: FormGroup;
+  // Variables de formulario de creación
   isLoading: boolean = false;
   token = localStorage.getItem('token');
   compersData: any;
-  avatar: string = '';
   name: string = '';
   email: string = '';
   last_name: string = '';
   fullname: string = '';
   ciUser: string = '';
   academicYearId: number = 0;
-  companies = ['ISM', 'REWA', 'CONSTRUCTEC', 'IMPAK', 'PAXDEM', 'DIGLO']; // Add all available companies
-  campuses = ['QUITO', 'NORTH', 'WEST', 'KIDS', 'ONLINE'];
-  i: number = 1;
-
-  newPoa = {
-    cedula: '',
-    area: '',
-    department: '',
-    academic_year_id: 19,
-    objective: '',
-    total_resources: 0,
-    total_aproved: 0,
-    status: '',
-    coment_rejected: '',
-  };
+  campuses: any = [];
+  enterprises: any = [];
+  companies: any = [];
+  poaId = 0;
   poaForm!: FormGroup;
+  selectedEnterprises: any[] = [];
+  selectedCampuses: any[] = [];
+  enterpriseId: number = 0;
+  savedEnterprises: { [key: number]: number } = {};
+  savedCampuses: { [key: number]: number } = {};
 
-  taskStates = ['INICIANDO'];
 
   constructor(
     private _router: Router,
@@ -51,22 +39,99 @@ export class CreatepoaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log(this.token);
     this.initForm();
     this.getAvatar();
     this.getCompersData();
     this.getYear();
+    this.getCompAndCampus();
   }
 
+   // Verifica si una empresa o campus fue seleccionado
 
+  toggleEnterpriseSelection(event: any, id: number) {
+    if (event.target.checked) {
+      this.selectedEnterprises.push(id);
+      this.saveEnterprise(id); 
+    } else {
+      const index = this.selectedEnterprises.indexOf(id);
+      if (index !== -1) {
+        this.selectedEnterprises.splice(index, 1);
+        this.removeCampusAndCompany(id);
+      }
+    }
+    // console.log('Empresas seleccionadas:', this.selectedEnterprises);
+  }
+
+  toggleCampusSelection(event: any, id: number) {
+    if (event.target.checked) {
+      this.selectedCampuses.push(id);
+      this.saveCampus(id); 
+    } else {
+      const index = this.selectedCampuses.indexOf(id);
+      if (index !== -1) {
+        this.selectedCampuses.splice(index, 1);
+        this.removeCampusAndCompany(id);
+      }
+    }
+    // console.log('Campus seleccionados:', this.selectedCampuses);
+  }
+
+    // Guarda el ID de la empresa para su posterior eliminación
+  saveEnterprise(id: number) {
+    this._poaService.saveCompAndInst(this.token, this.poaId, id).subscribe((resp: any) => {
+      if (resp.status == 'ok') {
+        const savedId = resp.data.id;  
+        // console.log('Empresa guardada:', savedId);
+        this.savedEnterprises[id] = savedId;
+      }
+    });
+  }
+
+  // Guarda el ID del campus para su posterior eliminación
+  saveCampus(id: number) {
+    this._poaService.saveCompAndInst(this.token, this.poaId, id).subscribe((resp: any) => {
+      if (resp.status == 'ok') {
+        const savedId = resp.data.id;  // Captura el ID de la respuesta
+        console.log('Campus guardado:', savedId);
+        // Guarda el ID para su posterior eliminación
+        this.savedCampuses[id] = savedId;
+      }
+    });
+  }
+
+  //verifica si una empresa o campus fue seleccionado
+  isEnterpriseSelected(id: number): boolean {
+    return this.selectedEnterprises.includes(id);
+  }
+
+  isCampusSelected(id: number): boolean {
+    return this.selectedCampuses.includes(id);
+  }
+
+  //quita los campus y companias seleccionadas
+  removeCampusAndCompany(id: number) {
+    const savedId = this.savedEnterprises[id] || this.savedCampuses[id];
+    if (savedId) {
+      this._poaService.deleteCompAndInst(this.token, savedId).subscribe((resp: any) => {
+        if (resp.status == 'ok') {
+          // console.log('Empresa/Campus removido con éxito:', savedId);
+        }
+      });
+    } else {
+      alert('Error, contacte con el administrador, a la brevedad');
+    }
+  }
+
+  //redirije al poa creado
+  goMyPoas() {
+    if (confirm('desea ir al poa?')) {
+      this._router.navigate(['poa-detail', this.poaId]);
+    }
+  }
+
+  //inicializa y controla los datos el formulario
   initForm() {
     this.poaForm = this.fb.group({
-      companiesStep: this.fb.group({
-        companies: this.fb.array([], Validators.required)
-      }),
-      campusesStep: this.fb.group({
-        campuses: this.fb.array([], Validators.required)
-      }),
       areaStep: this.fb.group({
         area: ['', Validators.required]
       }),
@@ -77,37 +142,7 @@ export class CreatepoaComponent implements OnInit {
   }
 
 
-
-  get companiesFormArray() {
-    return this.poaForm.get('companiesStep.companies') as FormArray;
-  }
-
-  get campusesFormArray() {
-    return this.poaForm.get('campusesStep.campuses') as FormArray;
-  }
-
-
-  //elige empresa y campus 
-  onCompanyChange(event: any, company: string) {
-    if (event.target.checked) {
-      this.companiesFormArray.push(this.fb.control(company));
-    } else {
-      const index = this.companiesFormArray.controls.findIndex(x => x.value === company);
-      this.companiesFormArray.removeAt(index);
-    }
-  }
-
-  onCampusChange(event: any, campus: string) {
-    if (event.target.checked) {
-      this.campusesFormArray.push(this.fb.control(campus));
-    } else {
-      const index = this.campusesFormArray.controls.findIndex(x => x.value === campus);
-      this.campusesFormArray.removeAt(index);
-    }
-  }
-
-
-  //consulta de compers la cedula
+  //obtiene los datos de compers
   getCompersData() {
     if (!this.ciUser) {
       alert('Por favor, ingrese un número de cédula válido.');
@@ -115,33 +150,27 @@ export class CreatepoaComponent implements OnInit {
     }
     this.isLoading = true;
     this._poaService.getCompers(this.token, this.ciUser)
-      .pipe(
-        finalize(() => this.isLoading = false)
-      )
+      .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: (resp: any) => {
           this.compersData = resp.data;
-          console.log(this.compersData);
           if (this.compersData.nombre && this.compersData.departamento) {
             console.log('Cedula encontrada');
           } else {
             console.log('Cedula no encontrada');
             alert('Cédula no encontrada. Para crear un POA es necesario registrarse en Compers con talento humano.');
-            // this.cedula = null;
             this._router.navigate(['/main']);
           }
         }
       });
   }
 
-
-  //crear POA
+  //crea el poa
   onCreate() {
     if (this.poaForm.valid) {
       const formValue = this.poaForm.value;
       const area = formValue.areaStep.area;
       const objective = formValue.objectiveStep.objective;
-
       this._poaService.createPoa(
         this.token,
         area,
@@ -155,9 +184,8 @@ export class CreatepoaComponent implements OnInit {
       ).subscribe({
         next: (response: any) => {
           if (response && response.status === 'ok') {
-            console.log('POA creado exitosamente');
-            // console.log(response);
-            this._router.navigate(['poa-detail', response.id]);
+            this.poaId = response.id;
+            console.log('id de poa creado', this.poaId);
           } else {
             console.error('Error al crear POA:', response);
           }
@@ -168,18 +196,24 @@ export class CreatepoaComponent implements OnInit {
       });
     }
   }
-  //cancelar POA
-  onCancel() {
-    if (window.confirm('¿Está seguro de que desea cancelar el proceso? Los datos ingresados se perderán')) {
-      this._router.navigate(['/home-poa']);
-    }
+
+  //agrega las empresas y campus al poa
+  addCampusAndCompany() {
+    this.selectedEnterprises.forEach(companyId => {
+      this._poaService.saveCompAndInst(this.token, this.poaId, companyId).subscribe((resp: any) => {
+        console.log(resp);
+      });
+    });
+    this.selectedCampuses.forEach(campusId => {
+      this._poaService.saveCompAndInst(this.token, this.poaId, campusId).subscribe((resp: any) => {
+        console.log(resp);
+      });
+    });
   }
 
-  //obtiene datos del usuario
+  //obtiene datos del usuario logeado
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    console.log(userData);
-    this.avatar = userData.avatar;
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
@@ -187,12 +221,21 @@ export class CreatepoaComponent implements OnInit {
     this.ciUser = userData.dni;
   }
 
-  //obtiene periodo academico
+  // Obtener el periodo académico
   getYear() {
     this._poaService.getAcademicPeriod(this.token).subscribe((resp: any) => {
-      // console.log(resp.data);
       this.academicYearId = resp.data;
-      console.log('periodo', this.academicYearId);
+    });
+  }
+
+  // Obtener las instituciones y empresas y las almacena en diferentes variables
+  getCompAndCampus() {
+    this._poaService.getCompAndInst(this.token).subscribe((resp: any) => {
+      this.companies = resp.data;
+      this.campuses = this.companies.filter((company: any) => company.type === 'INSTITUTO');
+      this.enterprises = this.companies.filter((company: any) => company.type === 'EMPRESA');
+      // console.log('Institutos:', this.campuses);
+      // console.log('Empresas:', this.enterprises);
     });
   }
 }

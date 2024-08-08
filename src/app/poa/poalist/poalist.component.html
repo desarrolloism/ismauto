@@ -2,7 +2,7 @@
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-4 shadow"
     style="border-radius: .5rem;">
     <ng-container *ngFor="let poa of filteredPoaList">
-        @if(fullname == poa.creator.name ||poa.status == fullname
+        @if(fullname == poa?.creator.name ||poa.status == fullname
         || email == 'financiero@ism.edu.ec'
         || email == 'direccionfinanciera@ism.edu.ec' ) {
         <div class="col">
@@ -27,7 +27,8 @@
                             <div class="col-12 col-sm-6">
                                 <div class="d-flex align-items-center">
                                     <i class="fa-solid fa-user-tie me-2"></i>
-                                    <span matTooltip="Departamento: {{poa.department}}"
+                                    <span
+                                        matTooltip="Departamento: {{poa.department}}"
                                         class="text-truncate">{{poa.department}}</span>
                                 </div>
                             </div>
@@ -48,15 +49,18 @@
                                     class="d-flex align-items-center">
                                     <div class="border-primary"
                                         *ngIf="poa.status != 'APROBADO'">
-                                        <i class="fa-solid fa-chart-simple me-2"></i>
+                                        <i
+                                            class="fa-solid fa-chart-simple me-2"></i>
                                         <span>{{poa.status}}</span>
                                     </div>
                                     <div *ngIf="poa.status == 'APROBADO'">
-                                        <i class="fa-regular fa-circle-check me-2"></i>
+                                        <i
+                                            class="fa-regular fa-circle-check me-2"></i>
                                         <span>{{poa.status}}</span>
                                     </div>
                                     <div *ngIf="poa.status == 'RECHAZADO'">
-                                        <i class="fa-regular fa-circle-xmark me-2"></i>
+                                        <i
+                                            class="fa-regular fa-circle-xmark me-2"></i>
                                         <span>{{poa.status}}</span>
                                     </div>
                                 </div>
@@ -73,20 +77,22 @@
                                 </div>
                                 } @else {
                                 <i class="fa-solid fa-dollar-sign me-2"></i>
-                                <span matTooltip="Total aprobado">{{poa.total_aproved}}</span>
+                                <span
+                                    matTooltip="Total aprobado">{{poa.total_aproved}}</span>
                                 }
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer bg-transparent border-1 d-flex justify-content-center text-center">
+                <div
+                    class="card-footer bg-transparent border-1 d-flex justify-content-center text-center">
                     <button (click)="goToPoa(poa.id)"
-                    class="Btn">
-                    Detalles
+                        class="Btn">
+                        Detalles
                     </button>
                 </div>
             </div>
         </div>
-        }
+        } 
     </ng-container>
 </div>

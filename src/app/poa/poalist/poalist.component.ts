@@ -50,7 +50,7 @@ export class PoalistComponent {
 
     getPoaList() {
       this._poaService.list(this.token).subscribe((resp: any) => {
-        this.poaList = resp.data as Poa[];
+        this.poaList = resp.data.map((poa: Poa) => ({ ...poa, creator: poa.creator || {} })) as Poa[];
         this.filteredPoaList = [...this.poaList];
         Promise.all(this.poaList.map(poa => this.getpoaCreator(poa.case_id)))
           .then(() => {
@@ -59,6 +59,7 @@ export class PoalistComponent {
           });
       });
     }
+    
     
     getpoaCreator(id: number): Promise<void> {
       return new Promise((resolve) => {

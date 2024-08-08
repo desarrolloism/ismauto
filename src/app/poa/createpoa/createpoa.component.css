@@ -120,3 +120,9 @@
 #show_area, #show_objective{
   font-size: .7rem;
 }
+
+/* estilos para cards seleccionadas */
+.selected {
+  border: 2px solid blue;
+  background-color: lightblue;
+}

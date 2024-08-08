@@ -1,0 +1,121 @@
+
+
+<mat-accordion class="custom-shadow-panel">
+    <mat-expansion-panel class="mobile-friendly-panel">
+        <mat-expansion-panel-header>
+            <mat-panel-title class="panel-title fw-bold">Detalle de POA
+            </mat-panel-title>
+            <mat-panel-description class="panel-description">Click para abrir
+                POA</mat-panel-description>
+            <mat-panel-description class="panel-description">Depto.
+                {{poaDetail?.department}}</mat-panel-description>
+        </mat-expansion-panel-header>
+
+        @if (poaDetail.status == fullname && email != 'financiero@ism.edu.ec' &&
+        email != 'direccionfinanciera@ism.edu.ec' ) {
+        <!-- FORMULARIO PARA USUARIOS MODIFICADORES -->
+        <div class="poaDet" *ngIf="is_edit == false">
+            <div class="poa-details poaDet">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>Creador del POA:</strong>
+                        {{poaDetail.creator_info.name}}
+                    </div>
+                    <div class="col-md-4">
+                        @if(poaDetail.academic_year_id == 19){
+                        <strong>Periodo:</strong> 2024-2025
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Área:</strong> {{poaDetail.area}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong>Objetivo:</strong> {{poaDetail.objective}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class=" d-flex justify-content-center">
+                <button *ngIf="is_edit == false" mat-raised-button
+                    class="poaDet" (click)="editPoa()">Editar <i
+                        class="fa-regular fa-pen-to-square me-2"></i></button>
+            </div>
+        </div>
+        <div class="poaDet" *ngIf="is_edit == true">
+            <form (ngSubmit)="Update()">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <div class="form-group">
+                                <label for="area"
+                                    class="form-label"><i
+                                        class="fa-solid fa-landmark me-2"></i>Área</label>
+                                <input type="text" class="form-control"
+                                    name="area"
+                                    maxlength="50"
+                                    [(ngModel)]="poaDetail.area">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="objective"
+                                class="form-label"><i
+                                    class="fa-solid fa-bullseye me-2"></i>Objetivo</label>
+                            <textarea type="text" class="form-control"
+                                max="500"
+                                name="objective"
+                                [(ngModel)]="poaDetail.objective">
+                                </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 d-flex justify-content-evenly">
+                        <button class="poaDet" mat-raised-button color="primary"
+                            type="submit">Actualizar POA</button>
+                        <a class="poaDet" mat-raised-button
+                            (click)="noEdit()">Cancelar</a>
+                        <a *ngIf="poaDetail.status != 'APROBADO'"
+                            class="poaDet" matTooltip="Eliminar POA"
+                            mat-mini-fab color="warn"
+                            style="color: white;"
+                            (click)="onDelete()"><mat-icon>delete</mat-icon></a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <!-- FIN FORMULARIO PARA USUARIOS MODIFICADORES -->
+        }@else{
+        <!-- MUESTRA INFO DEL POA - USUARIOS NO MODIFICADORES -->
+        <div class="poa-details poaDet">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Creador del POA:</strong>
+                    {{poaDetail.creator_info.name}}
+                </div>
+                <div class="col-md-4">
+                    @if(poaDetail.academic_year_id == 19){
+                    <strong>Periodo:</strong> 2024-2025
+                    }
+                </div>
+                <div class="col-md-4">
+                    <strong>Área:</strong> {{poaDetail.area}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <strong>Objetivo:</strong> {{poaDetail.objective}}
+                </div>
+            </div>
+        </div>
+        <!-- MUESTRA INFO DEL POA - USUARIOS NO MODIFICADORES -->
+        }
+    </mat-expansion-panel>
+</mat-accordion>

@@ -49,7 +49,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     UserModule,
     MaintenanceModule,
     ProjectsModule,
-    POAModule,
+    // POAModule,
     NgSelectModule
   ],
   providers: [

@@ -85,14 +85,35 @@ export class PoaService {
 
 
   //actualiza poa
-  updatePoa(token: any, poaData: any): Observable<any> {
+  updatePoa(
+    token: any,
+    id: number,
+    area: string,
+    academicYearId: number,
+    objective: string,
+    totalResources: number,
+    totalAproved: number,
+    status: string,
+    comentRejected: string
+  ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
 
-    return this._http.post(`${this.url}/poa_update`, JSON.stringify(poaData), { headers: headers });
+    const data = {
+      id: id,
+      area: area,
+      academic_year_id: academicYearId,
+      objective: objective,
+      total_resources: totalResources,
+      total_aproved: totalAproved,
+      status: status,
+      coment_rejected: comentRejected
+    }
+
+    return this._http.post(`${this.url}/poa_update`, data, { headers: headers });
   }
 
   //elimina el POA
@@ -351,6 +372,42 @@ export class PoaService {
     return this._http.post(`${this.url}/accounting_count`, data, { headers: headers });
   }
 
-  
+  //obtiene las companias e institutos
+  getCompAndInst(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {}
+    return this._http.post(`${this.url}/poa_companies`, data, { headers: headers });
+  }
+
+  //registra empresas e institutos
+  saveCompAndInst(token: any, headerId:number, instituteId:number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      header_id: headerId,
+      institute_id: instituteId
+    }
+    return this._http.post(`${this.url}/institutes_headers_create`, data, { headers: headers });
+  }
+
+  //elimina empresas e institutos
+  deleteCompAndInst(token: any, Id: number) {  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      id: Id
+    }
+    return this._http.post(`${this.url}/institutes_headers_delete`, data, { headers: headers });
+  }
 
 }
