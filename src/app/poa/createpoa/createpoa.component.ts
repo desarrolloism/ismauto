@@ -124,7 +124,7 @@ export class CreatepoaComponent implements OnInit {
 
   //redirije al poa creado
   goMyPoas() {
-    if (confirm('desea ir al poa?')) {
+    if (confirm('¿Desea ir al poa creado?')) {
       this._router.navigate(['poa-detail', this.poaId]);
     }
   }

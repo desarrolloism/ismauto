@@ -12,8 +12,8 @@
         Estado de edición/revisión: {{poaDetail.status}}</span>
 </h3>
 
-<h3 class="text-center fw-bold">POA: {{ poaDetail.name }} - {{
-    poaDetail.responsible }} - <span class="text-secondary"> - Total
+<h3 class="text-center fw-bold">POA: {{
+    poaDetail.responsible }} <span class="text-secondary"> Total
         requerido: {{
         poaDetail.total_resources }}$ - Total aprobado: {{
         poaDetail.total_aproved }}$</span>
@@ -56,7 +56,6 @@
                     </div>
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
                 </div>
-
                 <!-- TABLA DE ACTIVIDADES -->
                 <div class="overflow-auto p-2">
 
@@ -72,24 +71,24 @@
                                 (click)="clearFilter()">Mostrar Todos</button>
                         </div>
 
-                        <mat-expansion-panel
+                        <mat-expansion-panel class="mobile-friendly-panel"
                             *ngFor="let activity of allActivities"
                             (click)="getActivityId(activity.id)">
-                            <mat-expansion-panel-header
+                            <mat-expansion-panel-header class="panel-title fw-bold"
                                 style="background-color: rgb(109, 121, 121)">
                                 <mat-panel-title>
                                     <p matTooltip="{{activity.activity}}"
                                         class="truncate text-white"><i
                                             class="fa-regular fa-clipboard me-2"></i>{{activity.activity}}</p>
                                 </mat-panel-title>
-                                <mat-panel-description class="dates text-white">
+                                <mat-panel-description class="panel-title fw-bold" class="dates text-white">
                                     <i
                                         class="fa-regular fa-calendar me-2"></i>Inicio:
                                     {{ activity.start_date | date }} -
                                     Fin: {{ activity.end_date | date }} <i
                                         class="fa-solid fa-calendar-check ms-2"></i>
                                 </mat-panel-description>
-                                <mat-panel-description class="dates">
+                                <mat-panel-description class="dates panel-title fw-bold">
                                     <i
                                         class="fa-solid fa-file-invoice-dollar me-2"></i>Monto
                                     requerido: {{
@@ -121,7 +120,7 @@
                                     }
 
                                 </mat-panel-description>
-                            </mat-expansion-panel-header>
+                            </mat-expansion-panel-header >
                             <div class="row">
                                 <div class="col-md-12 mt-4">
                                     <div
@@ -619,7 +618,7 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="mb-3">
                                 <ng-select
                                     [items]="compers_list"
@@ -630,7 +629,7 @@
                                     placeholder="Elija un usuario">
                                 </ng-select>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <!-- solo admin puede modificar -->
                     <button type="submit" mat-raised-button color="primary"
@@ -676,6 +675,7 @@
                                 bindLabel="first_name"
                                 bindValue="first_name"
                                 [(ngModel)]="selectedStatus"
+                                (change)="onUpdate()"
                                 name="status"
                                 placeholder="Elija un usuario">
                             </ng-select>
@@ -688,9 +688,8 @@
                         *ngIf="poaDetail.status != 'APROBADO'">
                         @if (poaDetail.status == 'Cristian Vaca' ||
                         poaDetail.status == 'VINUEZA AIDA') {
-
-                        @if (allActivitiesHaveApproval()) {
-                        <button (click)="updateStatus('APROBADO')"
+                        @if (allActivitiesHaveApproval() && allActivities.length != 0) {
+                            <button (click)="updateStatus('APROBADO')"
                             [class.active]="selectedStatus === 'APROBADO'"
                             color="primary"
                             mat-raised-button>
@@ -715,7 +714,8 @@
                             rows="4"
                             class="form-control"
                             placeholder="Ingrese el motivo del rechazo"></textarea>
-                        <button
+                            <button
+                            (click)="onUpdate()"
                             class="btn btn-primary mt-2">
                             Confirmar Rechazo
                         </button>

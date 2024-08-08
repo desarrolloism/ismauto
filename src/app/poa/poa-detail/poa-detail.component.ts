@@ -17,7 +17,7 @@ export class PoaDetailComponent {
   poaId: number = 0;
   token = localStorage.getItem('token');
   poaDetail: any = {};
-  allActivities: any;
+  allActivities!: any;
   newActivity: any;
   dataActivity: any;
   dataUpdateActivity: any;
@@ -273,7 +273,7 @@ export class PoaDetailComponent {
   //Función para seleccionar el id del usuario
   onUserSelect(event: any) {
     this.selectedUserId = this.usersId;
-    // console.log(this.usersId);
+    console.log(this.usersId);
   }
 
   constructor(
@@ -337,14 +337,21 @@ export class PoaDetailComponent {
   //OBTIENE SI EL POA ES APROBADO O NO
   updateStatus(status: string) {
     this.selectedStatus = status;
+    console.log(this.selectedStatus);
     if (status === 'RECHAZADO') {
       this.showRejectComment = true;
+
     } else {
       this.showRejectComment = false;
-      // this.onUpdate();
+      this.onUpdate();
     }
   }
-
+  
+  onConfirmReject() {
+    if (confirm('¿Está seguro de rechazar el POA?')) {
+      this.onUpdate();
+    }
+  }
 
   //actualiza poa
   allCompanies: string[] = ['ISM', 'REWA', 'CONSTRUCTEC', 'IMPAK', 'PAXDEM', 'DIGLO']; // Todas las compañías posibles
@@ -396,48 +403,47 @@ export class PoaDetailComponent {
     this.poaDetail.campus.splice(index, 1);
   }
 
-  // onUpdate() {
-  //   if (confirm('¿Está seguro de realizar esta operación?')) {
-  //     let updatedStatus = this.poaDetail.status;
-  //     if (this.selectedStatus && this.selectedStatus !== this.poaDetail.status) {
-  //       updatedStatus = this.selectedStatus;
-  //     }
-  //     if (updatedStatus === 'RECHAZADO') {
-  //       this.poaDetail.coment_rejected = this.rejectComment;
-  //       updatedStatus = this.poaDetail.user_ci;
-  //     }
-  //     const updateData = {
-  //       id: this.poaDetail.id,
-  //       area: this.poaDetail.area,
-  //       department: this.poaDetail.department,
-  //       responsible: this.poaDetail.responsible,
-  //       academic_year_id: this.poaDetail.academic_year_id,
-  //       objective: this.poaDetail.objective,
-  //       total_resources: this.poaDetail.total_resources,
-  //       total_aproved: this.poaDetail.total_aproved,
-  //       status: updatedStatus,
-  //       coment_rejected: this.poaDetail.coment_rejected,
-  //       user_ci: this.poaDetail.user_ci,
-  //       company: this.poaDetail.company,
-  //       campus: this.poaDetail.campus
-  //     };
-  //     this._poaService.updatePoa(this.token, updateData).subscribe(
-  //       (resp: any) => {
-  //         if (resp.status === 'ok') {
-  //           this.getPoa();
-  //           this.showRejectComment = false;
-  //           this.rejectComment = '';
-  //           alert('POA actualizado con éxito');
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error('Error updating POA:', error);
-  //         alert('Error al actualizar el POA');
-  //       }
-  //     );
-  //   }
-  // }
-
+  onUpdate() {
+    if (confirm('¿Está seguro de realizar esta operación?')) {
+      let updatedStatus = this.poaDetail.status;
+      if(this.selectedStatus === 'RECHAZADO') {
+        this.selectedStatus = this.poaDetail.creator_info.name;
+      }
+      if (this.selectedStatus && this.selectedStatus !== this.poaDetail.status) {
+        updatedStatus = this.selectedStatus;
+      }
+      this._poaService.updatePoa(
+        this.token, 
+        this.poaDetail.id,
+        this.poaDetail.area,
+        this.poaDetail.academic_year_id,
+        this.poaDetail.objective,
+        this.poaDetail.total_resources,
+        this.poaDetail.total_aproved,
+        updatedStatus,
+        this.rejectComment
+      ).subscribe(
+        (resp: any) => {
+          if (resp.status === 'ok') {
+            this.getPoa();
+            this.showRejectComment = false;
+            this.rejectComment = '';
+            alert('POA actualizado con éxito');
+            const modal = document.getElementById('staticBackdrop');
+        if (modal) {
+          const modalInstance = bootstrap.Modal.getInstance(modal);
+          modalInstance.hide();
+        }
+          }
+        },
+        (error) => {
+          console.error('Error updating POA:', error);
+          alert('Error al actualizar el POA');
+        }
+      );
+    }
+  }
+  
 
 
   //cancela actualizacion de poa
@@ -471,7 +477,7 @@ export class PoaDetailComponent {
       this.createPoa.accounting_count,
       this.createPoa.priority,
       this.createPoa.approved_activity,
-      this.poaDetail.responsible
+      this.createPoa.responsible
     ).subscribe(resp => {
       this.dataActivity = resp;
       if (this.dataActivity.status === 'ok') {
@@ -625,7 +631,7 @@ export class PoaDetailComponent {
   userList() {
     this._poaService.allUsers(this.token).subscribe((resp: any) => {
       this.users = resp.data;
-      // console.log('usuarios', this.users);
+      console.log('usuarios', this.users);
     })
   }
 

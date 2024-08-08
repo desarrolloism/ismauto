@@ -75,6 +75,7 @@ export class HomePoaComponent implements OnInit {
       this.poaService.searchPoa(this.token, this.searchTerm).subscribe(
         (results: any) => {
           this.filteredPoaList = results.data;
+          console.log(this.filteredPoaList);
         },
         (error) => {
           console.error('Error en la búsqueda:', error);

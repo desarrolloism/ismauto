@@ -11,7 +11,8 @@
                 {{poaDetail?.department}}</mat-panel-description>
         </mat-expansion-panel-header>
 
-        @if (poaDetail.status == fullname && email != 'financiero@ism.edu.ec' &&
+        @if (poaDetail?.status == fullname && email != 'financiero@ism.edu.ec'
+        &&
         email != 'direccionfinanciera@ism.edu.ec' ) {
         <!-- FORMULARIO PARA USUARIOS MODIFICADORES -->
         <div class="poaDet" *ngIf="is_edit == false">
@@ -87,9 +88,49 @@
                             style="color: white;"
                             (click)="onDelete()"><mat-icon>delete</mat-icon></a>
                     </div>
-
                 </div>
             </form>
+
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="enterprises"
+                            class="form-label">Empresas</label>
+                        <div *ngFor="let enterprise of enterprises"
+                            class="form-check">
+                            <input
+                                type="checkbox"
+                                class="form-check-input"
+                                [id]="'enterprise-' + enterprise.id"
+                                [checked]="isEnterpriseSelected(enterprise.id)"
+                                (change)="toggleEnterpriseSelection($event, enterprise)" />
+                            <label class="form-check-label"
+                                [for]="'enterprise-' + enterprise.id">
+                                {{ enterprise.name }}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="campuses" class="form-label">Campus</label>
+                        <div *ngFor="let campus of campuses" class="row">
+                            <div class="col-md-8 form-check">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    [id]="'campus-' + campus.id"
+                                    [checked]="isCampusSelected(campus.id)"
+                                    (change)="toggleCampusSelection($event, campus)" />
+                                <label class="form-check-label"
+                                    [for]="'campus-' + campus.id">
+                                    {{ campus.name }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
         <!-- FIN FORMULARIO PARA USUARIOS MODIFICADORES -->
         }@else{
@@ -98,20 +139,20 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <strong>Creador del POA:</strong>
-                    {{poaDetail.creator_info.name}}
+                    {{poaDetail?.creator_info.name}}
                 </div>
                 <div class="col-md-4">
-                    @if(poaDetail.academic_year_id == 19){
+                    @if(poaDetail?.academic_year_id == 19){
                     <strong>Periodo:</strong> 2024-2025
                     }
                 </div>
                 <div class="col-md-4">
-                    <strong>Área:</strong> {{poaDetail.area}}
+                    <strong>Área:</strong> {{poaDetail?.area}}
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <strong>Objetivo:</strong> {{poaDetail.objective}}
+                    <strong>Objetivo:</strong> {{poaDetail?.objective}}
                 </div>
             </div>
         </div>

@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12 text-center">
                             <div *ngIf="poaForm.get('areaStep.area')?.value">
                                 <hr>
                                 <h6 class="fw-bold">Área:</h6>
@@ -86,13 +86,16 @@
                                     poaForm.get('areaStep.area')?.value }}</p>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center overflow-auto" style="height: 100px;">
                             <div
                                 matTooltip="{{poaForm.get('objectiveStep.objective')?.value }} "
                                 *ngIf="poaForm.get('objectiveStep.objective')?.value">
                                 <hr>
                                 <h6 class="fw-bold">Objetivo:</h6>
-                                <p id="show_objective" class="text-truncate">{{
+                                <p id="show_objective">{{
                                     poaForm.get('objectiveStep.objective')?.value
                                     }}</p>
                             </div>
