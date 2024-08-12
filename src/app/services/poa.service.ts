@@ -421,4 +421,48 @@ export class PoaService {
 
     return this._http.post(`${this.url}/dashboard`, data, { headers: headers });
   }
+
+  //crea los porcentajes de campus por actividad
+sendCampusPercentage(token: any, headerInstId: number, activityId: number, percentage: number){
+  const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+  });
+
+  const data = {
+    header_inst_id: headerInstId,
+    activity_id: activityId,
+    percentage: percentage
+};
+
+  return this._http.post(`${this.url}/institutes_activities_create`, data, { headers: headers });
+}
+
+  //obtiene los campus seleccionados por el usuario para cada tarea
+  getCampuses(token:any, Id: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      id: Id
+    }
+    return this._http.post(`${this.url}/campus_detail`, data, { headers: headers });
+  }
+
+  //obtiene los porcentajes decampus para actividades 
+  getCampusPercentage(token:any, ActivityId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      activity_id: ActivityId
+    }
+    return this._http.post(`${this.url}/institutes_activities_list`, data, { headers: headers });
+  }
+
 }

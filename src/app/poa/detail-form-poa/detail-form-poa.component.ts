@@ -69,7 +69,7 @@ export class DetailFormPoaComponent {
   getInfoPoa() {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
-      console.log('detalles son', this.poaDetail);
+      // console.log('detalles son', this.poaDetail);
 
       this.poaDetail.params_info.forEach((item: any) => {
         if (item.type === 'EMPRESA') {
@@ -80,7 +80,7 @@ export class DetailFormPoaComponent {
       });
 
       this.poaDetail.detail_poa_institute.forEach((institute: any) => {
-        console.log('Verificando selección para:', institute);
+        // console.log('Verificando selección para:', institute);
         // Suponiendo que los institutos pueden ser tanto empresas como campus
         if (this.enterprises.some(e => e.id === institute.institute_id)) {
           this.selectedEnterprises.push(institute.institute_id);
@@ -91,13 +91,13 @@ export class DetailFormPoaComponent {
         }
       });
 
-      console.log('Empresas seleccionadas:', this.selectedEnterprises);
-      console.log('Campus seleccionados:', this.selectedCampuses);
+      // console.log('Empresas seleccionadas:', this.selectedEnterprises);
+      // console.log('Campus seleccionados:', this.selectedCampuses);
     });
   }
 
   toggleEnterpriseSelection(event: any, enterprise: any) {
-    console.log('Cambiando selección de empresa:', enterprise);
+    // console.log('Cambiando selección de empresa:', enterprise);
     if (event.target.checked) {
       this.selectedEnterprises.push(enterprise.id);
       this.saveEnterprise(enterprise);
@@ -108,30 +108,32 @@ export class DetailFormPoaComponent {
         this.removeCampusAndCompany(enterprise.id, 'enterprise');
       }
     }
-    console.log('Empresas seleccionadas después del cambio:', this.selectedEnterprises);
+    // console.log('Empresas seleccionadas después del cambio:', this.selectedEnterprises);
   }
 
   toggleCampusSelection(event: any, campus: any) {
-    console.log('Cambiando selección de campus:', campus);
+    
+
     if (event.target.checked) {
-      this.selectedCampuses.push(campus.id);
-      this.saveCampus(campus);
+        this.selectedCampuses.push(campus.id);
+        this.saveCampus(campus);
     } else {
-      const index = this.selectedCampuses.indexOf(campus.id);
-      if (index !== -1) {
-        this.selectedCampuses.splice(index, 1);
-        this.removeCampusAndCompany(campus.id, 'campus');
-      }
+        const index = this.selectedCampuses.indexOf(campus.id);
+        if (index !== -1) {
+            this.selectedCampuses.splice(index, 1);
+            this.removeCampusAndCompany(campus.id, 'campus');
+        }
     }
-    console.log('Campus seleccionados después del cambio:', this.selectedCampuses);
-  }
+}
+
 
   saveEnterprise(enterprise: any) {
     this._poaService.saveCompAndInst(this.token, this.poaId, enterprise.id).subscribe((resp: any) => {
       if (resp.status === 'ok') {
         const savedId = resp.data.id;
         this.savedEnterprises[enterprise.id] = savedId;
-        console.log('Empresa guardada:', enterprise.id, 'con ID en backend:', savedId);
+        // console.log('Empresa guardada:', enterprise.id, 'con ID en backend:', savedId);
+        
       }
     });
   }
@@ -141,7 +143,8 @@ export class DetailFormPoaComponent {
       if (resp.status === 'ok') {
         const savedId = resp.data.id;
         this.savedCampuses[campus.id] = savedId;
-        console.log('Campus guardado:', campus.id, 'con ID en backend:', savedId);
+        window.location.reload();
+        // console.log('Campus guardado:', campus.id, 'con ID en backend:', savedId);
       }
     });
   }
@@ -159,7 +162,7 @@ export class DetailFormPoaComponent {
     if (savedId) {
       this._poaService.deleteCompAndInst(this.token, savedId).subscribe((resp: any) => {
         if (resp.status === 'ok') {
-          console.log('Eliminado correctamente:', id, 'del tipo:', type);
+          // console.log('Eliminado correctamente:', id, 'del tipo:', type);
           if (type === 'enterprise') {
             delete this.savedEnterprises[id];
           } else {
@@ -198,12 +201,10 @@ export class DetailFormPoaComponent {
         this.selectedCampuses = [];
         // window.location.reload();
         this.is_edit = false;
-        console.log(resp);
+        // console.log(resp);
         this.getInfoPoa();
 
-      } else {
-        alert('Error al actualizar POA');
-      }
+      } 
     });
   }
 

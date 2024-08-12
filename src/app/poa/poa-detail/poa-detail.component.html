@@ -25,8 +25,6 @@
             <!-- fomulario para actualizar POA -->
             <app-detail-form-poa></app-detail-form-poa>
             <!-- fin de fomulario para actualizar POA -->
-
-            <!-- BOTON PARA AGREGAR ACTIVIDAD -->
             <div class="row mt-4 mb-3">
                 <div class="row">
                     <div class="col-md-4 mb-3 d-flex justify-content-center"><h4
@@ -74,21 +72,25 @@
                         <mat-expansion-panel class="mobile-friendly-panel"
                             *ngFor="let activity of allActivities"
                             (click)="getActivityId(activity.id)">
-                            <mat-expansion-panel-header class="panel-title fw-bold"
+                            <mat-expansion-panel-header
+                                class="panel-title fw-bold"
                                 style="background-color: rgb(109, 121, 121)">
                                 <mat-panel-title>
                                     <p matTooltip="{{activity.activity}}"
                                         class="truncate text-white"><i
                                             class="fa-regular fa-clipboard me-2"></i>{{activity.activity}}</p>
                                 </mat-panel-title>
-                                <mat-panel-description class="panel-title fw-bold" class="dates text-white">
+                                <mat-panel-description
+                                    class="panel-title fw-bold"
+                                    class="dates text-white">
                                     <i
                                         class="fa-regular fa-calendar me-2"></i>Inicio:
                                     {{ activity.start_date | date }} -
                                     Fin: {{ activity.end_date | date }} <i
                                         class="fa-solid fa-calendar-check ms-2"></i>
                                 </mat-panel-description>
-                                <mat-panel-description class="dates panel-title fw-bold">
+                                <mat-panel-description
+                                    class="dates panel-title fw-bold">
                                     <i
                                         class="fa-solid fa-file-invoice-dollar me-2"></i>Monto
                                     requerido: {{
@@ -120,7 +122,7 @@
                                     }
 
                                 </mat-panel-description>
-                            </mat-expansion-panel-header >
+                            </mat-expansion-panel-header>
                             <div class="row">
                                 <div class="col-md-12 mt-4">
                                     <div
@@ -160,6 +162,15 @@
                                                 contable:</strong>
                                             {{ activity.accounting_count }}</p>
 
+                                            <div class="row" *ngIf="SavedPorcetage">
+                                                <div class="d-flex">
+                                                    <div class="me-3" *ngFor="let percentage of SavedPorcetage">
+                                                        <p>{{percentage.name}}: <strong>{{percentage.percentage}}%</strong></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+
                                     </div>
                                 </div>
                             </div>
@@ -172,6 +183,7 @@
                                         (click)="downloadActivityPDF(activity); $event.stopPropagation()">Descargar
                                         PDF</a>
                                 </div>
+
                                 <div
                                     class="col-md-6 d-flex justify-content-evenly">
                                     @if (activity.approved_amount == '0.00' &&
@@ -231,10 +243,11 @@
                                     de la actividad!</a>
                                 }
                             </div>
+
                             <div class="row">
-                                <div class="col-md-12">
-                                    <form
-                                        *ngIf="isEditing && editingActivityId === activity.id">
+                                <div class="col-md-12"
+                                    *ngIf="isEditing && editingActivityId === activity.id">
+                                    <form>
                                         <div
                                             *ngIf="poaDetail.status == fullname && email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
                                             <div class="row">
@@ -357,6 +370,42 @@
                                                     </ng-select>
                                                 </div>
                                             </div>
+                                            @if (isEditing && editingActivityId ===
+                                    activity.id) {
+                                    <!-- SE AGREGA PORCENTAJES DE ACTIVIDAD PARA CAMPUS -->
+
+                                    <div class="row mt-4" *ngIf="SavedPorcetage">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="me-3" *ngFor="let percentage of SavedPorcetage">
+                                                <h3>{{percentage.name}}: <strong>{{percentage.percentage}}%</strong></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        *ngFor="let campus of percetagePerCampus; let i = index"
+                                        class="mb-3">
+                                        <label class="form-label"
+                                            for="percentage-{{i}}">{{campus.name}}</label>
+                                        <input
+                                            name="percentage-{{i}}"
+                                            class="form-control"
+                                            type="number"
+                                            id="percentage-{{i}}"
+                                            [(ngModel)]="campus.percentage"
+                                            min="0"
+                                            max="100"
+                                            step="0.01"
+                                            placeholder="Ingrese el porcentaje"
+                                            (keypress)="validateNum($event)"
+                                            appOnlyNumbers
+                                            required>
+                                    </div>
+                                    <!-- <button (click)="sendPercentages()">Enviar porcentajes</button> -->
+                                    <!-- SE AGREGA PORCENTAJES DE ACTIVIDAD PARA CAMPUS -->
+                                    }
+
+
                                         </div>
                                         <!-- solo lo puede ver y modificar financieros -->
                                         <div class="row"
@@ -396,6 +445,7 @@
                                                         Rechazado
                                                     </label>
                                                 </div>
+
                                             </div>
                                             <div
                                                 *ngIf="editingActivity.approved_activity === 'APROBADO'">
@@ -478,6 +528,8 @@
                                             </div>
                                         </div>
                                     </form>
+
+                                    
                                 </div>
                             </div>
                         </mat-expansion-panel>
@@ -536,7 +588,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal para agregar actividades-->
 <div class="modal fade" id="exampleModal" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -636,7 +688,6 @@
                         [disabled]="activityForm.form.invalid">Crear
                         Actividad</button>
                 </form>
-
             </div>
         </div>
     </div>
@@ -688,8 +739,9 @@
                         *ngIf="poaDetail.status != 'APROBADO'">
                         @if (poaDetail.status == 'Cristian Vaca' ||
                         poaDetail.status == 'VINUEZA AIDA') {
-                        @if (allActivitiesHaveApproval() && allActivities.length != 0) {
-                            <button (click)="updateStatus('APROBADO')"
+                        @if (allActivitiesHaveApproval() && allActivities.length
+                        != 0) {
+                        <button (click)="updateStatus('APROBADO')"
                             [class.active]="selectedStatus === 'APROBADO'"
                             color="primary"
                             mat-raised-button>
@@ -713,8 +765,9 @@
                         <textarea [(ngModel)]="rejectComment"
                             rows="4"
                             class="form-control"
+                            maxlength="200"
                             placeholder="Ingrese el motivo del rechazo"></textarea>
-                            <button
+                        <button
                             (click)="onUpdate()"
                             class="btn btn-primary mt-2">
                             Confirmar Rechazo

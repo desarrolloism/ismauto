@@ -40,6 +40,8 @@ export class PoaDetailComponent {
   firstUser: string = '';
   accounting_list: any;
   compers_list: any;
+  percetagePerCampus: any;
+
 
   signature = {
     coments: '',
@@ -90,7 +92,7 @@ export class PoaDetailComponent {
     responsible: ''
   }
   companies: string[] = ['Company A', 'Company B', 'Company C', 'Company D'];
-
+  activityId: number = 0;
   originalActivities: any[] = [];
   isFilterActive: boolean = false;
   selectedUserId: any = [];
@@ -298,6 +300,7 @@ export class PoaDetailComponent {
     this.listSignatures();
     this.getAccounting();
     this.getNameCompers();
+
   }
 
   //muestra actividades sin aprobar
@@ -330,7 +333,8 @@ export class PoaDetailComponent {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
       this.selectedStatus = this.poaDetail.status;
-      // console.log('detalle poa', resp);
+      console.log('detalle poa1111111', this.poaDetail);
+      this.getCampusesSelected();
     });
   }
 
@@ -346,7 +350,7 @@ export class PoaDetailComponent {
       this.onUpdate();
     }
   }
-  
+
   onConfirmReject() {
     if (confirm('¿Está seguro de rechazar el POA?')) {
       this.onUpdate();
@@ -359,6 +363,7 @@ export class PoaDetailComponent {
   allCampus = ['QUITO', 'NORTH', 'WEST', 'KIDS', 'ONLINE'];
   selectedCampus: string = '';
 
+  campusPercentaje = 0;
 
   //verifica las empresas disponible
   getAvailableCompanies(): string[] {
@@ -388,10 +393,10 @@ export class PoaDetailComponent {
   addCampus() {
     if (this.selectedCampus && !this.poaDetail.campus.some((c: { name: string; }) => c.name === this.selectedCampus)) {
       this.poaDetail.campus.push({ name: this.selectedCampus, percentage: 0 });
-      this.selectedCampus = ''; 
+      this.selectedCampus = '';
     }
   }
-  
+
   updateCampusPercentage(index: number, percentage: number) {
     if (percentage >= 0 && percentage <= 100) {
       this.poaDetail.campus[index].percentage = percentage;
@@ -406,14 +411,14 @@ export class PoaDetailComponent {
   onUpdate() {
     if (confirm('¿Está seguro de realizar esta operación?')) {
       let updatedStatus = this.poaDetail.status;
-      if(this.selectedStatus === 'RECHAZADO') {
+      if (this.selectedStatus === 'RECHAZADO') {
         this.selectedStatus = this.poaDetail.creator_info.name;
       }
       if (this.selectedStatus && this.selectedStatus !== this.poaDetail.status) {
         updatedStatus = this.selectedStatus;
       }
       this._poaService.updatePoa(
-        this.token, 
+        this.token,
         this.poaDetail.id,
         this.poaDetail.area,
         this.poaDetail.academic_year_id,
@@ -430,10 +435,10 @@ export class PoaDetailComponent {
             this.rejectComment = '';
             alert('POA actualizado con éxito');
             const modal = document.getElementById('staticBackdrop');
-        if (modal) {
-          const modalInstance = bootstrap.Modal.getInstance(modal);
-          modalInstance.hide();
-        }
+            if (modal) {
+              const modalInstance = bootstrap.Modal.getInstance(modal);
+              modalInstance.hide();
+            }
           }
         },
         (error) => {
@@ -443,8 +448,6 @@ export class PoaDetailComponent {
       );
     }
   }
-  
-
 
   //cancela actualizacion de poa
   onCancel() {
@@ -492,6 +495,14 @@ export class PoaDetailComponent {
         this.getPoa();
       }
     });
+  }
+
+  //obtiene los campus seleccionados por el usuario
+  getCampusesSelected() {
+    this._poaService.getCampuses(this.token, this.poaDetail.id).subscribe((resp: any) => {
+      this.percetagePerCampus = resp.data;
+      console.log(this.percetagePerCampus);
+    })
   }
 
   //actualizacion de actividades
@@ -543,6 +554,7 @@ export class PoaDetailComponent {
 
   saveChanges(activityId: number) {
     this.updateActivity(activityId);
+    this.sendPercentages();
     this.isEditing = false;
     this.editingActivityId = null;
   }
@@ -570,7 +582,9 @@ export class PoaDetailComponent {
 
   //obtiene el id de la actividad 
   getActivityId(activityId: number) {
-    // console.log(activityId);
+    this.activityId = activityId;
+    console.log(this.activityId);
+    this.getAllCampusPercentage();
   }
 
   //elimina actividad
@@ -588,7 +602,6 @@ export class PoaDetailComponent {
     }
   }
 
-  //selecciona si se apruegba
 
   //busca actividad de poa 
   onSearch() {
@@ -660,9 +673,6 @@ export class PoaDetailComponent {
             }
           }
         }
-
-
-
         // console.log(resp);
         this.listSignatures();
       });
@@ -677,7 +687,6 @@ export class PoaDetailComponent {
       // console.log('firmas', this.signaturesList);
     })
   }
-
 
   //deja aprobar o rechazar POA una vez las actividades hayan sido aprobadas 
 
@@ -702,4 +711,45 @@ export class PoaDetailComponent {
     })
   }
 
+  //crea porcentajes para campuses
+  // Método en el componente para enviar los datos de cada campus
+  sendPercentages() {
+    // Asegúrate de tener los datos cargados antes de enviarlos
+    this.percetagePerCampus.forEach((campus: {
+      id: number; percentage: number; name: any;
+    }) => {
+      const headerInstId = campus.id;
+      const percentage = campus.percentage;
+      this._poaService.sendCampusPercentage(this.token, headerInstId, this.activityId, percentage).subscribe(
+        (resp: any) => {
+          console.log(`Campus ${campus.name} enviado exitosamente`);
+          console.log(resp.data);
+        },
+        error => {
+          console.error(`Error al enviar el campus ${campus.name}:`, error);
+        }
+      );
+    });
+  }
+
+
+  //obtiene los porcentajes decampus para actividades 
+  SavedPorcetage: any;
+  getAllCampusPercentage() {
+    this._poaService.getCampusPercentage(this.token, this.activityId).subscribe((resp: any) => {
+      this.SavedPorcetage = resp.data;
+      console.log('porcentajes por campus', this.SavedPorcetage);
+    })
+  }
+
+
+
+  //valida solo numeros
+  validateNum(event: any) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
 }

@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class=" d-flex justify-content-center">
+            <div class=" d-flex justify-content-center" *ngIf="poaDetail.status == fullname">
                 <button *ngIf="is_edit == false" mat-raised-button
                     class="poaDet" (click)="editPoa()">Editar <i
                         class="fa-regular fa-pen-to-square me-2"></i></button>
@@ -76,6 +76,51 @@
                         </div>
                     </div>
                 </div>
+                <div class="container mt-4 mb-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="enterprises"
+                                class="form-label">Empresas</label>
+                            <div *ngFor="let enterprise of enterprises"
+                                class="form-check">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    [id]="'enterprise-' + enterprise.id"
+                                    [checked]="isEnterpriseSelected(enterprise.id)"
+                                    (change)="toggleEnterpriseSelection($event, enterprise)" />
+                                <label class="form-check-label"
+                                    [for]="'enterprise-' + enterprise.id">
+                                    {{ enterprise.name }}
+                                </label>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-6">
+                            <label for="campuses" class="form-label">Campus</label>
+                            <div *ngFor="let campus of campuses" class="row">
+                                <div class="col-md-8 form-check">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        [id]="'campus-' + campus.id"
+                                        [checked]="isCampusSelected(campus.id)"
+                                        (change)="toggleCampusSelection($event, campus)"
+                                         />
+                                    <label class="form-check-label"
+                                        [for]="'campus-' + campus.id">
+                                        {{ campus.name }}
+                                    </label>
+                                    <i *ngIf="isCampusSelected(campus.id)" class="bi bi-check-circle text-success"></i>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+    
+                </div>
+
+
                 <div class="row">
                     <div class="col-md-12 d-flex justify-content-evenly">
                         <button class="poaDet" mat-raised-button color="primary"
@@ -91,46 +136,7 @@
                 </div>
             </form>
 
-            <div class="container mt-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="enterprises"
-                            class="form-label">Empresas</label>
-                        <div *ngFor="let enterprise of enterprises"
-                            class="form-check">
-                            <input
-                                type="checkbox"
-                                class="form-check-input"
-                                [id]="'enterprise-' + enterprise.id"
-                                [checked]="isEnterpriseSelected(enterprise.id)"
-                                (change)="toggleEnterpriseSelection($event, enterprise)" />
-                            <label class="form-check-label"
-                                [for]="'enterprise-' + enterprise.id">
-                                {{ enterprise.name }}
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="campuses" class="form-label">Campus</label>
-                        <div *ngFor="let campus of campuses" class="row">
-                            <div class="col-md-8 form-check">
-                                <input
-                                    type="checkbox"
-                                    class="form-check-input"
-                                    [id]="'campus-' + campus.id"
-                                    [checked]="isCampusSelected(campus.id)"
-                                    (change)="toggleCampusSelection($event, campus)" />
-                                <label class="form-check-label"
-                                    [for]="'campus-' + campus.id">
-                                    {{ campus.name }}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            
         </div>
         <!-- FIN FORMULARIO PARA USUARIOS MODIFICADORES -->
         }@else{

@@ -12,20 +12,27 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <form class="mt-4" (ngSubmit)="onSubmit()">
-                            <div class="form-group mx-auto"
-                                style="max-width: 300px;">
-                                <label for="cedula" class="form-label"
-                                    name="cedula">Ingrese el número de cédula
-                                    del representante</label>
-                                <input [(ngModel)]="cedulaPadre.cedula"
-                                    type="text" id="cedula" name="cedula"
-                                    class="form-control form-control-sm"
-                                    placeholder="Ingrese su número de cédula">
-                            </div>
-                            <button class="btn btn-y mt-3"
-                                type="submit">Consultar</button>
-                        </form>
+                        @if (onLine == true) {
+                            <form class="mt-4" (ngSubmit)="onSubmit()">
+                                <div class="form-group mx-auto"
+                                    style="max-width: 300px;">
+                                    <label for="cedula" class="form-label"
+                                        name="cedula">Ingrese el número de cédula
+                                        del representante</label>
+                                    <input [(ngModel)]="cedulaPadre.cedula"
+                                        type="text" id="cedula" name="cedula"
+                                        class="form-control form-control-sm"
+                                        placeholder="Ingrese su número de cédula">
+                                </div>
+                                <button class="btn btn-y mt-3" type="submit">Consultar</button>
+                            </form>
+                        }@else {
+                            <h2>
+                            El proceso de de becas ha finalizado, gracias por preferir ISM.
+
+                            </h2>
+                        }
+                        
 
                         <div *ngIf="isLoading" class="text-center mt-4">
                             <div class="spinner-border text-danger"
