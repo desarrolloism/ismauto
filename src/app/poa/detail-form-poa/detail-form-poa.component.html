@@ -2,12 +2,12 @@
 
 <mat-accordion class="custom-shadow-panel">
     <mat-expansion-panel class="mobile-friendly-panel">
-        <mat-expansion-panel-header>
-            <mat-panel-title class="panel-title fw-bold">Detalle de POA
+        <mat-expansion-panel-header  style="background-color: rgb(46, 125, 179);">
+            <mat-panel-title class="panel-title fw-bold text-white">Detalle de POA
             </mat-panel-title>
-            <mat-panel-description class="panel-description">Click para abrir
+            <mat-panel-description class="panel-description text-white">Click para abrir
                 POA</mat-panel-description>
-            <mat-panel-description class="panel-description">Depto.
+            <mat-panel-description class="panel-description text-white">Depto.
                 {{poaDetail?.department}}</mat-panel-description>
         </mat-expansion-panel-header>
 
@@ -16,7 +16,7 @@
         email != 'direccionfinanciera@ism.edu.ec' ) {
         <!-- FORMULARIO PARA USUARIOS MODIFICADORES -->
         <div class="poaDet" *ngIf="is_edit == false">
-            <div class="poa-details poaDet">
+            <div class="poa-details poaDet mt-4">
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <strong>Creador del POA:</strong>
@@ -39,7 +39,8 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class=" d-flex justify-content-center" *ngIf="poaDetail.status == fullname">
+            <div class=" d-flex justify-content-center"
+                *ngIf="poaDetail.status == fullname">
                 <button *ngIf="is_edit == false" mat-raised-button
                     class="poaDet" (click)="editPoa()">Editar <i
                         class="fa-regular fa-pen-to-square me-2"></i></button>
@@ -76,6 +77,7 @@
                         </div>
                     </div>
                 </div>
+                @if (allActivities.length == 0) {
                 <div class="container mt-4 mb-3">
                     <div class="row">
                         <div class="col-md-6">
@@ -95,9 +97,10 @@
                                 </label>
                             </div>
                         </div>
-    
+
                         <div class="col-md-6">
-                            <label for="campuses" class="form-label">Campus</label>
+                            <label for="campuses"
+                                class="form-label font-weight-bold">Campus</label>
                             <div *ngFor="let campus of campuses" class="row">
                                 <div class="col-md-8 form-check">
                                     <input
@@ -105,21 +108,56 @@
                                         class="form-check-input"
                                         [id]="'campus-' + campus.id"
                                         [checked]="isCampusSelected(campus.id)"
-                                        (change)="toggleCampusSelection($event, campus)"
-                                         />
+                                        (change)="toggleCampusSelection($event, campus)">
                                     <label class="form-check-label"
                                         [for]="'campus-' + campus.id">
                                         {{ campus.name }}
                                     </label>
-                                    <i *ngIf="isCampusSelected(campus.id)" class="bi bi-check-circle text-success"></i>
+                                    <i *ngIf="isCampusSelected(campus.id)"
+                                        class="bi bi-check-circle text-success"></i>
                                 </div>
                             </div>
-                            
+                        </div>
+                        <p class="text-dark"><i
+                                class="fa-solid fa-circle-exclamation me-2"></i><strong>Nota:
+                            </strong>Una vez haya creado las tareas estos campos no
+                            se podrán modificar.</p>
+                    </div>
+                </div>
+                } @else {
+                <div class="container mt-2 mb-3">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="col-12 text-center mb-3">
+                                <h3>Campus elegidos</h3>
+                            </div>
+                            <div
+                                class="col-12 d-flex justify-content-center flex-wrap">
+                                <div class="me-3 card p-1"
+                                    *ngFor="let campus of selectedCampusNames">
+                                    {{campus}}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-12 text-center mb-3">
+                                <h3>Empresas</h3>
+                            </div>
+                            <div
+                                class="col-12 d-flex justify-content-center flex-wrap">
+                                <div class="me-3 card p-1"
+                                    *ngFor="let enterprise of selectedEnterpriseNames">
+                                    {{enterprise}}
+                                </div>
+                            </div>
                         </div>
                     </div>
-    
+
                 </div>
 
+                }
 
                 <div class="row">
                     <div class="col-md-12 d-flex justify-content-evenly">
@@ -136,7 +174,6 @@
                 </div>
             </form>
 
-            
         </div>
         <!-- FIN FORMULARIO PARA USUARIOS MODIFICADORES -->
         }@else{

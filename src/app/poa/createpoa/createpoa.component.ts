@@ -81,7 +81,7 @@ export class CreatepoaComponent implements OnInit {
     this._poaService.saveCompAndInst(this.token, this.poaId, id).subscribe((resp: any) => {
       if (resp.status == 'ok') {
         const savedId = resp.data.id;  
-        // console.log('Empresa guardada:', savedId);
+        console.log('empresa:', savedId);
         this.savedEnterprises[id] = savedId;
       }
     });
@@ -91,8 +91,8 @@ export class CreatepoaComponent implements OnInit {
   saveCampus(id: number) {
     this._poaService.saveCompAndInst(this.token, this.poaId, id).subscribe((resp: any) => {
       if (resp.status == 'ok') {
-        const savedId = resp.data.id;  // Captura el ID de la respuesta
-        console.log('Campus guardado:', savedId);
+        const savedId = resp.data.id;  
+        console.log('campus:', savedId);
         // Guarda el ID para su posterior eliminación
         this.savedCampuses[id] = savedId;
       }
@@ -155,9 +155,9 @@ export class CreatepoaComponent implements OnInit {
         next: (resp: any) => {
           this.compersData = resp.data;
           if (this.compersData.nombre && this.compersData.departamento) {
-            console.log('Cedula encontrada');
+            // console.log('Cedula encontrada');
           } else {
-            console.log('Cedula no encontrada');
+            // console.log('Cedula no encontrada');
             alert('Cédula no encontrada. Para crear un POA es necesario registrarse en Compers con talento humano.');
             this._router.navigate(['/main']);
           }
@@ -185,13 +185,15 @@ export class CreatepoaComponent implements OnInit {
         next: (response: any) => {
           if (response && response.status === 'ok') {
             this.poaId = response.id;
-            console.log('id de poa creado', this.poaId);
+            // console.log('id de poa creado', this.poaId);
           } else {
-            console.error('Error al crear POA:', response);
+            // console.error('Error al crear POA:', response);
+            alert('Error al crear POA, contacte con el administrador, a la brevedad');
           }
         },
         error: (error) => {
-          console.error('Error al crear POA:', error);
+          // console.error('Error al crear POA:', error);
+          alert('Error al crear POA, contacte con el administrador, a la brevedad');
         }
       });
     }
@@ -201,12 +203,12 @@ export class CreatepoaComponent implements OnInit {
   addCampusAndCompany() {
     this.selectedEnterprises.forEach(companyId => {
       this._poaService.saveCompAndInst(this.token, this.poaId, companyId).subscribe((resp: any) => {
-        console.log(resp);
+        // console.log(resp);
       });
     });
     this.selectedCampuses.forEach(campusId => {
       this._poaService.saveCompAndInst(this.token, this.poaId, campusId).subscribe((resp: any) => {
-        console.log(resp);
+        // console.log(resp);
       });
     });
   }

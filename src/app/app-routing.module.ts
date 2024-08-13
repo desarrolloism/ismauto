@@ -55,6 +55,8 @@ const routes: Routes = [
   {path: 'poa-detail/:id', component: PoaDetailComponent},
   {path: 'not-started-deps', component: NotStartedDepsComponent},
 
+
+
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];

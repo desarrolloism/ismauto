@@ -1,0 +1,58 @@
+.btn-nv {
+    border: 1px solid white;
+}
+
+.dashboard-menu {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-menu h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.category-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.category-item {
+    margin-bottom: 20px;
+}
+
+.category-title {
+    color: #5664d2;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.dashboard-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.dashboard-item {
+    margin-bottom: 8px;
+}
+
+.dashboard-link {
+    display: block;
+    padding: 10px;
+    background-color: white;
+    border-radius: 6px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.dashboard-link:hover {
+    background-color: #e9ecef;
+}
+
+.dashboard-link i {
+    margin-right: 10px;
+    color: #5664d2;
+}

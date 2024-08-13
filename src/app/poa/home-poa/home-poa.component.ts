@@ -46,6 +46,7 @@ export class HomePoaComponent implements OnInit {
   ngOnInit() {
     this.onSearch();
     this.getAvatar();
+    
   }
 
 
@@ -75,7 +76,7 @@ export class HomePoaComponent implements OnInit {
       this.poaService.searchPoa(this.token, this.searchTerm).subscribe(
         (results: any) => {
           this.filteredPoaList = results.data;
-          console.log(this.filteredPoaList);
+          // console.log(this.filteredPoaList);
         },
         (error) => {
           console.error('Error en la búsqueda:', error);
@@ -89,16 +90,16 @@ export class HomePoaComponent implements OnInit {
   //obtiewne datos del usuario 
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    console.log(userData);
+    // console.log(userData);
     this.avatar = userData.avatar;
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
     this.dni = userData.dni;
-    console.log(this.dni);
+    // console.log(this.dni);
     // console.log(this.name);
-    console.log('sdjgf', this.fullname);
+    // console.log('sdjgf', this.fullname);
     // console.log(this.email);
   }
 

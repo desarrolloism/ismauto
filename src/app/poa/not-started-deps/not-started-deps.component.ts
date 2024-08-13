@@ -37,16 +37,16 @@ export class NotStartedDepsComponent {
 
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    console.log(userData);
+    // console.log(userData);
     this.avatar = userData.avatar;
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
     this.dni = userData.dni;
-    console.log(this.dni);
+    // console.log(this.dni);
     // console.log(this.name);
-    console.log('sdjgf', this.fullname);
+    // console.log('sdjgf', this.fullname);
     // console.log(this.email);
   }
 

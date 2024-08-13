@@ -384,7 +384,7 @@ export class PoaService {
   }
 
   //registra empresas e institutos
-  saveCompAndInst(token: any, headerId:number, instituteId:number) {
+   saveCompAndInst(token: any, headerId:number, instituteId:number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
@@ -408,18 +408,6 @@ export class PoaService {
       id: Id
     }
     return this._http.post(`${this.url}/institutes_headers_delete`, data, { headers: headers });
-  }
-
-  dashborad(token:any){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': this.auth,
-      'Token': token
-    });
-
-    const data = {}
-
-    return this._http.post(`${this.url}/dashboard`, data, { headers: headers });
   }
 
   //crea los porcentajes de campus por actividad

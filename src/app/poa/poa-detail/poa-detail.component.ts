@@ -275,7 +275,7 @@ export class PoaDetailComponent {
   //Función para seleccionar el id del usuario
   onUserSelect(event: any) {
     this.selectedUserId = this.usersId;
-    console.log(this.usersId);
+    // console.log(this.usersId);
   }
 
   constructor(
@@ -333,7 +333,7 @@ export class PoaDetailComponent {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
       this.selectedStatus = this.poaDetail.status;
-      console.log('detalle poa1111111', this.poaDetail);
+      // console.log('detalle poa1111111', this.poaDetail);
       this.getCampusesSelected();
     });
   }
@@ -341,7 +341,7 @@ export class PoaDetailComponent {
   //OBTIENE SI EL POA ES APROBADO O NO
   updateStatus(status: string) {
     this.selectedStatus = status;
-    console.log(this.selectedStatus);
+    // console.log(this.selectedStatus);
     if (status === 'RECHAZADO') {
       this.showRejectComment = true;
 
@@ -411,11 +411,31 @@ export class PoaDetailComponent {
   onUpdate() {
     if (confirm('¿Está seguro de realizar esta operación?')) {
       let updatedStatus = this.poaDetail.status;
+      const modal = document.getElementById('staticBackdrop');
+      if (modal) {
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+      }
+      this._router.navigate(['/home-poa']);
       if (this.selectedStatus === 'RECHAZADO') {
         this.selectedStatus = this.poaDetail.creator_info.name;
+        const modal = document.getElementById('staticBackdrop');
+        if (modal) {
+          const modalInstance = bootstrap.Modal.getInstance(modal);
+          modalInstance.hide();
+        }
+        this._router.navigate(['/home-poa']);
+
       }
       if (this.selectedStatus && this.selectedStatus !== this.poaDetail.status) {
         updatedStatus = this.selectedStatus;
+        const modal = document.getElementById('staticBackdrop');
+        if (modal) {
+          const modalInstance = bootstrap.Modal.getInstance(modal);
+          modalInstance.hide();
+        }
+        this._router.navigate(['/home-poa']);
+
       }
       this._poaService.updatePoa(
         this.token,
@@ -501,7 +521,7 @@ export class PoaDetailComponent {
   getCampusesSelected() {
     this._poaService.getCampuses(this.token, this.poaDetail.id).subscribe((resp: any) => {
       this.percetagePerCampus = resp.data;
-      console.log(this.percetagePerCampus);
+      console.log('pocentaje por campus',this.percetagePerCampus);
     })
   }
 
@@ -583,7 +603,7 @@ export class PoaDetailComponent {
   //obtiene el id de la actividad 
   getActivityId(activityId: number) {
     this.activityId = activityId;
-    console.log(this.activityId);
+    // console.log(this.activityId);
     this.getAllCampusPercentage();
   }
 
@@ -644,7 +664,7 @@ export class PoaDetailComponent {
   userList() {
     this._poaService.allUsers(this.token).subscribe((resp: any) => {
       this.users = resp.data;
-      console.log('usuarios', this.users);
+      // console.log('usuarios', this.users);
     })
   }
 
@@ -714,7 +734,6 @@ export class PoaDetailComponent {
   //crea porcentajes para campuses
   // Método en el componente para enviar los datos de cada campus
   sendPercentages() {
-    // Asegúrate de tener los datos cargados antes de enviarlos
     this.percetagePerCampus.forEach((campus: {
       id: number; percentage: number; name: any;
     }) => {
@@ -722,11 +741,12 @@ export class PoaDetailComponent {
       const percentage = campus.percentage;
       this._poaService.sendCampusPercentage(this.token, headerInstId, this.activityId, percentage).subscribe(
         (resp: any) => {
-          console.log(`Campus ${campus.name} enviado exitosamente`);
-          console.log(resp.data);
+          // console.log(`Campus ${campus.name} enviado exitosamente`);
+          // console.log(resp.data);
         },
         error => {
-          console.error(`Error al enviar el campus ${campus.name}:`, error);
+          // console.error(`Error al enviar el campus ${campus.name}:`, error);
+          alert('Error al enviar el campus ' + campus.name);
         }
       );
     });

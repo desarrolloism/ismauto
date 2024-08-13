@@ -18,6 +18,7 @@ export class DetailFormPoaComponent {
   poaDetail: any;
   is_edit: boolean = false;
   companies: any;
+  percetagePerCampus: any;
 
   updatePoa = {
     area: '',
@@ -34,6 +35,11 @@ export class DetailFormPoaComponent {
   selectedCampuses: number[] = [];
   savedEnterprises: { [id: number]: number } = {};
   savedCampuses: { [id: number]: number } = {};
+  allActivities!: any;
+  campusNames: string[] = [];
+  enterpriseNames: string[] = [];
+  selectedEnterpriseNames: string[] = [];
+  selectedCampusNames: string[] = [];
 
   constructor(private _router: Router, private _poaService: PoaService, private _routeActivated: ActivatedRoute) { }
 
@@ -44,15 +50,8 @@ export class DetailFormPoaComponent {
     });
     this.getavatar();
     this.getInfoPoa();
-    this.dash();
-  }
-
-
-  //dashboard
-  dash() {
-    this._poaService.dashborad(this.token).subscribe((resp: any) => {
-      console.log('dashboard es', resp.data);
-    })
+    this.showActivities();
+    this.getCampusesSelected();
   }
 
   //obtiene datos de l usuario guardados en el local storage
@@ -71,28 +70,42 @@ export class DetailFormPoaComponent {
       this.poaDetail = resp.data;
       // console.log('detalles son', this.poaDetail);
 
+      // Reiniciar los arrays
+      this.enterprises = [];
+      this.campuses = [];
+      this.enterpriseNames = [];
+      this.campusNames = [];
+      this.selectedEnterpriseNames = [];
+      this.selectedCampusNames = [];
+
       this.poaDetail.params_info.forEach((item: any) => {
         if (item.type === 'EMPRESA') {
           this.enterprises.push(item);
+          this.enterpriseNames.push(item.name);
         } else if (item.type === 'INSTITUTO') {
           this.campuses.push(item);
+          this.campusNames.push(item.name);
         }
       });
 
       this.poaDetail.detail_poa_institute.forEach((institute: any) => {
-        // console.log('Verificando selección para:', institute);
-        // Suponiendo que los institutos pueden ser tanto empresas como campus
         if (this.enterprises.some(e => e.id === institute.institute_id)) {
           this.selectedEnterprises.push(institute.institute_id);
           this.savedEnterprises[institute.institute_id] = institute.id;
+          const enterpriseName = this.enterprises.find(e => e.id === institute.institute_id)?.name;
+          if (enterpriseName) this.selectedEnterpriseNames.push(enterpriseName);
         } else if (this.campuses.some(c => c.id === institute.institute_id)) {
           this.selectedCampuses.push(institute.institute_id);
           this.savedCampuses[institute.institute_id] = institute.id;
+          const campusName = this.campuses.find(c => c.id === institute.institute_id)?.name;
+          if (campusName) this.selectedCampusNames.push(campusName);
         }
       });
 
-      // console.log('Empresas seleccionadas:', this.selectedEnterprises);
-      // console.log('Campus seleccionados:', this.selectedCampuses);
+      console.log('Nombres de Empresas:', this.enterpriseNames);
+      console.log('Nombres de Campus:', this.campusNames);
+      console.log('Nombres de Empresas seleccionadas:', this.selectedEnterpriseNames);
+      console.log('Nombres de Campus seleccionados:', this.selectedCampusNames);
     });
   }
 
@@ -112,19 +125,17 @@ export class DetailFormPoaComponent {
   }
 
   toggleCampusSelection(event: any, campus: any) {
-    
-
     if (event.target.checked) {
-        this.selectedCampuses.push(campus.id);
-        this.saveCampus(campus);
+      this.selectedCampuses.push(campus.id);
+      this.saveCampus(campus);
     } else {
-        const index = this.selectedCampuses.indexOf(campus.id);
-        if (index !== -1) {
-            this.selectedCampuses.splice(index, 1);
-            this.removeCampusAndCompany(campus.id, 'campus');
-        }
+      const index = this.selectedCampuses.indexOf(campus.id);
+      if (index !== -1) {
+        this.selectedCampuses.splice(index, 1);
+        this.removeCampusAndCompany(campus.id, 'campus');
+      }
     }
-}
+  }
 
 
   saveEnterprise(enterprise: any) {
@@ -133,7 +144,7 @@ export class DetailFormPoaComponent {
         const savedId = resp.data.id;
         this.savedEnterprises[enterprise.id] = savedId;
         // console.log('Empresa guardada:', enterprise.id, 'con ID en backend:', savedId);
-        
+
       }
     });
   }
@@ -143,7 +154,7 @@ export class DetailFormPoaComponent {
       if (resp.status === 'ok') {
         const savedId = resp.data.id;
         this.savedCampuses[campus.id] = savedId;
-        window.location.reload();
+        // window.location.reload();
         // console.log('Campus guardado:', campus.id, 'con ID en backend:', savedId);
       }
     });
@@ -204,7 +215,7 @@ export class DetailFormPoaComponent {
         // console.log(resp);
         this.getInfoPoa();
 
-      } 
+      }
     });
   }
 
@@ -232,5 +243,19 @@ export class DetailFormPoaComponent {
     // console.log(this.is_edit);
   }
 
+  //confirma si hay tareas 
+  showActivities() {
+    this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
+      this.allActivities = resp.data;
+      console.log('actividades', this.allActivities);
+    });
+  }
 
+  //obtiene los campus seleccionados por el usuario
+  getCampusesSelected() {
+    this._poaService.getCampuses(this.token, this.poaId).subscribe((resp: any) => {
+      this.percetagePerCampus = resp.data;
+      // console.log('pocentaje por campus1', this.percetagePerCampus);
+    })
+  }
 }

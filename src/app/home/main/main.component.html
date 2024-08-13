@@ -40,10 +40,17 @@
     <div class="navbar-links">
         <!-- procesos -->
         <button mat-button class="text-white btn-nv"
-            matTooltip="Procesos" style="margin-right: .5rem;"
+            style="margin-right: .5rem;"
+            matTooltip="Procesos"
             [matMenuTriggerFor]="process"><i
                 class="fa-solid fa-list-check"></i>
         </button>
+        <!-- procesos -->
+
+        <!-- dashboards -->
+        <app-dashboards></app-dashboards>
+        <!-- dashboards -->
+
         <mat-menu #process="matMenu">
             <!-- <button mat-menu-item
                 [matMenuTriggerFor]="vertebrates">Mantenimiento</button> -->
@@ -66,6 +73,7 @@
             class="text-white btn-nv" mat-button
             [matMenuTriggerFor]="menu"><i
                 class="fa-regular fa-user"></i></button>
+
     </div>
     <!-- usuario -->
 
@@ -210,7 +218,8 @@
                 Desarrollo e innovación
             </a>
 
-            <a *ngIf="email === 'colecturia@ism.edu.ec' || email === 'asisdesarrollo@ism.edu.ec'"
+            <a
+                *ngIf="email === 'colecturia@ism.edu.ec' || email === 'asisdesarrollo@ism.edu.ec'"
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 (click)="toggleColecturia()">
                 <i class="fa-solid fa-coins icons"></i>
@@ -241,7 +250,6 @@
                 POA
             </a>
 
-            
             <hr>
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title"
@@ -351,3 +359,4 @@
         </div>
     </div>
 </div>
+

@@ -50,13 +50,13 @@
                             (click)="filterPoa('aprobado'); toggleApproved()">
                             Aprobados ({{countPoaByStatus('aprobado')}})
                         </button>
-                        <button mat-raised-button class="me-2"
+                        <!-- <button mat-raised-button class="me-2"
                             [ngStyle]="{
                                 'background-color': isRejectedActive ? 'rgb(244, 67, 54)' : 'rgb(200, 200, 200)',
                                 'color': isRejectedActive ? 'white' : 'black' }"
                             (click)="filterPoa('rechazado'); toggleRejected()">
                             Rechazado ({{countPoaByStatus('rechazado')}})
-                        </button>
+                        </button> -->
                         <!-- //muestra departamentos que no han iniciado -->
                         <app-not-started-deps></app-not-started-deps>
                         <!-- fin muestra departamentos que no han iniciado -->
