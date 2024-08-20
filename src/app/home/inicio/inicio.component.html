@@ -1,0 +1,65 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+<div class="container">
+
+    <div class="row mt-4">
+        <!-- Introducción -->
+        <div class="col-12 mb-4" id="introduccion" style="border-radius: 10px;">
+            <div class="card p-3 text-white bg">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row" style="margin-top: 2rem">
+                                <h2 class="card-title">Procesos InnovuGroup</h2>
+                                <p class="card-text">
+                                    En este apartado, puede visualizar
+                                    los procesos disponibles de InnovuGroup.
+                                    Para acceder a ellos, simplemente haga clic
+                                    en el proceso deseado en el listado.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 card p-4 bg-dark mt-2 ">
+                            <div class="row">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control"
+                                        placeholder="Buscar...">
+                                    <button class="btn text-white border"
+                                        type="button"><i
+                                            class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+                            </div>
+
+                            <ol class="list-group overflow-auto" style="height: 300px;">
+                                <ng-container *ngFor="let proceso of procesos; let i = index">
+                                    <li class="list-group-item text-white border-secondary lista d-flex justify-content-between align-items-start" style="margin-bottom: 2px;">
+                                        <div class="ms-2 me-auto"
+                                            [attr.data-bs-toggle]="'collapse'"
+                                            [attr.data-bs-target]="'#collapse' + i"
+                                            aria-expanded="false"
+                                            [attr.aria-controls]="'collapse' + i">
+                                            <div class="fw-bold">
+                                                <i class="fa-regular fa-folder-open icon-color"></i> {{ proceso.titulo }}
+                                            </div>
+                                            <div class="subtitle">Categoría: {{ proceso.categoria }}</div>
+                                        </div>
+                                        <span class="badge text-light">
+                                            <i [class]="proceso.badge_icon + ' sec-icon'"></i> {{ proceso.badge_text }}
+                                        </span>
+                                    </li>
+                                    <div [id]="'collapse' + i" class="collapse">
+                                        <div class="card card-body">
+                                            <a [href]="proceso.url" target="_blank" class="text-primary">Ir</a>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ol>
+                            
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

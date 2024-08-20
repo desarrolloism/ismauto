@@ -194,7 +194,8 @@
                                             {{ activity.accounting_count }}</p>
 
                                         <div class="row" *ngIf="SavedPorcetage">
-                                            <div class="d-flex justify-content-center">
+                                            <div
+                                                class="d-flex justify-content-center">
                                                 <b>Porcentaje actual:</b>
 
                                                 <div class="me-3"
@@ -415,7 +416,9 @@
                                                 *ngIf="SavedPorcetage">
                                                 <div
                                                     class="d-flex justify-content-center">
-                                                    <h4 class="fw-bold">Porcentaje actual:</h4>
+                                                    <h4
+                                                        class="fw-bold">Porcentaje
+                                                        actual:</h4>
                                                     <div class="me-3"
                                                         *ngFor="let percentage of SavedPorcetage">
                                                         <h4
@@ -425,33 +428,6 @@
                                                         </h4>
                                                     </div>
 
-                                                </div>
-                                            </div>
-                                            <label for="percentage"
-                                                class="mb-3">Porcentaje por
-                                                campus:</label>
-
-                                            <div
-                                                class="row d-flex justify-content-center">
-                                                <div
-                                                    *ngFor="let campus of percetagePerCampus; let i = index"
-                                                    class="col-md-4 col-lg-2 mb-4">
-                                                    <label class="form-label"
-                                                        for="percentage-{{i}}">{{campus.name}}%</label>
-                                                    <input
-                                                        name="percentage-{{i}}"
-                                                        class="form-control"
-                                                        type="text"
-                                                        id="percentage-{{i}}"
-                                                        [(ngModel)]="campus.percentage"
-                                                        min="0"
-                                                        max="100"
-                                                        step="0.01"
-                                                        maxlength="2"
-                                                        placeholder="Ingrese el porcentaje"
-                                                        (keypress)="validateNum($event)"
-                                                        appOnlyNumbers
-                                                        required>
                                                 </div>
                                             </div>
 
@@ -535,6 +511,52 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row"
+                                                    *ngIf="SavedPorcetage">
+                                                    <div
+                                                        class="d-flex justify-content-center">
+                                                        <h4
+                                                            class="fw-bold">Porcentaje
+                                                            actual:</h4>
+                                                        <div class="me-3"
+                                                            *ngFor="let percentage of SavedPorcetage">
+                                                            <h4
+                                                                *ngIf="percentage.percentage != '0.00'">
+                                                                {{percentage.name}}:
+                                                                <strong>{{percentage.percentage}}%</strong>
+                                                            </h4>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <label for="percentage"
+                                                    class="mb-3">Porcentaje por
+                                                    campus:</label>
+
+                                                <div
+                                                    class="row d-flex justify-content-center">
+                                                    <div
+                                                        *ngFor="let campus of percetagePerCampus; let i = index"
+                                                        class="col-md-4 col-lg-2 mb-4">
+                                                        <label
+                                                            class="form-label"
+                                                            for="percentage-{{i}}">{{campus.name}}%</label>
+                                                        <input
+                                                            name="percentage-{{i}}"
+                                                            class="form-control"
+                                                            type="text"
+                                                            id="percentage-{{i}}"
+                                                            [(ngModel)]="campus.percentage"
+                                                            min="0"
+                                                            max="100"
+                                                            step="0.01"
+                                                            maxlength="4"
+                                                            placeholder="Ingrese el porcentaje"
+                                                            (keypress)="validateNum($event)"
+                                                            appOnlyNumbers
+                                                            required>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="mb-3">
@@ -609,7 +631,6 @@
                     Se ha enviado a su jefe directo para
                     aprobación<i class="fa-solid fa-user-check ms-2"></i>
                 </div>
-
                 <ul class="list-group" *ngFor="let sig of signaturesList">
                     <li class="list-group-item"><b>Jefe directo:</b> {{
                         sig.user_name }}
@@ -618,7 +639,6 @@
                     </li>
                 </ul>
                 } @else {
-
                 <!-- BOTON FLOTANTE -->
                 <div style="width: 30%;" *ngIf="poaDetail.status != 'APROBADO'">
                     <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
@@ -633,7 +653,6 @@
                     *ngIf="poaDetail.status == 'APROBADO'">
                     Este POA ha sido Aprobado!
                 </div>
-
             </div>
         </div>
 

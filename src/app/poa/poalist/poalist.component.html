@@ -1,6 +1,61 @@
+<div class="row mb-3">
+    <div class="d-flex justify-content-between align-items-center">
+        <!-- Título -->
+        <div class="col-md-3">
+            <h2 class="text-center"
+                style="font-weight: normal; font-size: .9rem;">
+                Plan operativo anual (POA)
+            </h2>
+        </div>
+
+        <!-- Barra de búsqueda -->
+        <div class="col-md-6">
+            <input type="text" class="form-control text-center"
+                style="border-radius: 50px;"
+                placeholder="Búsqueda por Área, Departamento o Responsable"
+                [(ngModel)]="searchTerm"
+                (input)="onSearch()">
+        </div>
+
+        <!-- Botón de nuevo POA -->
+        <div class="col-md-3 text-center">
+            <button mat-fab extended
+                *ngIf="email !== 'financiero@ism.edu.ec' && email !== 'direccionfinanciera@ism.edu.ec'"
+                color="primary"
+                routerLink="/createpoa"
+                matTooltip="Abrir un nuevo POA">
+                <i class="fa-regular fa-calendar-plus"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="d-flex justify-content-center">
+        <button matTooltip="Filtrar POA" mat-raised-button
+            class="me-2 bg-dark text-white"
+            style="border-radius: 50px;cursor: default;">
+            <i class="fa-solid fa-filter"></i>
+        </button>
+
+        <button
+            mat-raised-button class="me-2"
+            [ngStyle]="{
+    'background-color': isApprovedActive ? 'rgb(28, 168, 28)' : 'rgb(200, 200, 200)',
+    'color': isApprovedActive ? 'white' : 'black'}"
+            (click)="filterPoa('aprobado'); toggleApproved()">
+            Aprobados ({{countPoaByStatus('aprobado')}})
+        </button>
+        <button mat-raised-button class="me-2"
+            (click)="filterPoa(null); toggleClear()">
+            Limpiar Filtro
+        </button>
+    </div>
+</div>
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-4 shadow"
     style="border-radius: .5rem;">
+
     <ng-container *ngFor="let poa of filteredPoaList">
         @if(fullname == poa?.creator.name ||poa.status == fullname
         || email == 'financiero@ism.edu.ec'
@@ -93,6 +148,6 @@
                 </div>
             </div>
         </div>
-        } 
+        }
     </ng-container>
 </div>

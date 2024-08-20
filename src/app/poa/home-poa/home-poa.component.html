@@ -7,49 +7,9 @@
                 <div class="container p-4 overflow-auto"
                     style="height: 700px;">
                     <!-- barra de busqueda -->
-                    <div class="row d-flex justify-content-between mb-3">
-                        <div class="col-md-3">
-                            <h2 class="text-center"
-                                style="font-weight: normal; font-size: .9rem;">Plan
-                                operativo
-                                anual (POA)</h2>
-                        </div>
-                        <!-- barra de busqueda -->
-                        <div class="col-md-6 d-flex justify-content-center">
-                            <input type="text"
-                                style="border-radius: 50px;"
-                                class="form-control text-center"
-                                placeholder="Búsqueda por Área, Departamento o Responsable"
-                                [(ngModel)]="searchTerm" (input)="onSearch()">
-                        </div>
-                        <!-- barra de busqueda -->
-                        <!-- boton para crear poa -->
-                        <div class="col-md-3 d-flex justify-content-center">
-                            <button mat-fab extended
-                                *ngIf="email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'"
-                                color="primary"
-                                routerLink="/createpoa"
-                                matTooltip="Abrir un nuevo POA">
-                                <i
-                                    class="fa-regular fa-calendar-plus"></i>
-                            </button>
-                        </div>
-                        <!-- fin boton para crear poa -->
-                    </div>
+                    
                     <div class="mb-1 d-flex justify-content-center">
-                        <button matTooltip="Filtrar POA" mat-raised-button
-                            class="me-2 bg-dark text-white"
-                            style="border-radius: 50px;cursor: default;">
-                            <i class="fa-solid fa-filter"></i>
-                        </button>
-                        <button
-                            mat-raised-button class="me-2"
-                            [ngStyle]="{
-                                'background-color': isApprovedActive ? 'rgb(28, 168, 28)' : 'rgb(200, 200, 200)',
-                                'color': isApprovedActive ? 'white' : 'black'}"
-                            (click)="filterPoa('aprobado'); toggleApproved()">
-                            Aprobados ({{countPoaByStatus('aprobado')}})
-                        </button>
+                        
                         <!-- <button mat-raised-button class="me-2"
                             [ngStyle]="{
                                 'background-color': isRejectedActive ? 'rgb(244, 67, 54)' : 'rgb(200, 200, 200)',
@@ -60,14 +20,6 @@
                         <!-- //muestra departamentos que no han iniciado -->
                         <app-not-started-deps></app-not-started-deps>
                         <!-- fin muestra departamentos que no han iniciado -->
-
-                        <!-- boton para limpiar filtros -->
-                        <button mat-raised-button class="me-2"
-                            (click)="filterPoa(null); toggleClear()">
-                            Limpiar Filtro
-                        </button>
-                        <!-- boton para limpiar filtros -->
-
                     </div>
                     <!-- listado de poa -->
                     <app-poalist></app-poalist>

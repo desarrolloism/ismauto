@@ -33,6 +33,11 @@ export class PoalistComponent {
   is_admin: boolean = false;
   dni: string = '';
   caseID: any;
+  isFilterActive = false;
+  isApprovedActive = false;
+  isRejectedActive = false;
+  notStartedPoa: any;
+  isClearActive = false;
 
   constructor(private _router: Router, private _poaService: PoaService){}
 
@@ -40,7 +45,25 @@ export class PoalistComponent {
     this.getpoaCreator(this.caseID);
     this.getPoaList();
     this.getAvatar();
+    this.onSearch();
   }
+
+    //busca poa mediante ares, dep, responsable
+    onSearch() {
+      if (this.searchTerm.length > 2) {
+        this._poaService.searchPoa(this.token, this.searchTerm).subscribe(
+          (results: any) => {
+            this.filteredPoaList = results.data;
+            // console.log(this.filteredPoaList);
+          },
+          (error) => {
+            console.error('Error en la búsqueda:', error);
+          }
+        );
+      } else {
+        this.filteredPoaList = [...this.poaList]; // Restaura la lista completa si la búsqueda está vacía
+      }
+    }
 
     //redirige hacia poa creado mediante el id
     goToPoa(id: number) {
@@ -91,4 +114,38 @@ export class PoalistComponent {
       // console.log(this.email);
     }
 
+      //filtra lista de poa
+  filterPoa(status: string | null) {
+    if (status === null) {
+      this.onSearch();
+    } else {
+      this.filteredPoaList = this.poaList.filter(poa =>
+        poa.status.toLowerCase() === status.toLowerCase() &&
+        (this.searchTerm === '' ||
+          poa.area.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      );
+    }
+  }
+
+
+    //muestra que botones estan actuivos 
+    toggleApproved() {
+      this.isApprovedActive = !this.isApprovedActive;
+      this.isRejectedActive = false;
+      this.isClearActive = false;
+    }
+
+
+      //cuenta cantidad de poa dependiendo del status 
+  countPoaByStatus(status: string): number {
+    return this.poaList.filter(poa => poa.status.toLowerCase() === status.toLowerCase()).length;
+  }
+
+
+
+  toggleClear() {
+    this.isClearActive = !this.isClearActive;
+    this.isApprovedActive = false;
+    this.isRejectedActive = false;
+  }
 }

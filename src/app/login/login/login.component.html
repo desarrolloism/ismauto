@@ -1,21 +1,122 @@
 <div class="background-image">
-  <div class="login-container">
-    <h2>Nnovupro</h2>
-    <form (ngSubmit)="onSubmit()">
-      <div class="form-login">
-        <div class="input-container">
-          <input type="text" id="username" name="username"
-            placeholder="Nombre de usuario" [(ngModel)]="user.username"
-            required>
-        </div>
-        <div class="input-container">
-          <input type="password" id="password" name="password"
-            placeholder="Contraseña" [(ngModel)]="user.password" required>
-        </div>
-        <div class="button-container">
-          <button type="submit">Iniciar sesión</button>
-        </div>
+  <div class="container">
+    <div class="row justify-content-center align-items-center vh-100">
+      <div class="col-md-6 col-lg-6 login-form-container">
+        <form (ngSubmit)="onSubmit()" class="form">
+          <div class="form-login">
+            <div class="flex-column">
+              <label for="username">Usuario:</label>
+            </div>
+            <div class="inputForm d-flex align-items-center mb-3">
+              <input type="text" id="username" name="username"
+                class="input mt-3 "
+                placeholder="Nombre de usuario" [(ngModel)]="user.username"
+                required>
+            </div>
+            <hr>
+
+            <div class="flex-column">
+              <label for="password">Contraseña:</label>
+            </div>
+            <div class="inputForm d-flex align-items-center">
+              <input type="password" id="password" name="password"
+                class="input form-control border-secondary mt-4 "
+                placeholder="Contraseña" [(ngModel)]="user.password" required>
+              
+            </div>
+            <hr>
+            <div class="flex-row d-flex justify-content-between">
+              <div>
+                <a style="cursor: pointer;text-decoration: none;"
+                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                  class="text-primary">¿Olvidaste tu contraseña?</a>
+              </div>
+            </div>
+            
+
+            <div class="button-container">
+              <button type="submit" class="button-submit">Iniciar
+                sesión</button>
+            </div>
+
+            <p class="p text-center mt-4">¿No tienes una cuenta? <a
+                data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                style="text-decoration: none;cursor: pointer;"
+                class="span">Sigue los pasos</a></p>
+            
+          </div>
+        </form>
       </div>
-    </form>
+
+      <div class="col-md-6 col-lg-6 login-text">
+        <h1 class="mb-4">InnovuGroup!</h1>
+        <p>Presenta varias opciones de automatización de procesos de grupo
+          Innovu.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal para creacion de cuenta -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header bg-dark text-white">
+              <h5 class="modal-title" id="staticBackdropLabel">Creación de cuentas</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="container">
+                  <div class="row g-4">
+                      <div class="col-12">
+                          <div class="card border-0 shadow-sm">
+                              <div class="card-body">
+                                  <div class="d-flex align-items-center mb-3">
+                                      <i class="bi bi-person-fill fs-2 me-3 text-primary"></i>
+                                      <h6 class="card-title mb-0">Paso 1</h6>
+                                  </div>
+                                  <p class="card-text">Agrega tu número de cédula en el campo "Usuario" y como contraseña ingresa "12345".</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-12">
+                          <div class="card border-0 shadow-sm">
+                              <div class="card-body">
+                                  <div class="d-flex align-items-center mb-3">
+                                      <i class="bi bi-check-circle-fill fs-2 me-3 text-success"></i>
+                                      <h6 class="card-title mb-0">Paso 2</h6>
+                                  </div>
+                                  <p class="card-text">Si estás en compers, la cuenta se creará automáticamente y podrás ingresar de ahora en adelante.</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-12">
+                          <div class="card border-0 shadow-sm">
+                              <div class="card-body">
+                                  <div class="d-flex align-items-center mb-3">
+                                      <i class="bi bi-exclamation-triangle-fill fs-2 me-3 text-warning"></i>
+                                      <h6 class="card-title mb-0">Nota importante</h6>
+                                  </div>
+                                  <p class="card-text" style="color:#2d79f3;">Si la cuenta no se creó es posible que no estés registradx en compers. Debes acercarte a talento humano para resolverlo.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4>Contacta con soporte técnico para realizar el cambio de contraseña.</h4>
+        <a href="https://help.ism.edu.ec/">Sistema de tickets <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <p>Ext. 2000/1155/2209</p>
+      </div>
+    </div>
   </div>
 </div>

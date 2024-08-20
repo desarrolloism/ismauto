@@ -17,6 +17,7 @@ export class LoginComponent {
     username: '',
     password: ''
   }
+  showPassword = false;
 
   constructor(private _loginService: LoginService, private _router: Router) { }
 
@@ -29,6 +30,10 @@ export class LoginComponent {
       // Elimina la clave para futuras visitas
       sessionStorage.removeItem('pageReloaded');
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   // onSubmit(){

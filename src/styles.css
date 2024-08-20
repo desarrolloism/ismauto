@@ -2,8 +2,16 @@
 /* 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 html,
 body {
     height: 100%;
     overflow-y: auto !important;
+    font-family: 'Montserrat', sans-serif;
+}
+
+* {
+    font-family: 'Montserrat', sans-serif;
 }
