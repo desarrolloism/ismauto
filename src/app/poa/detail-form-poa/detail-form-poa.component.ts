@@ -102,10 +102,10 @@ export class DetailFormPoaComponent {
         }
       });
 
-      console.log('Nombres de Empresas:', this.enterpriseNames);
-      console.log('Nombres de Campus:', this.campusNames);
-      console.log('Nombres de Empresas seleccionadas:', this.selectedEnterpriseNames);
-      console.log('Nombres de Campus seleccionados:', this.selectedCampusNames);
+      // console.log('Nombres de Empresas:', this.enterpriseNames);
+      // console.log('Nombres de Campus:', this.campusNames);
+      // console.log('Nombres de Empresas seleccionadas:', this.selectedEnterpriseNames);
+      // console.log('Nombres de Campus seleccionados:', this.selectedCampusNames);
     });
   }
 
@@ -247,7 +247,7 @@ export class DetailFormPoaComponent {
   showActivities() {
     this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
       this.allActivities = resp.data;
-      console.log('actividades', this.allActivities);
+      // console.log('actividades', this.allActivities);
     });
   }
 

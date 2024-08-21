@@ -11,8 +11,11 @@ interface Poa {
   academic_year_id: number;
   department: string;
   case_id: number;
-  creator?:any;
+  creator?: any;
 }
+
+
+declare var bootstrap: any;
 
 
 @Component({
@@ -40,13 +43,15 @@ export class HomePoaComponent implements OnInit {
   isRejectedActive = false;
   notStartedPoa: any;
   isClearActive = false;
-  caseID:any;
-  poaCreator:any;
+  caseID: any;
+  poaCreator: any;
+  showProgressBar = false;
+  insertDetail: any;
+  showSuccessToast = false;
 
   ngOnInit() {
     this.onSearch();
     this.getAvatar();
-    
   }
 
 
@@ -122,3 +127,4 @@ export class HomePoaComponent implements OnInit {
     this.isRejectedActive = false;
   }
 }
+

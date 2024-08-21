@@ -521,7 +521,7 @@ export class PoaDetailComponent {
   getCampusesSelected() {
     this._poaService.getCampuses(this.token, this.poaDetail.id).subscribe((resp: any) => {
       this.percetagePerCampus = resp.data;
-      console.log('pocentaje por campus',this.percetagePerCampus);
+      // console.log('pocentaje por campus',this.percetagePerCampus);
     })
   }
 
@@ -758,7 +758,7 @@ export class PoaDetailComponent {
   getAllCampusPercentage() {
     this._poaService.getCampusPercentage(this.token, this.activityId).subscribe((resp: any) => {
       this.SavedPorcetage = resp.data;
-      console.log('porcentajes por campus', this.SavedPorcetage);
+      // console.log('porcentajes por campus', this.SavedPorcetage);
     })
   }
 

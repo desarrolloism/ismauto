@@ -384,7 +384,7 @@ export class PoaService {
   }
 
   //registra empresas e institutos
-   saveCompAndInst(token: any, headerId:number, instituteId:number) {
+  saveCompAndInst(token: any, headerId: number, instituteId: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
@@ -398,7 +398,7 @@ export class PoaService {
   }
 
   //elimina empresas e institutos
-  deleteCompAndInst(token: any, Id: number) {  
+  deleteCompAndInst(token: any, Id: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
@@ -411,24 +411,24 @@ export class PoaService {
   }
 
   //crea los porcentajes de campus por actividad
-sendCampusPercentage(token: any, headerInstId: number, activityId: number, percentage: number){
-  const headers = new HttpHeaders({
+  sendCampusPercentage(token: any, headerInstId: number, activityId: number, percentage: number) {
+    const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',
       'Token': token
-  });
+    });
 
-  const data = {
-    header_inst_id: headerInstId,
-    activity_id: activityId,
-    percentage: percentage
-};
+    const data = {
+      header_inst_id: headerInstId,
+      activity_id: activityId,
+      percentage: percentage
+    };
 
-  return this._http.post(`${this.url}/institutes_activities_create`, data, { headers: headers });
-}
+    return this._http.post(`${this.url}/institutes_activities_create`, data, { headers: headers });
+  }
 
   //obtiene los campus seleccionados por el usuario para cada tarea
-  getCampuses(token:any, Id: number) {
+  getCampuses(token: any, Id: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
@@ -441,7 +441,7 @@ sendCampusPercentage(token: any, headerInstId: number, activityId: number, perce
   }
 
   //obtiene los porcentajes decampus para actividades 
-  getCampusPercentage(token:any, ActivityId: number) {
+  getCampusPercentage(token: any, ActivityId: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
@@ -453,4 +453,17 @@ sendCampusPercentage(token: any, headerInstId: number, activityId: number, perce
     return this._http.post(`${this.url}/institutes_activities_list`, data, { headers: headers });
   }
 
+  //inserta todos los poas 
+  insertAllPoa(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+
+    const data = {}
+
+    return this._http.post(`${this.url}/poa_injection`, data, { headers: headers });
+
+  }
 }

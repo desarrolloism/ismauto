@@ -25,25 +25,15 @@
 
     <!-- POA DETALLES ICONOS -->
     <div class="d-flex p-2">
-        <div class="card me-2 p-2">
-            <i matTooltip="Total requerido: {{ poaDetail.total_resources }}$"
-                class="text-info fa-solid fa-comment-dollar fa-2x"></i>
+        <div class="card p-2">
+           Requerido:{{ poaDetail.total_resources }}$
         </div>
 
-        @if (poaDetail.status == 'APROBADO') {
+        
         <div class="card p-2">
-            <i matTooltip="Total aprobado: {{ poaDetail.total_aproved }}$"
-                class="text-success fa-solid fa-sack-dollar fa-2x"></i>
+           Aprobado:{{ poaDetail.total_aproved }}$
         </div>
-        } @else {
-        <div class="card p-2">
-            <div matTooltip="Esperando presupuesto aprobado..."
-                class="spinner-border text-secondary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-        }
-
+        
     </div>
 </div>
 

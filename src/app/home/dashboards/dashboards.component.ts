@@ -21,7 +21,7 @@ export class DashboardsComponent {
   dashborad() {
     this._dash.dashborad(this.token).subscribe((resp: any) => {
       this.myDashboard = resp.data;
-      console.log('url de dashboards', this.myDashboard);
+      // console.log('url de dashboards', this.myDashboard);
     });
 
   }

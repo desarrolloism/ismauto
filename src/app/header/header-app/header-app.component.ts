@@ -41,7 +41,7 @@ export class HeaderAppComponent {
     this.last_name = userData.last_name;
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
-    console.log('datos tammy',this.fullname);
+    // console.log('datos tammy',this.fullname);
 
   }
 

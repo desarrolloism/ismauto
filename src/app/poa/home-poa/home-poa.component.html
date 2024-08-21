@@ -1,26 +1,10 @@
 <app-header-app></app-header-app>
-
 <div class="container-fluid">
     <div class="row d-flex justify-content-center">
-        <div class="col-md-12 p-4">
+        <div class="col-md-12 p-4" style="margin-top: -25px;">
             <div class="row">
-                <div class="container p-4 overflow-auto"
-                    style="height: 700px;">
-                    <!-- barra de busqueda -->
+                <div class="container p-4 overflow-auto" style="height: 700px;">
                     
-                    <div class="mb-1 d-flex justify-content-center">
-                        
-                        <!-- <button mat-raised-button class="me-2"
-                            [ngStyle]="{
-                                'background-color': isRejectedActive ? 'rgb(244, 67, 54)' : 'rgb(200, 200, 200)',
-                                'color': isRejectedActive ? 'white' : 'black' }"
-                            (click)="filterPoa('rechazado'); toggleRejected()">
-                            Rechazado ({{countPoaByStatus('rechazado')}})
-                        </button> -->
-                        <!-- //muestra departamentos que no han iniciado -->
-                        <app-not-started-deps></app-not-started-deps>
-                        <!-- fin muestra departamentos que no han iniciado -->
-                    </div>
                     <!-- listado de poa -->
                     <app-poalist></app-poalist>
                     <!-- fin de listado de poa -->
@@ -29,3 +13,25 @@
         </div>
     </div>
 </div>
+
+<!-- <div class="toast-container position-fixed top-0  p-3">
+    <div id="successToast" class="toast" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Éxito</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            El POA se insertó correctamente.
+        </div>
+    </div>
+</div> -->
+<!-- 
+@if (poaList.length == 0) {
+    <button (click)="insertPoa()" class="floating-button">
+        <i matTooltip="Insertar todos los POA"
+            class="fa-solid fa-arrows-to-circle"></i>
+    </button>
+} -->
+

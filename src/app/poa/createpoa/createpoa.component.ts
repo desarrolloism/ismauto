@@ -81,7 +81,7 @@ export class CreatepoaComponent implements OnInit {
     this._poaService.saveCompAndInst(this.token, this.poaId, id).subscribe((resp: any) => {
       if (resp.status == 'ok') {
         const savedId = resp.data.id;  
-        console.log('empresa:', savedId);
+        // console.log('empresa:', savedId);
         this.savedEnterprises[id] = savedId;
       }
     });
@@ -92,7 +92,7 @@ export class CreatepoaComponent implements OnInit {
     this._poaService.saveCompAndInst(this.token, this.poaId, id).subscribe((resp: any) => {
       if (resp.status == 'ok') {
         const savedId = resp.data.id;  
-        console.log('campus:', savedId);
+        // console.log('campus:', savedId);
         // Guarda el ID para su posterior eliminación
         this.savedCampuses[id] = savedId;
       }

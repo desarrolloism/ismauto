@@ -1,15 +1,37 @@
 <div class="row mb-3">
     <div class="d-flex justify-content-between align-items-center">
         <!-- Título -->
-        <div class="col-md-3">
-            <h2 class="text-center"
-                style="font-weight: normal; font-size: .9rem;">
-                Plan operativo anual (POA)
-            </h2>
+        <div class="col-md-8 text-end">
+
         </div>
 
         <!-- Barra de búsqueda -->
-        <div class="col-md-6">
+        <!-- Botón de nuevo POA -->
+
+    </div>
+</div>
+<div *ngIf="showProgressBar" class="progress-container">
+    <mat-progress-bar
+        mode="indeterminate"></mat-progress-bar>
+    <span class="mt-4">Este proceso puede tardar, por favor
+        espere...</span>
+</div>
+
+<div class="row">
+    <div class="d-flex justify-content-center">
+
+        <a matTooltip="Filtrar POA" mat-raised-button
+            class="me-2 bg-dark text-white"
+            style="border-radius: 50px;cursor: default;">
+            <p class="text-center fw-bold"
+                style="font-weight: normal; 
+                font-size: 1.4rem;margin-top: 12px;">
+                POAS
+
+            </p>
+
+        </a>
+        <div class="col-md-4">
             <input type="text" class="form-control text-center"
                 style="border-radius: 50px;"
                 placeholder="Búsqueda por Área, Departamento o Responsable"
@@ -17,28 +39,9 @@
                 (input)="onSearch()">
         </div>
 
-        <!-- Botón de nuevo POA -->
-        <div class="col-md-3 text-center">
-            <button mat-fab extended
-                *ngIf="email !== 'financiero@ism.edu.ec' && email !== 'direccionfinanciera@ism.edu.ec'"
-                color="primary"
-                routerLink="/createpoa"
-                matTooltip="Abrir un nuevo POA">
-                <i class="fa-regular fa-calendar-plus"></i>
-            </button>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="d-flex justify-content-center">
-        <button matTooltip="Filtrar POA" mat-raised-button
-            class="me-2 bg-dark text-white"
-            style="border-radius: 50px;cursor: default;">
-            <i class="fa-solid fa-filter"></i>
-        </button>
-
+        @if (email == 'financiero@ism.edu.ec') {
         <button
+            style="margin-left: 5px;"
             mat-raised-button class="me-2"
             [ngStyle]="{
     'background-color': isApprovedActive ? 'rgb(28, 168, 28)' : 'rgb(200, 200, 200)',
@@ -46,10 +49,49 @@
             (click)="filterPoa('aprobado'); toggleApproved()">
             Aprobados ({{countPoaByStatus('aprobado')}})
         </button>
+        } @else{
+        <button
+            style="margin-left: 5px;"
+            mat-raised-button class="me-2"
+            [ngStyle]="{
+    'background-color': isApprovedActive ? 'rgb(28, 168, 28)' : 'rgb(200, 200, 200)',
+    'color': isApprovedActive ? 'white' : 'black'}"
+            (click)="filterPoa('aprobado'); toggleApproved()">
+            Aprobados
+        </button>
+        }
+
         <button mat-raised-button class="me-2"
             (click)="filterPoa(null); toggleClear()">
             Limpiar Filtro
         </button>
+        @if (poaList.length == 0 && email == 'financiero@ism.edu.ec') {
+        <button mat-raised-button (click)="insertPoa()"
+            color="primary"
+            class="floating-button">
+            <i matTooltip="Insertar todos los POA"
+                class="fa-solid fa-arrows-to-circle"></i>
+        </button>
+        }
+
+        @if (email == 'financiero@ism.edu.ec') {
+        <app-not-started-deps class="mt-3"
+            style="margin-left: 5px;"></app-not-started-deps>
+
+        }
+
+        @if (email != 'financiero@ism.edu.ec') {
+
+        <button mat-raised-button
+            *ngIf="email !== 'financiero@ism.edu.ec' && email !== 'direccionfinanciera@ism.edu.ec'"
+            color="primary"
+            routerLink="/createpoa"
+            matTooltip="Abrir un nuevo POA">
+            <i class="fa-regular fa-calendar-plus"></i>
+        </button>
+
+        }
+
     </div>
 </div>
 
@@ -57,12 +99,13 @@
     style="border-radius: .5rem;">
 
     <ng-container *ngFor="let poa of filteredPoaList">
-        @if(fullname == poa?.creator.name ||poa.status == fullname
+        @if(fullname == poa?.creator?.name ||poa.status == fullname
         || email == 'financiero@ism.edu.ec'
         || email == 'direccionfinanciera@ism.edu.ec' ) {
         <div class="col">
             <div class="card poa-card h-100 position-relative shadow-sm"
                 style="border: 1px solid black;">
+
                 <span
                     class="position-absolute top-0 end-0 badge bg-dark m-2">
                     ID: {{poa.id}}
@@ -71,7 +114,7 @@
                     <h5 matTooltip="Responsable: {{poa.creator?.name}}"
                         class="card-title mb-3 text-center text-truncate">
                         <i class="fa-regular fa-calendar me-2"></i>
-                        {{ poa.creator.name }}
+                        {{ poa.creator?.name || 'Sin asignar' }}
                         <small *ngIf="poa.academic_year_id == 19"
                             class="text-muted d-block mt-1">
                             2024/2025
@@ -150,4 +193,18 @@
         </div>
         }
     </ng-container>
+</div>
+
+<div class="toast-container position-fixed top-0  p-3">
+    <div id="successToast" class="toast" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Éxito</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            El POA se insertó correctamente.
+        </div>
+    </div>
 </div>
