@@ -17,6 +17,7 @@ export class HeaderAppComponent {
   email: string = '';
   last_name: string = '';
   fullname: string = '';
+  dataUser: any;
 
   //abre el menu de colecturi
   colecturiaExpanded: boolean = false;
@@ -34,16 +35,14 @@ export class HeaderAppComponent {
 
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    // console.log(userData);
+    this.dataUser = userData;
     this.avatar = userData.avatar;
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
-    // console.log(this.avatar);
-    // console.log(this.name);
-    // console.log(this.last_name);
-    // console.log(this.email);
+    // console.log('datos tammy',this.fullname);
+
   }
 
   //quitar cuando este listo!

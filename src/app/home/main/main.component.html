@@ -22,17 +22,6 @@
                         {{ getTotalStatus() }}
                     </span>
                 </p>
-
-                <!-- <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
-                    Hola! {{ fullname }} /
-                </p>
-                <p class="text-white m-0 font-size-5 mb-2 mb-md-0">
-                    {{ email }}
-                    <span
-                        class="position-absolute text-white top-0 start-80 translate-middle badge rounded-pill bg-danger">
-                        {{ getTotalStatus() }}
-                    </span>
-                </p> -->
             </div>
         </div>
 
@@ -40,10 +29,17 @@
     <div class="navbar-links">
         <!-- procesos -->
         <button mat-button class="text-white btn-nv"
-            matTooltip="Procesos" style="margin-right: .5rem;"
+            style="margin-right: .5rem;"
+            matTooltip="Procesos"
             [matMenuTriggerFor]="process"><i
                 class="fa-solid fa-list-check"></i>
         </button>
+        <!-- procesos -->
+
+        <!-- dashboards -->
+        <app-dashboards></app-dashboards>
+        <!-- dashboards -->
+
         <mat-menu #process="matMenu">
             <!-- <button mat-menu-item
                 [matMenuTriggerFor]="vertebrates">Mantenimiento</button> -->
@@ -66,88 +62,15 @@
             class="text-white btn-nv" mat-button
             [matMenuTriggerFor]="menu"><i
                 class="fa-regular fa-user"></i></button>
+
     </div>
     <!-- usuario -->
 
 </nav>
 
-<div class="container-fluid mt-2">
-    <div class="row bodychart">
-        <main role="main" class="col-md-9 col-lg-9 ml-sm-auto px-4">
-            <div class="row">
-                <div class="cards overflow-auto stats">
-                    <div class="card-body">
-                        <div class=" text-center ">
-                            <!-- administra casos como jefe -->
-                            <div>
-                                <h3><i
-                                        class="fa-solid fa-chart-line"></i>
-                                    Estadísticas Mantenimiento ({{
-                                    responseCases?.length
-                                    }})</h3>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="chart-container">
-                                <canvas id="MyChart" width="300"
-                                    height="300"></canvas>
-                            </div>
-                            <div class="row">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<app-inicio></app-inicio>
 
-            </div>
-        </main>
-        <div class="col-md-3 col-lg-3 ml-sm-auto overflow-auto info">
-            <div class="text-center" style="color: black;">
-                <i class="fa-solid fa-circle-info"></i> Manual de usuario
-            </div>
-            <div class="cards1 mt-2">
-                <b><i class="fa-solid fa-chart-line"></i> Estadísticas de
-                    Mantenimiento</b>
-                <p class="text-dark">
-                    La gráfica muestra el estado actual de casos
-                    (iniciando, en proceso, etc.), útil para gestionar el
-                    flujo de trabajo.
-                </p>
-            </div>
-            <div class="cards1">
-                <b><i class="fa-regular fa-paper-plane"></i> Creación de
-                    Casos</b>
-                <p class="text-dark">
-                    Para crear un caso de mantenimiento u otro departamento,
-                    debe ingresar al
-                    proceso desde el menu izquierdo
-                    <i class="fa-solid fa-bars"></i>.
-                </p>
-            </div>
-            <div class="cards1">
-                <b><i class="fa-regular fa-file-lines"></i> Obtener
-                    reportería</b>
-                <p class="text-dark">
-                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
-                    podemos escoger la opción de reportería del proceso que
-                    necesitemos, esto nos llevará a una nueva página para
-                    visualizar la información.
-                </p>
-            </div>
-            <div class="cards1">
-                <b><i class="fa-solid fa-sliders"></i> Configuración de
-                    usuario</b>
-                <p class="text-dark">
-                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
-                    podemos editar la configuración de usuario, especificamente
-                    cambiar la contraseñas.
-                </p>
-            </div>
 
-        </div>
-    </div>
-</div>
-
-<!-- menu izquierdo -->
 
 <!-- offcanvas-menu.component.html -->
 <div class="offcanvas offcanvas-start custom-offcanvas" tabindex="-1"
@@ -164,9 +87,10 @@
     <div class="offcanvas-body p-0">
         <nav class="flex-column">
             <a
-                class="nav-link text-start py-2 px-3 w-100 text-start">
+                class="nav-link text-center py-2 px-3 w-100 text-start">
                 <i class="fa-regular fa-circle-user icons fa-2x"></i>{{ fullname
-                }} <span style="color: #828282;">{{ email }}</span>
+                }}
+                <span style="color: #828282;">{{ email }}</span>
             </a>
             <hr>
             <a
@@ -209,7 +133,8 @@
                 Desarrollo e innovación
             </a>
 
-            <a *ngIf="email === 'colecturia@ism.edu.ec' || email === 'asisdesarrollo@ism.edu.ec'"
+            <a
+                *ngIf="email === 'colecturia@ism.edu.ec' || email === 'asisdesarrollo@ism.edu.ec'"
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 (click)="toggleColecturia()">
                 <i class="fa-solid fa-coins icons"></i>
@@ -240,7 +165,6 @@
                 POA
             </a>
 
-            
             <hr>
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title"
@@ -350,3 +274,4 @@
         </div>
     </div>
 </div>
+

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 
 @Component({
   selector: 'app-proj-list',
@@ -23,11 +25,31 @@ export class ProjListComponent implements OnInit {
   last_name: string = '';
   fullname: string = '';
 
+  private driverObj: any;
+
+
   constructor(private router: Router, private projectService: ProjectService) { }
 
   ngOnInit() {
     this.getAllProjects(this.token as string);
     this.getAvatar();
+    this.initializeDriver();
+  }
+
+  //prueba driver js
+
+  initializeDriver() {
+    this.driverObj = driver({
+      showProgress: true,
+      steps: [
+        { element: '#create-project-btn', popover: { title: 'Crear Proyecto', description: 'Haga clic aquí para crear un nuevo proyecto.' } },
+        // Add more steps as needed
+      ]
+    });
+  }
+
+  startTutorial() {
+    this.driverObj.drive();
   }
 
   // Obtiene todos los proyectos
@@ -87,16 +109,16 @@ export class ProjListComponent implements OnInit {
   }
 
 
-    // Método para obtener las tareas del JEFE
-    bossTask(projectId: number, developerId: number) {
-      this.projectService.developerTasks(this.token, projectId, developerId).subscribe((resp: any) => {
-        const projectIndex = this.Projects.findIndex((p: { id: number; }) => p.id === projectId);
-        if (projectIndex !== 1) {
-          this.Projects[projectIndex].bossTasks = resp.data;
-        }
-        // console.log('las tareas del jefe', resp);
-      });
-    }
-  
+  // Método para obtener las tareas del JEFE
+  bossTask(projectId: number, developerId: number) {
+    this.projectService.developerTasks(this.token, projectId, developerId).subscribe((resp: any) => {
+      const projectIndex = this.Projects.findIndex((p: { id: number; }) => p.id === projectId);
+      if (projectIndex !== 1) {
+        this.Projects[projectIndex].bossTasks = resp.data;
+      }
+      // console.log('las tareas del jefe', resp);
+    });
+  }
+
 
 }

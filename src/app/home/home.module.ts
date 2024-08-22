@@ -14,11 +14,15 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatListModule} from '@angular/material/list';
 import { HeaderModule } from '../header/header.module';
+import { DashboardsComponent } from './dashboards/dashboards.component';
+import { InicioComponent } from './inicio/inicio.component';
 
 
 @NgModule({
   declarations: [
-    MainComponent
+    MainComponent,
+    DashboardsComponent,
+    InicioComponent,
   ],
   imports: [
     CommonModule,

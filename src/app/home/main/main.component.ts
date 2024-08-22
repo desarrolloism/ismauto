@@ -5,6 +5,8 @@ import { CasesService } from '../../services/cases.service';
 import { NotificationsService } from '../../services/notifications.service';
 import { NgForm } from '@angular/forms';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DashboardService } from '../../services/dashboard.service';
+
 
 declare var bootstrap: any;
 
@@ -58,7 +60,8 @@ export class MainComponent {
   constructor(private _casesServ: CasesService,
     private _router: Router,
     private _notiServ: NotificationsService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _dash: DashboardService
   ) {
     this.token = localStorage.getItem('token');
     this.getCases();
@@ -66,6 +69,7 @@ export class MainComponent {
 
   ngOnInit() {
     this.getNoti();
+    this.getAvatar();
   }
 
   getNoti() {

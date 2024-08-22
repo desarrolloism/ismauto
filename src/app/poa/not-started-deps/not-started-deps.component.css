@@ -1,0 +1,22 @@
+/* grid para dep sin iniciar poa */
+.grid-cols-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+/* Si usas Flexbox */
+.flex {
+    display: flex;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.w-13 {
+    width: 33.333333%;
+}

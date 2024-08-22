@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: linear-gradient(to bottom, rgb(96, 38, 158), #8f22d8); */
+    background-color: #000000;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    filter: blur(2px);
+}
+
+body * {
+    position: relative;
+    /* Asegura que el contenido esté por encima del pseudo-elemento */
+    z-index: 1;
+}
+
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.cursor {
+    cursor: pointer;
+}
+
+.text-with-outline {
+    color: rgb(0, 0, 0);
+    text-shadow:
+        -1px -1px 0 #ffffff,
+        1px -1px 0 #ffffff,
+        -1px 1px 0 #ffffff,
+        1px 1px 0 #ffffff;
+}
+
+.accordion {
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Fondo oscuro con opacidad del 90% */
+    padding: 15px;
+    border-radius: 10px;
+    opacity: 85%;
+}
+
+.accordion-header {
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Fondo oscuro con opacidad del 90% */
+    border-radius: 5px;
+}
+
+.accordion-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Botones con opacidad */
+    color: white;
+}
+
+.accordion-body {
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Fondo del cuerpo con opacidad */
+    color: rgb(0, 0, 0);
+}
+
+.text-with-outline {
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    /* Texto con borde negro */
+}
+
+.bg {
+    background: linear-gradient(to bottom, rgba(3, 2, 3, 0.747), #60269E);
+    opacity: 90%;
+}
+
+.lista {
+    background-color: #3C3F42 !important;
+}
+
+a {
+    color: white;
+}
+
+.fw-bold {
+    font-size: 13px;
+}
+
+.subtitle {
+    font-size: 9px;
+}
+
+.icon-color {
+    color: limegreen !important;
+}
+
+.sec-icon {
+    color: #f56e30 !important;
+}

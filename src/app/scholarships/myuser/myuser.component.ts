@@ -20,7 +20,7 @@ export class MyuserComponent {
     this.pingServer();
   }
 
-
+  onLine = false;
 
   //variables para datos de la API
   responseUrl: any;

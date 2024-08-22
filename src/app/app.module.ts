@@ -22,12 +22,13 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { UserModule } from './user/user.module';
 import { ProjectsModule } from './projects/projects.module';
 import { POAModule } from './poa/poa.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     OnlyNumbersDirective,
-
   ],
   imports: [
     CommonModule,
@@ -48,7 +49,8 @@ import { POAModule } from './poa/poa.module';
     UserModule,
     MaintenanceModule,
     ProjectsModule,
-    POAModule
+    // POAModule,
+    NgSelectModule
   ],
   providers: [
     provideAnimationsAsync()

@@ -21,7 +21,7 @@ import { SignaturesComponent } from './projects/signatures/signatures.component'
 import { HomePoaComponent } from './poa/home-poa/home-poa.component';
 import { CreatepoaComponent } from './poa/createpoa/createpoa.component';
 import { PoaDetailComponent } from './poa/poa-detail/poa-detail.component';
-
+import { NotStartedDepsComponent } from './poa/not-started-deps/not-started-deps.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -53,6 +53,9 @@ const routes: Routes = [
   { path: 'home-poa', component: HomePoaComponent },
   { path: 'createpoa', component: CreatepoaComponent },
   {path: 'poa-detail/:id', component: PoaDetailComponent},
+  {path: 'not-started-deps', component: NotStartedDepsComponent},
+
+
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

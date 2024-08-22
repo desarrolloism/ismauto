@@ -1,209 +1,37 @@
 <app-header-app></app-header-app>
-
 <div class="container-fluid">
     <div class="row d-flex justify-content-center">
-        <div class="col-md-9 p-4">
+        <div class="col-md-12 p-4" style="margin-top: -25px;">
             <div class="row">
-                <div class="container p-4 overflow-auto"
-                    style="height: 700px;">
-                    <!-- barra de busqueda -->
-                    <div class="row d-flex justify-content-between mb-3">
-                        <div class="col-md-3">
-                            <h2 class="text-center"
-                                style="font-weight: normal; font-size: .9rem;">Plan operativo
-                                anual (POA)</h2>
-                        </div>
-                        <!-- barra de busqueda -->
-                        <div class="col-md-6 d-flex justify-content-center">
-                            <input type="text"
-                                class="form-control text-center"
-                                placeholder="Búsqueda por Área, Departamento o Responsable"
-                                [(ngModel)]="searchTerm" (input)="onSearch()">
-                        </div>
-                        <!-- barra de busqueda -->
-
-                        <!-- boton para crear poa -->
-                        <div class="col-md-3 d-flex justify-content-center">
-                            <button mat-fab extended
-                                color="primary"
-                                routerLink="/createpoa"
-                                matTooltip="Abrir un nuevo POA">
-                                <i
-                                    class="fa-regular fa-calendar-plus"></i>
-                            </button>
-                        </div>
-                        <!-- boton para crear poa -->
-                    </div>
-                    <!-- botones para filtrar poas -->
-                    <div class="mb-1 d-flex justify-content-center">
-                        <button mat-raised-button color="primary" class="me-2"
-                            (click)="filterPoa('en proceso')">
-                            En Proceso ({{countPoaByStatus('en proceso')}})
-                        </button>
-                        <button mat-raised-button class="me-2"
-                            style="background-color: rgb(28, 168, 28);color: white;"
-                            (click)="filterPoa('aprobado')">
-                            Aprobado ({{countPoaByStatus('aprobado')}})
-                        </button>
-                        <button mat-raised-button color="warn" class="me-2"
-                            (click)="filterPoa('rechazado')">
-                            Rechazado ({{countPoaByStatus('rechazado')}})
-                        </button>
-                        <button mat-raised-button color="basic" class="me-2"
-                            (click)="filterPoa(null)">
-                            Limpiar Filtro
-                        </button>
-                    </div>
-                    <!-- botones para filtrar poas -->
-
-                    <div
-                        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-4 shadow"
-                        style="border-radius: .5rem;">
-                        <div class="col" *ngFor="let poa of filteredPoaList">
-                            <!--  -->
-                            <div
-                                class="card poa-card h-100 position-relative shadow-sm">
-                                <span
-                                    class="position-absolute top-0 end-0 badge bg-dark m-2">
-                                    ID: {{poa.id}}
-                                </span>
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title mb-3 text-center">
-                                        <i
-                                            class="fa-regular fa-calendar me-2"></i>
-                                        {{ poa.name }}
-                                        <small
-                                            *ngIf="poa.academic_year_id == 19"
-                                            class="text-muted d-block mt-1">
-                                            2024/2025
-                                        </small>
-                                    </h5>
-                                    <div class="card-text flex-grow-1">
-                                        <div class="row g-2 mb-3">
-                                            <div class="col-12 col-sm-6">
-                                                <div
-                                                    class="d-flex align-items-center">
-                                                    <i
-                                                        class="fa-solid fa-user-tie me-2"></i>
-                                                    <span matTooltip="{{poa.responsible}}"
-                                                        class="text-truncate">{{poa.responsible}}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-sm-6">
-                                                <div
-                                                    class="d-flex align-items-center">
-                                                    <i
-                                                        class="fa-solid fa-users-line me-2"></i>
-                                                    <span  matTooltip="{{poa.area}}"
-                                                        class="text-truncate">{{poa.area}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row g-2">
-                                            <div class="col-6">
-                                                <div [ngClass]="{
-                                                    'border-primary': poa.status.toLowerCase() === 'en proceso',
-                                                    'border-success': poa.status.toLowerCase() === 'aprobado',
-                                                    'border-danger': poa.status.toLowerCase() === 'rechazado'}"
-                                                    class="d-flex align-items-center">
-                                                    <div
-                                                        *ngIf="poa.status == 'EN PROCESO'">
-                                                        <i
-                                                            class="fa-solid fa-chart-simple me-2"></i>
-                                                        <span>{{poa.status}}</span>
-                                                    </div>
-                                                    <div
-                                                        *ngIf="poa.status == 'APROBADO'">
-                                                        <i
-                                                            class="fa-regular fa-circle-check me-2"></i>
-                                                        <span>{{poa.status}}</span>
-                                                    </div>
-                                                    <div
-                                                        *ngIf="poa.status == 'RECHAZADO'">
-                                                        <i
-                                                            class="fa-regular fa-circle-xmark me-2"></i>
-                                                        <span>{{poa.status}}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div
-                                                    class="d-flex align-items-center">
-                                                    <i
-                                                        class="fa-solid fa-dollar-sign me-2"></i>
-                                                    <span
-                                                        *ngIf="poa.total == 0">(Sin
-                                                        asignar)</span>
-                                                    <span
-                                                        *ngIf="poa.total != 0">{{poa.total}}$</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="card-footer bg-transparent border-1 d-flex justify-content-center text-center">
-                                    <button (click)="goToPoa(poa.id)"
-                                        class="Btn">
-                                        Detalles
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="container p-4 overflow-auto" style="height: 700px;">
+                    
+                    <!-- listado de poa -->
+                    <app-poalist></app-poalist>
+                    <!-- fin de listado de poa -->
                 </div>
-            </div>
-
-        </div>
-
-        <div class="col-md-3 d-flex justify-content-end">
-            <!-- INICIA INFORMACION para usuario -->
-            <div class="col-md-12 col-lg-12 p-4 ml-sm-auto overflow-auto info">
-                <div class="text-center" style="color: black;">
-                    <i class="fa-solid fa-circle-info"></i> Manual de usuario
-                </div>
-                <div class="cards1 mt-2">
-                    <b><i class="fa-solid fa-chart-line"></i> Estadísticas de
-                        Mantenimiento</b>
-                    <p class="text-dark">
-                        La gráfica muestra el estado actual de casos
-                        (iniciando, en proceso, etc.), útil para gestionar el
-                        flujo de trabajo.
-                    </p>
-                </div>
-                <div class="cards1">
-                    <b><i class="fa-regular fa-paper-plane"></i> Creación de
-                        Casos</b>
-                    <p class="text-dark">
-                        Para crear un caso de mantenimiento u otro departamento,
-                        debe ingresar al
-                        proceso desde el menu izquierdo
-                        <i class="fa-solid fa-bars"></i>.
-                    </p>
-                </div>
-                <div class="cards1">
-                    <b><i class="fa-regular fa-file-lines"></i> Obtener
-                        resportería</b>
-                    <p class="text-dark">
-                        En el menú izquierdo <i class="fa-solid fa-bars"></i>
-                        podemos escoger la opción de reportería del proceso que
-                        necesitemos, esto nos llevará a una nueva página para
-                        visualizar la información.
-                    </p>
-                </div>
-                <div class="cards1">
-                    <b><i class="fa-solid fa-sliders"></i> Configuración de
-                        usuario</b>
-                    <p class="text-dark">
-                        En el menú izquierdo <i class="fa-solid fa-bars"></i>
-                        podemos editar la configuración de usuario,
-                        especificamente
-                        cambiar la contraseñas.
-                    </p>
-                </div>
-                <!-- INICIA INFORMACION para usuario -->
             </div>
         </div>
     </div>
-
 </div>
+
+<!-- <div class="toast-container position-fixed top-0  p-3">
+    <div id="successToast" class="toast" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Éxito</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            El POA se insertó correctamente.
+        </div>
+    </div>
+</div> -->
+<!-- 
+@if (poaList.length == 0) {
+    <button (click)="insertPoa()" class="floating-button">
+        <i matTooltip="Insertar todos los POA"
+            class="fa-solid fa-arrows-to-circle"></i>
+    </button>
+} -->
+

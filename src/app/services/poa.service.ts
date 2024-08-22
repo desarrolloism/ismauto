@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GLOBAL } from './global';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,71 +18,68 @@ export class PoaService {
   //crea poa
   createPoa(
     token: any,
-    // cedula: string,
     area: string,
-    commission: string,
     department: string,
-    ccpf: string,
-    studentCouncil: string,
-    name: string,
-    responsible: string,
     academicYearId: number,
     objective: string,
-    total: number,
-    status: string
+    totalResources: number,
+    totalAproved: number,
+    status: string,
+    comentRejected: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
-
     const data = {
-      // cedula: cedula,
       area: area,
-      commission: commission,
       department: department,
-      ccpf: ccpf,
-      student_council: studentCouncil,
-      name: name,
-      responsible: responsible,
       academic_year_id: academicYearId,
       objective: objective,
-      total: total,
+      total_resources: totalResources,
+      total_aproved: totalAproved,
       status: status,
-
+      coment_rejected: comentRejected,
     }
-
     return this._http.post(`${this.url}/poa_create`, data, { headers: headers });
   }
 
-  //obtiene listado de poas
+  //muestra el creador del poa
 
+  poaCreator(token: any, caseId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      case_id: caseId
+    }
+    return this._http.post(`${this.url}/poa_creator`, data, { headers: headers });
+  }
+
+  //obtiene listado de poas
   list(token: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
-
     const data = {}
-
     return this._http.post(`${this.url}/poa_list`, data, { headers: headers });
   }
 
   //obtiene detalle de poa por id
-
   detailPoa(token: any, id: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
-
     const data = {
       id: id
     }
-
     return this._http.post(`${this.url}/poa_detail`, data, { headers: headers });
   }
 
@@ -90,16 +89,13 @@ export class PoaService {
     token: any,
     id: number,
     area: string,
-    commission: string,
-    department: string,
-    ccpf: string,
-    studentCouncil: string,
-    name: string,
-    responsible: string,
     academicYearId: number,
     objective: string,
-    total: number,
-    status: string
+    totalResources: number,
+    totalAproved: number,
+    status: string,
+    comentRejected: string,
+    status2: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -110,29 +106,27 @@ export class PoaService {
     const data = {
       id: id,
       area: area,
-      commission: commission,
-      department: department,
-      ccpf: ccpf,
-      student_council: studentCouncil,
-      name: name,
-      responsible: responsible,
       academic_year_id: academicYearId,
       objective: objective,
-      total: total,
-      status: status
+      total_resources: totalResources,
+      total_aproved: totalAproved,
+      status: status,
+      coment_rejected: comentRejected,
+      status2: status2
     }
+
     return this._http.post(`${this.url}/poa_update`, data, { headers: headers });
   }
 
   //elimina el POA
-  deletePoa(token: any, id: number) {
+  deletePoa(token: any, poaId: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
       'Token': token
     });
     const data = {
-      id: id
+      poa_id: poaId
     }
     return this._http.post(`${this.url}/poa_delete`, data, { headers: headers });
   }
@@ -152,7 +146,6 @@ export class PoaService {
     return this._http.post(`${this.url}/poa_compers`, data, { headers: headers });
   }
 
-
   //muestra actividades por poa id
   showPoaActivities(token: any, poaId: number) {
     const headers = new HttpHeaders({
@@ -160,7 +153,6 @@ export class PoaService {
       'Authorization': this.auth,
       'Token': token
     });
-
     const data = {
       poa_id: poaId
     }
@@ -178,7 +170,10 @@ export class PoaService {
     resourcesAmmount: number,
     approvedAmount: number,
     comments: string,
-    accountingCount: string
+    accountingCount: string,
+    priority: string,
+    approvedActivity: string,
+    responsible: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -195,8 +190,10 @@ export class PoaService {
       resources_amount: resourcesAmmount,
       approved_amount: approvedAmount,
       comments: comments,
-      accounting_count: accountingCount
-
+      accounting_count: accountingCount,
+      priority: priority,
+      approved_activity: approvedActivity,
+      responsible
     }
     return this._http.post(`${this.url}/poa_activities_create`, data, { headers: headers });
   }
@@ -212,7 +209,10 @@ export class PoaService {
     resourcesAmmount: number,
     approvedAmount: number,
     comments: string,
-    accountingCount: string
+    accountingCount: string,
+    priority: string,
+    approvedActivity: string,
+    responsible: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -229,7 +229,10 @@ export class PoaService {
       resources_amount: resourcesAmmount,
       approved_amount: approvedAmount,
       comments: comments,
-      accounting_count: accountingCount
+      accounting_count: accountingCount,
+      priority: priority,
+      approved_activity: approvedActivity,
+      responsible
     }
     return this._http.post(`${this.url}/poa_activities_update`, data, { headers: headers });
   }
@@ -289,7 +292,7 @@ export class PoaService {
 
   //crea firmas
   createSignatures(
-    token: any, 
+    token: any,
     poaId: number,
     userId: number,
     coments: string,
@@ -318,12 +321,11 @@ export class PoaService {
       'Authorization': this.auth,
       'Token': token
     });
-    const data =  {
+    const data = {
       poa_id: poaId
     }
     return this._http.post(`${this.url}/poa_signature_detail`, data, { headers: headers });
   }
-
 
   // muestra listado de usuario de la base
   allUsers(token: any) {
@@ -337,4 +339,133 @@ export class PoaService {
     return this._http.post(`${this.url}/user_list`, data, { headers: headers });
   }
 
+  //obtiene periodo academico 
+  getAcademicPeriod(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {}
+    return this._http.post(`${this.url}/poa_year`, data, { headers: headers });
+  }
+
+  //obtiene departamentos que no han realizado poa 
+  getNotStartedDeps(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+
+    const data = {}
+    return this._http.post(`${this.url}/departments_without_poa`, data, { headers: headers });
+  }
+
+  //obtiene cuentas contables
+
+  contableAccounts(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {}
+    return this._http.post(`${this.url}/accounting_count`, data, { headers: headers });
+  }
+
+  //obtiene las companias e institutos
+  getCompAndInst(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {}
+    return this._http.post(`${this.url}/poa_companies`, data, { headers: headers });
+  }
+
+  //registra empresas e institutos
+  saveCompAndInst(token: any, headerId: number, instituteId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      header_id: headerId,
+      institute_id: instituteId
+    }
+    return this._http.post(`${this.url}/institutes_headers_create`, data, { headers: headers });
+  }
+
+  //elimina empresas e institutos
+  deleteCompAndInst(token: any, Id: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      id: Id
+    }
+    return this._http.post(`${this.url}/institutes_headers_delete`, data, { headers: headers });
+  }
+
+  //crea los porcentajes de campus por actividad
+  sendCampusPercentage(token: any, headerInstId: number, activityId: number, percentage: number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+
+    const data = {
+      header_inst_id: headerInstId,
+      activity_id: activityId,
+      percentage: percentage
+    };
+
+    return this._http.post(`${this.url}/institutes_activities_create`, data, { headers: headers });
+  }
+
+  //obtiene los campus seleccionados por el usuario para cada tarea
+  getCampuses(token: any, Id: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      id: Id
+    }
+    return this._http.post(`${this.url}/campus_detail`, data, { headers: headers });
+  }
+
+  //obtiene los porcentajes decampus para actividades 
+  getCampusPercentage(token: any, ActivityId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      activity_id: ActivityId
+    }
+    return this._http.post(`${this.url}/institutes_activities_list`, data, { headers: headers });
+  }
+
+  //inserta todos los poas 
+  insertAllPoa(token: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+
+    const data = {}
+
+    return this._http.post(`${this.url}/poa_injection`, data, { headers: headers });
+
+  }
 }

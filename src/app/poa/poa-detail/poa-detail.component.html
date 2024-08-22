@@ -1,422 +1,641 @@
 <app-header-app></app-header-app>
-<h1 class="text-center mt-4">Detalle: {{ poaDetail.name }} - {{
-    poaDetail.responsible }}</h1>
+<div
+    class="container d-flex align-items-center justify-content-between flex-wrap mb-3">
+    <!-- BOTON PARA VER POAS -->
+    <div class="p-1">
+        <button matTooltip="Listado de POA" class="update" mat-raised-button
+            color="primary" routerLink="/home-poa">
+            <i class="fa-regular fa-rectangle-list me-2"></i>POAS
+        </button>
+    </div>
 
-<div class="p-4">
+    <!-- GESTION DE POA -->
+    @if (poaDetail.status == 'APROBADO') {
+    <h3 class="text-center fw-bold m-0 flex-grow-1">
+        <span class="text-secondary">POA creado por: {{
+            poaDetail.creator_info.name
+            }}</span>
+    </h3>
+    } @else if (poaDetail.status != 'APROBADO') {
+    <h3 class="text-center fw-bold m-0 flex-grow-1">
+        <span class="text-secondary">Gestionando POA: {{ poaDetail.status
+            }}</span>
+    </h3>
+    }
+
+    <!-- POA DETALLES ICONOS -->
+    <div class="d-flex p-2">
+        <div class="card p-2 me-2">
+            Requerido:{{ poaDetail.total_resources }}$
+        </div>
+
+        <div class="card p-2">
+            Aprobado:{{ poaDetail.total_aproved }}$
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <!-- fomulario para actualizar POA -->
-            <mat-accordion>
-                <mat-expansion-panel>
-                    <mat-expansion-panel-header>
-                        <mat-panel-title> Actualizar POA </mat-panel-title>
-                        <mat-panel-description> Click para abrir POA
-                        </mat-panel-description>
-                    </mat-expansion-panel-header>
-                    <form (ngSubmit)="onUpdate()">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="area"
-                                        class="form-label">Área:</label>
-                                    <input type="text" class="form-control"
-                                        name="are" [(ngModel)]="poaDetail.area">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="department"
-                                        class="form-label">Dpto:</label>
-                                    <input type="text" class="form-control"
-                                        name="department"
-                                        [(ngModel)]="poaDetail.department"
-                                        disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="ccpf"
-                                        class="form-label">CCPF:</label>
-                                    <input type="text" class="form-control"
-                                        name="ccpf"
-                                        [(ngModel)]="poaDetail.ccpf">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">N. del
-                                        proyecto:</label>
-                                    <input type="text" class="form-control"
-                                        name="name"
-                                        [(ngModel)]="poaDetail.name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="responsible"
-                                        class="form-label">Responsable:</label>
-                                    <input type="text" class="form-control"
-                                        name="responsible"
-                                        [(ngModel)]="poaDetail.responsible"
-                                        disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="student_council"
-                                        class="form-label">Consejo
-                                        estudiantil:</label>
-                                    <input type="text" class="form-control"
-                                        name="student_council"
-                                        [(ngModel)]="poaDetail.student_council">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="mb-3">
-                                    <label for="total"
-                                        class="form-label">Total:</label>
-                                    <input type="text" class="form-control"
-                                        name="total"
-                                        [(ngModel)]="poaDetail.total">
-                                </div>
-                            </div>
-                            <div class="col-md-3 d-flex justify-content-center">
-                                <div class="mb-3">
-                                    <label for="status"
-                                        class="form-label">Estado:</label>
-                                    <select [(ngModel)]="selectedStatus"
-                                        name="status" class="form-select"
-                                        aria-label="Default select example">
-                                        <option value>Sin cambios</option>
-                                        <option *ngFor="let state of taskStates"
-                                            [value]="state">{{state}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="objective"
-                                class="form-label">Objetivo:</label>
-                            <textarea class="form-control" name="objective"
-                                [(ngModel)]="poaDetail.objective"></textarea>
-                        </div>
-                        <div class="mb-3 d-flex justify-content-evenly">
-                            <button type="submit" mat-raised-button
-                                color="primary">Actualizar</button>
-                            <a mat-raised-button
-                                (click)="onCancel()">Cancelar</a>
-                            <a *ngIf="poaDetail.status == 'EN PROCESO'"
-                                mat-raised-button color="warn"
-                                (click)="onDelete()">Eliminar POA</a>
-                        </div>
-                    </form>
-                </mat-expansion-panel>
-            </mat-accordion>
-            <!-- fomulario para actualizar POA -->
-
-            <!-- BOTON PARA AGREGAR ACTIVIDAD -->
+            <app-detail-form-poa></app-detail-form-poa>
+            <!-- fin de fomulario para actualizar POA -->
             <div class="row mt-4 mb-3">
                 <div class="row">
                     <div class="col-md-4 mb-3 d-flex justify-content-center"><h4
-                            class="text-center">Actividades
+                            class="text-center"><i
+                                class="fa-regular fa-clipboard me-2"></i>Actividades
                             ({{ allActivities?.length
-                            }}):</h4></div>
+                            }}):</h4>
+                    </div>
                     <!-- barra de busqueda -->
                     <div class="col-md-4 mb-3">
-                        <input type="text"
+                        <input type="text" style="border-radius: 50px;"
                             class="form-control text-center"
                             placeholder="Búsqueda por actividad o detalle de recurso"
                             [(ngModel)]="searchTerm" (input)="onSearch()">
                     </div>
                     <!-- barra de busqueda -->
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
-                    <div class="col-md-4 mb-3 d-flex justify-content-center">
-                        <button mat-raised-button color="primary"
+                    @if (poaDetail.detail_poa_institute?.length > 0){
+                    <div class="col-md-4 mb-3 d-flex justify-content-center"
+                        *ngIf="poaDetail.status == fullname && email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
+                        <button class="update"
+                            mat-raised-button color="primary"
                             data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
                             <i class="fa-solid fa-folder-plus"></i> Agregar
                             actividad
                         </button>
                     </div>
+                    }
+
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
                 </div>
-                <div class="overflow-auto" style="height: 300px;">
-                    <mat-accordion>
-                        <mat-expansion-panel
+                <!-- TABLA DE ACTIVIDADES -->
+                <div class="overflow-auto p-2">
+
+                    <mat-accordion class="custom-shadow-panel">
+                        <div class="mb-3 d-flex justify-content-evenly"
+                            *ngIf="email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'">
+                            <button mat-raised-button color="primary"
+                                style="font-size: .7rem;"
+                                (click)="filterPendingActivities()">Mostrar En
+                                Revisión</button>
+                            <button mat-raised-button color="secondary"
+                                style="font-size: .7rem;"
+                                (click)="clearFilter()">Mostrar Todos</button>
+                        </div>
+
+                        <mat-expansion-panel class="mobile-friendly-panel"
                             *ngFor="let activity of allActivities"
                             (click)="getActivityId(activity.id)">
-                            <mat-expansion-panel-header>
+                            <mat-expansion-panel-header
+                                class="panel-title fw-bold"
+                                style="background-color: rgb(109, 121, 121)">
                                 <mat-panel-title>
-                                    {{activity.activity}}
+                                    <p matTooltip="{{activity.activity}}"
+                                        class="truncate text-white"><i
+                                            class="fa-regular fa-clipboard me-2"></i>{{activity.activity}}</p>
                                 </mat-panel-title>
-                                <mat-panel-description>
-                                    Inicio: {{ activity.start_date |
-                                    date:'dd/MM/yyyy' }} -
-                                    Fin: {{ activity.end_date |
-                                    date:'dd/MM/yyyy' }}
+                                <mat-panel-description
+                                    class="panel-title fw-bold"
+                                    class="dates text-white">
+                                    <i
+                                        class="fa-regular fa-calendar me-2"></i>Inicio:
+                                    {{ activity.start_date | date }} -
+                                    Fin: {{ activity.end_date | date }} <i
+                                        class="fa-solid fa-calendar-check ms-2"></i>
+                                </mat-panel-description>
+                                <mat-panel-description
+                                    class="dates panel-title fw-bold">
+                                    <i
+                                        class="fa-solid fa-file-invoice-dollar me-2"></i>Monto
+                                    requerido: {{
+                                    activity.resources_amount }}$ -
+                                    <span
+                                        *ngIf="activity.approved_amount != '0.00'"
+                                        class="p-1 bg-success text-white progress-container fw-bold"
+                                        style="border-radius: 10px; margin-left: 5px;">
+                                        <i
+                                            class="fa-regular fa-circle-check me-2"></i>Monto
+                                        aprobado: {{
+                                        activity.approved_amount }}$
+                                    </span>
+                                    @if (activity.approved_amount == '0.00') {
+                                    @if(activity.approved_activity){
+                                    <span
+                                        class="p-1 bg-danger text-white progress-container fw-bold"
+                                        style="border-radius: 10px; margin-left: 5px;">
+                                        <i
+                                            class="fa-regular fa-circle-xmark me-2"></i>
+                                        Monto rechazado
+                                    </span>
+                                    }@else {
+                                    <span
+                                        class="p-1 bg-white progress-container fw-bold"
+                                        style="border-radius: 10px; margin-left: 5px;">
+                                        En revisión
+                                        <mat-progress-bar mode="buffer"
+                                            class="progress-bar"></mat-progress-bar>
+                                    </span>
+                                    }
+                                    }
+
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 mt-4">
                                     <div
                                         *ngIf="!isEditing || editingActivityId !== activity.id">
-                                        <p
-                                            class="text-truncate"><strong>Actividad:</strong>
-                                            {{
-                                            activity.activity }} </p>
-                                        <p class="text-truncate"><strong>Detalle
+
+                                        <p><strong
+                                                matTooltip="{{activity.activity}}"><i
+                                                    class="fa-regular fa-clipboard me-2"></i>
+                                                Actividad:</strong>
+                                            {{ activity.activity }}</p>
+
+                                        <p><strong><i
+                                                    class="fa-solid fa-info me-2"></i>
+                                                Detalle
                                                 de recursos:</strong>
                                             {{ activity.resources_detail }}</p>
+
+                                        <p><strong><i
+                                                    class="fa-solid fa-file-invoice-dollar me-2"></i>
+                                                Monto de recursos:</strong>
+                                            {{ activity.resources_amount }}</p>
                                         <p
-                                            class="text-truncate"><strong>Comentarios:</strong>
+                                            *ngIf="activity.approved_amount != '0.00'"><strong><i
+                                                    class="fa-regular fa-circle-check me-2"></i>Monto
+                                                aprobado:</strong>
+                                            {{ activity.approved_amount }}</p>
+
+                                        <p
+                                            *ngIf="activity.comments"><strong
+                                                matTooltip="{{activity.comments}}">Comentarios:</strong>
                                             {{
                                             activity.comments }}</p>
-                                        <p><strong>Monto de recursos:</strong>
-                                            {{ activity.resources_amount }}</p>
-                                        <div *ngIf="is_admin == true">
-                                            <p><strong>Monto aprobado:</strong>
-                                                {{
-                                                activity.approved_amount }}</p>
-                                            <p><strong>Cuenta contable:</strong>
-                                                {{
-                                                activity.accounting_count }}</p>
+                                        <p
+                                            *ngIf="activity.accounting_count"><strong>
+                                                <i
+                                                    class="fa-solid fa-receipt me-2"></i>Cuenta
+                                                contable:</strong>
+                                            {{ activity.accounting_count }}</p>
+
+                                        <div class="row" *ngIf="SavedPorcetage">
+                                            <div
+                                                class="d-flex justify-content-center">
+                                                <b>Porcentaje actual:</b>
+
+                                                <div class="me-3"
+                                                    *ngFor="let percentage of SavedPorcetage">
+                                                    <p
+                                                        *ngIf="percentage.percentage > 0">
+                                                        {{percentage.name}}:
+                                                        <strong>{{percentage.percentage}}%</strong>
+                                                    </p>
+                                                </div>
+
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
-
                             </div>
                             <div class="row d-flex justify-content-center">
+                                <div class="col-md-6 mb-3">
+                                    <a style="width: 25%;"
+                                        *ngIf="activity.approved_amount == '0.00'"
+                                        class="update"
+                                        mat-raised-button
+                                        (click)="downloadActivityPDF(activity); $event.stopPropagation()">Descargar
+                                        PDF</a>
+                                </div>
+
                                 <div
                                     class="col-md-6 d-flex justify-content-evenly">
-                                    <button mat-raised-button color="primary"
-                                        *ngIf="!isEditing || editingActivityId !== activity.id"
-                                        (click)="startEditing(activity)">Editar
-                                        actividad</button>
+                                    @if (activity.approved_amount == '0.00' &&
+                                    poaDetail.status == fullname) {
                                     <div
-                                        *ngIf="poaDetail.status == 'EN PROCESO'">
-                                        <button mat-raised-button
+                                        *ngIf="email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
+                                        <button class="update" mat-raised-button
+                                            color="primary"
+                                            *ngIf="!isEditing || editingActivityId !== activity.id"
+                                            (click)="startEditing(activity)">Editar
+                                            actividad</button>
+                                    </div>
+                                    <div
+                                        *ngIf="poaDetail.status != 'APROBADO'">
+                                        @if (email == 'financiero@ism.edu.ec' ||
+                                        email ==
+                                        'direccionfinanciera@ism.edu.ec') {
+
+                                        } @else {
+                                        <button class="update" mat-raised-button
                                             *ngIf="!isEditing || editingActivityId !== activity.id "
                                             style="background-color: brown;color: white;"
                                             (click)="deleteActivity(activity.id)">Eliminar</button>
+                                        }
+
                                     </div>
+                                    }
 
+                                    @if (email == 'financiero@ism.edu.ec' &&
+                                    activity.approved_amount == "0.00" &&
+                                    poaDetail.status != 'APROBADO' &&
+                                    poaDetail.status == 'Cristian Vaca') {
+                                    <button class="update" mat-raised-button
+                                        color="primary"
+                                        *ngIf="!isEditing || editingActivityId !== activity.id"
+                                        (click)="startEditing(activity)">Aprobar/Rechazar
+                                        Act.</button>
+                                    }
+
+                                    @if (email ==
+                                    'direccionfinanciera@ism.edu.ec' &&
+                                    activity.approved_amount == "0.00" &&
+                                    poaDetail.status != 'APROBADO' &&
+                                    poaDetail.status == 'VINUEZA AIDA') {
+                                    <button class="update" mat-raised-button
+                                        color="primary"
+                                        *ngIf="!isEditing || editingActivityId !== activity.id"
+                                        (click)="startEditing(activity)">Aprobar/Rechazar
+                                        Act.</button>
+                                    }
                                 </div>
+                                @if (activity.approved_amount != '0.00') {
+                                <a class="update bg-success text-white"
+                                    mat-raised-button style="width: 25%;"
+                                    (click)="downloadActivityPDF(activity); $event.stopPropagation()">
+                                    Aprobado! Descarga PDF
+                                    de la actividad!</a>
+                                }
                             </div>
+
                             <div class="row">
-                                <div class="col-md-12">
-                                    <form
-                                        *ngIf="isEditing && editingActivityId === activity.id">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label for="activity"
-                                                        class="form-label">Actividad:</label>
-                                                    <textarea type="text"
-                                                        class="form-control"
-                                                        id="activity"
-                                                        [(ngModel)]="editingActivity.activity"
-                                                        name="activity"></textarea>
+                                <div class="col-md-12"
+                                    *ngIf="isEditing && editingActivityId === activity.id">
+                                    <form>
+                                        <div
+                                            *ngIf="poaDetail.status == fullname && email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label for="activity"
+                                                            class="form-label">Actividad:</label>
+                                                        <textarea type="text"
+                                                            class="form-control"
+                                                            id="activity"
+                                                            [(ngModel)]="editingActivity.activity"
+                                                            name="activity"></textarea>
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="mb-3">
+                                                        <label for="activity"
+                                                            class="form-label">Monto
+                                                            de recursos:</label>
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            [(ngModel)]="editingActivity.resources_amount"
+                                                            name="acti_reso"
+                                                            maxlength="6">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="mb-3">
+                                                        <label for="start_date"
+                                                            class="form-label">Fecha
+                                                            de inicio:</label>
+                                                        <input type="date"
+                                                            class="form-control"
+                                                            id="start_date"
+                                                            [(ngModel)]="editingActivity.start_date"
+                                                            name="start_date">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="mb-3">
+                                                        <label for="end_date"
+                                                            class="form-label">Fecha
+                                                            de fin:</label>
+                                                        <input type="date"
+                                                            class="form-control"
+                                                            id="end_date"
+                                                            [(ngModel)]="editingActivity.end_date"
+                                                            name="end_date">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="mb-3 ">
+                                                        <label for="priority"
+                                                            class="form-label">Prioridad:</label>
+                                                        <select
+                                                            class="form-select"
+                                                            [(ngModel)]="editingActivity.priority"
+                                                            name="priority">
+                                                            <option
+                                                                value="BAJA">Baja</option>
+                                                            <option
+                                                                value="MEDIA">Media</option>
+                                                            <option
+                                                                value="ALTA">Alta</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="resources_detail"
+                                                            class="form-label">Detalle
+                                                            de
+                                                            recursos (max. 500
+                                                            caracteres):</label>
+                                                        <textarea
+                                                            maxlength="500"
+                                                            class="form-control"
+                                                            id="resources_detail"
+                                                            rows="3"
+                                                            [(ngModel)]="editingActivity.resources_detail"
+                                                            name="resources_detail"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-3">
+                                                    <label
+                                                        for="responsible"
+                                                        class="form-label">Responsable:</label>
+                                                    <ng-select
+                                                        [items]="compers_list"
+                                                        bindLabel="name"
+                                                        bindValue="name"
+                                                        [(ngModel)]="editingActivity.responsible"
+                                                        name="status"
+                                                        placeholder="Elija un usuario">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                            @if (isEditing && editingActivityId
+                                            === activity.id) {
+                                            <!-- SE AGREGA PORCENTAJES DE ACTIVIDAD PARA CAMPUS -->
+                                            <div class="row"
+                                                *ngIf="SavedPorcetage">
+                                                <div
+                                                    class="d-flex justify-content-center">
+                                                    <h4
+                                                        class="fw-bold">Porcentaje
+                                                        actual:</h4>
+                                                    <div class="me-3"
+                                                        *ngFor="let percentage of SavedPorcetage">
+                                                        <h4
+                                                            *ngIf="percentage.percentage != '0.00'">
+                                                            {{percentage.name}}:
+                                                            <strong>{{percentage.percentage}}%</strong>
+                                                        </h4>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <!-- <button (click)="sendPercentages()">Enviar porcentajes</button> -->
+                                            <!-- SE AGREGA PORCENTAJES DE ACTIVIDAD PARA CAMPUS -->
+                                            }
+
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label
-                                                        for="resources_amount"
-                                                        class="form-label">Monto
-                                                        de
-                                                        recursos:</label>
-                                                    <input type="number"
-                                                        class="form-control"
-                                                        id="resources_amount"
-                                                        [(ngModel)]="editingActivity.resources_amount"
-                                                        name="resources_amount"
-                                                        maxlength="6">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label
-                                                        for="resources_amount"
-                                                        class="form-label">Fecha
-                                                        de inicio:</label>
-                                                    <input type="date"
-                                                        class="form-control"
-                                                        id="resources_amount"
-                                                        [(ngModel)]="editingActivity.start_date"
-                                                        name="resources_amount"
-                                                        maxlength="6">
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-4">
-
-                                                <div class="mb-3">
-                                                    <label
-                                                        for="resources_amount"
-                                                        class="form-label">Fecha
-                                                        de fin:</label>
-                                                    <input type="date"
-                                                        class="form-control"
-                                                        id="resources_amount"
-                                                        [(ngModel)]="editingActivity.end_date"
-                                                        name="resources_amount"
-                                                        maxlength="6">
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label
-                                                        for="resources_detail"
-                                                        class="form-label">Detalle
-                                                        de
-                                                        recursos:</label>
-                                                    <textarea
-                                                        class="form-control"
-                                                        id="resources_detail"
-                                                        rows="3"
-                                                        [(ngModel)]="editingActivity.resources_detail"
-                                                        name="resources_detail"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="comments"
-                                                        class="form-label">Comentarios:</label>
-                                                    <textarea
-                                                        class="form-control"
-                                                        id="comments" rows="3"
-                                                        [(ngModel)]="editingActivity.comments"
-                                                        name="comments"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- solo lo puede ver y modificar el; admin -->
+                                        <!-- solo lo puede ver y modificar financieros -->
                                         <div class="row"
-                                            *ngIf="is_admin == true">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="approved_amount"
-                                                        class="form-label">Monto
-                                                        aprobado:</label>
-                                                    <input type="number"
-                                                        class="form-control"
-                                                        id="approved_amount"
-                                                        [(ngModel)]="editingActivity.approved_amount"
-                                                        name="approved_amount"
-                                                        maxlength="6">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
+                                            *ngIf="email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'">
+                                            <p><strong>Monto requerido:</strong>
+                                                {{ activity.resources_amount
+                                                }}</p>
+                                            <div class="mb-3">
+                                                <label class="form-label">Estado
+                                                    de aprobación de la
+                                                    actividad:</label>
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="approvalStatus"
+                                                        id="statusApproved"
+                                                        [(ngModel)]="editingActivity.approved_activity"
+                                                        value="APROBADO">
                                                     <label
-                                                        for="accounting_count"
-                                                        class="form-label">Cuenta
-                                                        contable:</label>
-                                                    <input type="text"
-                                                        class="form-control"
-                                                        id="accounting_count"
-                                                        [(ngModel)]="editingActivity.accounting_count"
-                                                        name="accounting_count">
+                                                        class="form-check-label"
+                                                        for="statusApproved">
+                                                        Aprobado
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="approvalStatus"
+                                                        id="statusRejected"
+                                                        [(ngModel)]="editingActivity.approved_activity"
+                                                        value="RECHAZADO">
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="statusRejected">
+                                                        Rechazado
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                            <div
+                                                *ngIf="editingActivity.approved_activity === 'APROBADO'">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label
+                                                                for="approved_amount"
+                                                                class="form-label">Monto
+                                                                aprobado:</label>
+                                                            <input type="number"
+                                                                class="form-control"
+                                                                id="approved_amount"
+                                                                [(ngModel)]="editingActivity.approved_amount"
+                                                                name="approved_amount"
+                                                                maxlength="6">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label
+                                                                for="accounting_count"
+                                                                class="form-label">Cuenta
+                                                                contable:</label>
+                                                            <ng-select
+                                                                [items]="accounting_list"
+                                                                bindLabel="accounting_count"
+                                                                bindValue="accounting_count"
+                                                                [(ngModel)]="editingActivity.accounting_count"
+                                                                name="accounting_count"
+                                                                placeholder="Elija una cuenta">
+                                                            </ng-select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row"
+                                                    *ngIf="SavedPorcetage">
+                                                    <div
+                                                        class="d-flex justify-content-center">
+                                                        <h4
+                                                            class="fw-bold">Porcentaje
+                                                            actual:</h4>
+                                                        <div class="me-3"
+                                                            *ngFor="let percentage of SavedPorcetage">
+                                                            <h4
+                                                                *ngIf="percentage.percentage != '0.00'">
+                                                                {{percentage.name}}:
+                                                                <strong>{{percentage.percentage}}%</strong>
+                                                            </h4>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <label for="percentage"
+                                                    class="mb-3">Porcentaje por
+                                                    campus:</label>
+                                                <div
+                                                    class="row d-flex justify-content-center">
+                                                    <div
+                                                        *ngFor="let campus of percetagePerCampus; let i = index"
+                                                        class="col-md-4 col-lg-2 mb-4">
+                                                        <label
+                                                            class="form-label"
+                                                            for="percentage-{{i}}">{{campus.name}}%</label>
+                                                        <input
+                                                            name="percentage-{{i}}"
+                                                            class="form-control"
+                                                            type="text"
+                                                            id="percentage-{{i}}"
+                                                            [(ngModel)]="campus.percentage"
+                                                            min="0"
+                                                            max="100"
+                                                            step="0.01"
+                                                            maxlength="4"
+                                                            placeholder="Ingrese el porcentaje"
+                                                            (keypress)="validateNum($event)"
+                                                            appOnlyNumbers
+                                                            required>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <!-- solo lo puede ver y modificar el; admin -->
 
+                                            <div class="mb-3">
+                                                <label for="comments"
+                                                    class="form-label">Comentarios:</label>
+                                                <textarea maxlength="500"
+                                                    class="form-control"
+                                                    id="comments" rows="3"
+                                                    [(ngModel)]="editingActivity.comments"
+                                                    name="comments"></textarea>
+                                            </div>
+
+                                        </div>
+                                        <!-- fin solo lo puede ver y modificar el; admin -->
                                         <div
                                             class="row d-flex justify-content-center">
                                             <div
                                                 class=" text-center d-flex justify-content-evenly">
-                                                <button mat-raised-button
+                                                <button class="update"
+                                                    mat-raised-button
                                                     color="primary"
                                                     *ngIf="isEditing && editingActivityId === activity.id"
                                                     (click)="saveChanges(activity.id)">Guardar</button>
-                                                <button mat-raised-button
+                                                <button class="update"
+                                                    mat-raised-button
                                                     color="secondary"
                                                     *ngIf="isEditing && editingActivityId === activity.id"
                                                     (click)="cancelEditing()">Cancelar</button>
-                                                <button mat-raised-button
-                                                    *ngIf="poaDetail.status == 'EN PROCESO'"
+
+                                                @if (email ==
+                                                'financiero@ism.edu.ec' ||
+                                                email ==
+                                                'direccionfinanciera@ism.edu.ec')
+                                                {
+
+                                                } @else {
+                                                <button class="update"
+                                                    mat-raised-button
+                                                    *ngIf="poaDetail.status != 'APROBADO'"
                                                     style="background-color: brown;color: white;"
                                                     (click)="deleteActivity(activity.id)">Eliminar</button>
+                                                }
+
                                             </div>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
                         </mat-expansion-panel>
                     </mat-accordion>
+                    @if (poaDetail.coment_rejected && email !=
+                    'financiero@ism.edu.ec' && email !=
+                    'direccionfinanciera@ism.edu.ec') {
+                    <!-- boton flotante para alertas -->
+                    <div style="width: 30%;">
+                        <a data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight"
+                            aria-controls="offcanvasRight"
+                            mat-fab color="warn" class="fab-button2">
+                            <i class="fa-regular fa-bell fa-2x"></i>
+                        </a>
+                    </div>
+
+                    }
                 </div>
 
                 <!-- agregar fimas -->
                 <!-- Button trigger modal -->
-                <a type="button" class="mb-2" style="text-decoration: underline;color: black;"
-                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Agregar firmas
-                </a>
-
+                @if( signaturesList?.length == 1 && is_admin == false) {
+                <div class="alert alert-success" role="alert">
+                    Se ha enviado a su jefe directo para
+                    aprobación<i class="fa-solid fa-user-check ms-2"></i>
+                </div>
                 <ul class="list-group" *ngFor="let sig of signaturesList">
-                    <li class="list-group-item"> {{ sig.user_name }}
-                        <span>{{ sig.user_email }}</span>
-                        <p>{{ sig.coments }}</p></li>
+                    <li class="list-group-item"><b>Jefe directo:</b> {{
+                        sig?.user_name }}
+                        <span>{{ sig?.user_email }}</span>
+                        <p>{{ sig?.coments }}</p>
+                    </li>
                 </ul>
+                } @else if (allActivities?.length != 0) {
+                <!-- BOTON FLOTANTE -->
+                <div style="width: 30%;" *ngIf="poaDetail.status != 'APROBADO'">
+                    <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                        matTooltip="Agregar siguiente filtro"
+                        *ngIf="poaDetail.status == fullname || email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'"
+                        mat-fab color="primary" class="fab-button">
+                        <i class="fa-regular fa-share-from-square fa-2x"></i>
+                    </a>
+                </div>
+                }
+                <div class="alert alert-success text-center" role="alert"
+                    *ngIf="poaDetail.status == 'APROBADO'">
+                    Este POA ha sido Aprobado!
+                </div>
+            </div>
+        </div>
 
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="text-center" style="color: black;">
-                <i class="fa-solid fa-circle-info"></i> Manual de usuario
-            </div>
-            <div class="cards1 mt-2">
-                <b><i class="fa-solid fa-chart-line"></i> Estadísticas de
-                    Mantenimiento</b>
-                <p class="text-dark">
-                    La gráfica muestra el estado actual de casos
-                    (iniciando, en proceso, etc.), útil para gestionar el
-                    flujo de trabajo.
-                </p>
-            </div>
-            <div class="cards1">
-                <b><i class="fa-regular fa-paper-plane"></i> Creación de
-                    Casos</b>
-                <p class="text-dark">
-                    Para crear un caso de mantenimiento u otro departamento,
-                    debe ingresar al
-                    proceso desde el menu izquierdo
-                    <i class="fa-solid fa-bars"></i>.
-                </p>
-            </div>
-            <div class="cards1">
-                <b><i class="fa-regular fa-file-lines"></i> Obtener
-                    resportería</b>
-                <p class="text-dark">
-                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
-                    podemos escoger la opción de reportería del proceso que
-                    necesitemos, esto nos llevará a una nueva página para
-                    visualizar la información.
-                </p>
-            </div>
-            <div class="cards1">
-                <b><i class="fa-solid fa-sliders"></i> Configuración de
-                    usuario</b>
-                <p class="text-dark">
-                    En el menú izquierdo <i class="fa-solid fa-bars"></i>
-                    podemos editar la configuración de usuario, especificamente
-                    cambiar la contraseñas.
-                </p>
-            </div>
-        </div>
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal para agregar actividades-->
 <div class="modal fade" id="exampleModal" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -429,93 +648,89 @@
             </div>
             <div class="modal-body">
                 <form (ngSubmit)="createActivity()" #activityForm="ngForm">
-                    <div class="mb-3">
-                        <label for="activity"
-                            class="form-label">Actividad</label>
-                        <input type="text" class="form-control" id="activity"
-                            [(ngModel)]="createPoa.activity" name="activity"
-                            required>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="start_date" class="form-label">Fecha
-                                    de
-                                    inicio</label>
-                                <input type="date" class="form-control"
-                                    id="start_date"
-                                    [(ngModel)]="createPoa.start_date"
-                                    name="start_date"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="end_date" class="form-label">Fecha
-                                    de
-                                    fin</label>
-                                <input type="date" class="form-control"
-                                    id="end_date"
-                                    [(ngModel)]="createPoa.end_date"
-                                    name="end_date"
-                                    required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="resources_detail" class="form-label">Detalle
-                            de recursos</label>
-                        <textarea class="form-control"
-                            id="resources_detail"
-                            [(ngModel)]="createPoa.resources_detail"
-                            name="resources_detail" required></textarea>
-                    </div>
-                    <div class="row">
+                    <div *ngIf="poaDetail.status == fullname">
 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="start_date"
+                                        class="form-label">Fecha
+                                        de
+                                        inicio</label>
+                                    <input type="date" class="form-control"
+                                        id="start_date"
+                                        [(ngModel)]="createPoa.start_date"
+                                        name="start_date"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="end_date"
+                                        class="form-label">Fecha
+                                        de
+                                        fin</label>
+                                    <input type="date" class="form-control"
+                                        id="end_date"
+                                        [(ngModel)]="createPoa.end_date"
+                                        name="end_date"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
                         <div class="mb-3">
-                            <label for="resources_ammount"
-                                class="form-label">Monto
+                            <label for="resources_detail"
+                                class="form-label">Detalle
                                 de recursos</label>
-                            <input maxlength="6" type="number"
-                                class="form-control"
-                                id="resources_ammount"
-                                [(ngModel)]="createPoa.resources_ammount"
-                                name="resources_ammount" required>
+                            <textarea class="form-control"
+                                id="resources_detail"
+                                [(ngModel)]="createPoa.resources_detail"
+                                name="resources_detail" required></textarea>
                         </div>
-
-                    </div>
-                    <div class="mb-3">
-                        <label for="comments"
-                            class="form-label">Comentarios</label>
-                        <textarea class="form-control" id="comments"
-                            [(ngModel)]="createPoa.comments"
-                            name="comments"></textarea>
-                    </div>
-                    <!-- solo admin puede modificar -->
-
-                    <div class="row" *ngIf="is_admin == true">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="accounting_calculate"
-                                    class="form-label">Cuenta contable</label>
-                                <input type="text" class="form-control"
-                                    id="accounting_calculate"
-                                    [(ngModel)]="createPoa.accounting_count"
-                                    name="accounting_calculate" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="approved_ammount"
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="resources_ammount"
                                     class="form-label">Monto
-                                    aprobado</label>
-                                <input maxlength="7" type="number"
+                                    de recursos</label>
+                                <input maxlength="6" type="number"
                                     class="form-control"
-                                    maxlength="6"
-                                    id="approved_ammount"
-                                    [(ngModel)]="createPoa.approved_ammount"
-                                    name="approved_ammount" required>
+                                    id="resources_ammount"
+                                    [(ngModel)]="createPoa.resources_ammount"
+                                    name="resources_ammount" required>
                             </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="campus"
+                                    class="form-label">Prioridad</label>
+                                <select class="form-select"
+                                    [(ngModel)]="createPoa.priority"
+                                    name="campus">
+                                    <option value="BAJA">Baja</option>
+                                    <option value="MEDIA">Media</option>
+                                    <option value="ALTA">Alta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for class="form-label">Asignar
+                                    responsable:</label>
+                                <ng-select
+                                    [items]="compers_list"
+                                    bindLabel="name"
+                                    bindValue="name"
+                                    [(ngModel)]="createPoa.responsible"
+                                    name="status"
+                                    placeholder="Elija un usuario">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="activity"
+                                class="form-label">Actividad</label>
+                            <input type="text" class="form-control"
+                                id="activity"
+                                [(ngModel)]="createPoa.activity" name="activity"
+                                required>
                         </div>
                     </div>
                     <!-- solo admin puede modificar -->
@@ -523,7 +738,6 @@
                         [disabled]="activityForm.form.invalid">Crear
                         Actividad</button>
                 </form>
-
             </div>
         </div>
     </div>
@@ -537,38 +751,124 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar firma</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"
+                    *ngIf="email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">Enviar
+                    a revisión con jefe directo</h1>
+
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"
+                    *ngIf="email == 'financiero@ism.edu.ec' ||  email == 'direccionfinanciera@ism.edu.ec'">Aprobación
+                    de POA</h1>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
+                @if(email != 'financiero@ism.edu.ec' && email !=
+                'direccionfinanciera@ism.edu.ec' ){
                 <form>
                     <div class="mb-3">
                         <label for class="form-label">Asignar usuario:</label>
-                        <select (change)="onUserSelect($event)"
-                            [(ngModel)]="usersId" name="usuario"
-                            class="form-select"
-                            aria-label="Default select example">
-                            <option value>Seleccione un usuario</option>
-                            <option *ngFor="let user of users"
-                                [value]="user.id">
-                                {{ user.first_name }}
-                            </option>
-                        </select>
+                        <div class="mb-3" style="width: 100%;"
+                            *ngIf="poaDetail.status != 'APROBADO'">
+                            <ng-select
+                                [items]="users"
+                                bindLabel="first_name"
+                                bindValue="first_name"
+                                [(ngModel)]="selectedStatus"
+                                (change)="onUpdate()"
+                                name="status"
+                                placeholder="Elija un usuario">
+                            </ng-select>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for class="form-label">Comentario:</label>
-                        <textarea class="form-control" type="text"
-                            [(ngModel)]="signature.coments"
-                            name="coments">
-                            </textarea>
-                    </div>
-
-                    <button (click)="createSignature()" type="submit"
-                        class="btn btn-primary">Enviar</button>
                 </form>
+                }@else {
+                <div class="col-md-12">
+                    <div class="mb-3 d-flex justify-content-evenly"
+                        *ngIf="poaDetail.status != 'APROBADO'">
+                        @if (poaDetail.status == 'Cristian Vaca' ||
+                        poaDetail.status == 'VINUEZA AIDA') {
+                        @if (allActivitiesHaveApproval() && allActivities.length
+                        != 0) {
+                        <button (click)="updateStatus('APROBADO')"
+                            [class.active]="selectedStatus === 'APROBADO'"
+                            color="primary"
+                            mat-raised-button>
+                            Aprobar POA
+                        </button>
+                        <button mat-raised-button
+                            (click)="updateStatus('RECHAZADO')"
+                            [class.active]="selectedStatus === 'RECHAZADO'"
+                            color="warn">
+                            Rechazar POA
+                        </button>
+                        }@else {
+                        <h5>Debe aprobar o rechazar todas las actividades de
+                            este POA para continuar.</h5>
+                        }
+                        } @else {
+                        <h5>Este POA aun no ha llegado a este filtro.</h5>
+                        }
+                    </div>
+                    <div *ngIf="showRejectComment" class="mt-3">
+                        <textarea [(ngModel)]="rejectComment"
+                            rows="4"
+                            class="form-control"
+                            maxlength="200"
+                            placeholder="Ingrese el motivo del rechazo"></textarea>
+                        <button
+                            (click)="onUpdate()"
+                            class="btn btn-primary mt-2">
+                            Confirmar Rechazo
+                        </button>
+                    </div>
+                    <div class="alert alert-success" role="alert"
+                        *ngIf="poaDetail.status == 'APROBADO'">
+                        Este POA ha sido Aprobado!
+                    </div>
+                </div>
+                }
             </div>
-
         </div>
+    </div>
+</div>
+
+<!-- Modal muestra comentario de rechazo -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        @if (poaDetail.status != 'APROBADO') {
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Observaciones de
+            rechazo de POA</h5>
+        }@else {
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Historial de
+            observaciones de POA</h5>
+        }
+
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="alert alert-warning" role="alert">
+            <b>Razón de rechazo: </b>{{poaDetail.coment_rejected}}
+        </div>
+
+        <ul class="list-group" *ngFor="let coment of allActivities">
+            <b>Actividad:</b> {{ coment.activity }}
+            @if (coment.comments) {
+            <li class="list-group-item mb-3"><b>Comentario:
+                </b>{{coment.comments}}</li>
+            <li class="list-group-item mb-3"><b>Monto aprobado:
+                </b>{{coment.approved_amount}}</li>
+            } @else {
+            <li class="list-group-item mb-3"><b>Comentario: </b>No se ha
+                agregado comentario.</li>
+            <li *ngIf="coment.approved_activity"
+                class="list-group-item mb-3"><b>{{ coment.approved_activity }}
+                </b></li>
+            }
+            <hr>
+        </ul>
     </div>
 </div>

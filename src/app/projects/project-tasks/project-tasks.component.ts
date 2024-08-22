@@ -21,13 +21,6 @@ export class ProjectTasksComponent implements OnInit {
   taskId = 0;
   taskForm!: FormGroup;
 
-  // stateOrder = {
-  //   'INICIANDO': 0,
-  //   'EN PROCESO': 1,
-  //   'EN REVISION': 2,
-  //   'TERMINADO': 3
-  // };
-
   updateForms: { [key: number]: FormGroup } = {};
   taskStates = ['INICIANDO', 'EN PROCESO', 'EN REVISION', 'TERMINADO'];
 
@@ -40,7 +33,7 @@ export class ProjectTasksComponent implements OnInit {
     state: 'INICIANDO',
     observation: '',
     responsible_counterpart: '',
-    project_phases:''
+    project_phases: ''
   }
 
   resposible: any;
@@ -152,7 +145,6 @@ export class ProjectTasksComponent implements OnInit {
         } else {
           alert('Error al crear la tarea');
         }
-
       });
     }
   }
@@ -175,8 +167,8 @@ export class ProjectTasksComponent implements OnInit {
         updatedTask.responsible_counterpart,
         updatedTask.project_phases
       ).subscribe(resp => {
-        console.log('update devep',updatedTask.developer_id);
-        console.log(resp);
+        // console.log('update devep', updatedTask.developer_id);
+        // console.log(resp);
         this.getProjectTasks(this.projectId);
         // this.sortTasks();
       });
@@ -233,14 +225,13 @@ export class ProjectTasksComponent implements OnInit {
   getProjectTasks(projectId: number) {
     this._projectService.getTasks(this.token, projectId).subscribe((resp: any) => {
       this.allTasks = resp.data;
-      console.log(this.allTasks);
-      // this.sortTasks();
     });
   }
 
   //obtiene el id de la tarea
   panelOpened(taskId: number) {
     this.taskId = taskId;
+    // console.log(this.taskId);
     this.getLinks();
     const task = this.allTasks.find((t: any) => t.id === taskId);
     if (task) {
@@ -248,17 +239,6 @@ export class ProjectTasksComponent implements OnInit {
     }
   }
 
-  //metodos para ordenar tareas por estado 
-
-  // sortTasks() {
-  //   this.allTasks.sort((a: { state: string; }, b: { state: string; }) => {
-  //     const stateA = a.state as keyof typeof this.stateOrder;
-  //     const stateB = b.state as keyof typeof this.stateOrder;
-  //     return this.stateOrder[stateA] - this.stateOrder[stateB];
-  //   });
-  // }
-
-  //llama al metodo para eliminar proyecto
 
   deleteProject() {
     if (confirm('¿Está seguro de eliminar ' + this.projectDetail.project_name + ' , esto eliminará todas sus tareas e información?')) {
@@ -371,6 +351,20 @@ export class ProjectTasksComponent implements OnInit {
     this.linkId = 0;
   }
 
+  //elimina tarea
+  deleteTask() {
+    // console.log(this.taskId);
+    if (confirm('¿Está seguro de eliminar esta tarea?')) {
+      this._projectService.deleteTask(this.token, this.taskId).subscribe(
+        (resp: any) => {
+          // console.log(resp);
+          this.getProjectTasks(this.projectId);
+        }
+      );
+    }
+  }
+
+
   //muestra links mediante el id
   getLinks() {
     this._projectService.getLinks(this.token, this.taskId).subscribe((resp: any) => {
@@ -432,5 +426,4 @@ export class ProjectTasksComponent implements OnInit {
       alert('Por favor, seleccione un link para borrar');
     }
   }
-
 }

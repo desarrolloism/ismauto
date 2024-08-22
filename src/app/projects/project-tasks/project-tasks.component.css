@@ -197,3 +197,32 @@ mat-grid-tile {
 .update{
   width: 100%;
 }
+
+.small-text {
+  font-size: 12px; 
+}
+
+/* tamano de letra para radio button */
+.small-radio-group {
+  font-size: 14px; /* Ajusta este valor según necesites */
+}
+
+.small-radio-group .mat-radio-label {
+  font-size: inherit;
+}
+
+.small-radio-group .mat-radio-label-content {
+  font-size: inherit;
+}
+
+::ng-deep .small-radio-group {
+  font-size: 14px;
+}
+
+::ng-deep .small-radio-group .mat-radio-label {
+  font-size: inherit;
+}
+
+::ng-deep .small-radio-group .mat-radio-label-content {
+  font-size: inherit;
+}
