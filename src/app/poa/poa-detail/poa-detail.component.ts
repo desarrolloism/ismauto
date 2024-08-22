@@ -446,7 +446,8 @@ export class PoaDetailComponent {
         this.poaDetail.total_resources,
         this.poaDetail.total_aproved,
         updatedStatus,
-        this.rejectComment
+        this.rejectComment,
+        this.poaDetail.status2
       ).subscribe(
         (resp: any) => {
           if (resp.status === 'ok') {
@@ -560,10 +561,19 @@ export class PoaDetailComponent {
   startEditing(activity: any) {
     this.isEditing = true;
     this.editingActivityId = activity.id;
-    this.editingActivity = { ...activity };
+    this.editingActivity = { 
+      ...activity,
+      start_date: this.formatDateForInput(activity.start_date),
+      end_date: this.formatDateForInput(activity.end_date)
+    };
     if (!this.editingActivity.approved_activity) {
       this.editingActivity.approved_activity = ''; // O un valor por defecto
     }
+  }
+
+  formatDateForInput(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
   }
 
   cancelEditing() {

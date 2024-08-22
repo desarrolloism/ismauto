@@ -27,6 +27,7 @@ export class DetailFormPoaComponent {
     total_aproved: 0,
     status: '',
     coment_rejected: '',
+    status2: ''
   }
   enterprises: any[] = [];
   campuses: any[] = [];
@@ -202,7 +203,8 @@ export class DetailFormPoaComponent {
       this.poaDetail.total_resources,
       this.updatePoa.total_aproved = this.poaDetail.total_aproved,
       this.updatePoa.status = this.poaDetail.status,
-      this.updatePoa.coment_rejected = this.poaDetail.coment_rejected
+      this.updatePoa.coment_rejected = this.poaDetail.coment_rejected,
+      this.updatePoa.status2 = this.poaDetail.status2
     ).subscribe((resp: any) => {
       if (resp.status == 'ok') {
         alert('POA actualizado exitosamente');
@@ -214,7 +216,7 @@ export class DetailFormPoaComponent {
         this.is_edit = false;
         // console.log(resp);
         this.getInfoPoa();
-
+        window.location.reload();
       }
     });
   }

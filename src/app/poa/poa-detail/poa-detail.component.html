@@ -25,15 +25,14 @@
 
     <!-- POA DETALLES ICONOS -->
     <div class="d-flex p-2">
-        <div class="card p-2">
-           Requerido:{{ poaDetail.total_resources }}$
+        <div class="card p-2 me-2">
+            Requerido:{{ poaDetail.total_resources }}$
         </div>
 
-        
         <div class="card p-2">
-           Aprobado:{{ poaDetail.total_aproved }}$
+            Aprobado:{{ poaDetail.total_aproved }}$
         </div>
-        
+
     </div>
 </div>
 
@@ -60,6 +59,7 @@
                     </div>
                     <!-- barra de busqueda -->
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
+                    @if (poaDetail.detail_poa_institute?.length > 0){
                     <div class="col-md-4 mb-3 d-flex justify-content-center"
                         *ngIf="poaDetail.status == fullname && email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
                         <button class="update"
@@ -70,6 +70,8 @@
                             actividad
                         </button>
                     </div>
+                    }
+
                     <!-- BOTON PARA AGREGAR ACTIVIDAD -->
                 </div>
                 <!-- TABLA DE ACTIVIDADES -->
@@ -292,69 +294,54 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <div class="mb-3">
-                                                        <label
-                                                            for="resources_amount"
+                                                        <label for="activity"
                                                             class="form-label">Monto
-                                                            de
-                                                            recursos ({{
-                                                            activity.resources_amount
-                                                            }}$):</label>
-                                                        <input type="number"
+                                                            de recursos:</label>
+                                                        <input
+                                                            type="text"
                                                             class="form-control"
-                                                            id="resources_amount"
                                                             [(ngModel)]="editingActivity.resources_amount"
-                                                            name="resources_amount"
+                                                            name="acti_reso"
                                                             maxlength="6">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="mb-3">
-                                                        <label
-                                                            for="resources_amount"
+                                                        <label for="start_date"
                                                             class="form-label">Fecha
-                                                            de inicio
-                                                            ({{activity.start_date
-                                                            | date}}):</label>
+                                                            de inicio:</label>
                                                         <input type="date"
                                                             class="form-control"
-                                                            id="resources_amount"
+                                                            id="start_date"
                                                             [(ngModel)]="editingActivity.start_date"
-                                                            name="resources_amount"
-                                                            maxlength="6">
+                                                            name="start_date">
                                                     </div>
-
                                                 </div>
-                                                <div class="col-md-3">
 
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
-                                                        <label
-                                                            for="resources_amount"
+                                                        <label for="end_date"
                                                             class="form-label">Fecha
-                                                            de fin
-                                                            ({{activity.end_date
-                                                            | date}}):</label>
+                                                            de fin:</label>
                                                         <input type="date"
                                                             class="form-control"
-                                                            id="resources_amount"
+                                                            id="end_date"
                                                             [(ngModel)]="editingActivity.end_date"
-                                                            name="resources_amount"
-                                                            maxlength="6">
+                                                            name="end_date">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="mb-3 ">
-                                                        <label for="campus"
-                                                            class="form-label">Prioridad
-                                                            ({{
-                                                            activity.priority
-                                                            }}):</label>
+                                                        <label for="priority"
+                                                            class="form-label">Prioridad:</label>
                                                         <select
                                                             class="form-select"
-                                                            [(ngModel)]="createPoa.priority"
-                                                            name="campus">
+                                                            [(ngModel)]="editingActivity.priority"
+                                                            name="priority">
                                                             <option
                                                                 value="BAJA">Baja</option>
                                                             <option
@@ -522,7 +509,6 @@
                                                 <label for="percentage"
                                                     class="mb-3">Porcentaje por
                                                     campus:</label>
-
                                                 <div
                                                     class="row d-flex justify-content-center">
                                                     <div
@@ -623,12 +609,12 @@
                 </div>
                 <ul class="list-group" *ngFor="let sig of signaturesList">
                     <li class="list-group-item"><b>Jefe directo:</b> {{
-                        sig.user_name }}
-                        <span>{{ sig.user_email }}</span>
-                        <p>{{ sig.coments }}</p>
+                        sig?.user_name }}
+                        <span>{{ sig?.user_email }}</span>
+                        <p>{{ sig?.coments }}</p>
                     </li>
                 </ul>
-                } @else {
+                } @else if (allActivities?.length != 0) {
                 <!-- BOTON FLOTANTE -->
                 <div style="width: 30%;" *ngIf="poaDetail.status != 'APROBADO'">
                     <a data-bs-toggle="modal" data-bs-target="#staticBackdrop"

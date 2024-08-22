@@ -94,7 +94,8 @@ export class PoaService {
     totalResources: number,
     totalAproved: number,
     status: string,
-    comentRejected: string
+    comentRejected: string,
+    status2: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -110,7 +111,8 @@ export class PoaService {
       total_resources: totalResources,
       total_aproved: totalAproved,
       status: status,
-      coment_rejected: comentRejected
+      coment_rejected: comentRejected,
+      status2: status2
     }
 
     return this._http.post(`${this.url}/poa_update`, data, { headers: headers });

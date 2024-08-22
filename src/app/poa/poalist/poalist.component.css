@@ -147,3 +147,25 @@ small {
 .toast-container {
     z-index: 9999;
 }
+
+.bg-orange {
+    background-color: rgb(255, 179, 0);
+  }
+  
+  .gap-2 {
+    gap: 0.5rem !important;
+  }
+  
+  @media (max-width: 767px) {
+    .mat-raised-button {
+      font-size: 0.9rem;
+      padding: 0.4rem 0.6rem;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) {
+    .mat-raised-button {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+    }
+  }
