@@ -151,6 +151,7 @@ export class ProjectTasksComponent implements OnInit {
 
   //Actualiza las tareas
   updateTask(taskId: number) {
+    // console.log('hola');
     if (this.updateForms[taskId] && this.updateForms[taskId].valid) {
       const updatedTask = this.updateForms[taskId].value;
       this._projectService.updateTask(
@@ -224,8 +225,6 @@ export class ProjectTasksComponent implements OnInit {
   getProjectTasks(projectId: number) {
     this._projectService.getTasks(this.token, projectId).subscribe((resp: any) => {
       this.allTasks = resp.data;
-      // console.log(this.allTasks);
-      // this.sortTasks();
     });
   }
 
@@ -240,7 +239,6 @@ export class ProjectTasksComponent implements OnInit {
     }
   }
 
-  //llama al metodo para eliminar proyecto
 
   deleteProject() {
     if (confirm('¿Está seguro de eliminar ' + this.projectDetail.project_name + ' , esto eliminará todas sus tareas e información?')) {
