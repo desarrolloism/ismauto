@@ -128,7 +128,9 @@ export class ProjectService {
     assignamentDate: string,
     endDate: string,
     state: string,
-    observation: string
+    observation: string,
+    responsibleCounterpart: string,
+    project_phases: string
   ) {
 
     const headers = new HttpHeaders({
@@ -145,7 +147,9 @@ export class ProjectService {
       assignament_date: assignamentDate,
       end_date: endDate,
       state: state,
-      observation: observation
+      observation: observation,
+      responsible_counterpart: responsibleCounterpart,
+      project_phases: project_phases
     }
 
     return this._http.post(`${this.url}/create_task`, data, { headers: headers });
@@ -157,12 +161,15 @@ export class ProjectService {
   updateTask(
     token: any,
     Id: number,
+    developerId: number,
     nameTaks: string,
     descriptionTask: string,
     assignamentDate: string,
     endDate: string,
     state: string,
-    observation: string
+    observation: string,
+    responsibleCounterpart: string,
+    project_phases: string
   ) {
 
     const headers = new HttpHeaders({
@@ -173,12 +180,15 @@ export class ProjectService {
 
     const data = {
       id: Id,
+      developer_id: developerId,
       name_task: nameTaks,
       description_task: descriptionTask,
       assignament_date: assignamentDate,
       end_date: endDate,
       state: state,
-      observation: observation
+      observation: observation,
+      responsible_counterpart: responsibleCounterpart,
+      project_phases: project_phases
     }
 
     return this._http.post(`${this.url}/update_task`, data, { headers: headers });
@@ -310,5 +320,86 @@ export class ProjectService {
     }
     return this._http.post(`${this.url}/accept_signature`, data, { headers: headers });
   }
+
+
+  //agrega links
+
+  addLink(
+    token: any,
+    taskId: number,
+    typeLink: string,
+    nameLInk: string,
+    link: string
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+
+      task_id: taskId,
+      type_link: typeLink,
+      name_link: nameLInk,
+      link
+    }
+    return this._http.post(`${this.url}/create_link`, data, { headers: headers });
+  }
+
+  //actualiza links
+  updateLink(
+    token: any,
+    Id: number,
+    typeLink: string,
+    nameLInk: string,
+    link: string
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+
+      id: Id,
+      type_link: typeLink,
+      name_link: nameLInk,
+      link
+    }
+    return this._http.post(`${this.url}/update_link`, data, { headers: headers });
+  }
+
+
+  //ELIMINA LINKS
+  deleteLink(
+    token: any,
+    Id: number
+  ) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+      link_id: Id
+    }
+    return this._http.post(`${this.url}/delete_link`, data, { headers: headers });
+  }
+
+  //muestra todos los links
+  getLinks(token: any, taskId:number){
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+
+    const data = {
+      task_id: taskId
+    }
+
+    return this._http.post(`${this.url}/show_link`, data, { headers: headers });
+  }
+
 
 }

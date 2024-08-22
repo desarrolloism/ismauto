@@ -49,7 +49,6 @@ export class SignaturesComponent {
     this.getDetail();
     this.getUsers();
     this.getallSignatures();
-
   }
 
 
@@ -78,7 +77,6 @@ export class SignaturesComponent {
 
   //confirmacion para agregar usuarios de firma
   onUserSelected(user: any) {
-
     if (confirm('¿Está seguro de agregar a ' + user.first_name + '?')) {
       this.selectedUser = user;
       console.log('usuario:', user.first_name);
@@ -93,7 +91,6 @@ export class SignaturesComponent {
       (resp: any) => {
         this.projectDetail = resp.data;
         // console.log(this.projectDetail);
-
       }
     );
   }

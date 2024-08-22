@@ -22,6 +22,6 @@ export class LoginService {
       'Content-Type': 'application/json'
     })
 
-    return this._http.post(`${this.url}/login_ppff`, user, { headers: headers });
+    return this._http.post(`${this.url}/login`, user, { headers: headers });
   }
 }

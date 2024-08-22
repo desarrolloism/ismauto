@@ -105,7 +105,7 @@ export class MaintDetailComponent implements OnInit {
   getDetail(maintId: any) {
     this._serMaint.detail(this.token, maintId).subscribe(resp => {
       this.maintenanceUrl = resp;
-      console.log(this.maintenanceUrl);
+      // console.log(this.maintenanceUrl);
       if (this.maintenanceUrl && this.maintenanceUrl.maintenance) {
         this.maintenance = this.maintenanceUrl.maintenance;
         this.isAdmin = this.maintenanceUrl.isAdmin;

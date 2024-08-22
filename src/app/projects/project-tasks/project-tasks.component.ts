@@ -4,6 +4,7 @@ import { ProjectService } from '../../services/project.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-project-tasks',
@@ -20,12 +21,12 @@ export class ProjectTasksComponent implements OnInit {
   taskId = 0;
   taskForm!: FormGroup;
 
-  stateOrder = {
-    'INICIANDO': 0,
-    'EN PROCESO': 1,
-    'EN REVISION': 2,
-    'TERMINADO': 3
-  };
+  // stateOrder = {
+  //   'INICIANDO': 0,
+  //   'EN PROCESO': 1,
+  //   'EN REVISION': 2,
+  //   'TERMINADO': 3
+  // };
 
   updateForms: { [key: number]: FormGroup } = {};
   taskStates = ['INICIANDO', 'EN PROCESO', 'EN REVISION', 'TERMINADO'];
@@ -37,8 +38,12 @@ export class ProjectTasksComponent implements OnInit {
     assignament_date: '',
     end_date: '',
     state: 'INICIANDO',
-    observation: ''
+    observation: '',
+    responsible_counterpart: '',
+    project_phases:''
   }
+
+  resposible: any;
 
 
   // Variables para correo
@@ -47,6 +52,22 @@ export class ProjectTasksComponent implements OnInit {
   last_name: string = '';
   fullname: string = '';
 
+  //variables para link
+
+  link = {
+    type_link: '',
+    name_link: '',
+    link: ''
+  }
+
+  update_link = {
+    type_link: '',
+    name_link: '',
+    link: ''
+  }
+
+  linksList: any;
+  linkId: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,6 +88,7 @@ export class ProjectTasksComponent implements OnInit {
     this.getDetail();
     this.getProjectTasks(this.projectId);
     this.getAvatar();
+    // this.getLinks();
   }
 
   //cambia de color segun el estado
@@ -94,7 +116,9 @@ export class ProjectTasksComponent implements OnInit {
       description_task: ['', Validators.required],
       assignament_date: ['', Validators.required],
       end_date: ['', Validators.required],
-      observation: ['', Validators.required]
+      observation: ['', Validators.required],
+      responsible_counterpart: ['', Validators.required],
+      project_phases: ['', Validators.required]
     });
   }
 
@@ -115,13 +139,15 @@ export class ProjectTasksComponent implements OnInit {
         newTask.assignament_date,
         newTask.end_date,
         newTask.state,
-        newTask.observation
+        newTask.observation,
+        newTask.responsible_counterpart,
+        newTask.project_phases
       ).subscribe((resp: any) => {
         if (resp.status == 'ok') {
           // console.log(resp);
           alert('Tarea creada con exito');
           this.getProjectTasks(this.projectId);
-          this.sortTasks();
+          // this.sortTasks();
           this.taskForm.reset();
         } else {
           alert('Error al crear la tarea');
@@ -130,6 +156,33 @@ export class ProjectTasksComponent implements OnInit {
       });
     }
   }
+
+  //Actualiza las tareas
+  updateTask(taskId: number) {
+    // console.log('hola');
+    if (this.updateForms[taskId] && this.updateForms[taskId].valid) {
+      const updatedTask = this.updateForms[taskId].value;
+      this._projectService.updateTask(
+        this.token,
+        taskId,
+        updatedTask.developer_id,
+        updatedTask.name_task,
+        updatedTask.description_task,
+        updatedTask.assignament_date,
+        updatedTask.end_date,
+        updatedTask.state,
+        updatedTask.observation,
+        updatedTask.responsible_counterpart,
+        updatedTask.project_phases
+      ).subscribe(resp => {
+        console.log('update devep',updatedTask.developer_id);
+        console.log(resp);
+        this.getProjectTasks(this.projectId);
+        // this.sortTasks();
+      });
+    }
+  }
+
 
   //inicializa el formulario de actualizacion
   initUpdateForm(task: any) {
@@ -140,7 +193,9 @@ export class ProjectTasksComponent implements OnInit {
       assignament_date: [task.assignament_date, Validators.required],
       end_date: [task.end_date, Validators.required],
       state: [task.state, Validators.required],
-      observation: [task.observation, Validators.required]
+      observation: [task.observation, Validators.required],
+      responsible_counterpart: [task.responsible_counterpart, Validators.required],
+      project_phases: [task.project_phases, Validators.required]
     });
   }
 
@@ -178,49 +233,30 @@ export class ProjectTasksComponent implements OnInit {
   getProjectTasks(projectId: number) {
     this._projectService.getTasks(this.token, projectId).subscribe((resp: any) => {
       this.allTasks = resp.data;
-      // console.log(this.allTasks);
-      this.sortTasks();
+      console.log(this.allTasks);
+      // this.sortTasks();
     });
   }
 
   //obtiene el id de la tarea
   panelOpened(taskId: number) {
     this.taskId = taskId;
+    this.getLinks();
     const task = this.allTasks.find((t: any) => t.id === taskId);
     if (task) {
       this.updateForms[taskId] = this.initUpdateForm(task);
     }
   }
 
-  //Actualiza las tareas
-  updateTask(taskId: number) {
-    if (this.updateForms[taskId] && this.updateForms[taskId].valid) {
-      const updatedTask = this.updateForms[taskId].value;
-      this._projectService.updateTask(
-        this.token,
-        taskId,
-        updatedTask.name_task,
-        updatedTask.description_task,
-        updatedTask.assignament_date,
-        updatedTask.end_date,
-        updatedTask.state,
-        updatedTask.observation
-      ).subscribe(resp => {
-        this.getProjectTasks(this.projectId);
-        this.sortTasks();
-      });
-    }
-  }
-
   //metodos para ordenar tareas por estado 
 
-  sortTasks() {
-    this.allTasks.sort((a: { state: string; }, b: { state: string; }) => {
-      const stateA = a.state as keyof typeof this.stateOrder;
-      const stateB = b.state as keyof typeof this.stateOrder;
-      return this.stateOrder[stateA] - this.stateOrder[stateB];
-    });
-  }
+  // sortTasks() {
+  //   this.allTasks.sort((a: { state: string; }, b: { state: string; }) => {
+  //     const stateA = a.state as keyof typeof this.stateOrder;
+  //     const stateB = b.state as keyof typeof this.stateOrder;
+  //     return this.stateOrder[stateA] - this.stateOrder[stateB];
+  //   });
+  // }
 
   //llama al metodo para eliminar proyecto
 
@@ -258,6 +294,143 @@ export class ProjectTasksComponent implements OnInit {
     // console.log(this.fullname);
     // console.log(this.email);
     // console.log(this.email);
+  }
+
+  //metodo para links
+  agregarLink() {
+    // console.log('num de task es', this.taskId);
+    this._projectService.addLink(
+      this.token,
+      this.taskId,
+      this.link.type_link,
+      this.link.name_link,
+      this.link.link
+    ).subscribe((resp: any) => {
+      if (resp.status === 'ok') {
+        // console.log(resp);
+        this.getLinks();
+        this.resetLinkForm();
+      }
+
+    });
+  }
+
+  resetLinkForm() {
+    this.link = {
+      type_link: '',
+      name_link: '',
+      link: ''
+    };
+    this.linkId = 0;
+  }
+
+  //actualiza links
+  updateLink() {
+    if (this.linkId) {
+      this._projectService.updateLink(
+        this.token,
+        this.linkId,
+        this.update_link.type_link,
+        this.update_link.name_link,
+        this.update_link.link
+      ).subscribe(
+        (resp: any) => {
+          // console.log(resp);
+          if (resp.status === 'ok') {
+            alert('URL actualizado exitosamente');
+            this.getLinks();
+            this.resetUpdateLinkForm();
+            // Cerrar la modal
+            const modal = document.getElementById('linkModal');
+            if (modal) {
+              const bootstrapModal = bootstrap.Modal.getInstance(modal);
+              if (bootstrapModal) {
+                bootstrapModal.hide();
+              }
+            }
+          } else {
+            alert('Error al actualizar el link');
+          }
+        },
+        (error) => {
+          console.error('Error al actualizar el link:', error);
+          alert('Error al actualizar el link');
+        }
+      );
+    } else {
+      alert('Por favor, seleccione un link para actualizar');
+    }
+  }
+
+  resetUpdateLinkForm() {
+    this.update_link = {
+      type_link: '',
+      name_link: '',
+      link: ''
+    };
+    this.linkId = 0;
+  }
+
+  //muestra links mediante el id
+  getLinks() {
+    this._projectService.getLinks(this.token, this.taskId).subscribe((resp: any) => {
+      this.linksList = resp.data;
+      // console.log('links son', this.linksList);
+    });
+  }
+
+  //obtiene el id del link
+  catchLinkId(id: number) {
+    this.linkId = id;
+    // console.log('linkid', this.linkId);
+
+    const selectedLink = this.linksList.find((link: any) => link.id === id);
+    // console.log('selectedLink', selectedLink);
+
+    if (selectedLink) {
+      this.update_link = {
+        type_link: selectedLink.type_link,
+        name_link: selectedLink.name_link,
+        link: selectedLink.link
+      };
+    }
+  }
+
+
+  //metodo para borrar link
+  deleteLink() {
+    if (this.linkId) {
+      if (confirm('¿Estás seguro de que deseas eliminar este enlace?')) {
+        this._projectService.deleteLink(this.token, this.linkId).subscribe(
+          (resp: any) => {
+            // console.log(resp);
+            if (resp.status === 'ok') {
+              alert('Link eliminado exitosamente');
+              this.getLinks();
+              this.resetUpdateLinkForm();
+
+              // Cerrar la modal
+              const modal = document.getElementById('linkModal');
+              if (modal) {
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                if (bootstrapModal) {
+                  bootstrapModal.hide();
+                }
+              }
+            } else {
+              alert('Error al eliminar el link');
+              this.router.navigate(['/erroruser']);
+            }
+          },
+          (error) => {
+            console.error('Error al eliminar el link:', error);
+            alert('Error al eliminar el link');
+          }
+        );
+      }
+    } else {
+      alert('Por favor, seleccione un link para borrar');
+    }
   }
 
 }

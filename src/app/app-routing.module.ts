@@ -18,6 +18,10 @@ import { CreateprojectComponent } from './projects/createproject/createproject.c
 import { ProjListComponent } from './projects/proj-list/proj-list.component';
 import { ProjectTasksComponent } from './projects/project-tasks/project-tasks.component';
 import { SignaturesComponent } from './projects/signatures/signatures.component';
+import { HomePoaComponent } from './poa/home-poa/home-poa.component';
+import { CreatepoaComponent } from './poa/createpoa/createpoa.component';
+import { PoaDetailComponent } from './poa/poa-detail/poa-detail.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -45,10 +49,13 @@ const routes: Routes = [
   { path: 'proj-list', component: ProjListComponent },
   { path: 'project-tasks/:id', component: ProjectTasksComponent },
   { path: 'signatures/:id', component: SignaturesComponent },
+  //poa 
+  { path: 'home-poa', component: HomePoaComponent },
+  { path: 'createpoa', component: CreatepoaComponent },
+  {path: 'poa-detail/:id', component: PoaDetailComponent},
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
-
 ];
 
 @NgModule({
