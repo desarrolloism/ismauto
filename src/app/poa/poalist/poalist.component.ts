@@ -179,12 +179,11 @@ export class PoalistComponent {
     this.isClearActive = false;
     this.isApprovedActive = false;
     if (this.isFinanceActive) {
-      this.filterPoa('CRISTIAN GONZALO VACA MONTOYA');
+      this.filterPoa('Cristian Vaca');
     } else{
       this.onSearch();
     }
   }
-
 
 
   //cuenta cantidad de poa dependiendo del status 

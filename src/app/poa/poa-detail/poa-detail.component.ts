@@ -41,7 +41,7 @@ export class PoaDetailComponent {
   accounting_list: any;
   compers_list: any;
   percetagePerCampus: any;
-
+  totalPercentage: number = 0;
 
   signature = {
     coments: '',
@@ -100,6 +100,15 @@ export class PoaDetailComponent {
 
   rejectComment: string = '';
 
+  constructor(
+    private _poaService: PoaService,
+    private _router: Router,
+    private _routeActivated: ActivatedRoute,
+    private _userServ: UsersService
+  ) {
+    this.actualDate = this.getFechaActual();
+  }
+
   //genera un pdf de la actividad
   downloadActivityPDF(activity: any) {
     const doc = new jsPDF();
@@ -114,12 +123,12 @@ export class PoaDetailComponent {
     //Título principal
     doc.setFontSize(14);
     doc.setTextColor(41, 128, 185); // Color azul
-    doc.text(`${this.poaDetail.name}`, 105, 25, { align: 'center' });
+    doc.text(`POA - ${this.poaDetail.creator_info.name}`, 105, 25, { align: 'center' });
 
     //Subtítulo
-    doc.setFontSize(10);
-    doc.setTextColor(0); // Color negro
-    doc.text(`Responsable: ${this.poaDetail.responsible}`, 105, 35, { align: 'center' });
+    // doc.setFontSize(10);
+    // doc.setTextColor(0); 
+    // doc.text(`Responsable: ${this.poaDetail.responsible}`, 105, 35, { align: 'center' });
 
 
     //Departamento
@@ -278,14 +287,7 @@ export class PoaDetailComponent {
     // console.log(this.usersId);
   }
 
-  constructor(
-    private _poaService: PoaService,
-    private _router: Router,
-    private _routeActivated: ActivatedRoute,
-    private _userServ: UsersService
-  ) {
-    this.actualDate = this.getFechaActual();
-  }
+ 
 
   ngOnInit() {
     this._routeActivated.params.subscribe(params => {
@@ -425,7 +427,6 @@ export class PoaDetailComponent {
           modalInstance.hide();
         }
         this._router.navigate(['/home-poa']);
-
       }
       if (this.selectedStatus && this.selectedStatus !== this.poaDetail.status) {
         updatedStatus = this.selectedStatus;
@@ -455,6 +456,7 @@ export class PoaDetailComponent {
             this.showRejectComment = false;
             this.rejectComment = '';
             alert('POA actualizado con éxito');
+            window.location.reload();
             const modal = document.getElementById('staticBackdrop');
             if (modal) {
               const modalInstance = bootstrap.Modal.getInstance(modal);
@@ -522,8 +524,8 @@ export class PoaDetailComponent {
   getCampusesSelected() {
     this._poaService.getCampuses(this.token, this.poaDetail.id).subscribe((resp: any) => {
       this.percetagePerCampus = resp.data;
-      // console.log('pocentaje por campus',this.percetagePerCampus);
-    })
+      console.log('pocentaje por campu11s',this.percetagePerCampus);
+    });
   }
 
   //actualizacion de actividades
@@ -532,20 +534,28 @@ export class PoaDetailComponent {
       this.editingActivity.approved_amount = 0;
       this.editingActivity.accounting_count = '';
     }
+
+    let approvedAmount = this.editingActivity.approved_activity === 'APROBADO' 
+    ? this.editingActivity.approved_amount 
+    : '0.00';
+
+  let accountingCount = this.editingActivity.approved_activity === 'APROBADO'
+    ? this.editingActivity.accounting_count
+    : '';
     this._poaService.updatePoaActivity(
       this.token,
-      activityId,
-      this.editingActivity.activity,
-      this.editingActivity.start_date,
-      this.editingActivity.end_date,
-      this.editingActivity.resources_detail,
-      this.editingActivity.resources_amount,
-      this.editingActivity.approved_amount,
-      this.editingActivity.comments,
-      this.editingActivity.accounting_count,
-      this.editingActivity.priority,
-      this.editingActivity.approved_activity,
-      this.editingActivity.responsible
+    activityId,
+    this.editingActivity.activity,
+    this.editingActivity.start_date,
+    this.editingActivity.end_date,
+    this.editingActivity.resources_detail,
+    this.editingActivity.resources_amount,
+    approvedAmount,
+    this.editingActivity.comments,
+    accountingCount,
+    this.editingActivity.priority,
+    this.editingActivity.approved_activity,
+    this.editingActivity.responsible
     ).subscribe(resp => {
       this.dataUpdateActivity = resp;
       // console.log(this.dataUpdateActivity);
@@ -564,13 +574,17 @@ export class PoaDetailComponent {
     this.editingActivity = { 
       ...activity,
       start_date: this.formatDateForInput(activity.start_date),
-      end_date: this.formatDateForInput(activity.end_date)
+      end_date: this.formatDateForInput(activity.end_date),
+      // Usa el monto requerido como valor inicial para el monto aprobado
+      approved_amount: activity.approved_amount !== '0.00' ? activity.approved_amount : activity.resources_amount
     };
     if (!this.editingActivity.approved_activity) {
-      this.editingActivity.approved_activity = ''; // O un valor por defecto
+      this.editingActivity.approved_activity = '';
     }
   }
-
+  formatAmount() {
+    this.editingActivity.approved_amount = parseFloat(this.editingActivity.approved_amount).toFixed(2);
+  }
   formatDateForInput(dateString: string): string {
     const date = new Date(dateString);
     return date.toISOString().split('T')[0];
@@ -583,12 +597,26 @@ export class PoaDetailComponent {
   }
 
   saveChanges(activityId: number) {
-    this.updateActivity(activityId);
-    this.sendPercentages();
+    if (this.editingActivity.approved_activity === 'APROBADO') {
+      if (this.totalPercentage !== 100) {
+        alert('Para aprobar la actividad, la suma de los porcentajes debe ser exactamente 100%');
+        return; // Detiene la ejecución de la función si los porcentajes no suman 100%
+      }
+      // Si los porcentajes suman 100%, continuamos con el guardado
+      this.updateActivity(activityId);
+      this.sendPercentages();
+    } else if (this.editingActivity.approved_activity === 'RECHAZADO') {
+      // Si se está rechazando, simplemente actualizamos sin verificar porcentajes
+      this.updateActivity(activityId);
+    } else {
+      // Si no se ha seleccionado ningún estado, mostramos un mensaje de error
+      alert('Por favor, seleccione si la actividad está aprobada o rechazada');
+      return;
+    }
+    
     this.isEditing = false;
     this.editingActivityId = null;
   }
-
   // Función para resetear el formulario
   resetCreatePoaForm() {
     this.createPoa = {
@@ -772,14 +800,22 @@ export class PoaDetailComponent {
     })
   }
 
+  //valida que los porcentajes lleguen al 100%
+  validateTotalPercentage(percentageCampus:number) {
+    this.totalPercentage = this.totalPercentage + percentageCampus;
+  }
 
+  getTotalPercentage(): number {
+    return this.percetagePerCampus.reduce((sum: number, campus: { percentage: string; }) => sum + (parseFloat(campus.percentage) || 0), 0);
+  }
 
   //valida solo numeros
   validateNum(event: any) {
-    const pattern = /[0-9]/;
+    const pattern = /^[0-9.]$/;
     const inputChar = String.fromCharCode(event.charCode);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     }
   }
+
 }
