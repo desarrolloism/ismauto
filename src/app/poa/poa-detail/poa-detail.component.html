@@ -306,7 +306,8 @@
                                                             class="form-control"
                                                             [(ngModel)]="editingActivity.resources_amount"
                                                             name="acti_reso"
-                                                            maxlength="6">
+                                                            maxlength="6"
+                                                            (keypress)="validateNum($event)">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -467,7 +468,10 @@
                                                                 id="approved_amount"
                                                                 [(ngModel)]="editingActivity.approved_amount"
                                                                 name="approved_amount"
-                                                                maxlength="6">
+                                                                step="0.01"
+                                                                min="0"
+                                                                (blur)="formatAmount()"
+                                                                (keypress)="validateNum($event)">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -506,31 +510,49 @@
 
                                                     </div>
                                                 </div>
-                                                <label for="percentage"
-                                                    class="mb-3">Porcentaje por
-                                                    campus:</label>
                                                 <div
-                                                    class="row d-flex justify-content-center">
+                                                    *ngIf="editingActivity.approved_activity === 'APROBADO'">
+                                                    <label for="percentage"
+                                                        class="mb-3">Porcentaje
+                                                        por campus:</label>
                                                     <div
-                                                        *ngFor="let campus of percetagePerCampus; let i = index"
-                                                        class="col-md-4 col-lg-2 mb-4">
-                                                        <label
-                                                            class="form-label"
-                                                            for="percentage-{{i}}">{{campus.name}}%</label>
-                                                        <input
-                                                            name="percentage-{{i}}"
-                                                            class="form-control"
-                                                            type="text"
-                                                            id="percentage-{{i}}"
-                                                            [(ngModel)]="campus.percentage"
-                                                            min="0"
-                                                            max="100"
-                                                            step="0.01"
-                                                            maxlength="4"
-                                                            placeholder="Ingrese el porcentaje"
-                                                            (keypress)="validateNum($event)"
-                                                            appOnlyNumbers
-                                                            required>
+                                                        class="row d-flex justify-content-center">
+                                                        <div
+                                                            *ngFor="let campus of percetagePerCampus; let i = index"
+                                                            class="col-md-4 col-lg-2 mb-4">
+                                                            <label
+                                                                class="form-label"
+                                                                for="percentage-{{i}}">{{campus.name}}%</label>
+                                                            <input
+                                                                name="percentage-{{i}}"
+                                                                class="form-control"
+                                                                type="number"
+                                                                id="percentage-{{i}}"
+                                                                [(ngModel)]="campus.percentage"
+                                                                min="0"
+                                                                max="100"
+                                                                step="0.01"
+                                                                maxlength="4"
+                                                                placeholder="Ingrese el porcentaje"
+                                                                (keypress)="validateNum($event)"
+                                                                (change)="validateTotalPercentage(campus.percentage)">
+                                                                
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div
+                                                            class="col-12 text-center">
+                                                            <p
+                                                                [ngClass]="{'text-success': getTotalPercentage() === 100, 'text-danger': getTotalPercentage() !== 100}">
+                                                                Total: {{
+                                                                getTotalPercentage()
+                                                                }}%
+                                                                <span
+                                                                    *ngIf="getTotalPercentage() !== 100">(Debe
+                                                                    sumar
+                                                                    100%)</span>
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -696,7 +718,8 @@
                                     class="form-control"
                                     id="resources_ammount"
                                     [(ngModel)]="createPoa.resources_ammount"
-                                    name="resources_ammount" required>
+                                    name="resources_ammount" required
+                                    (keypress)="validateNum($event)">
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="campus"

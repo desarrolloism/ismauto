@@ -16,7 +16,7 @@ export class DetailFormPoaComponent {
   dataUser: any;
   poaId: any;
   poaDetail: any;
-  is_edit: boolean = false;
+  is_edit: boolean = true;
   companies: any;
   percetagePerCampus: any;
 
