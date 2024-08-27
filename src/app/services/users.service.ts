@@ -29,7 +29,6 @@ export class UsersService {
     }
 
     all(token: any) {
-
         const headers = new HttpHeaders({
             'Authorization': this.auth,
             'Content-Type': 'application/json',
@@ -38,7 +37,6 @@ export class UsersService {
         return this._http.get(`${this.url}/users/all`, { headers: headers });
     }
 
-
     //obtiene usuarios de compers 
     getCompersUser(token: any) {
         const headers = new HttpHeaders({
@@ -46,10 +44,22 @@ export class UsersService {
             'Authorization': this.auth,
             'Token': token
         });
-
         const data = {}
-
         return this._http.post(`${this.url}/compers_user_list`, data, { headers: headers });
+    }
+
+
+    BoosLogin(token: any, cedula: any) {
+        const headers = new HttpHeaders({
+            'Authorization': this.auth,
+            'Content-Type': 'application/json',
+            'Token': token
+        });
+        const data = {
+            cedula: cedula
+        }
+
+        return this._http.post(`${this.url}/poa_jefe`, data, { headers: headers });
     }
 
 

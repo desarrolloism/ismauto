@@ -75,7 +75,7 @@ export class PoalistComponent {
               }
             };
           });
-          console.log('Resultados procesados:', this.filteredPoaList);
+          // console.log('Resultados procesados:', this.filteredPoaList);
         },
         (error) => {
           console.error('Error en la búsqueda:', error);
@@ -214,7 +214,7 @@ export class PoalistComponent {
       this._poaService.insertAllPoa(this.token).subscribe(
         (resp: any) => {
           this.insertDetail = resp.data;
-          console.log(this.insertDetail);
+          // console.log(this.insertDetail);
           this.showProgressBar = false;
           if (resp.status === 'ok') {
             this.showSuccessToast = true;
@@ -245,7 +245,7 @@ export class PoalistComponent {
   showPoas() {
     this._poaService.list(this.token).subscribe((resp: any) => {
       this.poaList = resp.data;
-      console.log('my poas',this.poaList);
+      // console.log('my poas',this.poaList);
     })
   }
 

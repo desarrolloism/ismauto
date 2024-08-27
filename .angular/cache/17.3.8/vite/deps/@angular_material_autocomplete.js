@@ -24,9 +24,6 @@ import {
 } from "./chunk-6N5SJLCB.js";
 import "./chunk-RKKMOVHN.js";
 import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-YIJT55BL.js";
-import {
   ActiveDescendantKeyManager,
   DOWN_ARROW,
   Directionality,
@@ -49,6 +46,9 @@ import {
   hasModifierKey,
   removeAriaReferencedId
 } from "./chunk-L345WMG4.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-YIJT55BL.js";
 import {
   CommonModule,
   DOCUMENT

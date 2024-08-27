@@ -6,7 +6,7 @@ import { NotificationsService } from '../../services/notifications.service';
 import { NgForm } from '@angular/forms';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardService } from '../../services/dashboard.service';
-
+import { UsersService } from '../../services/users.service';
 
 declare var bootstrap: any;
 
@@ -25,6 +25,7 @@ export class MainComponent {
   email: string = '';
   last_name: string = '';
   fullname: string = '';
+  is_Boss: any;
 
   //variable quemada
   percentage: number = 70;
@@ -42,6 +43,7 @@ export class MainComponent {
   changePass: boolean = false;
   urlPass: any;
   phone: any;
+  dni: any;
 
   userPass = {
     new_password: '',
@@ -61,7 +63,8 @@ export class MainComponent {
     private _router: Router,
     private _notiServ: NotificationsService,
     private _formBuilder: FormBuilder,
-    private _dash: DashboardService
+    private _dash: DashboardService,
+    private _userServ: UsersService
   ) {
     this.token = localStorage.getItem('token');
     this.getCases();
@@ -70,6 +73,7 @@ export class MainComponent {
   ngOnInit() {
     this.getNoti();
     this.getAvatar();
+    this.getBoos();
   }
 
   getNoti() {
@@ -110,6 +114,8 @@ export class MainComponent {
     this.last_name = userData.last_name;
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
+    this.dni = userData.dni;
+    // console.log('datos de usuario', userData);
   }
 
   getCases() {
@@ -125,7 +131,7 @@ export class MainComponent {
           this.responseTotals = this.responseApi.totals;
 
           this.getAvatar();
-          this.generateChart();
+          // this.generateChart();
         }
       }
     )
@@ -145,48 +151,48 @@ export class MainComponent {
     }
   }
 
-  generateChart() {
-    let aspectRatio = 2.5;
-    if (window.innerWidth < 576) { // Por ejemplo, si el ancho de la ventana es menor que 576px (el punto de corte para dispositivos móviles en Bootstrap)
-      aspectRatio = 1.5; // Cambia el aspectRatio para dispositivos móviles
-    }
-    const labels = this.responseTotals.map((item: any) => item.name);
-    const salesData = this.responseTotals.map((item: any) => item.total_status);
-    // const profitData = this.responseTotals.map((item: any) => item.total_status);
-    const colors = [
-      '#ff9e18',
-      '#ab0a3d',
-      '#9e28b5',
-      '#0a1f8f',
-      '#65b2e8',
-      '#898b8d',
-      'limegreen',
-    ];
+  // generateChart() {
+  //   let aspectRatio = 2.5;
+  //   if (window.innerWidth < 576) { // Por ejemplo, si el ancho de la ventana es menor que 576px (el punto de corte para dispositivos móviles en Bootstrap)
+  //     aspectRatio = 1.5; // Cambia el aspectRatio para dispositivos móviles
+  //   }
+  //   const labels = this.responseTotals.map((item: any) => item.name);
+  //   const salesData = this.responseTotals.map((item: any) => item.total_status);
+  //   // const profitData = this.responseTotals.map((item: any) => item.total_status);
+  //   const colors = [
+  //     '#ff9e18',
+  //     '#ab0a3d',
+  //     '#9e28b5',
+  //     '#0a1f8f',
+  //     '#65b2e8',
+  //     '#898b8d',
+  //     'limegreen',
+  //   ];
 
-    this.chart = new Chart("MyChart", {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "Total Casos",
-            data: salesData,
-            backgroundColor: colors
-          },
-        ]
-      },
-      options: {
-        aspectRatio: aspectRatio,
-        onClick: (evt, activeElements) => {
-          if (activeElements.length > 0) {
-            const clickedIndex = activeElements[0].index;
-            const selectedLabel = this.chart.data.labels[clickedIndex];
-            this.redirectToRoute(selectedLabel);
-          }
-        }
-      },
-    });
-  }
+  //   this.chart = new Chart("MyChart", {
+  //     type: 'bar',
+  //     data: {
+  //       labels: labels,
+  //       datasets: [
+  //         {
+  //           label: "Total Casos",
+  //           data: salesData,
+  //           backgroundColor: colors
+  //         },
+  //       ]
+  //     },
+  //     options: {
+  //       aspectRatio: aspectRatio,
+  //       onClick: (evt, activeElements) => {
+  //         if (activeElements.length > 0) {
+  //           const clickedIndex = activeElements[0].index;
+  //           const selectedLabel = this.chart.data.labels[clickedIndex];
+  //           this.redirectToRoute(selectedLabel);
+  //         }
+  //       }
+  //     },
+  //   });
+  // }
 
   // Método para redirigir a otra ruta según el elemento seleccionado
   redirectToRoute(selectedLabel: string) {
@@ -241,5 +247,13 @@ export class MainComponent {
       });
   }
 
-
+  //opbtiene si es ejfe o no
+  getBoos() {
+    this._userServ.BoosLogin(this.token, this.dni).subscribe(
+      (resp: any) => {
+        this.is_Boss = resp.data;
+        // console.log('es jefe:', this.is_Boss);
+      }
+    )
+  }
 }
