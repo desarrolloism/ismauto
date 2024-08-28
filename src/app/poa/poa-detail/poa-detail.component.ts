@@ -161,7 +161,7 @@ export class PoaDetailComponent {
         ['Detalle de recursos', activity.resources_detail],
         ['Monto de recursos', activity.resources_amount],
         ['Monto aprobado', activity.approved_amount],
-        ['Cuenta contable', activity.accounting_count],
+        // ['Cuenta contable', activity.accounting_count],
         ['Prioridad', activity.priority],
       ];
 
@@ -183,7 +183,7 @@ export class PoaDetailComponent {
         ['Detalle de recursos', activity.resources_detail],
         ['Monto de recursos', activity.resources_amount],
         ['Monto aprobado', 'Monto para actividad rechazada.'],
-        ['Cuenta contable', 'N/A'],
+        // ['Cuenta contable', 'N/A'],
         ['Prioridad', activity.priority],
       ];
 
@@ -502,7 +502,7 @@ export class PoaDetailComponent {
       this.createPoa.comments,
       this.createPoa.accounting_count,
       this.createPoa.priority,
-      this.createPoa.approved_activity,
+      this.createPoa.approved_activity = 'EN PROCESO',
       this.createPoa.responsible
     ).subscribe(resp => {
       this.dataActivity = resp;
@@ -524,46 +524,41 @@ export class PoaDetailComponent {
   getCampusesSelected() {
     this._poaService.getCampuses(this.token, this.poaDetail.id).subscribe((resp: any) => {
       this.percetagePerCampus = resp.data;
-      console.log('pocentaje por campu11s',this.percetagePerCampus);
+      // console.log('pocentaje por campu11s',this.percetagePerCampus);
     });
   }
 
   //actualizacion de actividades
   updateActivity(activityId: number) {
-    if (this.editingActivity.approved_activity === 'RECHAZADO') {
-      this.editingActivity.approved_amount = 0;
-      this.editingActivity.accounting_count = '';
-    }
-
     let approvedAmount = this.editingActivity.approved_activity === 'APROBADO' 
-    ? this.editingActivity.approved_amount 
-    : '0.00';
-
-  let accountingCount = this.editingActivity.approved_activity === 'APROBADO'
-    ? this.editingActivity.accounting_count
-    : '';
+      ? this.editingActivity.approved_amount 
+      : '0.00';
+  
+    let accountingCount = this.editingActivity.approved_activity === 'APROBADO'
+      ? this.editingActivity.accounting_count
+      : '';
+  
     this._poaService.updatePoaActivity(
       this.token,
-    activityId,
-    this.editingActivity.activity,
-    this.editingActivity.start_date,
-    this.editingActivity.end_date,
-    this.editingActivity.resources_detail,
-    this.editingActivity.resources_amount,
-    approvedAmount,
-    this.editingActivity.comments,
-    accountingCount,
-    this.editingActivity.priority,
-    this.editingActivity.approved_activity,
-    this.editingActivity.responsible
+      activityId,
+      this.editingActivity.activity,
+      this.editingActivity.start_date,
+      this.editingActivity.end_date,
+      this.editingActivity.resources_detail,
+      this.editingActivity.resources_amount,
+      approvedAmount,
+      this.editingActivity.comments,
+      accountingCount,
+      this.editingActivity.priority,
+      this.editingActivity.approved_activity,
+      this.editingActivity.responsible
     ).subscribe(resp => {
       this.dataUpdateActivity = resp;
-      // console.log(this.dataUpdateActivity);
       if (this.dataUpdateActivity.status === 'ok') {
         this.showActivities();
         this.getPoa();
         alert('Actividad actualizada con éxito');
-
+        // window.location.reload();
       }
     });
   }
@@ -575,11 +570,14 @@ export class PoaDetailComponent {
       ...activity,
       start_date: this.formatDateForInput(activity.start_date),
       end_date: this.formatDateForInput(activity.end_date),
-      // Usa el monto requerido como valor inicial para el monto aprobado
       approved_amount: activity.approved_amount !== '0.00' ? activity.approved_amount : activity.resources_amount
     };
-    if (!this.editingActivity.approved_activity) {
-      this.editingActivity.approved_activity = '';
+    
+    // Si la actividad estaba rechazada, cambia su estado a 'EN PROCESO'
+    if (this.editingActivity.approved_activity === 'RECHAZADO') {
+      this.editingActivity.approved_activity = 'EN PROCESO';
+      this.editingActivity.approved_amount = '0.00';
+      this.editingActivity.accounting_count = '';
     }
   }
   formatAmount() {
@@ -597,23 +595,32 @@ export class PoaDetailComponent {
   }
 
   saveChanges(activityId: number) {
-    if (this.editingActivity.approved_activity === 'APROBADO') {
-      if (this.totalPercentage !== 100) {
-        alert('Para aprobar la actividad, la suma de los porcentajes debe ser exactamente 100%');
-        return; // Detiene la ejecución de la función si los porcentajes no suman 100%
+    // console.log('total percentage antes de guardar:', this.totalPercentage);1724074693
+    this.validateTotalPercentage();
+    if (this.email === 'financiero@ism.edu.ec' || this.email === 'direccionfinanciera@ism.edu.ec') {
+      if (this.editingActivity.approved_activity === 'APROBADO') {
+        // if (this.totalPercentage !== 100) {
+        //   alert('Para aprobar la actividad, la suma de los porcentajes debe ser exactamente 100%');
+        //   return;
+        // }
+        if (Number(this.totalPercentage.toFixed(2)) !== 100) {
+          alert('Para aprobar la actividad, la suma de los porcentajes debe ser exactamente 100%');
+          return;
+        }
+        this.updateActivity(activityId);
+        this.sendPercentages();
+      } else if (this.editingActivity.approved_activity === 'RECHAZADO') {
+        this.updateActivity(activityId);
+      } else {
+        alert('Por favor, seleccione si la actividad está aprobada o rechazada');
+        return;
       }
-      // Si los porcentajes suman 100%, continuamos con el guardado
-      this.updateActivity(activityId);
-      this.sendPercentages();
-    } else if (this.editingActivity.approved_activity === 'RECHAZADO') {
-      // Si se está rechazando, simplemente actualizamos sin verificar porcentajes
-      this.updateActivity(activityId);
     } else {
-      // Si no se ha seleccionado ningún estado, mostramos un mensaje de error
-      alert('Por favor, seleccione si la actividad está aprobada o rechazada');
-      return;
+      // Para usuarios no administradores, siempre establece el estado en 'EN PROCESO'
+      this.editingActivity.approved_activity = 'EN PROCESO';
+      this.updateActivity(activityId);
     }
-    
+  
     this.isEditing = false;
     this.editingActivityId = null;
   }
@@ -737,7 +744,6 @@ export class PoaDetailComponent {
     }
   }
 
-
   //listado de firmas
   listSignatures() {
     this._poaService.getSignatures(this.token, this.poaId).subscribe((resp: any) => {
@@ -801,8 +807,10 @@ export class PoaDetailComponent {
   }
 
   //valida que los porcentajes lleguen al 100%
-  validateTotalPercentage(percentageCampus:number) {
-    this.totalPercentage = this.totalPercentage + percentageCampus;
+  validateTotalPercentage() {
+    this.totalPercentage = this.percetagePerCampus.reduce((sum: number, campus: { percentage: any; }) => sum + Number(campus.percentage || 0), 0);
+    // console.log('Porcentajes por campus:', this.percetagePerCampus);
+    // console.log('Porcentaje total recalculado:', this.totalPercentage);
   }
 
   getTotalPercentage(): number {

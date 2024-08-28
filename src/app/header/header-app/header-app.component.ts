@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-header-app',
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class HeaderAppComponent {
 
 
-  constructor(private _router: Router) { }
+  constructor(private _router: Router, private _userService: UsersService) { }
 
   avatar: string = '';
   name: string = '';
@@ -18,12 +18,16 @@ export class HeaderAppComponent {
   last_name: string = '';
   fullname: string = '';
   dataUser: any;
+  token: string | null = localStorage.getItem('token');
+  is_Boss: any;
+  dni: any;
 
   //abre el menu de colecturi
   colecturiaExpanded: boolean = false;
 
   ngOnInit() {
     this.getAvatar();
+    this.getBoos();
   }
 
   logout() {
@@ -41,6 +45,7 @@ export class HeaderAppComponent {
     this.last_name = userData.last_name;
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
+    this.dni = userData.dni
     // console.log('datos tammy',this.fullname);
 
   }
@@ -58,5 +63,14 @@ export class HeaderAppComponent {
   //abre el menu de colecturia
   toggleColecturia() {
     this.colecturiaExpanded = !this.colecturiaExpanded;
+  }
+
+  getBoos() {
+    this._userService.BoosLogin(this.token, this.dni).subscribe(
+      (resp: any) => {
+        this.is_Boss = resp.data;
+        // console.log('es jefe:', this.is_Boss);
+      }
+    )
   }
 }

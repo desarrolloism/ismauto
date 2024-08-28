@@ -30,6 +30,8 @@ export class CreatepoaComponent implements OnInit {
   enterpriseId: number = 0;
   savedEnterprises: { [key: number]: number } = {};
   savedCampuses: { [key: number]: number } = {};
+  actualDate: string = '';
+  status2 = 'INICIANDO';
 
 
   constructor(
@@ -165,6 +167,15 @@ export class CreatepoaComponent implements OnInit {
       });
   }
 
+  //obtiene feccha actual
+  getCurrentDate() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   //crea el poa
   onCreate() {
     if (this.poaForm.valid) {
@@ -180,10 +191,13 @@ export class CreatepoaComponent implements OnInit {
         0,
         0,
         this.fullname,
-        ''
+        '',
+        this.status2,
       ).subscribe({
         next: (response: any) => {
           if (response && response.status === 'ok') {
+            // console.log('fecha es', this.actualDate);
+            // console.log('fecha es', this.status2);
             this.poaId = response.id;
             // console.log('id de poa creado', this.poaId);
           } else {

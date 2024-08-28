@@ -1,6 +1,8 @@
 import { Component, HostListener, OnDestroy } from '@angular/core';
 import { MaintenanceService } from '../../services/maintenance.service';
 import { Router } from '@angular/router';
+import { UsersService } from '../../services/users.service';
+
 
 @Component({
   selector: 'app-list',
@@ -28,12 +30,15 @@ export class ListComponent {
   last_name: string = '';
   myMant: any;
   fullname: string = '';
+  dni: any;
+  is_Boss: any;
+
 
   //abre el menu de colecturi
   colecturiaExpanded: boolean = false;
 
   constructor(private _maintService: MaintenanceService,
-    private _router: Router
+    private _router: Router, private _usersService:UsersService
   ) {
     this.token = localStorage.getItem('token');
     this.list(this.actualPage);
@@ -84,7 +89,7 @@ export class ListComponent {
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
-
+    this.dni = userData.dni;
     this.fullname = this.name + ' ' + this.last_name
   }
 
@@ -105,4 +110,13 @@ export class ListComponent {
     window.open('https://lookerstudio.google.com/embed/reporting/8077023e-eb9d-4f9d-89bd-cee1846baa4c/page/HyMqD', '_blank');
   }
 
+
+  getBoos() {
+    this._usersService.BoosLogin(this.token, this.dni).subscribe(
+      (resp: any) => {
+        this.is_Boss = resp.data;
+        // console.log('es jefe:', this.is_Boss);
+      }
+    )
+  }
 }

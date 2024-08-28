@@ -174,7 +174,7 @@ export class DetailFormPoaComponent {
     if (savedId) {
       this._poaService.deleteCompAndInst(this.token, savedId).subscribe((resp: any) => {
         if (resp.status === 'ok') {
-          // console.log('Eliminado correctamente:', id, 'del tipo:', type);
+          console.log('Eliminado correctamente:', id, 'del tipo:', type);
           if (type === 'enterprise') {
             delete this.savedEnterprises[id];
           } else {
@@ -183,7 +183,7 @@ export class DetailFormPoaComponent {
         }
       });
     } else {
-      alert('Error, contacte con el administrador, a la brevedad');
+      // alert('Error, contacte con el administrador, a la brevedad');
     }
   }
 
@@ -213,10 +213,10 @@ export class DetailFormPoaComponent {
         this.selectedEnterprises = [];
         this.selectedCampuses = [];
         // window.location.reload();
-        this.is_edit = false;
         // console.log(resp);
         this.getInfoPoa();
         window.location.reload();
+        // this.is_edit = false;
       }
     });
   }
