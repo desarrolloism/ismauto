@@ -2,15 +2,15 @@ import {
   SelectionModel
 } from "./chunk-RKKMOVHN.js";
 import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-YIJT55BL.js";
+import {
   FocusMonitor,
   MatCommonModule,
   MatPseudoCheckbox,
   MatRipple,
   MatRippleModule
 } from "./chunk-L345WMG4.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-YIJT55BL.js";
 import "./chunk-DBGWKWCT.js";
 import {
   Attribute,

@@ -10,6 +10,7 @@ import {
 import {
   TemplatePortal
 } from "./chunk-RBQR75YX.js";
+import "./chunk-RKKMOVHN.js";
 import {
   MAT_FORM_FIELD,
   MatFormField
@@ -22,7 +23,9 @@ import {
   transition,
   trigger
 } from "./chunk-6N5SJLCB.js";
-import "./chunk-RKKMOVHN.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-YIJT55BL.js";
 import {
   ActiveDescendantKeyManager,
   DOWN_ARROW,
@@ -46,9 +49,6 @@ import {
   hasModifierKey,
   removeAriaReferencedId
 } from "./chunk-L345WMG4.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-YIJT55BL.js";
 import {
   CommonModule,
   DOCUMENT

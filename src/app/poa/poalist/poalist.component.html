@@ -97,7 +97,7 @@
             (click)="filterPoa(null); toggleClear()">
             Limpiar Filtro
         </button>
-        @if (poaList.length == 0 && email == 'financiero@ism.edu.ec') {
+        @if (email == 'financiero@ism.edu.ec') {
         <button mat-raised-button (click)="insertPoa()"
             color="primary"
             class="floating-button">

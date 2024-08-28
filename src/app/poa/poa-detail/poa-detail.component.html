@@ -187,12 +187,15 @@
                                                 matTooltip="{{activity.comments}}">Comentarios:</strong>
                                             {{
                                             activity.comments }}</p>
-                                        <p
+                                            @if(email == 'financiero@ism.edu.ec'){
+                                                <p
                                             *ngIf="activity.accounting_count"><strong>
                                                 <i
                                                     class="fa-solid fa-receipt me-2"></i>Cuenta
                                                 contable:</strong>
                                             {{ activity.accounting_count }}</p>
+                                            }
+                                        
 
                                         <div class="row" *ngIf="SavedPorcetage">
                                             <div
@@ -259,8 +262,7 @@
                                     <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
-                                        (click)="startEditing(activity)">Aprobar/Rechazar
-                                        Act.</button>
+                                        (click)="startEditing(activity)">Aprobar / No aprobar Act.</button>
                                     }
 
                                     @if (email ==
@@ -458,7 +460,7 @@
                                                     <label
                                                         class="form-check-label"
                                                         for="statusRejected">
-                                                        Rechazado
+                                                        No aprobado
                                                     </label>
                                                 </div>
 
@@ -522,8 +524,7 @@
                                                 <div
                                                     *ngIf="editingActivity.approved_activity === 'APROBADO'">
                                                     <label for="percentage"
-                                                        class="mb-3">Porcentaje
-                                                        por campus:</label>
+                                                        class="mb-3">porcentaje campus/empresa:</label>
                                                     <div
                                                         class="row d-flex justify-content-center">
                                                         <div
@@ -830,12 +831,12 @@
                             mat-raised-button>
                             Aprobar POA
                         </button>
-                        <button mat-raised-button
+                        <!-- <button mat-raised-button
                             (click)="updateStatus('RECHAZADO')"
                             [class.active]="selectedStatus === 'RECHAZADO'"
                             color="warn">
                             Rechazar POA
-                        </button>
+                        </button> -->
                         }@else {
                         <h5>Debe aprobar o rechazar todas las actividades de
                             este POA para continuar.</h5>

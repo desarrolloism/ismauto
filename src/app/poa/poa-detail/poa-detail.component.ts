@@ -161,7 +161,7 @@ export class PoaDetailComponent {
         ['Detalle de recursos', activity.resources_detail],
         ['Monto de recursos', activity.resources_amount],
         ['Monto aprobado', activity.approved_amount],
-        ['Cuenta contable', activity.accounting_count],
+        // ['Cuenta contable', activity.accounting_count],
         ['Prioridad', activity.priority],
       ];
 
@@ -183,7 +183,7 @@ export class PoaDetailComponent {
         ['Detalle de recursos', activity.resources_detail],
         ['Monto de recursos', activity.resources_amount],
         ['Monto aprobado', 'Monto para actividad rechazada.'],
-        ['Cuenta contable', 'N/A'],
+        // ['Cuenta contable', 'N/A'],
         ['Prioridad', activity.priority],
       ];
 
