@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PoaService } from '../../services/poa.service';
+import { forkJoin, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { saveAs } from 'file-saver'; 
+import { UsersService } from '../../services/users.service';
 
 declare var bootstrap: any;
-
 
 interface Poa {
   id: number;
@@ -23,12 +26,12 @@ interface Poa {
   templateUrl: './poalist.component.html',
   styleUrl: './poalist.component.css'
 })
-export class PoalistComponent {
+export class PoalistComponent implements OnInit {
   poaList: Poa[] = [];
   filteredPoaList: Poa[] = [];
   token = localStorage.getItem('token');
   searchTerm: string = '';
-  searchResults: any[] = [];
+  searchTerms = new Subject<string>();
   avatar: string = '';
   name: string = '';
   email: string = '';
@@ -36,7 +39,6 @@ export class PoalistComponent {
   fullname: string = '';
   is_admin: boolean = false;
   dni: string = '';
-  caseID: any;
   isFilterActive = false;
   isApprovedActive = false;
   isRejectedActive = false;
@@ -48,34 +50,36 @@ export class PoalistComponent {
   isInitiatingActive = false;
   isInProcessActive = false;
   isFinanceActive = false;
+  fileName: string = 'Registro de POA';
+  is_Boss: any;
 
-  constructor(private _router: Router, private _poaService: PoaService) { }
+  constructor(private _router: Router, private _poaService: PoaService, private _userServ: UsersService) { }
 
   ngOnInit() {
-    this.getpoaCreator(this.caseID);
-    this.getPoaList();
     this.getAvatar();
-    this.showPoas();
-    // this.onSearch();
+    this.getPoaList();
+    this.getBoos();
+    this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(term => this.performSearch(term));
   }
 
-  //busca poa mediante ares, dep, responsable
   onSearch() {
-    if (this.searchTerm && this.searchTerm.length > 2) {
-      this._poaService.searchPoa(this.token, this.searchTerm).subscribe(
-        (results: any) => { 
-          this.filteredPoaList = results.data.map((poa: Poa) => {
-            // Asegúrate de que creator exista y tenga la propiedad name
-            const creator = poa.creator || {};
-            return {
-              ...poa,
-              creator: {
-                ...creator,
-                name: creator.name || poa.status || 'Sin asignar' // Usa el status si el name no está disponible
-              }
-            };
-          });
-          // console.log('Resultados procesados:', this.filteredPoaList);
+    this.searchTerms.next(this.searchTerm);
+  }
+
+  performSearch(term: string) {
+    if (term && term.length > 2) {
+      this._poaService.searchPoa(this.token, term).subscribe(
+        (results: any) => {
+          this.filteredPoaList = results.data.map((poa: Poa) => ({
+            ...poa,
+            creator: {
+              ...poa.creator,
+              name: poa.creator?.name || poa.status || 'Sin asignar'
+            }
+          }));
         },
         (error) => {
           console.error('Error en la búsqueda:', error);
@@ -86,170 +90,120 @@ export class PoalistComponent {
     }
   }
 
-  //redirige hacia poa creado mediante el id
   goToPoa(id: number) {
     this._router.navigate(['/poa-detail', id]);
   }
 
-
   getPoaList() {
-    this._poaService.list(this.token).subscribe((resp: any) => {
-      this.poaList = resp.data.map((poa: Poa) => ({ ...poa, creator: poa.creator || {} })) as Poa[];
-      this.filteredPoaList = [...this.poaList];
-      Promise.all(this.poaList.map(poa => this.getpoaCreator(poa.case_id)))
-        .then(() => {
-          // console.log(this.poaList);
-          // console.log('filtered poa', this.filteredPoaList);
+    this._poaService.list(this.token).pipe(
+      switchMap((resp: any) => {
+        this.poaList = resp.data.map((poa: Poa) => ({ ...poa, creator: poa.creator || {} }));
+        const creatorCalls = this.poaList.map(poa => 
+          this._poaService.poaCreator(this.token, poa.case_id)
+        );
+        return forkJoin(creatorCalls);
+      })
+    ).subscribe(
+      (creatorResponses: any[]) => {
+        creatorResponses.forEach((resp, index) => {
+          this.poaList[index].creator = resp.data;
         });
-    });
+        this.filteredPoaList = [...this.poaList];
+      },
+      (error) => {
+        console.error('Error al obtener la lista de POA:', error);
+      }
+    );
   }
-
-
-  getpoaCreator(id: number): Promise<void> {
-    return new Promise((resolve) => {
-      this._poaService.poaCreator(this.token, id).subscribe((resp: any) => {
-        const creatorInfo = resp.data;
-        const poa = this.poaList.find(p => p.case_id === id);
-        if (poa) {
-          poa.creator = creatorInfo;
-        }
-        // console.log(`Creador de POA ${id}:`, creatorInfo);
-        resolve();
-      });
-    });
-  }
-
 
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    // console.log(userData);
     this.avatar = userData.avatar;
     this.name = userData.first_name;
     this.last_name = userData.last_name;
     this.email = userData.email;
-    this.fullname = this.name + ' ' + this.last_name
+    this.fullname = this.name + ' ' + this.last_name;
     this.dni = userData.dni;
-    setTimeout(() => {
-      this.getPoaList();
-    },1000)
-    
-    // console.log(this.dni);
-    // console.log(this.name);
-    // console.log('sdjgf', this.fullname);
-    // console.log(this.email);
   }
 
-  //filtra lista de poa
   filterPoa(status: string | null) {
     if (status === null) {
-      this.onSearch();
+      this.filteredPoaList = [...this.poaList];
     } else {
       this.filteredPoaList = this.poaList.filter(poa =>
         poa.status.toLowerCase() === status.toLowerCase() &&
         (this.searchTerm === '' ||
-          poa.area.toLowerCase().includes(this.searchTerm.toLowerCase()))
+          poa.area.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          poa.department.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          poa.creator?.name.toLowerCase().includes(this.searchTerm.toLowerCase()))
       );
     }
   }
 
-
-  //muestra que botones estan actuivos   
   toggleApproved() {
+    this.resetFilters();
     this.isApprovedActive = !this.isApprovedActive;
-    this.isRejectedActive = false;
-    this.isClearActive = false;
-    this.isInProcessActive = false;
-    this.isInitiatingActive = false;
-    this.isRejectedActive = false;
-    this.isClearActive = false;
     if (this.isApprovedActive) {
       this.filterPoa('APROBADO');
     } else {
-      this.onSearch();
+      this.filterPoa(null);
     }
   }
 
-  toggleFinance(){
+  toggleFinance() {
+    this.resetFilters();
     this.isFinanceActive = !this.isFinanceActive;
-    this.isRejectedActive = false;
-    this.isClearActive = false;
-    this.isInProcessActive = false;
-    this.isInitiatingActive = false;
-    this.isRejectedActive = false;
-    this.isClearActive = false;
-    this.isApprovedActive = false;
     if (this.isFinanceActive) {
-      this.filterPoa('Cristian Vaca');
-    } else{
-      this.onSearch();
+      this.filterPoa('CRISTIAN GONZALO VACA MONTOYA');
+    } else {
+      this.filterPoa(null);
     }
   }
 
-
-  //cuenta cantidad de poa dependiendo del status 
   countPoaByStatus(status: string): number {
     return this.poaList.filter(poa => poa.status.toLowerCase() === status.toLowerCase()).length;
   }
 
-  // limpia filtros
   toggleClear() {
-    this.isClearActive = !this.isClearActive;
+    this.resetFilters();
+    this.filterPoa(null);
+  }
+
+  resetFilters() {
     this.isApprovedActive = false;
     this.isRejectedActive = false;
     this.isInitiatingActive = false;
     this.isInProcessActive = false;
-    this.onSearch();
+    this.isFinanceActive = false;
+    this.isClearActive = false;
   }
 
-  //inserta poa a departamentos con jefe
   insertPoa() {
     if (confirm('¿Está seguro de insertar el POA?')) {
-      // const modal = document.getElementById('exampleModal');
-      // if (modal) {
-      //   const modalInstance = bootstrap.Modal.getInstance(modal);
-      //   modalInstance.hide();
-      // }
       this.showProgressBar = true;
-
       this._poaService.insertAllPoa(this.token).subscribe(
         (resp: any) => {
           this.insertDetail = resp.data;
-          // console.log(this.insertDetail);
           this.showProgressBar = false;
           if (resp.status === 'ok') {
             this.showSuccessToast = true;
             const toastElement = document.getElementById('successToast');
             const toast = new bootstrap.Toast(toastElement);
-            this.showPoas();
-            this.getPoaList();
             toast.show();
-            // setTimeout(() => {
-              
-            //   window.location.reload();
-            // }, 3000);
-            // window.location.reload();
+            this.getPoaList();
           } else {
-            alert('No se pudo insertar el POA, comuniquese con el administrador.');
+            alert('No se pudo insertar el POA, comuníquese con el administrador.');
           }
         },
         (error) => {
           this.showProgressBar = false;
-          alert('Ocurrió un error al insertar el POA, comuniquese con el administrador.');
+          alert('Ocurrió un error al insertar el POA, comuníquese con el administrador.');
           this._router.navigate(['/erroruser']);
         }
       );
     }
   }
 
-  //muestra listado de poas
-  showPoas() {
-    this._poaService.list(this.token).subscribe((resp: any) => {
-      this.poaList = resp.data;
-      // console.log('my poas',this.poaList);
-    })
-  }
-
-  //filtra por status2
   filterPoaByStatus2(status: string) {
     this.filteredPoaList = this.poaList.filter(poa =>
       poa.status2.toLowerCase() === status.toLowerCase() &&
@@ -260,34 +214,23 @@ export class PoalistComponent {
     );
   }
 
-
   toggleInitiating() {
+    this.resetFilters();
     this.isInitiatingActive = !this.isInitiatingActive;
-    this.isInProcessActive = false;
-    this.isApprovedActive = false;
-    this.isRejectedActive = false;
-    this.isClearActive = false;
-    this.isFinanceActive = false;
     if (this.isInitiatingActive) {
       this.filterPoaByStatus2('INICIANDO');
     } else {
-      this.onSearch();
+      this.filterPoa(null);
     }
   }
 
   toggleInProcess() {
+    this.resetFilters();
     this.isInProcessActive = !this.isInProcessActive;
-    this.isInitiatingActive = false;
-    this.isApprovedActive = false;
-    this.isRejectedActive = false;
-    this.isClearActive = false;
-    this.isInitiatingActive = false;
-    this.isFinanceActive = false;
-    
     if (this.isInProcessActive) {
       this.filterPoaByStatus2('EN PROCESO');
     } else {
-      this.onSearch();
+      this.filterPoa(null);
     }
   }
 
@@ -295,5 +238,30 @@ export class PoalistComponent {
     return this.poaList.filter(poa => poa.status2.toLowerCase() === status.toLowerCase()).length;
   }
 
+  downloadPoa() {
+    this._poaService.poaExcel(this.token, this.fileName).subscribe(
+      (data: Blob) => {
+        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${this.fileName}.xlsx`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error => {
+        console.error('Error downloading the file:', error);
+      }
+    );
+  }
 
+  getBoos() {
+    this._userServ.BoosLogin(this.token, this.dni).subscribe(
+      (resp: any) => {
+        this.is_Boss = resp.data.is_jefe;
+        // console.log('es jefe:', this.is_Boss);
+      }
+    )
+  }
+  
 }

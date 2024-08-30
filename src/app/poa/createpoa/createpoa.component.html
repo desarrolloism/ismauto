@@ -1,4 +1,6 @@
 <app-header-app></app-header-app>
+@if(is_Boss == true || email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'){
+
 <h1 class="text-center mt-4">Generar POA <span
         class="period">Periodo: {{
         academicYearId }}</span></h1>
@@ -183,3 +185,14 @@
         <mat-spinner></mat-spinner>
     </div>
 </div>
+} @else {
+    <div class="row error-container">
+        <div class="col-md-6 error-content">
+            <div class="error-icon">&#x26D4;</div>
+            <h1 class="mt-4">Acceso Denegado</h1>
+            <p class="lead">No tienes permisos para ingresar a esta página.</p>
+            <a routerLink="/main" class="btn btn-primary mt-3">Volver al Inicio</a>
+        </div>
+    </div>
+}
+

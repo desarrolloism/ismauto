@@ -126,3 +126,22 @@
   border: 2px solid blue;
   background-color: lightblue;
 }
+
+
+.error-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.error-content {
+  text-align: center;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.error-icon {
+  font-size: 5rem;
+  color: #dc3545;
+}
