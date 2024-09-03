@@ -116,3 +116,47 @@ a {
 .sec-icon {
     color: #f56e30 !important;
 }
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .card-header {
+    background-color: #f8f9fa;
+  }
+  
+  .btn-link {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+  
+
+  .sidebar {
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .nav-link {
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .nav-link.active {
+    font-weight: bold;
+    color: #007bff;
+    background-color: #e9ecef;
+  }
+  
+  .main {
+    padding-top: 20px;
+  }
+  
+  .card-header {
+    background-color: #f8f9fa;
+  }
+  

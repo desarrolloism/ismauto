@@ -27,6 +27,26 @@
 
     </div>
     <div class="navbar-links">
+        <!-- botones de repo -->
+        <ng-container *ngFor="let repo of navRepo">
+            <button *ngIf="isInternalLink(repo.id)"
+                style="margin-right: .5rem;"
+                class="text-white btn-nv"
+                mat-button
+                [routerLink]="getRouterLink(repo.id)">
+                {{repo.nombre}}
+            </button>
+            <button *ngIf="!isInternalLink(repo.id)"
+                style="margin-right: .5rem;"
+                matTooltip="Configuración de usuario"
+                class="text-white btn-nv"
+                mat-button
+                (click)="openExternalLink(repo.id)">
+                {{repo.nombre}}
+            </button>
+        </ng-container>
+        <!-- botones de repo -->
+
         <!-- procesos -->
         <button mat-button class="text-white btn-nv"
             style="margin-right: .5rem;"
@@ -58,6 +78,7 @@
 
         <!-- usuario -->
         <button
+            style="margin-right: .5rem;"
             matTooltip="Configuración de usuario"
             class="text-white btn-nv" mat-button
             [matMenuTriggerFor]="menu"><i
@@ -69,8 +90,6 @@
 </nav>
 
 <app-inicio></app-inicio>
-
-
 
 <!-- offcanvas-menu.component.html -->
 <div class="offcanvas offcanvas-start custom-offcanvas" tabindex="-1"
@@ -150,15 +169,37 @@
                     <i class="fa-solid fa-cash-register icons"></i>
                     Cursos vacacionales
                 </a>
-                <!-- <a
-                    class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
-                    routerLink="/financial-reports">
-                    <i class="fa-solid fa-chart-line icons"></i>
-                    Reportes financieros
-                </a> -->
             </div>
-            @if(is_Boss?.is_jefe == true || email === 'financiero@ism.edu.ec' || email === 'direccionfinanciera@ism.edu.ec')  {
-                <a
+
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                (click)="toggleRepo()">
+                <i class="fa-solid fa-coins icons"></i>
+                Repo
+                <i class="fa-solid fa-chevron-down ms-auto"
+                    [ngClass]="{'rotate': repoExpanded}"></i>
+            </a>
+            <div class="colecturia-submenu overflow-auto"
+                [ngClass]="{'expanded': repoExpanded}">
+                <ng-container *ngFor="let repo of navRepo">
+                    <a *ngIf="isInternalLink(repo.id)"
+                        class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                        [routerLink]="getRouterLink(repo.id)">
+                        {{repo.nombre}}
+                    </a>
+                    <a *ngIf="!isInternalLink(repo.id)"
+                        class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                        [href]="getExternalLink(repo.id)"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        {{repo.nombre}}
+                    </a>
+                </ng-container>
+            </div>
+
+            @if(is_Boss?.is_jefe == true || email === 'financiero@ism.edu.ec' ||
+            email === 'direccionfinanciera@ism.edu.ec') {
+            <a
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 routerLink="/home-poa">
                 <i class="fa-solid fa-map icons"></i>
@@ -275,4 +316,3 @@
         </div>
     </div>
 </div>
-

@@ -3,6 +3,8 @@ import { PoaService } from '../../services/poa.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/internal/operators/finalize';
+import { UsersService } from '../../services/users.service';
+
 
 @Component({
   selector: 'app-createpoa',
@@ -32,12 +34,15 @@ export class CreatepoaComponent implements OnInit {
   savedCampuses: { [key: number]: number } = {};
   actualDate: string = '';
   status2 = 'INICIANDO';
+  is_Boss: any;
+  dni: any;
 
 
   constructor(
     private _router: Router,
     private _poaService: PoaService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _userServ: UsersService
   ) { }
 
   ngOnInit() {
@@ -46,6 +51,7 @@ export class CreatepoaComponent implements OnInit {
     this.getCompersData();
     this.getYear();
     this.getCompAndCampus();
+    this.getBoos();
   }
 
    // Verifica si una empresa o campus fue seleccionado
@@ -235,6 +241,7 @@ export class CreatepoaComponent implements OnInit {
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
     this.ciUser = userData.dni;
+    this.dni = userData.dni;
   }
 
   // Obtener el periodo académico
@@ -253,5 +260,14 @@ export class CreatepoaComponent implements OnInit {
       // console.log('Institutos:', this.campuses);
       // console.log('Empresas:', this.enterprises);
     });
+  }
+
+  getBoos() {
+    this._userServ.BoosLogin(this.token, this.dni).subscribe(
+      (resp: any) => {
+        this.is_Boss = resp.data.is_jefe;
+        // console.log('es jefe:', this.is_Boss);
+      }
+    )
   }
 }

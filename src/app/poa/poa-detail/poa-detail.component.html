@@ -258,7 +258,7 @@
                                     @if (email == 'financiero@ism.edu.ec' &&
                                     activity.approved_amount == "0.00" &&
                                     poaDetail.status != 'APROBADO' &&
-                                    poaDetail.status == 'Cristian Vaca') {
+                                    poaDetail.status == 'CRISTIAN GONZALO VACA MONTOYA') {
                                     <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
@@ -821,7 +821,7 @@
                 <div class="col-md-12">
                     <div class="mb-3 d-flex justify-content-evenly"
                         *ngIf="poaDetail.status != 'APROBADO'">
-                        @if (poaDetail.status == 'Cristian Vaca' ||
+                        @if (poaDetail.status == 'CRISTIAN GONZALO VACA MONTOYA' ||
                         poaDetail.status == 'VINUEZA AIDA') {
                         @if (allActivitiesHaveApproval() && allActivities.length
                         != 0) {
