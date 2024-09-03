@@ -1,50 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { RepoService } from '../../services/repo.service';
 
 @Component({
-  selector: 'app-inicio',
-  templateUrl: './inicio.component.html',
-  styleUrl: './inicio.component.css'
+    selector: 'app-inicio',
+    templateUrl: './inicio.component.html',
+    styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent {
+export class InicioComponent implements OnInit {
+    token = localStorage.getItem('token');
+    category = 2;
+    repo: any[] = []; 
 
-  procesos = [
-    {
-        titulo: 'Planificación de proyectos',
-        categoria: 'CAM. TI',
-        badge_icon: 'fa-solid fa-code',
-        badge_text: 'Desarrollo de software',
-        url: 'https://nnovupro.ism.edu.ec/#/login',
-    },
-    {
-        titulo: 'Proceso de compras',
-        categoria: 'CAM. TI',
-        badge_icon: 'fa-solid fa-cart-shopping',
-        badge_text: 'Adquisiciones',
-        url: 'https://sgequito.ism.edu.ec/dev/automatizacion/innovucompras/web/com-cabecera',
-    },
-    {
-        titulo: 'Plan operativo Anual',
-        categoria: 'CAM. TI',
-        badge_icon: 'fa-solid fa-chart-line',
-        badge_text: 'Financiero',
-        url: 'https://nnovupro.ism.edu.ec/#/login',
-    },
-    {
-        titulo: 'Soporte técnico',
-        categoria: 'CAM. TI',
-        badge_icon: 'fa-solid fa-bug',
-        badge_text: 'Sistemas',
-        url: 'https://help.ism.edu.ec/',
-    },
-];
+    constructor(private _repo: RepoService) { }
 
-
-toggleCollapse(index: number) {
-    const element = document.getElementById('collapse' + index);
-    if (element) {
-        const isCollapsed = element.classList.contains('show');
-        element.classList.toggle('show', !isCollapsed);
+    ngOnInit() {
+        this.getRepository();
     }
-}
 
+    getRepository() {
+        this._repo.getRepository(this.token, this.category).subscribe((resp: any) => {
+            this.repo = resp.categoria.tipos; 
+            console.log(this.repo);
+        });
+    }
 }

@@ -7,6 +7,8 @@ import { NgForm } from '@angular/forms';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardService } from '../../services/dashboard.service';
 import { UsersService } from '../../services/users.service';
+import { MockapiService } from '../../services/mockapi.service';
+import { RepoService } from '../../services/repo.service';
 
 declare var bootstrap: any;
 
@@ -18,6 +20,9 @@ declare var bootstrap: any;
 export class MainComponent {
   //abre el menu de colecturi
   colecturiaExpanded: boolean = false;
+
+  //abre menu repo
+  repoExpanded: boolean = false;
 
   //variables para info del usuario
   avatar: string = '';
@@ -51,6 +56,24 @@ export class MainComponent {
     phone_number: ''
   }
 
+  Mock: any;
+
+  //variable para obtener navbar repo
+  navRepo: any[] = [];
+
+  constructor(private _casesServ: CasesService,
+    private _router: Router,
+    private _notiServ: NotificationsService,
+    private _formBuilder: FormBuilder,
+    private _dash: DashboardService,
+    private _userServ: UsersService,
+    private _mockapi: MockapiService,
+    private _repo: RepoService
+  ) {
+    this.token = localStorage.getItem('token');
+    this.getCases();
+  }
+
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
   });
@@ -59,21 +82,27 @@ export class MainComponent {
   });
   isLinear = false;
 
-  constructor(private _casesServ: CasesService,
-    private _router: Router,
-    private _notiServ: NotificationsService,
-    private _formBuilder: FormBuilder,
-    private _dash: DashboardService,
-    private _userServ: UsersService
-  ) {
-    this.token = localStorage.getItem('token');
-    this.getCases();
+  //servicio fake para obtener la informacion del usuario
+
+  getFake() {
+    this._mockapi.getFakeUsers().subscribe(resp => {
+      this.Mock = resp;
+      console.log('mock respo es', this.Mock);
+    })
   }
+
+
+  //servicio fake para obtener la informacion del usuario
+
+
+
 
   ngOnInit() {
     this.getNoti();
     this.getAvatar();
     this.getBoos();
+    this.navBar();
+    // this.getFake();
   }
 
   getNoti() {
@@ -140,6 +169,11 @@ export class MainComponent {
   //abre el menu de colecturia
   toggleColecturia() {
     this.colecturiaExpanded = !this.colecturiaExpanded;
+  }
+
+  //abre el menu de repo
+  toggleRepo() {
+    this.repoExpanded = !this.repoExpanded;
   }
 
   getTotalStatus() {
@@ -256,4 +290,37 @@ export class MainComponent {
       }
     )
   }
+
+
+  //obtiene la nav para repo
+  navBar() {
+    this._repo.getNav(this.token).subscribe((resp: any) => {
+      this.navRepo = resp.data;
+      console.log('resp de nav', this.navRepo);
+    });
+  }
+
+  isInternalLink(id: number): boolean {
+    return id !== 6 && id !== 7; 
+  }
+
+  getRouterLink(id: number): string {
+    switch(id) {
+      case 2: return '/userdata';
+      // case 2: return '/documents';
+      default: return '/';
+    }
+  }
+
+  getExternalLink(id: number): string {
+    switch(id) {
+      case 6: return 'https://help.ism.edu.ec/'; 
+      default: return '#';
+    }
+  }
+
+  openExternalLink(id: number): void {
+    window.open(this.getExternalLink(id), '_blank', 'noopener,noreferrer');
+  }
+  
 }
