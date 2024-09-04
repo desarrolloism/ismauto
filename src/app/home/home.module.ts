@@ -16,13 +16,25 @@ import {MatListModule} from '@angular/material/list';
 import { HeaderModule } from '../header/header.module';
 import { DashboardsComponent } from './dashboards/dashboards.component';
 import { InicioComponent } from './inicio/inicio.component';
-
+import { RepositoryComponent } from './repository/repository.component';
+import {MatToolbarModule} from '@angular/material/toolbar'; 
+import {MatGridListModule} from '@angular/material/grid-list'; 
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { PoliciesComponent } from './policies/policies.component';
+import { DocumentsComponent } from './documents/documents.component';
+import {MatTabsModule} from '@angular/material/tabs'; 
 
 @NgModule({
   declarations: [
     MainComponent,
     DashboardsComponent,
     InicioComponent,
+    RepositoryComponent,
+    PoliciesComponent,
+    DocumentsComponent,
   ],
   imports: [
     CommonModule,
@@ -38,7 +50,14 @@ import { InicioComponent } from './inicio/inicio.component';
     MatFormFieldModule,
     MatStepperModule,
     MatListModule,
-    HeaderModule
+    HeaderModule,
+    MatToolbarModule,
+    MatGridListModule,
+    MatIconModule,
+    MatCardModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatTabsModule
   ]
 })
 export class HomeModule { }

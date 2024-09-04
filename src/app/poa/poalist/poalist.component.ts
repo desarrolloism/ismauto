@@ -52,6 +52,7 @@ export class PoalistComponent implements OnInit {
   isFinanceActive = false;
   fileName: string = 'Registro de POA';
   is_Boss: any;
+  isLoading: boolean =  false;
 
   constructor(private _router: Router, private _poaService: PoaService, private _userServ: UsersService) { }
 
@@ -95,6 +96,7 @@ export class PoalistComponent implements OnInit {
   }
 
   getPoaList() {
+    this.isLoading = true;
     this._poaService.list(this.token).pipe(
       switchMap((resp: any) => {
         this.poaList = resp.data.map((poa: Poa) => ({ ...poa, creator: poa.creator || {} }));
@@ -105,6 +107,7 @@ export class PoalistComponent implements OnInit {
       })
     ).subscribe(
       (creatorResponses: any[]) => {
+        this.isLoading = false;
         creatorResponses.forEach((resp, index) => {
           this.poaList[index].creator = resp.data;
         });

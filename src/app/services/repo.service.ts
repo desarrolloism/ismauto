@@ -53,17 +53,18 @@ export class RepoService {
     return this._http.post(`${this.url}/repo_search`, data, { headers: headers });
   }
 
-  //realiza busqueda de documento
-  searchDocument(token: any, search: string) {
+  downloadRepo(token: any,documentoID:number) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',
       'Token': token
     });
-    const data = {
-      'search': search
-    }
-    return this._http.post(`${this.url}/doc_search`, data, { headers: headers });
-  }
 
+    const data = {
+      'documento_id': documentoID
+    }
+
+    return this._http.post(`${this.url}/download`, data, { headers: headers, responseType: 'blob'   });
+
+  }
 } 

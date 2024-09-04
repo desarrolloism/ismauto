@@ -4,6 +4,21 @@
     --negro: black;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+.background-image {
+    background-image: url('../../../assets/images/AFerdrade\ WPH\ -29.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    margin-top: -35px;
+}
+
+
 .label-color {
     color: #ffc107;
 }

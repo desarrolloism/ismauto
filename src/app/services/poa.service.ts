@@ -485,7 +485,7 @@ export class PoaService {
 
     return this._http.post(`${this.url}/poa_excel`, data, {
       headers: headers,
-      responseType: 'blob'  // Specify that we expect a binary response
+      responseType: 'blob'  
     });
   }
 

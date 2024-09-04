@@ -1,0 +1,146 @@
+<app-header-app></app-header-app>
+<div class="repository-container">
+    <div class="search-container">
+        <mat-form-field appearance="outline" class="search-field mt-2">
+            <mat-label>Procesos ISO 9001</mat-label>
+            <input matInput type="text" [(ngModel)]="searchTerm"
+                (input)="searchDocuments()"
+                placeholder="Nombre, código, tipo o subtipo">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div *ngIf="!isLoading && filteredDocuments.length > 0"
+        class="documents-container">
+        <div class="three-column-grid">
+            <mat-card class="document-card"
+                *ngFor="let documento of filteredDocuments">
+                <mat-card-header class="text-center">
+                    @if(documento.versiones[0].is_automatic == true){
+                    <mat-card-title><i class="fa-solid fa-code sm-2"
+                            style="color: #f56e30;"></i>
+                        {{ documento.nombre_documentos
+                        }}</mat-card-title>
+                    }@else {
+                    <mat-card-title><i
+                            class="fa-regular fa-file icon-color"></i> {{
+                        documento.nombre_documentos
+                        }}</mat-card-title>
+                    }
+
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <mat-card-subtitle>
+                                <i class="fa-solid fa-passport icon-color"></i>
+                                {{
+                                documento.codigo }}
+                            </mat-card-subtitle>
+                            <p><i matTooltip="Versión"
+                                    class="fa-solid fa-code-compare icon-color"></i>
+                                {{
+                                documento.versiones[0].codigo_version }}</p>
+                        </div>
+                        <div class="col-md-6">
+
+                            <p><i matTooltip="Tipo"
+                                    class="fa-solid fa-diagram-project icon-color"></i>
+                                {{
+                                documento.tipo }}</p>
+                            <p><i matTooltip="Subtipo"
+                                    class="fa-regular fa-font-awesome icon-color"></i>
+                                {{
+                                documento.subtipo }}</p>
+
+                        </div>
+                    </div>
+
+                </mat-card-content>
+                <mat-card-actions class="d-flex justify-content-evenly">
+                    <p><i matTooltip="ID"
+                            class="fa-solid fa-fingerprint"></i> {{
+                        documento.id
+                        }}</p>
+
+                        <p>
+                            <i matTooltip="Versiones anteriores"
+                        class="fa-solid fa-clock-rotate-left"
+                        data-bs-toggle="modal"
+                        data-bs-target="#versionModal"></i>
+                        </p>
+                    
+                    @if(documento.versiones[0].is_automatic == true){
+                    <button
+                        matTooltip="Proceso Automatizado, haz clic en el icono para ir al sistema."
+                        class="btn"
+                        (click)="getDocumentId(documento.id, 
+                        documento.nombre_documentos, 
+                        documento.versiones[0].codigo_version, 
+                        documento.versiones[0].ruta, 
+                        documento.versiones[0].is_automatic)">
+                        <i class="fa-solid fa-globe fa-2x"
+                            style="color: rgb(38, 161, 38);"></i>
+                    </button>
+                    }@else {
+                    <button
+                        matTooltip="Clic para descargar la última versión disponible."
+                        class="btn"
+                        (click)="getDocumentId(documento.id, 
+                        documento.nombre_documentos, 
+                        documento.versiones[0].codigo_version, 
+                        documento.versiones[0].ruta,
+                        documento.versiones[0].is_automatic)">
+                        <i class="fa-solid fa-cloud-arrow-down fa-2x"
+                            style="color: #3f51b5;"></i>
+                    </button>
+                    }
+
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+    <mat-card *ngIf="isLoading" class="no-results spinner-container">
+        <mat-card-content>
+            Un momento estamos recopilando la información...
+            
+            <div class="loader" style="margin-top: 7rem;">
+                <div class="square" id="sq1"></div>
+                <div class="square" id="sq2"></div>
+                <div class="square" id="sq3"></div>
+                <div class="square" id="sq4"></div>
+                <div class="square" id="sq5"></div>
+                <div class="square" id="sq6"></div>
+                <div class="square" id="sq7"></div>
+                <div class="square" id="sq8"></div>
+                <div class="square" id="sq9"></div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="!isLoading && filteredDocuments.length === 0"
+        class="no-results">
+        <mat-card-content>
+            <p>No se encontraron documentos que coincidan con la búsqueda.</p>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<!-- Modal para ver version del documento-->
+<div class="modal fade" id="versionModal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5"
+                    id="exampleModalLabel">Versiones:</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                No existen versiones anteriores de este documento disponibles.
+            </div>
+        </div>
+    </div>
+</div>
+

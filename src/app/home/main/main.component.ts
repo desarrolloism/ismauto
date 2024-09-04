@@ -305,9 +305,10 @@ export class MainComponent {
   }
 
   getRouterLink(id: number): string {
-    switch(id) {
-      case 2: return '/userdata';
-      // case 2: return '/documents';
+    switch (id) {
+      case 2: return '/iso';
+      case 3: return '/politicas-y-normativas';
+      case 4: return '/documentos';
       default: return '/';
     }
   }

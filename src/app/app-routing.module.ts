@@ -22,6 +22,9 @@ import { HomePoaComponent } from './poa/home-poa/home-poa.component';
 import { CreatepoaComponent } from './poa/createpoa/createpoa.component';
 import { PoaDetailComponent } from './poa/poa-detail/poa-detail.component';
 import { NotStartedDepsComponent } from './poa/not-started-deps/not-started-deps.component';
+import { RepositoryComponent } from './home/repository/repository.component';
+import { PoliciesComponent } from './home/policies/policies.component';
+import { DocumentsComponent } from './home/documents/documents.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -55,7 +58,10 @@ const routes: Routes = [
   {path: 'poa-detail/:id', component: PoaDetailComponent},
   {path: 'not-started-deps', component: NotStartedDepsComponent},
 
-
+  //repository
+  { path: 'iso', component: RepositoryComponent },
+  { path: 'politicas-y-normativas', component: PoliciesComponent },
+  { path: 'documentos', component: DocumentsComponent },
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
