@@ -24,4 +24,19 @@ export class LoginService {
 
     return this._http.post(`${this.url}/login`, user, { headers: headers });
   }
+
+  //resetea contraseña
+  resetPass(username: string, email: string) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json'
+    });
+
+    const data = {
+      username,
+      email
+    }
+
+    return this._http.post(`${this.url}/reset_password`,data, { headers: headers });
+  }
 }

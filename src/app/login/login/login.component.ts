@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
-
+import Swal from 'sweetalert2'
+import 'sweetalert2/src/sweetalert2.scss'
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,12 @@ export class LoginComponent {
     username: '',
     password: ''
   }
+
+  reset_user ='';
   showPassword = false;
+  email: string = '';
+  changePass = '';
+  isLoading = false;
 
   constructor(private _loginService: LoginService, private _router: Router) { }
 
@@ -80,6 +86,46 @@ export class LoginComponent {
         }
       }
     );
+  }
+
+  resetPassword() {
+    this.isLoading = true;
+    this._loginService.resetPass(this.reset_user, this.email).subscribe(
+      (resp: any) => {
+        // Si la respuesta es exitosa
+        this.changePass = resp.status;
+        if (resp.status == 'ok') {
+          console.log(resp.status);
+          console.log(this.changePass);
+          this.isLoading = false;
+          this.sweet();
+        }
+      },
+      (error: any) => {
+        // Si ocurre un error en la solicitud HTTP
+        if (error.status === 401) {
+          alert('El correo o usuario no coincide en la base de datos');
+        } else if (error.status === 500) {
+          alert('Ocurrio un error al reestablecer su contraseña, por favor intentelo de nuevo mas tarde o contacte con soporte técnico.');
+        }
+      }
+    );
+  }
+  
+  sweet(){
+    Swal.fire({
+      title: 'Éxito!',
+      text: 'Contraseña reestablecida correctamente!',
+      icon: 'success',
+    })
+  }
+  
+  validateNum(event: any) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
   }
 
 }

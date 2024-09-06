@@ -6,9 +6,14 @@
 }
 
 .search-container {
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+    background: white; /* Establece un fondo para que no se mezcle con el contenido detrás */
+    padding: 1rem; /* Ajusta el espacio interno si es necesario */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade una sombra para separarlo visualmente del contenido */
 }
+
 
 .search-field {
     width: 100%;
@@ -25,13 +30,31 @@
 
 .three-column-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 8px;
 }
 
-.icon-color {
+.icon-color-primary {
     color: #3f51b5;
 }
+
+
+.icon-color-secondary {
+    color: #f56e30;
+}
+
+.icon-color-tertiary {
+    color: #8c0dac;
+}
+
+.icon-color-quaternary {
+    color: #41a712;
+}
+
+.icon-color-quinto {
+    color: #07108b;
+}
+
 
 .document-card {
     display: flex;
@@ -42,6 +65,7 @@
 
     mat-card-header {
         padding: 0 0 4px 0;
+        justify-content: end;
     }
 
     mat-card-title {
@@ -59,7 +83,8 @@
     mat-card-content {
         flex-grow: 1;
         font-size: 10px;
-        padding: 4px 0;
+        padding: 20px 0;
+        margin-left: 4rem;
 
         p {
             margin: 2px 0;
@@ -108,7 +133,7 @@
     }
 }
 
-/* From Uiverse.io by JkHuger */
+/* estilos para patnalla de carga */
 @keyframes loader_5191 {
     from {
         opacity: 0;
@@ -120,7 +145,7 @@
 }
 
 .square {
-    background: #ddd;
+    background: #ab0a3d;
     width: 10px;
     height: 10px;
     position: absolute;
@@ -176,4 +201,18 @@
     margin-top: 15px;
     margin-left: 15px;
     animation: loader_5191 675ms ease-in-out 600ms infinite;
+}
+
+.float{
+    position: fixed;
+    width: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #000000;
+    padding: 5px;
+    /* border: 1px solid #666; */
+    color: white;
+    text-align: center;
+    border-radius: 90px;
+    cursor: pointer;
 }

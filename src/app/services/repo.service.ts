@@ -14,7 +14,7 @@ export class RepoService {
   public token: any;
 
   //obtiene nav bar de repo
-  getNav(token:any){
+  getNav(token: any) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',
@@ -26,13 +26,13 @@ export class RepoService {
   }
 
   //obtiene los documentos del repositorio
-  getRepository(token: any, categoriaID:number) {
+  getRepository(token: any, categoriaID: number) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',
       'Token': token
     });
-    
+
 
     const data = {
       'categoria_id': categoriaID
@@ -53,18 +53,33 @@ export class RepoService {
     return this._http.post(`${this.url}/repo_search`, data, { headers: headers });
   }
 
-  downloadRepo(token: any,documentoID:number) {
+  downloadRepo(token: any, documentoID: number) {
     const headers = new HttpHeaders({
       'Authorization': this.auth,
       'Content-Type': 'application/json',
       'Token': token
     });
-
     const data = {
       'documento_id': documentoID
     }
-
-    return this._http.post(`${this.url}/download`, data, { headers: headers, responseType: 'blob'   });
-
+    return this._http.post(`${this.url}/download`, data, { headers: headers, responseType: 'blob' });
   }
-} 
+
+  //sube archivo para actualizarlo
+  uploadFile(token: any, idDocument: number, nombre: string, codigo: string, file: File) {
+    const formData = new FormData();
+    formData.append('id', idDocument.toString());
+    formData.append('nombre', nombre);
+    formData.append('codigo', codigo);
+    formData.append('file', file, file.name);
+
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Token': token
+    });
+
+    return this._http.post(`${this.url}/update_document`, formData, { headers: headers });
+  }
+}
+
+

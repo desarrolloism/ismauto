@@ -25,7 +25,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { PoliciesComponent } from './policies/policies.component';
 import { DocumentsComponent } from './documents/documents.component';
-import {MatTabsModule} from '@angular/material/tabs'; 
+import {MatTabsModule} from '@angular/material/tabs';
+import { ProcessIsoComponent } from './process-iso/process-iso.component';
+import { NormativaIsoComponent } from './normativa-iso/normativa-iso.component'; 
+import {MatExpansionModule} from '@angular/material/expansion';
+import { PoliciesRepoComponent } from './policies-repo/policies-repo.component';
+import { OurPoliticsComponent } from './our-politics/our-politics.component'; 
+
 
 @NgModule({
   declarations: [
@@ -35,6 +41,10 @@ import {MatTabsModule} from '@angular/material/tabs';
     RepositoryComponent,
     PoliciesComponent,
     DocumentsComponent,
+    ProcessIsoComponent,
+    NormativaIsoComponent,
+    PoliciesRepoComponent,
+    OurPoliticsComponent,
   ],
   imports: [
     CommonModule,
@@ -57,7 +67,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatCardModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatExpansionModule
   ]
 })
 export class HomeModule { }
