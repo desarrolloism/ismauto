@@ -16,6 +16,21 @@ import {MatListModule} from '@angular/material/list';
 import { HeaderModule } from '../header/header.module';
 import { DashboardsComponent } from './dashboards/dashboards.component';
 import { InicioComponent } from './inicio/inicio.component';
+import { RepositoryComponent } from './repository/repository.component';
+import {MatToolbarModule} from '@angular/material/toolbar'; 
+import {MatGridListModule} from '@angular/material/grid-list'; 
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { PoliciesComponent } from './policies/policies.component';
+import { DocumentsComponent } from './documents/documents.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { ProcessIsoComponent } from './process-iso/process-iso.component';
+import { NormativaIsoComponent } from './normativa-iso/normativa-iso.component'; 
+import {MatExpansionModule} from '@angular/material/expansion';
+import { PoliciesRepoComponent } from './policies-repo/policies-repo.component';
+import { OurPoliticsComponent } from './our-politics/our-politics.component'; 
 
 
 @NgModule({
@@ -23,6 +38,13 @@ import { InicioComponent } from './inicio/inicio.component';
     MainComponent,
     DashboardsComponent,
     InicioComponent,
+    RepositoryComponent,
+    PoliciesComponent,
+    DocumentsComponent,
+    ProcessIsoComponent,
+    NormativaIsoComponent,
+    PoliciesRepoComponent,
+    OurPoliticsComponent,
   ],
   imports: [
     CommonModule,
@@ -38,7 +60,15 @@ import { InicioComponent } from './inicio/inicio.component';
     MatFormFieldModule,
     MatStepperModule,
     MatListModule,
-    HeaderModule
+    HeaderModule,
+    MatToolbarModule,
+    MatGridListModule,
+    MatIconModule,
+    MatCardModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatTabsModule,
+    MatExpansionModule
   ]
 })
 export class HomeModule { }

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from '../../services/users.service';
+import { RepoService } from '../../services/repo.service';
+
 
 @Component({
   selector: 'app-header-app',
@@ -10,7 +12,10 @@ import { UsersService } from '../../services/users.service';
 export class HeaderAppComponent {
 
 
-  constructor(private _router: Router, private _userService: UsersService) { }
+  constructor(private _router: Router,
+    private _userService: UsersService,
+    private _repo: RepoService
+  ) { }
 
   avatar: string = '';
   name: string = '';
@@ -21,13 +26,17 @@ export class HeaderAppComponent {
   token: string | null = localStorage.getItem('token');
   is_Boss: any;
   dni: any;
+  repoExpanded: boolean = false;
 
   //abre el menu de colecturi
   colecturiaExpanded: boolean = false;
+  //variable para obtener navbar repo
+  navRepo: any[] = [];
 
   ngOnInit() {
     this.getAvatar();
     this.getBoos();
+    this.navBar();
   }
 
   logout() {
@@ -72,5 +81,39 @@ export class HeaderAppComponent {
         // console.log('es jefe:', this.is_Boss);
       }
     )
+  }
+
+
+  //obtiene la nav para repo
+  navBar() {
+    this._repo.getNav(this.token).subscribe((resp: any) => {
+      this.navRepo = resp.data;
+      console.log('resp de nav', this.navRepo);
+    });
+  }
+
+  //abre el menu de repo
+  toggleRepo() {
+    this.repoExpanded = !this.repoExpanded;
+  }
+
+  isInternalLink(id: number): boolean {
+    return id !== 6 && id !== 7;
+  }
+
+  getRouterLink(id: number): string {
+    switch (id) {
+      case 2: return '/iso';
+      case 3: return '/politicas-y-normativas';
+      case 4: return '/documentos';
+      default: return '/';
+    }
+  }
+
+  getExternalLink(id: number): string {
+    switch (id) {
+      case 6: return 'https://help.ism.edu.ec/';
+      default: return '#';
+    }
   }
 }

@@ -1,5 +1,5 @@
 <app-header-app></app-header-app>
-@if(is_Boss == true || email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec'){
+@if(is_Boss == true || email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec' && isLoading == false){
 
 <h1 class="text-center mt-4">Generar POA <span
         class="period">Periodo: {{
@@ -185,13 +185,28 @@
         <mat-spinner></mat-spinner>
     </div>
 </div>
-} @else {
+} @else if(isLoading == true) {
+    <div class="d-flex justify-content-center"
+    style="margin-top: 5rem;margin-bottom: 5rem;">
+    <div class="honeycomb">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<h2 class="text-center text-secondary">Comprobando información...</h2>
+}@else{
     <div class="row error-container">
         <div class="col-md-6 error-content">
             <div class="error-icon">&#x26D4;</div>
-            <h1 class="mt-4">Acceso Denegado</h1>
+            <h1 style="margin-top: 5rem;">Acceso Denegado</h1>
             <p class="lead">No tienes permisos para ingresar a esta página.</p>
-            <a routerLink="/main" class="btn btn-primary mt-3">Volver al Inicio</a>
+            <a routerLink="/main" mat-raised-button class="mt-3">Volver al
+                Inicio</a>
         </div>
     </div>
 }

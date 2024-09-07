@@ -338,8 +338,32 @@
                     Reportes financieros
                 </a> -->
             </div>
-
-            @if(is_Boss.is_jefe == true || email === 'financiero@ism.edu.ec' || email === 'direccionfinanciera@ism.edu.ec')  {
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                (click)="toggleRepo()">
+                <i class="fa-solid fa-folder-closed me-2"></i>
+                Repositorio digital
+                <i class="fa-solid fa-chevron-down ms-auto"
+                    [ngClass]="{'rotate': repoExpanded}"></i>
+            </a>
+            <div class="colecturia-submenu overflow-auto"
+                [ngClass]="{'expanded': repoExpanded}">
+                <ng-container *ngFor="let repo of navRepo">
+                    <a *ngIf="isInternalLink(repo.id)"
+                        class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                        [routerLink]="getRouterLink(repo.id)">
+                        {{repo.nombre}}
+                    </a>
+                    <a *ngIf="!isInternalLink(repo.id)"
+                        class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start ps-4"
+                        [href]="getExternalLink(repo.id)"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        {{repo.nombre}}
+                    </a>
+                </ng-container>
+            </div>
+            @if(is_Boss?.is_jefe == true || email === 'financiero@ism.edu.ec' || email === 'direccionfinanciera@ism.edu.ec')  {
                 <a
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 routerLink="/home-poa">

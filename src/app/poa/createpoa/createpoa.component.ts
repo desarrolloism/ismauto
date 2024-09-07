@@ -37,7 +37,6 @@ export class CreatepoaComponent implements OnInit {
   is_Boss: any;
   dni: any;
 
-
   constructor(
     private _router: Router,
     private _poaService: PoaService,
@@ -162,6 +161,7 @@ export class CreatepoaComponent implements OnInit {
       .subscribe({
         next: (resp: any) => {
           this.compersData = resp.data;
+          this.isLoading = false;
           if (this.compersData.nombre && this.compersData.departamento) {
             // console.log('Cedula encontrada');
           } else {

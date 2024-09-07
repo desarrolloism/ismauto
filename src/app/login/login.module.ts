@@ -6,8 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ValidatetokenComponent } from './validatetoken/validatetoken.component';
 import { RouterModule } from '@angular/router';
-
-
+import {MatButtonModule} from '@angular/material/button'; 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
 
 @NgModule({
   declarations: [
@@ -18,7 +18,9 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     HttpClientModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    MatButtonModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     LoginComponent,

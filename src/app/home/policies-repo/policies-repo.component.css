@@ -1,0 +1,115 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: red;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos para la lista de tipos */
+.href {
+    border: none;
+    color: black;
+    /* margin-bottom: 2px; */
+}
+
+.btn-link {
+    color: #2c3e50;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+
+.href:hover, .href.active {
+    color: #ab0a3d;
+    text-decoration: none;
+}
+
+
+
+/* Estilos para subtipos y documentos */
+.btn-secondary {
+    background-color: #ecf0f1;
+    color: #ffffff;
+    border: none;
+    text-align: left;
+    padding: 8px 15px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #d6dbdf;
+}
+
+.list-group-item{
+    transition: transform 0.3s ease;
+}
+
+.list-group-item.text-decoration-underline {
+    cursor: pointer;
+    /* padding: 4px 8px; */
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.list-group-item.text-decoration-underline:hover {
+    background-color: #e8f4fd;
+}
+
+.list-group-item:hover{
+    text-decoration: underline;
+    /* transform: scale(1.1);  */
+}
+
+/* Iconos */
+.fa-solid {
+    margin-left: 10px;
+    color: #ab0a3d;
+}
+
+/* Títulos */
+h3, h4 {
+    color: black;
+    margin-bottom: 15px;
+}
+
+/* Mantener tus estilos específicos */
+.d-md-none {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .d-md-none {
+        display: block !important;
+    }
+    .col-md-8 {
+        display: none;
+    }
+}
+
+.list-group-item .btn-link.active {
+    background-color: #ab0a3d;
+    color: white;
+}
+
+/* Ajustes adicionales para responsividad */
+@media (max-width: 768px) {
+    .btn-link, .btn-secondary, .list-group-item.text-decoration-underline {
+        width: 100%;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+}
