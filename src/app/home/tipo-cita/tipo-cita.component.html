@@ -1,0 +1,44 @@
+<app-header-app></app-header-app>
+<div class="tipo-cita-container">
+  <mat-card>
+    <mat-card-title>Seleccione el tipo de cita</mat-card-title>
+    <mat-card-subtitle>Elija el tipo de personal y el nivel educativo para
+      continuar con la asignación de citas.</mat-card-subtitle>
+
+    <mat-card-content>
+      <p class="instruction-text">Tipo de personal:</p>
+      <mat-radio-group [(ngModel)]="tipoPersonal"
+        aria-label="Seleccione el tipo de personal">
+        <mat-radio-button value="docente">Personal Docente</mat-radio-button>
+        <mat-radio-button value="administrativo">Personal
+          Administrativo</mat-radio-button>
+      </mat-radio-group>
+
+      <p class="instruction-text">Seleccione el nivel educativo:</p>
+      <mat-form-field appearance="fill">
+        <mat-label>Nivel educativo</mat-label>
+        <mat-select [(ngModel)]="nivelEducativo">
+          <mat-option value="INICIAL">Inicial</mat-option>
+          <mat-option value="PEP">Pep</mat-option>
+          <mat-option value="PAI">Pai</mat-option>
+          <mat-option value="DIPLOMA">Diploma</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="nivel-details text-center">
+        <h3>Detalles del nivel educativo seleccionado:</h3>
+        <p *ngIf="nivelEducativo">Has seleccionado:
+          <strong>{{nivelEducativo}}</strong></p>
+        <p *ngIf="!nivelEducativo">Selecciona un nivel educativo para ver los
+          detalles aquí.</p>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary"
+        [disabled]="!nivelEducativo || !tipoPersonal"
+        (click)="continueToPersonal()">Continuar</button>
+    </mat-card-actions>
+  </mat-card>
+
+</div>

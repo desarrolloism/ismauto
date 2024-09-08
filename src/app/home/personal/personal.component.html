@@ -1,0 +1,23 @@
+<app-header-app></app-header-app>
+
+<div class="personal-container">
+  <h2 class="personal-title" color="primary">
+    <span> Elige al profesional con quien deseas agendar una cita.</span>
+  </h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-4">
+    
+    <div class="col" *ngFor="let persona of personalMostrado">
+      <div class="card h-100 personal-card" (click)="selectPersona(persona)">
+        <div class="card-body">
+          <h5 class="card-title">{{persona.nombre}}</h5>
+          <p class="card-text">{{persona.cargo}}</p>
+
+        </div>
+        <div class="card-footer text-end d-flex justify-content-between">
+          <small>{{ persona.correo }}</small>
+          <i class="fa-solid fa-user-tie fa-2x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

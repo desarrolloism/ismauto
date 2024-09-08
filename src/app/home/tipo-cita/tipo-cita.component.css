@@ -1,0 +1,56 @@
+.tipo-cita-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  background: url('../../../assets/images/FOTO\ PORTADA.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #333;
+  padding: 0 1rem;
+}
+
+mat-card {
+  padding: 2rem;
+  text-align: center;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  border-left: 4px solid #FF4081;
+}
+
+mat-card-subtitle {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.instruction-text {
+  font-size: 1.1rem;
+  color: #3F51B5;
+  margin-bottom: 0.5rem;
+}
+
+.nivel-details {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.info-section {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.help-text {
+  font-size: 0.9rem;
+  color: #FF4081;
+}
+
+.decorative-icon {
+  font-size: 3rem;
+  color: #FF4081;
+  margin-bottom: 0.5rem;
+}

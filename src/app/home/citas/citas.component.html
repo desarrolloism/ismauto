@@ -1,0 +1,41 @@
+<app-header-app></app-header-app>
+<mat-toolbar color="primary">
+    <span><mat-icon>school</mat-icon> Citas Escolares</span>
+</mat-toolbar>
+<div class="app-container">
+
+    <!-- Sección de bienvenida -->
+    <div class="info-section mt-4">
+        <h2>¡Bienvenido a la plataforma de citas escolares!</h2>
+        <p>Aquí podrás gestionar tus citas de manera rápida y sencilla. Sigue
+            los pasos y estarás listo para tu cita en pocos minutos.</p>
+
+    </div>
+
+    <!-- Formulario de cédula -->
+    <div class="cedula-container">
+        <mat-card>
+            <mat-card-title>
+                <i class="fa-regular fa-user"></i> Ingrese su número de cédula
+            </mat-card-title>
+            <p class="text-dark">Por favor, ingrese su número de cédula para
+                poder continuar con la asignación de citas escolares.</p>
+            <mat-form-field appearance="fill">
+                <input matInput [(ngModel)]="cedula"
+                    placeholder="Número de cédula">
+            </mat-form-field>
+            <button mat-raised-button color="primary"
+                (click)="submitCedula()">Continuar</button>
+            <p class="help-text">Si no tiene un número de cédula válido, por
+                favor contacte con su centro escolar.</p>
+        </mat-card>
+
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="text-center new-card"><mat-icon
+                class="decorative-icon">event_available</mat-icon>
+            <p class="cta-text">¿Tienes problemas? <a href="#">Contacta con
+                    soporte</a> para recibir ayuda.</p></div>
+    </div>
+
+</div>
