@@ -30,8 +30,17 @@ import { ProcessIsoComponent } from './process-iso/process-iso.component';
 import { NormativaIsoComponent } from './normativa-iso/normativa-iso.component'; 
 import {MatExpansionModule} from '@angular/material/expansion';
 import { PoliciesRepoComponent } from './policies-repo/policies-repo.component';
-import { OurPoliticsComponent } from './our-politics/our-politics.component'; 
-
+import { OurPoliticsComponent } from './our-politics/our-politics.component';
+import { CitasComponent } from './citas/citas.component';
+import { UsuarioComponent } from './usuario/usuario.component';
+import {MatRadioModule} from '@angular/material/radio';
+import { TipoCitaComponent } from './tipo-cita/tipo-cita.component'; 
+import {MatSelectModule} from '@angular/material/select';
+import { PersonalComponent } from './personal/personal.component';
+import { FechasComponent } from './fechas/fechas.component'; 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { ConfirmacionComponent } from './confirmacion/confirmacion.component';
+import { CedulaComponent } from './cedula/cedula.component'; 
 
 @NgModule({
   declarations: [
@@ -45,6 +54,13 @@ import { OurPoliticsComponent } from './our-politics/our-politics.component';
     NormativaIsoComponent,
     PoliciesRepoComponent,
     OurPoliticsComponent,
+    CitasComponent,
+    UsuarioComponent,
+    TipoCitaComponent,
+    PersonalComponent,
+    FechasComponent,
+    ConfirmacionComponent,
+    CedulaComponent,
   ],
   imports: [
     CommonModule,
@@ -68,7 +84,10 @@ import { OurPoliticsComponent } from './our-politics/our-politics.component';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatDatepickerModule
   ]
 })
 export class HomeModule { }

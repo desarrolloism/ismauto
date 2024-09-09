@@ -25,6 +25,13 @@ import { NotStartedDepsComponent } from './poa/not-started-deps/not-started-deps
 import { RepositoryComponent } from './home/repository/repository.component';
 import { PoliciesComponent } from './home/policies/policies.component';
 import { DocumentsComponent } from './home/documents/documents.component';
+import { CitasComponent } from './home/citas/citas.component';
+import { UsuarioComponent } from './home/usuario/usuario.component';
+import { TipoCitaComponent } from './home/tipo-cita/tipo-cita.component';
+import { PersonalComponent } from './home/personal/personal.component';
+import { FechasComponent } from './home/fechas/fechas.component';
+import { CedulaComponent } from './home/cedula/cedula.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -62,6 +69,15 @@ const routes: Routes = [
   { path: 'iso', component: RepositoryComponent },
   { path: 'politicas-y-normativas', component: PoliciesComponent },
   { path: 'documentos', component: DocumentsComponent },
+
+  //citas
+  { path: 'citas', component: CitasComponent },
+  { path: 'usuario', component: UsuarioComponent },
+  { path: 'tipo-cita', component: TipoCitaComponent },
+  { path: 'personal', component: PersonalComponent },
+  { path: 'fechas', component: FechasComponent },
+  { path: 'cedula', component: CedulaComponent },
+
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

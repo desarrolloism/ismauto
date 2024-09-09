@@ -1,0 +1,153 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Cambiado a min-height */
+  background: url('../../../assets/images/FOTO\ PORTADA.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #333;
+  padding: 0 1rem;
+}
+
+mat-toolbar {
+  background: linear-gradient(45deg, #FF4081, #3F51B5);
+  color: white;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajuste para la sección de bienvenida */
+.info-section {
+  text-align: center;
+  color: white;
+  background: linear-gradient(45deg, #ff40808a, #3f51b59f);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
+}
+
+.info-section h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.info-section p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.cta-text {
+  font-size: 1rem;
+  color: #FF4081;
+}
+
+.cta-text a {
+  color: #FF4081;
+  text-decoration: none;
+}
+
+.cta-text a:hover {
+  text-decoration: underline;
+}
+
+.decorative-icon {
+  font-size: 3rem;
+  color: #FF4081;
+  margin-top: 1rem;
+}
+
+/* Ajuste del formulario */
+.cedula-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Cambiado a center */
+  height: auto; /* Cambiado a auto para que no se genere espacio extra */
+  padding: 1rem;
+  /* background: rgba(255, 255, 255, 0.9); */
+  border-radius: 10px;
+  /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); */
+}
+
+
+mat-card {
+  padding: 1.5rem;
+  text-align: center;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  border-left: 4px solid #FF4081;
+  min-height: auto; /* Cambiado a auto */
+}
+
+mat-card-title {
+  font-size: 1.6rem;
+  color: #3F51B5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-card-title mat-icon {
+  margin-right: 0.5rem;
+  color: #FF4081;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+button {
+  margin-top: 1rem;
+  width: 100%;
+  background-color: #FF4081;
+  color: white;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #F50057;
+}
+
+
+p {
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.help-text {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #FF4081;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0; /* Reducir el padding */
+  }
+
+  .info-section {
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+
+  mat-card {
+    max-width: 90%; /* Ajuste para móviles */
+  }
+}
+
+
+.new-card{
+  padding: 1.5rem;
+  text-align: center;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  border-left: 4px solid #FF4081;
+  min-height: auto; /* Cambiado a auto */
+}

@@ -1,0 +1,129 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  background: url('../../../assets/images/FOTO\ PORTADA.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #333;
+  padding: 0 1rem;
+}
+
+.usuario-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+}
+
+mat-card {
+  padding: 2rem;
+  text-align: center;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  border-left: 4px solid #FF4081;
+}
+
+mat-card-title {
+  font-size: 1.6rem;
+  color: #3F51B5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-card-title i {
+  margin-right: 0.5rem;
+  color: #FF4081;
+}
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+mat-radio-button {
+  margin: 5px;
+}
+
+button {
+  margin-top: 1rem;
+  width: 100%;
+  background-color: #FF4081;
+  color: white;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #F50057;
+}
+
+p {
+  color: #3F51B5;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0;
+  }
+
+  mat-card {
+    max-width: 90%;
+  }
+}
+
+.usuario-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+}
+
+mat-card {
+  padding: 2rem;
+  text-align: center;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+mat-card-subtitle {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.campus-details {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.instruction-text {
+  font-size: 1.1rem;
+  color: #3F51B5;
+  margin-bottom: 0.5rem;
+}
+
+.info-section {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.help-text {
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.decorative-icon {
+  font-size: 3rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}

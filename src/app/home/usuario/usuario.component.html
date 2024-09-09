@@ -1,0 +1,36 @@
+<app-header-app></app-header-app>
+<div class="app-container">
+  <div class="usuario-container">
+    <mat-card>
+      <mat-card-title>Bienvenido, {{usuario.nombre}}</mat-card-title>
+      <mat-card-subtitle>
+        Estamos encantados de verte nuevamente. Por favor, selecciona un campus para continuar con el proceso de citas escolares.
+      </mat-card-subtitle>
+      
+      <mat-card-content>
+        <p class="instruction-text">Elige uno de los siguientes campus:</p>
+        
+        <mat-radio-group [(ngModel)]="selectedCampus" aria-label="Seleccione un campus">
+          <mat-radio-button *ngFor="let campus of campuses" [value]="campus">
+            {{campus}}
+          </mat-radio-button>
+        </mat-radio-group>
+        
+        <div class="campus-details text-center">
+          <h3>Detalles del campus seleccionado:</h3>
+          <p *ngIf="selectedCampus">Has seleccionado: <strong>{{selectedCampus}}</strong></p>
+          <p *ngIf="!selectedCampus">Selecciona un campus para ver los detalles aquí.</p>
+        </div>
+      </mat-card-content>
+  
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [disabled]="!selectedCampus" (click)="continueToCita()">Continuar</button>
+      </mat-card-actions>
+    </mat-card>
+    
+    <div class="info-section">
+      <mat-icon class="decorative-icon">info</mat-icon>
+      <p class="help-text">¿Necesitas ayuda? <a href="#">Contáctanos</a> o visita la sección de preguntas frecuentes.</p>
+    </div>
+  </div>
+</div>

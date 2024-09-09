@@ -1,0 +1,79 @@
+.personal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: calc(100vh - 64px);
+  font-family: 'Roboto', sans-serif;
+  background: url('../../../assets/images/FOTO\ PORTADA.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #333;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+}
+
+h2 {
+  color: linear-gradient(45deg, #FF4081, #3F51B5);
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.row {
+  background-color: rgba(255, 255, 255, 0.527);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.personal-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background-color: #fff;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #FF4081;
+}
+
+.personal-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  color: #3F51B5;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #666;
+}
+
+small {
+  color: #FF4081;
+}
+
+.fa-user-tie {
+  color: #FF4081;
+}
+
+@media (max-width: 768px) {
+  .personal-container {
+    padding: 1rem;
+  }
+  
+  .row {
+    padding: 1rem;
+  }
+}
+
+
+.personal-title {
+  background: linear-gradient(45deg, #FF4081, #3F51B5);
+  color: white;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 5px;
+}
