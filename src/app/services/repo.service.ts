@@ -66,7 +66,7 @@ export class RepoService {
   }
 
   //sube archivo para actualizarlo
-  uploadFile(token: any, idDocument: number, nombre: string, codigo: string, file: File) {
+  uploadDocument(token: any, idDocument: number, nombre: string, codigo: string, file: File) {
     const formData = new FormData();
     formData.append('id', idDocument.toString());
     formData.append('nombre', nombre);

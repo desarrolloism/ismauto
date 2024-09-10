@@ -12,30 +12,38 @@
         <div class="modal-content">
             <div class="dashboard-menu overflow-auto" style="height:450px;">
                 <h2>Dashboard Links</h2>
-                <ul class="category-list">
+                <ul *ngIf="myDashboard.length > 0; else noDashboard"
+                    class="category-list">
                     <li *ngFor="let category of myDashboard"
                         class="category-item">
                         <h3 class="category-title">{{ category.category
                             }}</h3>
-                       <div class="row">
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let dashboard of category.dashboards">
-                            <a [href]="dashboard.report_link" target="_blank" class="text-decoration-none">
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <div class="mb-2">
-                                            <i class="fas fa-chart-line"></i>
-                                            <!-- Puedes cambiar el ícono según sea necesario -->
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+                                *ngFor="let dashboard of category.dashboards">
+                                <a [href]="dashboard.report_link"
+                                    target="_blank"
+                                    class="text-decoration-none">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <div class="mb-2">
+                                                <i
+                                                    class="fas fa-chart-line"></i>
+                                                <!-- Puedes cambiar el ícono según sea necesario -->
+                                            </div>
+                                            <h5 class="card-title text-dark">{{
+                                                dashboard.report_name }}</h5>
                                         </div>
-                                        <h5 class="card-title text-dark">{{ dashboard.report_name }}</h5>
                                     </div>
-                                </div>
-                                
-                            </a>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    
                     </li>
                 </ul>
+                <ng-template #noDashboard>
+                    <p>No hay dashboards disponibles o no tienes permisos para
+                        verlos.</p>
+                </ng-template>
             </div>
         </div>
     </div>

@@ -52,6 +52,7 @@ export class ListComponent {
   ngOnInit() {
     this.getAvatar();
     this.navBar();
+    this.getBoos();
   }
 
   //abre el menu de colecturia

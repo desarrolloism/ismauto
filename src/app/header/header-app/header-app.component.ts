@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from '../../services/users.service';
 import { RepoService } from '../../services/repo.service';
-
+import 'tslib';
 
 @Component({
   selector: 'app-header-app',
@@ -88,7 +88,7 @@ export class HeaderAppComponent {
   navBar() {
     this._repo.getNav(this.token).subscribe((resp: any) => {
       this.navRepo = resp.data;
-      console.log('resp de nav', this.navRepo);
+      // console.log('resp de nav', this.navRepo);
     });
   }
 

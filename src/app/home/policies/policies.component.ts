@@ -5,6 +5,7 @@ import { windowWhen } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { saveAs } from 'file-saver';
 import { HostListener } from '@angular/core';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { HostListener } from '@angular/core';
   styleUrl: './policies.component.css'
 })
 export class PoliciesComponent {
+  private selectedFile: File | null = null;
   token = localStorage.getItem('token');
   category = 3;
   allDocuments: any[] = [];
@@ -23,6 +25,14 @@ export class PoliciesComponent {
   documentVersion: any;
   isLoading: boolean = false;
   showScrollButton = false;
+  currentDocumentId: number | null = null;
+  currentDocumentCode: string = '';
+  nombre: string = '';
+  email: any;
+  isUpdating:boolean = false;
+  showDocName: any;
+  showDocType: any;
+
 
   constructor(
     private _repo: RepoService,
@@ -32,11 +42,12 @@ export class PoliciesComponent {
 
   ngOnInit() {
     this.getRepository();
+    this.getAvatar();
   }
 
   //obtiene los documentos del repositorio
   getRepository() {
-    this.isLoading = true; 
+    this.isLoading = true;
     this._repo.getRepository(this.token, this.category).subscribe(
       (resp: any) => {
         this.allDocuments = this.allDocs(resp.categoria.tipos);
@@ -45,7 +56,7 @@ export class PoliciesComponent {
         // console.log('repo es', this.allDocuments);
       },
       (error) => {
-        this.isLoading = false; 
+        this.isLoading = false;
         this.snackBar.open('Error al cargar los documentos, contacte con soporte técnico.', 'Cerrar', {
           duration: 3000,
         });
@@ -86,12 +97,12 @@ export class PoliciesComponent {
 
 
   //obtiene el id del documento para luego descargarlo o redireccionar al proceso
-  getDocumentId(id: any, nombreDoc:any, versionDoc:any, url:any, isAutomatic:boolean) {
+  getDocumentId(id: any, nombreDoc: any, versionDoc: any, url: any, isAutomatic: boolean) {
     this.documentId = id;
     this.documentName = nombreDoc;
     this.documentVersion = versionDoc;
 
-    if(isAutomatic == true ){
+    if (isAutomatic == true) {
       window.open(url, '_blank');
     } else {
       this._repo.downloadRepo(this.token, this.documentId).subscribe((resp: Blob) => {
@@ -120,7 +131,80 @@ export class PoliciesComponent {
     }
   }
   //metodo para descargar poa
-  downloadPortada(){
+  downloadPortada() {
     window.open('../../../assets/files/statics/Portada-Politicas-V-2024.docx');
-  } 
+  }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] as File;
+    // console.log('Archivo seleccionado:', this.selectedFile);
+  }
+
+  prepareUpload(documentId: number, documentCode: string, documentName: string, Type: string) {
+    this.currentDocumentId = documentId;
+    this.currentDocumentCode = documentCode;
+    this.showDocName = documentName;
+    this.showDocType = Type;
+    // console.log('Preparando para subir archivo. ID:', documentId, 'Código:', documentCode);
+  }
+
+
+  uploadFile() {
+    if (this.selectedFile && this.nombre && this.currentDocumentId !== null) {
+      // console.log('Subiendo archivo:', this.selectedFile.name);
+      // console.log('Código:', this.currentDocumentCode);
+      // console.log('Nombre:', this.nombre);
+      // console.log('ID del documento:', this.currentDocumentId);
+
+      this._repo.uploadDocument(this.token, this.currentDocumentId, this.nombre, this.currentDocumentCode, this.selectedFile)
+        .subscribe(
+          response => {
+            // console.log('Archivo subido con éxito', response);
+            this.succesfullUpload();
+            this.nombre = '';
+            this.getRepository();
+          },
+          error => {
+            console.error('Error al subir el archivo', error);
+            this.errorUpload();
+          }
+        );
+    } else {
+      this.infoUpload();
+      // this.snackBar.open('Por favor, complete todos los campos y seleccione un archivo', 'Cerrar', { duration: 3000 });
+    }
+  }
+
+  succesfullUpload() {
+    Swal.fire({
+      title: "Archivo actualizado exitosamente!",
+      text: "El archivo fue actualizado exitosamente! Para visualizar los cambios debes recargar la pagina.",
+      icon: "success"
+    });
+  }
+
+  errorUpload() {
+    Swal.fire({
+      title: "Error al subir el archivo",
+      text: "Por favor, intente nuevamente o contacte con soporte técnico.",
+      icon: "error"
+    });
+  }
+
+  infoUpload() {
+    Swal.fire({
+      title: "Complete todos los campos.",
+      text: "Para evitar errores de carga usted debe agregar un nombre para el archivo, y seleccionar un archivo.",
+      icon: "info"
+    });
+  }
+
+  getAvatar() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    this.email = userData.email;
+
+    // console.log('datos tammy',this.fullname);
+
+  }
+
 }

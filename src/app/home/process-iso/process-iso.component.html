@@ -20,7 +20,7 @@
                         data-bs-toggle="collapse"
                         [attr.data-bs-target]="'#tipo' + tipo.id"
                         aria-expanded="false">
-                         {{ tipo.nombre_tipo }}
+                        {{ tipo.codigo }} - {{ tipo.nombre_tipo }}
                     </a>
 
                     <div [id]="'tipo' + tipo.id" class="collapse d-md-none mt-2"
@@ -46,7 +46,7 @@
                                             doc.versiones[0].ruta)">
                                         <i
                                             class="fa-solid fa-circle-chevron-down"></i>
-                                        {{ doc.nombre_documentos }} (Versión: {{
+                                            {{doc.codigo }} - {{ doc.nombre_documentos }} (Versión: {{
                                         doc.versiones[0].codigo_version }})
                                     </li>
                                 </ul>
@@ -76,7 +76,7 @@
                                                 doc.versiones[0].is_automatic,
                                                 doc.versiones[0].ruta)">
                             <i class="fa-solid fa-circle-chevron-down"></i>
-                            {{ doc.nombre_documentos }} (Versión: {{
+                            {{doc.codigo }} - {{ doc.nombre_documentos }} (Versión: {{
                             doc.versiones[0].codigo_version }})
     
                         </li>

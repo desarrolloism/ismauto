@@ -8,8 +8,8 @@ import { CitaDataService } from '../../services/cita-data.service';
   styleUrl: './usuario.component.css'
 })
 export class UsuarioComponent {
-  usuario = { nombre: 'Jean Breidy Coox Maldonado' };
-  campuses = ['North', 'Quito', 'WEST'];
+  usuario = { nombre: '' };
+  campuses = ['North', 'Quito', 'West'];
   selectedCampus: string = '';
 
   constructor(private router: Router, private citaDataService: CitaDataService) {}

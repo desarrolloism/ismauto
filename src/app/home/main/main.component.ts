@@ -87,7 +87,7 @@ export class MainComponent {
   getFake() {
     this._mockapi.getFakeUsers().subscribe(resp => {
       this.Mock = resp;
-      console.log('mock respo es', this.Mock);
+      // console.log('mock respo es', this.Mock);
     })
   }
 
@@ -296,7 +296,7 @@ export class MainComponent {
   navBar() {
     this._repo.getNav(this.token).subscribe((resp: any) => {
       this.navRepo = resp.data;
-      console.log('resp de nav', this.navRepo);
+      // console.log('resp de nav', this.navRepo);
     });
   }
 

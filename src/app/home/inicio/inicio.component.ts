@@ -22,7 +22,8 @@ export class InicioComponent implements OnInit {
     navBar() {
         this._repo.getNav(this.token).subscribe((resp: any) => {
             this.navRepo = resp.data;
-            console.log('resp de nav', this.navRepo);
+            // console.log('resp de nav', this.navRepo);
+            
         });
     }
 
@@ -33,12 +34,12 @@ export class InicioComponent implements OnInit {
 
     getRouterLink(id: number): string {
         switch (id) {
-          case 2: return '/iso';
-          case 3: return '/politicas-y-normativas';
-          case 4: return '/documentos';
-          default: return '/';
+            case 2: return '/iso';
+            case 3: return '/politicas-y-normativas';
+            case 4: return '/documentos';
+            default: return '/';
         }
-      }
+    }
 
     getExternalLink(id: number): string {
         switch (id) {

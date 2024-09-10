@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { saveAs } from 'file-saver';
 import { HostListener } from '@angular/core';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -23,6 +24,13 @@ export class RepositoryComponent implements OnInit, AfterViewInit {
   documentVersion: any;
   isLoading: boolean = false;
   showScrollButton = false;
+  currentDocumentId: number | null = null;
+  currentDocumentCode: string = '';
+  nombre: string = '';
+  email: any;
+  isUpdating:boolean = false;
+  showDocName: any ;
+  showDocType: any ;
 
   constructor(
     private _repo: RepoService,
@@ -46,6 +54,7 @@ export class RepositoryComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getRepository();
+    this.getAvatar();
   }
 
   //obtiene los documentos del repositorio
@@ -136,37 +145,78 @@ export class RepositoryComponent implements OnInit, AfterViewInit {
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] as File;
-    console.log('Archivo seleccionado:', this.selectedFile);
+    // console.log('Archivo seleccionado:', this.selectedFile);
   }
 
-  codigo: string = 'DOC044343';
-  nombre: string = '';
+  prepareUpload(documentId: number, documentCode: string, documentName: string, Type: string) {
+    this.currentDocumentId = documentId;
+    this.currentDocumentCode = documentCode;
+    this.showDocName = documentName;
+    this.showDocType = Type;
+    // console.log('Preparando para subir archivo. ID:', documentId, 'Código:', documentCode);
+  }
+
 
   uploadFile() {
-    if (this.selectedFile && this.codigo && this.nombre) {
-      const token = 'tu-token'; // Reemplaza con la lógica para obtener el token
-      const idDocument = 45; // Reemplaza con el ID del documento correcto
-
-      console.log('Subiendo archivo:', this.selectedFile.name);
-      console.log('Código:', this.codigo);
-      console.log('Nombre:', this.nombre);
-      console.log('ID del documento:', this.documentId);
-
-      this._repo.uploadFile(this.token, idDocument, this.nombre, this.codigo, this.selectedFile)
+    
+    if (this.selectedFile && this.nombre && this.currentDocumentId !== null) {
+      // console.log('Subiendo archivo:', this.selectedFile.name);
+      // console.log('Código:', this.currentDocumentCode);
+      // console.log('Nombre:', this.nombre);
+      // console.log('ID del documento:', this.currentDocumentId);
+      this.isUpdating = true; 
+      this._repo.uploadDocument(this.token, this.currentDocumentId, this.nombre, this.currentDocumentCode, this.selectedFile)
         .subscribe(
           response => {
-            console.log('Archivo subido con éxito', response);
+            this.getRepository();
+            this.isUpdating = false; 
+            // console.log('Archivo subido con éxito', response);
+            this.succesfullUpload();
+            this.nombre = '';
           },
           error => {
             console.error('Error al subir el archivo', error);
-            if (error.error && error.error.error) {
-              console.error('Mensaje de error del servidor:', error.error.error);
-            }
+            this.errorUpload();
           }
         );
     } else {
-      console.log('Por favor, complete todos los campos y seleccione un archivo');
+      this.infoUpload();
+      // this.snackBar.open('Por favor, complete todos los campos y seleccione un archivo', 'Cerrar', { duration: 3000 });
     }
   }
+
+  succesfullUpload() {
+    Swal.fire({
+      title: "Archivo actualizado exitosamente!",
+      text: "El archivo fue actualizado exitosamente! Para visualizar los cambios debes recargar la pagina.",
+      icon: "success"
+    });
+  }
+
+  errorUpload() {
+    Swal.fire({
+      title: "Error al subir el archivo",
+      text: "Por favor, intente nuevamente o contacte con soporte técnico.",
+      icon: "error"
+    });
+  }
+
+  infoUpload() {
+    Swal.fire({
+      title: "Complete todos los campos.",
+      text: "Para evitar errores de carga usted debe agregar un nombre para el archivo, y seleccionar un archivo.",
+      icon: "info"
+    });
+  }
+
+  getAvatar() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    this.email = userData.email;
+
+    // console.log('datos tammy',this.fullname);
+
+  }
+
+
 }
 

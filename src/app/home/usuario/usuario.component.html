@@ -1,11 +1,30 @@
 <app-header-app></app-header-app>
+<mat-toolbar color="primary">
+  <span><mat-icon>school</mat-icon> Citas Escolares</span>
+</mat-toolbar>
+
+
 <div class="app-container">
+  <div class="info-section mt-4">
+    <h2>¡Bienvenido a la plataforma de citas escolares!</h2>
+    <p class="text-white">Aquí podrás gestionar tus citas de manera rápida y sencilla. Sigue
+        los pasos y estarás listo para tu cita en pocos minutos.</p>
+
+</div>
+
   <div class="usuario-container">
     <mat-card>
-      <mat-card-title>Bienvenido, {{usuario.nombre}}</mat-card-title>
-      <mat-card-subtitle>
-        Estamos encantados de verte nuevamente. Por favor, selecciona un campus para continuar con el proceso de citas escolares.
-      </mat-card-subtitle>
+      <mat-card-title>Escribe tu nombre para Agendar tu cita</mat-card-title>
+      <div class="mb-3">
+        <input type="text" class="form-control text-center" [(ngModel)]="usuario.nombre" placeholder="Nombre completo">
+      </div>
+
+      @if(usuario.nombre){
+        <mat-card-subtitle>
+          Hola {{usuario.nombre}}! Estamos encantados de atenderte. Por favor, selecciona un campus para continuar con el proceso de citas escolares.
+        </mat-card-subtitle>
+      }
+      
       
       <mat-card-content>
         <p class="instruction-text">Elige uno de los siguientes campus:</p>
@@ -29,8 +48,8 @@
     </mat-card>
     
     <div class="info-section">
-      <mat-icon class="decorative-icon">info</mat-icon>
-      <p class="help-text">¿Necesitas ayuda? <a href="#">Contáctanos</a> o visita la sección de preguntas frecuentes.</p>
+      <!-- <mat-icon class="decorative-icon">info</mat-icon> -->
+      <p class="help-text">¿Necesitas ayuda? <a style="color: #F50057;">Contáctanos</a> o visita la sección de preguntas frecuentes.</p>
     </div>
   </div>
 </div>

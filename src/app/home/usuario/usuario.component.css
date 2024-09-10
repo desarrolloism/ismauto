@@ -16,6 +16,35 @@
   height: calc(100vh - 64px);
 }
 
+mat-toolbar {
+  background: linear-gradient(45deg, #FF4081, #3F51B5);
+  color: white;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajuste para la sección de bienvenida */
+.info-section {
+  text-align: center;
+  color: white;
+  background: linear-gradient(45deg, #ff40808a, #3f51b59f);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
+}
+
+.info-section h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.info-section p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+
 mat-card {
   padding: 2rem;
   text-align: center;
