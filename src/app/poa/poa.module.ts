@@ -24,12 +24,13 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar'; 
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonToggleModule} from '@angular/material/button-toggle'; 
-
+import {MatToolbarModule} from '@angular/material/toolbar'; 
 //select 2
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NotStartedDepsComponent } from './not-started-deps/not-started-deps.component';
 import { PoalistComponent } from './poalist/poalist.component';
 import { DetailFormPoaComponent } from './detail-form-poa/detail-form-poa.component';
+import { PoaActivitiesComponent } from './poa-activities/poa-activities.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DetailFormPoaComponent } from './detail-form-poa/detail-form-poa.compon
     NotStartedDepsComponent,
     PoalistComponent,
     DetailFormPoaComponent,
+    PoaActivitiesComponent,
   ],
   imports: [
     CommonModule,
@@ -67,7 +69,8 @@ import { DetailFormPoaComponent } from './detail-form-poa/detail-form-poa.compon
     MatExpansionModule,
     MatProgressBarModule,
     MatCheckboxModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatToolbarModule
   ]
 })
 export class POAModule { }

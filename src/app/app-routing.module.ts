@@ -31,6 +31,8 @@ import { TipoCitaComponent } from './home/tipo-cita/tipo-cita.component';
 import { PersonalComponent } from './home/personal/personal.component';
 import { FechasComponent } from './home/fechas/fechas.component';
 import { CedulaComponent } from './home/cedula/cedula.component';
+import { UserPurcharseComponent } from './shopping/user-purcharse/user-purcharse.component';
+import { PoaActivitiesComponent } from './poa/poa-activities/poa-activities.component';
 
 
 const routes: Routes = [
@@ -64,6 +66,8 @@ const routes: Routes = [
   { path: 'createpoa', component: CreatepoaComponent },
   {path: 'poa-detail/:id', component: PoaDetailComponent},
   {path: 'not-started-deps', component: NotStartedDepsComponent},
+  {path: 'poa-activities/:poa_id/:act_id', component: PoaActivitiesComponent},
+
 
   //repository
   { path: 'iso', component: RepositoryComponent },
@@ -78,6 +82,8 @@ const routes: Routes = [
   { path: 'fechas', component: FechasComponent },
   { path: 'cedula', component: CedulaComponent },
 
+  //compras 
+  { path: 'compra-usuario', component: UserPurcharseComponent },
 
   //redirecciona hacia main siempre debe estar al final para evitar errores
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

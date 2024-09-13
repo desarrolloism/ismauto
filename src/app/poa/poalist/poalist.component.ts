@@ -108,6 +108,7 @@ export class PoalistComponent implements OnInit {
     ).subscribe(
       (creatorResponses: any[]) => {
         this.isLoading = false;
+        console.log('poas  lista', creatorResponses);
         creatorResponses.forEach((resp, index) => {
           this.poaList[index].creator = resp.data;
         });

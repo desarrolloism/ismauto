@@ -1,5 +1,5 @@
 export var GLOBAL = {
-    // url: "http://192.168.20.98:8000",
+    // url: "http://192.168.20.98:5555",
     // url: "https://nnovuproback.ism.edui.ec",
     // url: "http://192.168.31.67:8001",
     url: "http://192.168.48.127:8000",

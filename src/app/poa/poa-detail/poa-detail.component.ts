@@ -42,6 +42,7 @@ export class PoaDetailComponent {
   compers_list: any;
   percetagePerCampus: any;
   totalPercentage: number = 0;
+  activityInfo: any;
 
   signature = {
     coments: '',
@@ -107,6 +108,22 @@ export class PoaDetailComponent {
     private _userServ: UsersService
   ) {
     this.actualDate = this.getFechaActual();
+  }
+
+  ngOnInit() {
+    this._routeActivated.params.subscribe(params => {
+      this.poaId = +params['id'];
+      // console.log(this.poaId);
+    });
+    this.getPoa();
+    this.showActivities();
+    this.getAvatar();
+    this.getAdmin();
+    this.userList();
+    this.listSignatures();
+    this.getAccounting();
+    this.getNameCompers();
+
   }
 
   //genera un pdf de la actividad
@@ -289,21 +306,7 @@ export class PoaDetailComponent {
 
  
 
-  ngOnInit() {
-    this._routeActivated.params.subscribe(params => {
-      this.poaId = +params['id'];
-      // console.log(this.poaId);
-    });
-    this.getPoa();
-    this.showActivities();
-    this.getAvatar();
-    this.getAdmin();
-    this.userList();
-    this.listSignatures();
-    this.getAccounting();
-    this.getNameCompers();
-
-  }
+  
 
   //muestra actividades sin aprobar
   filterPendingActivities() {
@@ -484,7 +487,7 @@ export class PoaDetailComponent {
     this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
       this.allActivities = resp.data;
       this.originalActivities = [...this.allActivities];
-      // console.log('actividades', this.allActivities);
+      console.log('actividades', this.allActivities);
     });
   }
 
@@ -496,28 +499,39 @@ export class PoaDetailComponent {
       this.createPoa.activity,
       this.createPoa.start_date,
       this.createPoa.end_date,
-      this.createPoa.resources_detail,
-      this.createPoa.resources_ammount,
-      this.createPoa.approved_ammount,
+      // this.createPoa.resources_detail,
+      // this.createPoa.resources_ammount,
+      // this.createPoa.approved_ammount,
       this.createPoa.comments,
-      this.createPoa.accounting_count,
+      // this.createPoa.accounting_count,
       this.createPoa.priority,
-      this.createPoa.approved_activity = 'EN PROCESO',
+      // this.createPoa.approved_activity = 'EN PROCESO',
       this.createPoa.responsible
-    ).subscribe(resp => {
+    ).subscribe((resp:any) => {
       this.dataActivity = resp;
+      this.activityInfo = resp.data;
+      // console.log('datos de actividad creada', this.dataActivity);
+      console.log('datos de actividad creada', this.activityInfo);
       if (this.dataActivity.status === 'ok') {
         const modal = document.getElementById('exampleModal');
         if (modal) {
           const modalInstance = bootstrap.Modal.getInstance(modal);
           modalInstance.hide();
         }
+        
         // Vaciar el formulario
         this.resetCreatePoaForm();
         this.showActivities();
         this.getPoa();
+        this._router.navigate(['/poa-activities', this.activityInfo.poa_id, this.activityInfo.id]);
+
       }
     });
+  }
+
+  //redirije hacia actividfad
+  goToActivities() {
+    this._router.navigate(['/poa-activities', this.poaId, this.activityId]);
   }
 
   //obtiene los campus seleccionados por el usuario

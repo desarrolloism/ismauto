@@ -162,6 +162,12 @@
                 <i class="fa-solid fa-laptop-code icons"></i>
                 Desarrollo e innovación
             </a>
+            <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/compra-usuario">
+                <i class="fa-solid fa-cart-shopping icons"></i>
+                Adquisición y servicios 
+            </a>
 
             <a
                 *ngIf="email === 'colecturia@ism.edu.ec' || email === 'asisdesarrollo@ism.edu.ec'"
@@ -187,6 +193,8 @@
                     Reportes financieros
                 </a> -->
             </div>
+
+            
             <a
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 (click)="toggleRepo()">

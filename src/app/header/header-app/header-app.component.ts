@@ -48,6 +48,7 @@ export class HeaderAppComponent {
 
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    // console.log(userData);
     this.dataUser = userData;
     this.avatar = userData.avatar;
     this.name = userData.first_name;

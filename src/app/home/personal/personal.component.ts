@@ -20,6 +20,7 @@ export class PersonalComponent {
     { id: 6, nombre: 'Francisco Velasco', cargo: 'Director Administrativo', correo:'gerenteti@ism.edu.ec' },
     { id: 7, nombre: 'Arturo Sarango', cargo: 'Jefe de Desarrollo e innovación', correo:'desarrollo@ism.edu.ec' },
     { id: 8, nombre: 'Hugo Espinosa', cargo: 'Asistente de desarrollo e innovación', correo:'asisdesarrollo@ism.edu.ec' },
+    { id: 9, nombre: 'Atencion al cliente North', cargo: 'Atencion al cliente North', correo:'northatencioncliente@ism.edu.ec' },
   ];
 
   personalMostrado: any[] = [];

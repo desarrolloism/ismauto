@@ -169,13 +169,13 @@ export class PoaService {
     activity: string,
     startDate: string,
     endDate: string,
-    resourcesDetail: string,
-    resourcesAmmount: number,
-    approvedAmount: number,
+    // resourcesDetail: string,
+    // resourcesAmmount: number,
+    // approvedAmount: number,
     comments: string,
-    accountingCount: string,
+    // accountingCount: string,
     priority: string,
-    approvedActivity: string,
+    // approvedActivity: string,
     responsible: string
   ) {
     const headers = new HttpHeaders({
@@ -189,13 +189,13 @@ export class PoaService {
       activity: activity,
       start_date: startDate,
       end_date: endDate,
-      resources_detail: resourcesDetail,
-      resources_amount: resourcesAmmount,
-      approved_amount: approvedAmount,
+      // resources_detail: resourcesDetail,
+      // resources_amount: resourcesAmmount,
+      // approved_amount: approvedAmount,
       comments: comments,
-      accounting_count: accountingCount,
+      // accounting_count: accountingCount,
       priority: priority,
-      approved_activity: approvedActivity,
+      // approved_activity: approvedActivity,
       responsible
     }
     return this._http.post(`${this.url}/poa_activities_create`, data, { headers: headers });
@@ -253,6 +253,102 @@ export class PoaService {
     }
     return this._http.post(`${this.url}/poa_activities_delete`, data, { headers: headers });
   }
+
+
+  //creaRecursos para cada actividad
+  createResources(
+    token: any,
+    activityId: number,
+    qty: number, 
+    description:string,
+    priceResource:number,
+    priceApproved:number,
+    accountingCount:string,
+    resource_approved:string,
+    isAproved:boolean
+  ) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      activity_id: activityId,
+      qty: qty,
+      description: description,
+      price_resource: priceResource,
+      price_approved: priceApproved,
+      accounting_count: accountingCount,
+      resource_approved: resource_approved,
+      is_aproved: isAproved
+      
+    }
+    return this._http.post(`${this.url}/poa_resources_create`, data, { headers: headers });
+  }
+
+
+  //actualiza recursos para cada actividad
+  updateResource(
+    token: any,
+    Id: number,
+    qty: number, 
+    description:string,
+    priceResource:number,
+    priceApproved:number,
+    accountingCount:string,
+    isAproved:boolean,
+    comments:string
+  ) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      id: Id,
+      qty: qty,
+      description: description,
+      price_resource: priceResource,
+      price_approved: priceApproved,
+      accounting_count: accountingCount,
+      is_approved: isAproved,
+      comments
+    }
+    return this._http.post(`${this.url}/poa_resources_update`, data, { headers: headers });
+  }
+
+  //elimina recursos para cada actividad
+  deleteResource(token: any, id: number) {  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      id: id
+    }
+    return this._http.post(`${this.url}/poa_resources_delete`, data, { headers: headers });
+  }
+
+
+  //busca recursos
+  getAllresources(token: any, ActivityId:number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+
+    const data = {
+      activity_id: ActivityId
+    } 
+
+    return this._http.post(`${this.url}/poa_resources_list`,data, { headers: headers });
+  }
+
+
+  //elimina recursos 
+  
 
   //busca poa
   searchPoa(token: any, search: string) {

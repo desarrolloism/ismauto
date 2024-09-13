@@ -23,6 +23,7 @@ import { UserModule } from './user/user.module';
 import { ProjectsModule } from './projects/projects.module';
 import { POAModule } from './poa/poa.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ShoppingModule } from './shopping/shopping.module';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MaintenanceModule,
     ProjectsModule,
     // POAModule,
-    NgSelectModule
+    NgSelectModule,
+    ShoppingModule
   ],
   providers: [
     provideAnimationsAsync()

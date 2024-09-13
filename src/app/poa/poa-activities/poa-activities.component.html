@@ -1,0 +1,104 @@
+<app-header-app></app-header-app>
+<div class="container">
+    <h2>Crear Nuevo Recurso</h2>
+    <div class="mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="resource.description">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Cantidad</label>
+                    <input type="number" class="form-control"
+                        [(ngModel)]="resource.quantity">
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Precio del recurso</label>
+                    <input type="number" class="form-control"
+                        [(ngModel)]="resource.priceResource">
+                </div>
+            </div>
+        </div>
+        <button (click)="createResource()" class="btn btn-primary">Crear
+            recurso</button>
+    </div>
+
+    <h2 class="mt-5">Recursos Creados</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+                <th>Precio del Recurso</th>
+                <th>Monto Aprobado</th>
+                @if (isFinancialUser()) {
+                <th>Cuenta contable</th>
+                }
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let resource of createdResources">
+                <td>{{resource.id}}</td>
+                <td>
+                    <span
+                        *ngIf="!resource.isEditing">{{resource.description}}</span>
+                    <input *ngIf="resource.isEditing" type="text"
+                        class="form-control"
+                        [(ngModel)]="resource.description">
+                </td>
+                <td>
+                    <span
+                        *ngIf="!resource.isEditing">{{resource.qty}}</span>
+                    <input *ngIf="resource.isEditing" type="number"
+                        class="form-control" [(ngModel)]="resource.qty">
+                </td>
+                <td>
+                    <span
+                        *ngIf="!resource.isEditing">{{resource.price_resource}}</span>
+                    <input *ngIf="resource.isEditing" type="number"
+                        class="form-control"
+                        [(ngModel)]="resource.price_resource">
+                </td>
+                <td>
+                    <span
+                        *ngIf="!resource.isEditing">{{resource.price_approved}}</span>
+                    <input *ngIf="resource.isEditing && isFinancialUser()"
+                        type="number" class="form-control"
+                        [(ngModel)]="resource.price_approved">
+                </td>
+                @if (isFinancialUser()) {
+                <td>
+                    <span
+                        *ngIf="!resource.isEditing">{{resource.accounting_count}}</span>
+                    <input *ngIf="resource.isEditing" type="text"
+                        class="form-control"
+                        [(ngModel)]="resource.accounting_count">
+                </td>
+                }
+                <td>
+                    <button *ngIf="!resource.isEditing"
+                        (click)="editResource(resource)"
+                        class="btn btn-sm btn-primary mr-2">Editar</button>
+                    <button *ngIf="resource.isEditing"
+                        (click)="saveResource(resource)"
+                        class="btn btn-sm btn-success mr-2">Guardar</button>
+                    <button *ngIf="resource.isEditing"
+                        (click)="cancelEdit(resource)"
+                        class="btn btn-sm btn-secondary mr-2">Cancelar</button>
+                    <button (click)="deleteResource(resource.id)"
+                        class="btn btn-sm btn-danger">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

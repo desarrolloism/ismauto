@@ -69,9 +69,9 @@ export class DetailFormPoaComponent {
   getInfoPoa() {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
-      // console.log('detalles son', this.poaDetail);
+      console.log('detalles son', this.poaDetail);
 
-      // Reiniciar los arrays
+      // reiniciar los arrays
       this.enterprises = [];
       this.campuses = [];
       this.enterpriseNames = [];
@@ -103,10 +103,10 @@ export class DetailFormPoaComponent {
         }
       });
 
-      // console.log('Nombres de Empresas:', this.enterpriseNames);
-      // console.log('Nombres de Campus:', this.campusNames);
-      // console.log('Nombres de Empresas seleccionadas:', this.selectedEnterpriseNames);
-      // console.log('Nombres de Campus seleccionados:', this.selectedCampusNames);
+      console.log('empresas:', this.enterpriseNames);
+      console.log('campus:', this.campusNames);
+      console.log('empresas selec:', this.selectedEnterpriseNames);
+      console.log('campus selec:', this.selectedCampusNames);
     });
   }
 
