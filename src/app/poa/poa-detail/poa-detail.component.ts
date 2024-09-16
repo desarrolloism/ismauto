@@ -488,6 +488,7 @@ export class PoaDetailComponent {
       this.allActivities = resp.data;
       this.originalActivities = [...this.allActivities];
       console.log('actividades', this.allActivities);
+
     });
   }
 
@@ -531,6 +532,7 @@ export class PoaDetailComponent {
 
   //redirije hacia actividfad
   goToActivities() {
+    console.log('redirigiendo', this.poaId, this.activityId);
     this._router.navigate(['/poa-activities', this.poaId, this.activityId]);
   }
 
@@ -541,6 +543,8 @@ export class PoaDetailComponent {
       // console.log('pocentaje por campu11s',this.percetagePerCampus);
     });
   }
+
+
 
   //actualizacion de actividades
   updateActivity(activityId: number) {
@@ -558,14 +562,10 @@ export class PoaDetailComponent {
       this.editingActivity.activity,
       this.editingActivity.start_date,
       this.editingActivity.end_date,
-      this.editingActivity.resources_detail,
-      this.editingActivity.resources_amount,
-      approvedAmount,
       this.editingActivity.comments,
-      accountingCount,
       this.editingActivity.priority,
-      this.editingActivity.approved_activity,
-      this.editingActivity.responsible
+      this.editingActivity.responsible,
+      // this.allActivities.state = 'RECURSOS LISTOS'
     ).subscribe(resp => {
       this.dataUpdateActivity = resp;
       if (this.dataUpdateActivity.status === 'ok') {

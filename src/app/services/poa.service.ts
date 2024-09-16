@@ -208,14 +208,10 @@ export class PoaService {
     activity: string,
     startDate: string,
     endDate: string,
-    resourcesDetail: string,
-    resourcesAmmount: number,
-    approvedAmount: number,
     comments: string,
-    accountingCount: string,
     priority: string,
-    approvedActivity: string,
-    responsible: string
+    responsible: string,
+    // state: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -228,14 +224,11 @@ export class PoaService {
       activity: activity,
       start_date: startDate,
       end_date: endDate,
-      resources_detail: resourcesDetail,
-      resources_amount: resourcesAmmount,
-      approved_amount: approvedAmount,
       comments: comments,
-      accounting_count: accountingCount,
       priority: priority,
-      approved_activity: approvedActivity,
-      responsible
+      responsible,
+      // state
+
     }
     return this._http.post(`${this.url}/poa_activities_update`, data, { headers: headers });
   }
@@ -259,13 +252,13 @@ export class PoaService {
   createResources(
     token: any,
     activityId: number,
-    qty: number, 
-    description:string,
-    priceResource:number,
-    priceApproved:number,
-    accountingCount:string,
-    resource_approved:string,
-    isAproved:boolean
+    qty: number,
+    description: string,
+    priceResource: number,
+    priceApproved: number,
+    accountingCount: string,
+    resource_approved: string,
+    isAproved: boolean
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -281,7 +274,7 @@ export class PoaService {
       accounting_count: accountingCount,
       resource_approved: resource_approved,
       is_aproved: isAproved
-      
+
     }
     return this._http.post(`${this.url}/poa_resources_create`, data, { headers: headers });
   }
@@ -291,13 +284,13 @@ export class PoaService {
   updateResource(
     token: any,
     Id: number,
-    qty: number, 
-    description:string,
-    priceResource:number,
-    priceApproved:number,
-    accountingCount:string,
-    isAproved:boolean,
-    comments:string
+    qty: number,
+    description: string,
+    priceResource: number,
+    priceApproved: number,
+    accountingCount: string,
+    isAproved: boolean,
+    comments: string
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -318,7 +311,7 @@ export class PoaService {
   }
 
   //elimina recursos para cada actividad
-  deleteResource(token: any, id: number) {  
+  deleteResource(token: any, id: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
@@ -332,7 +325,7 @@ export class PoaService {
 
 
   //busca recursos
-  getAllresources(token: any, ActivityId:number) {
+  getAllresources(token: any, ActivityId: number) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': this.auth,
@@ -341,14 +334,14 @@ export class PoaService {
 
     const data = {
       activity_id: ActivityId
-    } 
+    }
 
-    return this._http.post(`${this.url}/poa_resources_list`,data, { headers: headers });
+    return this._http.post(`${this.url}/poa_resources_list`, data, { headers: headers });
   }
 
 
   //elimina recursos 
-  
+
 
   //busca poa
   searchPoa(token: any, search: string) {
@@ -581,8 +574,50 @@ export class PoaService {
 
     return this._http.post(`${this.url}/poa_excel`, data, {
       headers: headers,
-      responseType: 'blob'  
+      responseType: 'blob'
     });
+  }
+
+  //obtiene datso de la actividad mediante el ID
+
+  getDataActivity(token: any, ActivityId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      activity_id: ActivityId
+    }
+    return this._http.post(`${this.url}/poa_activities_list`, data, { headers: headers });
+  }
+
+
+  //suma los valores de cada recursos por actividad
+  sumResources(token: any, ActivityId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      activity_id: ActivityId
+    }
+    return this._http.post(`${this.url}/total_resources`, data, { headers: headers });
+  }
+
+
+  //finaliza la creacion de recursos
+  finishResources(token: any, Id: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      id: Id
+    }
+    return this._http.post(`${this.url}/poa_status`, data, { headers: headers });
   }
 
 }

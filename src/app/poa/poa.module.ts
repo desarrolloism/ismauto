@@ -25,6 +25,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonToggleModule} from '@angular/material/button-toggle'; 
 import {MatToolbarModule} from '@angular/material/toolbar'; 
+import {MatTabsModule} from '@angular/material/tabs'; 
+
 //select 2
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NotStartedDepsComponent } from './not-started-deps/not-started-deps.component';
@@ -70,7 +72,8 @@ import { PoaActivitiesComponent } from './poa-activities/poa-activities.componen
     MatProgressBarModule,
     MatCheckboxModule,
     MatButtonToggleModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTabsModule
   ]
 })
 export class POAModule { }

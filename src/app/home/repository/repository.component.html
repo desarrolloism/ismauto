@@ -1,8 +1,8 @@
 <app-header-app></app-header-app>
 
-<div class="mb-4">
+<div>
     <app-normativa-iso></app-normativa-iso>
-    @if(isLoading == false){
+    <!-- @if(isLoading == false){
     <div class="col-md-5"></div>
     <div class="col-md-2 container">
 
@@ -17,7 +17,7 @@
     </div>
     <div class="col-md-5"></div>
 
-    }
+    } -->
 
     <mat-card *ngIf="isLoading" class="no-results spinner-container">
         <mat-card-content>
@@ -43,7 +43,12 @@
     </mat-card>
 </div>
 
-<app-process-iso></app-process-iso>
+@if(isLoading == false){
+    <div style="margin-top: -1.5rem;"></div>
+    <app-process-iso></app-process-iso>
+}
+
+
 
 <!-- Modal para ver version del documento-->
 <div class="modal fade" id="versionModal" tabindex="-1"
@@ -138,7 +143,7 @@
                                 <i class="fa-solid fa-cloud-arrow-down fa-2x"
                                     style="color: #3f51b5;"></i>
                             </button>
-                            @if(email == 'asisdesarrollo@ism.edu.ec'){
+                            @if(email == 'asisdesarrollo@ism.edu.ec' || email == 'northsecretaria@ism.edu.ec' ){
                             <button
                                 matTooltip="Clic para subir una nueva versión"
                                 class="btn"

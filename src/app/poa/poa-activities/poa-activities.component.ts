@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PoaService } from '../../services/poa.service';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-poa-activities',
@@ -16,7 +17,7 @@ export class PoaActivitiesComponent implements OnInit {
   token: string | null = localStorage.getItem('token');
   poaId: number = 0;
   activityId: number = 0;
-  
+
   resource: {
     quantity: number;
     description: string;
@@ -25,19 +26,19 @@ export class PoaActivitiesComponent implements OnInit {
     accountingAccount: string;
     ResourceApproved: string;
     isApproved: boolean;
-    comments:string
+    comments: string
   } = {
-    quantity: 0,
-    description: '',
-    priceResource: 0,
-    priceApproved: 0,
-    accountingAccount: '',
-    ResourceApproved: '',
-    isApproved: false,
-    comments:''
-  };
+      quantity: 0,
+      description: '',
+      priceResource: 0,
+      priceApproved: 0,
+      accountingAccount: '',
+      ResourceApproved: '',
+      isApproved: false,
+      comments: ''
+    };
 
-  update_resource ={
+  update_resource = {
     description: '',
     priceApproved: 0,
     accountingCount: '',
@@ -48,8 +49,16 @@ export class PoaActivitiesComponent implements OnInit {
   is_edit: boolean = false;
 
   createdResources: Array<any> = [];
+  accounting_list: any;
+  myPoa: any;
+  myActivity: any;
+  total_Resources: any;
+  numberOfResources: any;
 
-  constructor(private poaService: PoaService, private route: ActivatedRoute) { }
+  constructor(private poaService: PoaService, 
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -59,6 +68,10 @@ export class PoaActivitiesComponent implements OnInit {
     });
     this.getAvatar();
     this.getPoaResources();
+    this.getAccounting();
+    this.getInfoPoa();
+    this.getInfoActivity();
+    this.totalResources();
   }
 
   //crea recursos
@@ -77,6 +90,7 @@ export class PoaActivitiesComponent implements OnInit {
       console.log('Recurso creado:', resp.data);
       this.getPoaResources();
       this.resetResourceForm();
+      this.totalResources();
     });
   }
 
@@ -126,7 +140,7 @@ export class PoaActivitiesComponent implements OnInit {
       resource.price_approved,
       resource.accounting_count,
       resource.isApproved = false,
-      resource.comments = 'holaksre'
+      resource.comments
     ).subscribe(
       (resp: any) => {
         console.log('Recurso actualizado:', resp.data);
@@ -160,4 +174,56 @@ export class PoaActivitiesComponent implements OnInit {
   isFinancialUser(): boolean {
     return this.email === 'financiero@ism.edu.ec' || this.email === 'direccionfinanciera@ism.edu.ec';
   }
+
+  //obtiene cuentas contables 
+  getAccounting() {
+    this.poaService.contableAccounts(this.token).subscribe((resp: any) => {
+      this.accounting_list = resp.data;
+      // console.log('cuentas contables', this.accounting_list);
+    });
+  }
+
+  //obtiene informacion del poa
+  getInfoPoa() {
+    this.poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
+      this.myPoa = resp.data;
+      console.log('informacion poa', this.myPoa);
+    });
+  }
+
+  //obtiene info de la actividad
+  getInfoActivity() {
+    this.poaService.getDataActivity(this.token, this.activityId).subscribe((resp: any) => {
+      this.myActivity = resp.data;
+      console.log('informacion de mi actividad', this.myActivity);
+    });
+  }
+
+  //suma los recursos
+  totalResources() {
+    this.poaService.sumResources(this.token, this.activityId).subscribe((resp: any) => {
+      if (resp.status == 'ok') {
+        this.total_Resources = resp.data;
+        console.log('suma de recursos', this.total_Resources);
+
+      }
+    });
+  }
+
+  //finaliza la creacion de los recursos
+  finishResources() {
+    this.poaService.finishResources(this.token, this.activityId).subscribe((resp: any) => {
+
+      if (confirm('¿Está seguro de finalizar los recursos de esta actividad?')) {
+        if (resp.status == 'ok') {
+          console.log('recursos finalizados', resp);
+          this.router.navigate(['/poa-detail', this.poaId]);
+        } else {
+          alert('error contacta con el administrador!');
+        }
+      }
+    });
+  }
+
+
 }

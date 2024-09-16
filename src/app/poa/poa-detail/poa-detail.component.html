@@ -98,7 +98,7 @@
                                 <mat-panel-title>
                                     <p matTooltip="{{activity.activity}}"
                                         class="truncate text-white"><i
-                                            class="fa-regular fa-clipboard me-2"></i>{{activity.activity}}</p>
+                                            class="fa-regular fa-clipboard me-2"></i>{{activity.activity}}1</p>
                                 </mat-panel-title>
                                 <mat-panel-description
                                     class="panel-title fw-bold"
@@ -113,10 +113,10 @@
                                     class="dates panel-title fw-bold">
                                     <i
                                         class="fa-solid fa-file-invoice-dollar me-2"></i>Monto
-                                    requerido: {{ activity.resources_amount }}$
+                                    requerido: {{ activity.total_resources_amount }}$
                                     -
 
-                                    @switch (activity.approved_activity) {
+                                    @switch (activity.state) {
                                     @case ('APROBADO') {
                                     <span
                                         class="p-1 bg-success text-white progress-container fw-bold"
@@ -136,7 +136,7 @@
                                         rechazado
                                     </span>
                                     }
-                                    @case ('EN PROCESO') {
+                                    @case ('INICIANDO') {
                                     <span
                                         class="p-1 bg-warning text-dark progress-container fw-bold"
                                         style="border-radius: 10px; margin-left: 5px;">
@@ -145,6 +145,15 @@
                                             class="progress-bar"></mat-progress-bar> -->
                                     </span>
                                     }
+                                    @case ('RECURSOS LISTOS') {
+                                        <span
+                                            class="p-1 bg-primary text-white progress-container fw-bold"
+                                            style="border-radius: 10px; margin-left: 5px;">
+                                            Recursos listos!
+                                            <!-- <mat-progress-bar mode="indeterminate"
+                                                class="progress-bar"></mat-progress-bar> -->
+                                        </span>
+                                        }
                                     @default {
                                     <span
                                         class="p-1 bg-secondary text-white progress-container fw-bold"
@@ -232,16 +241,13 @@
                                     
                                     <div
                                         *ngIf="email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
-                                        <!-- <button class="update" mat-raised-button
+                                        <button class="update" mat-raised-button
                                             color="primary"
                                             *ngIf="!isEditing || editingActivityId !== activity.id"
                                             (click)="startEditing(activity)">Editar
-                                            actividad</button> -->
+                                            actividad</button>
                                     
-                                    <button class="update" mat-raised-button
-                                            color="primary"
-                                            *ngIf="!isEditing || editingActivityId !== activity.id"
-                                            (click)="goToActivities()">Ver recursos</button>
+                                    
                                     </div>
                                     <div
                                         *ngIf="poaDetail.status != 'APROBADO'">
@@ -250,11 +256,20 @@
                                         'direccionfinanciera@ism.edu.ec') {
 
                                         } @else {
+
+                                            <button class="update" mat-raised-button
+                                            *ngIf="!isEditing || editingActivityId !== activity.id "
+                                            style="background-color: rgb(175, 113, 32);color: white;"
+                                            (click)="goToActivities()">ver recursos
+                                        </button>
                                         <button class="update" mat-raised-button
                                             *ngIf="!isEditing || editingActivityId !== activity.id "
                                             style="background-color: brown;color: white;"
                                             (click)="deleteActivity(activity.id)">Eliminar
                                         </button>
+
+                                        
+
                                         }
 
                                     </div>
@@ -313,7 +328,7 @@
 
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <div class="mb-3">
+                                                    <!-- <div class="mb-3">
                                                         <label for="activity"
                                                             class="form-label">Monto
                                                             de recursos:</label>
@@ -324,6 +339,19 @@
                                                             name="acti_reso"
                                                             maxlength="6"
                                                             (keypress)="validateNum($event)">
+                                                    </div> -->
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="responsible"
+                                                            class="form-label">Responsable:</label>
+                                                        <ng-select
+                                                            [items]="compers_list"
+                                                            bindLabel="name"
+                                                            bindValue="name"
+                                                            [(ngModel)]="editingActivity.responsible"
+                                                            name="status"
+                                                            placeholder="Elija un usuario">
+                                                        </ng-select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -369,11 +397,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
+                                            <!-- <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="mb-3">
                                                         <label
-                                                            for="resources_detail"
+                                                            for="comments"
                                                             class="form-label">Detalle
                                                             de
                                                             recursos (max. 500
@@ -381,28 +409,14 @@
                                                         <textarea
                                                             maxlength="500"
                                                             class="form-control"
-                                                            id="resources_detail"
+                                                            id="comments"
                                                             rows="3"
-                                                            [(ngModel)]="editingActivity.resources_detail"
+                                                            [(ngModel)]="editingActivity.comments"
                                                             name="resources_detail"></textarea>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="mb-3">
-                                                    <label
-                                                        for="responsible"
-                                                        class="form-label">Responsable:</label>
-                                                    <ng-select
-                                                        [items]="compers_list"
-                                                        bindLabel="name"
-                                                        bindValue="name"
-                                                        [(ngModel)]="editingActivity.responsible"
-                                                        name="status"
-                                                        placeholder="Elija un usuario">
-                                                    </ng-select>
-                                                </div>
-                                            </div>
+                                            </div> -->
+                                            
                                             @if (isEditing && editingActivityId
                                             === activity.id) {
                                             <!-- SE AGREGA PORCENTAJES DE ACTIVIDAD PARA CAMPUS -->
