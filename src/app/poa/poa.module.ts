@@ -33,6 +33,7 @@ import { NotStartedDepsComponent } from './not-started-deps/not-started-deps.com
 import { PoalistComponent } from './poalist/poalist.component';
 import { DetailFormPoaComponent } from './detail-form-poa/detail-form-poa.component';
 import { PoaActivitiesComponent } from './poa-activities/poa-activities.component';
+import { AproveResourcesComponent } from './aprove-resources/aprove-resources.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { PoaActivitiesComponent } from './poa-activities/poa-activities.componen
     PoalistComponent,
     DetailFormPoaComponent,
     PoaActivitiesComponent,
+    AproveResourcesComponent,
   ],
   imports: [
     CommonModule,

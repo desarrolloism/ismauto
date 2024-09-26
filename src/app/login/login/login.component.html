@@ -123,33 +123,41 @@
     <div class="modal-content">
       <div class="modal-body">
         @if(this.changePass == 'ok'){
-          <h3 class="text-success"><i class="fa-regular fa-circle-check fa-2x"></i></h3>
+        <h3 class="text-success"><i
+            class="fa-regular fa-circle-check fa-2x"></i></h3>
         }@else{
-          @if(isLoading == false){
-            <form (ngSubmit)="resetPassword()">
-              <div class="mb-3">
-                <label for="username" class="form-label">Ingrese su numero de
-                  cédula</label>
-                <input type="text" (keypress)="validateNum($event)" class="form-control" [(ngModel)]="reset_user" name="reset_username">
-    
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Ingrese su correo
-                  institucional</label>
-                <input type="text" class="form-control" [(ngModel)]="email" name="reset_email">
-              </div>
-              <button mat-raised-button color="primary" type="submit"
-              >Recuperar cuenta</button>
-            </form>
-          }@else{
-            <mat-spinner></mat-spinner>
-          }
+        @if(isLoading == false){
+        <form (ngSubmit)="resetPassword()">
+          <div class="mb-3">
+            <label for="username" class="form-label">Ingrese su numero de
+              cédula</label>
+            <input type="text" (keypress)="validateNum($event)"
+              class="form-control" [(ngModel)]="reset_user"
+              name="reset_username">
+
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Ingrese su correo
+              institucional</label>
+            <input type="text" class="form-control" [(ngModel)]="email"
+              name="reset_email">
+          </div>
+          <button mat-raised-button color="primary" type="submit">Recuperar
+            cuenta</button>
+        </form>
+        }@else{
+        <mat-spinner></mat-spinner>
         }
-        
-        
+        }
+
         <div class="mt-4">
-          <h4>Si tiene problemas para recuperar tu cuenta por favor, contacta con
-            soporte técnico para realizar el proceso.</h4>
+          <h4>Las credenciales solo se enviarán si tu número de cédula y correo
+            institucional coinciden con los registrados en nuestra base de
+            datos.</h4>
+
+          <h6>Si tienes problemas para recuperar tu cuenta por favor, contacta
+            con
+            soporte técnico para realizar el proceso.</h6>
           <a href="https://help.ism.edu.ec/">Sistema de tickets <i
               class="fa-solid fa-arrow-up-right-from-square"></i></a>
           <p>Ext. 2000/1155/2209</p>

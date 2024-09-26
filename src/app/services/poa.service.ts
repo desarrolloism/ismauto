@@ -289,7 +289,7 @@ export class PoaService {
     priceResource: number,
     priceApproved: number,
     accountingCount: string,
-    isAproved: boolean,
+    isAproved: string,
     comments: string
   ) {
     const headers = new HttpHeaders({
@@ -618,6 +618,20 @@ export class PoaService {
       id: Id
     }
     return this._http.post(`${this.url}/poa_status`, data, { headers: headers });
+  }
+
+
+  //obtiene detalles de los recursos del poa
+  resourceDetails(token: any, resourseId: number) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': this.auth,
+      'Token': token
+    });
+    const data = {
+      resource_id: resourseId
+    }
+    return this._http.post(`${this.url}/poa_resources_list_by_id`, data, { headers: headers });
   }
 
 }

@@ -113,7 +113,8 @@
                                     class="dates panel-title fw-bold">
                                     <i
                                         class="fa-solid fa-file-invoice-dollar me-2"></i>Monto
-                                    requerido: {{ activity.total_resources_amount }}$
+                                    requerido: {{
+                                    activity.total_resources_amount }}$
                                     -
 
                                     @switch (activity.state) {
@@ -122,9 +123,9 @@
                                         class="p-1 bg-success text-white progress-container fw-bold"
                                         style="border-radius: 10px; margin-left: 5px;">
                                         <i
-                                            class="fa-regular fa-circle-check me-2"></i>Monto
-                                        aprobado: {{ activity.approved_amount
-                                        }}$
+                                            class="fa-regular fa-circle-check me-2"></i>Recursos
+                                        aprobados:
+                                        {{activity.total_approved_amount }}$
                                     </span>
                                     }
                                     @case ('RECHAZADO') {
@@ -146,14 +147,24 @@
                                     </span>
                                     }
                                     @case ('RECURSOS LISTOS') {
-                                        <span
-                                            class="p-1 bg-primary text-white progress-container fw-bold"
-                                            style="border-radius: 10px; margin-left: 5px;">
-                                            Recursos listos!
-                                            <!-- <mat-progress-bar mode="indeterminate"
+                                    <span
+                                        class="p-1 bg-primary text-white progress-container fw-bold"
+                                        style="border-radius: 10px; margin-left: 5px;">
+                                        Recursos listos!
+                                        <!-- <mat-progress-bar mode="indeterminate"
                                                 class="progress-bar"></mat-progress-bar> -->
-                                        </span>
-                                        }
+                                    </span>
+                                    }
+                                    @case ('MODIFICADO') {
+                                    <span
+                                        class="p-1 bg-success text-white progress-container fw-bold"
+                                        style="border-radius: 10px; margin-left: 5px;">
+                                        Recursos modificados:
+                                        {{activity.total_approved_amount }}$
+                                        <!-- <mat-progress-bar mode="indeterminate"
+                                                    class="progress-bar"></mat-progress-bar> -->
+                                    </span>
+                                    }
                                     @default {
                                     <span
                                         class="p-1 bg-secondary text-white progress-container fw-bold"
@@ -168,43 +179,58 @@
                                 <div class="col-md-12 mt-4">
                                     <div
                                         *ngIf="!isEditing || editingActivityId !== activity.id">
+                                        <div class="row">
+                                            <div class="col-md-3">
 
-                                        <p><strong
-                                                matTooltip="{{activity.activity}}"><i
-                                                    class="fa-regular fa-clipboard me-2"></i>
-                                                Actividad:</strong>
-                                            {{ activity.activity }}</p>
+                                                <p><strong
+                                                        matTooltip="{{activity.activity}}"><i
+                                                            class="fa-regular fa-clipboard me-2"></i>
+                                                        Actividad:</strong>
+                                                    {{ activity.activity }}</p>
 
-                                        <p><strong><i
-                                                    class="fa-solid fa-info me-2"></i>
-                                                Detalle
-                                                de recursos:</strong>
-                                            {{ activity.resources_detail }}</p>
+                                            </div>
+                                            <div class="col-md-3">
 
-                                        <p><strong><i
-                                                    class="fa-solid fa-file-invoice-dollar me-2"></i>
-                                                Monto de recursos:</strong>
-                                            {{ activity.resources_amount }}</p>
-                                        <p
-                                            *ngIf="activity.approved_amount != '0.00'"><strong><i
-                                                    class="fa-regular fa-circle-check me-2"></i>Monto
-                                                aprobado:</strong>
-                                            {{ activity.approved_amount }}</p>
+                                                <p><strong><i
+                                                            class="fa-solid fa-info me-2"></i>
+                                                        Total de recursos:
+                                                        de recursos:</strong>
+                                                    {{
+                                                    activity.total_resources_count
+                                                    }}</p>
+
+                                            </div>
+                                            <div class="col-md-3">
+
+                                                <p><strong><i
+                                                            class="fa-solid fa-file-invoice-dollar me-2"></i>
+                                                        Prioridad:</strong>
+                                                    {{ activity.priority }}</p>
+
+                                            </div>
+                                            <div class="col-md-3">
+
+                                                <p><strong><i
+                                                            class="fa-regular fa-circle-check me-2"></i>Reponsable:</strong>
+                                                    {{ activity.responsible
+                                                    }}</p>
+
+                                            </div>
+                                        </div>
 
                                         <p
                                             *ngIf="activity.comments"><strong
                                                 matTooltip="{{activity.comments}}">Comentarios:</strong>
                                             {{
                                             activity.comments }}</p>
-                                            @if(email == 'financiero@ism.edu.ec'){
-                                                <p
+                                        @if(email == 'financiero@ism.edu.ec'){
+                                        <p
                                             *ngIf="activity.accounting_count"><strong>
                                                 <i
                                                     class="fa-solid fa-receipt me-2"></i>Cuenta
                                                 contable:</strong>
                                             {{ activity.accounting_count }}</p>
-                                            }
-                                        
+                                        }
 
                                         <div class="row" *ngIf="SavedPorcetage">
                                             <div
@@ -238,7 +264,7 @@
 
                                 <div
                                     class="col-md-6 d-flex justify-content-evenly">
-                                    
+                                    @if(poaDetail.status == fullname){
                                     <div
                                         *ngIf="email != 'financiero@ism.edu.ec' && email != 'direccionfinanciera@ism.edu.ec'">
                                         <button class="update" mat-raised-button
@@ -246,43 +272,72 @@
                                             *ngIf="!isEditing || editingActivityId !== activity.id"
                                             (click)="startEditing(activity)">Editar
                                             actividad</button>
-                                    
-                                    
+
                                     </div>
                                     <div
                                         *ngIf="poaDetail.status != 'APROBADO'">
                                         @if (email == 'financiero@ism.edu.ec' ||
                                         email ==
                                         'direccionfinanciera@ism.edu.ec') {
-
                                         } @else {
-
-                                            <button class="update" mat-raised-button
+                                        <button class="update" mat-raised-button
                                             *ngIf="!isEditing || editingActivityId !== activity.id "
-                                            style="background-color: rgb(175, 113, 32);color: white;"
-                                            (click)="goToActivities()">ver recursos
+                                            style="background-color: rgb(175, 113, 32);color: white; margin-right: 5px;"
+                                            (click)="goToActivities()">Ver
+                                            recursos
                                         </button>
                                         <button class="update" mat-raised-button
                                             *ngIf="!isEditing || editingActivityId !== activity.id "
                                             style="background-color: brown;color: white;"
                                             (click)="deleteActivity(activity.id)">Eliminar
                                         </button>
-
-                                        
-
                                         }
-
                                     </div>
-                                    
+                                    }
+
+                                    @if(poaDetail.status2 == 'FINANCIERO'  && poaDetail.status != 'APROBADO' &&
+                                    email != 'financiero@ism.edu.ec' && email !=
+                                    'direccionfinanciera@ism.edu.ec'){
+                                    <button class="update" mat-raised-button
+                                        *ngIf="!isEditing || editingActivityId !== activity.id "
+                                        style="background-color: rgb(175, 113, 32);color: white; margin-right: 5px;"
+                                        (click)="goToActivities()">Ver
+                                        recursos
+                                    </button>
+                                    }
+
+                                    @if(poaDetail.status == 'APROBADO' &&
+                                    email != 'financiero@ism.edu.ec' && email !=
+                                    'direccionfinanciera@ism.edu.ec'){
+                                    <button class="update" mat-raised-button
+                                        *ngIf="!isEditing || editingActivityId !== activity.id "
+                                        style="background-color: rgb(175, 113, 32);color: white; margin-right: 5px;"
+                                        (click)="goToActivities()">Ver
+                                        recursos
+                                    </button>
+                                    }
 
                                     @if (email == 'financiero@ism.edu.ec' &&
-                                    activity.approved_amount == "0.00" &&
                                     poaDetail.status != 'APROBADO' &&
-                                    poaDetail.status == 'CRISTIAN GONZALO VACA MONTOYA') {
+                                    poaDetail.status ==
+                                    'CRISTIAN GONZALO VACA MONTOYA') {
                                     <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
-                                        (click)="startEditing(activity)">Aprobar / No aprobar Act.</button>
+                                        (click)="goToAprobeResourcess()">Aprobar
+                                        / No aprobar Act.</button>
+
+                                    }
+
+                                    @if (email == 'financiero@ism.edu.ec' &&
+                                    poaDetail.status == 'APROBADO'
+                                    ) {
+                                    <button class="update" mat-raised-button
+                                        color="primary"
+                                        *ngIf="!isEditing || editingActivityId !== activity.id"
+                                        (click)="goToAprobeResourcess()">Aprobar
+                                        / No aprobar Act.</button>
+
                                     }
 
                                     @if (email ==
@@ -293,8 +348,8 @@
                                     <button class="update" mat-raised-button
                                         color="primary"
                                         *ngIf="!isEditing || editingActivityId !== activity.id"
-                                        (click)="startEditing(activity)">Aprobar/Rechazar
-                                        Act.</button>
+                                        (click)="goToAprobeResourcess()">Aprobar/
+                                        No aprobar Act.</button>
                                     }
                                 </div>
                                 <!-- @if (activity.approved_amount != '0.00') {
@@ -416,7 +471,7 @@
                                                     </div>
                                                 </div>
                                             </div> -->
-                                            
+
                                             @if (isEditing && editingActivityId
                                             === activity.id) {
                                             <!-- SE AGREGA PORCENTAJES DE ACTIVIDAD PARA CAMPUS -->
@@ -486,7 +541,7 @@
                                             </div>
                                             <div
                                                 *ngIf="editingActivity.approved_activity === 'APROBADO'">
-                                                <div class="row">
+                                                <!-- <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="mb-3">
                                                             <label
@@ -521,7 +576,7 @@
 
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="row"
                                                     *ngIf="SavedPorcetage">
                                                     <div
@@ -543,7 +598,8 @@
                                                 <div
                                                     *ngIf="editingActivity.approved_activity === 'APROBADO'">
                                                     <label for="percentage"
-                                                        class="mb-3">porcentaje campus/empresa:</label>
+                                                        class="mb-3">porcentaje
+                                                        campus/empresa:</label>
                                                     <div
                                                         class="row d-flex justify-content-center">
                                                         <div
@@ -558,14 +614,10 @@
                                                                 type="text"
                                                                 id="percentage-{{i}}"
                                                                 [(ngModel)]="campus.percentage"
-                                                                
-                                                                
-                                                                
                                                                 maxlength="4"
                                                                 placeholder="Ingrese el porcentaje"
                                                                 (keypress)="validateNum($event)"
                                                                 (input)="validateTotalPercentage()">
-
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -699,38 +751,37 @@
             </div>
             <div class="modal-body">
 
-               
-                    <form (ngSubmit)="createActivity()" #activityForm="ngForm">
-                        <div *ngIf="poaDetail.status == fullname">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="start_date"
-                                            class="form-label">Fecha
-                                            de
-                                            inicio</label>
-                                        <input type="date" class="form-control"
-                                            id="start_date"
-                                            [(ngModel)]="createPoa.start_date"
-                                            name="start_date"
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="end_date"
-                                            class="form-label">Fecha
-                                            de
-                                            fin</label>
-                                        <input type="date" class="form-control"
-                                            id="end_date"
-                                            [(ngModel)]="createPoa.end_date"
-                                            name="end_date"
-                                            required>
-                                    </div>
+                <form (ngSubmit)="createActivity()" #activityForm="ngForm">
+                    <div *ngIf="poaDetail.status == fullname">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="start_date"
+                                        class="form-label">Fecha
+                                        de
+                                        inicio</label>
+                                    <input type="date" class="form-control"
+                                        id="start_date"
+                                        [(ngModel)]="createPoa.start_date"
+                                        name="start_date"
+                                        required>
                                 </div>
                             </div>
-                            <!-- <div class="mb-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="end_date"
+                                        class="form-label">Fecha
+                                        de
+                                        fin</label>
+                                    <input type="date" class="form-control"
+                                        id="end_date"
+                                        [(ngModel)]="createPoa.end_date"
+                                        name="end_date"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="mb-3">
                                 <label for="resources_detail"
                                     class="form-label">Detalle
                                     de recursos</label>
@@ -739,8 +790,8 @@
                                     [(ngModel)]="createPoa.resources_detail"
                                     name="resources_detail" required></textarea>
                             </div> -->
-                            <div class="row">
-                                <!-- <div class="mb-3 col-md-6">
+                        <div class="row">
+                            <!-- <div class="mb-3 col-md-6">
                                     <label for="resources_ammount"
                                         class="form-label">Monto
                                         de recursos</label>
@@ -752,46 +803,46 @@
                                         (keypress)="validateNum($event)"
                                        >
                                 </div> -->
-                                <div class="mb-3 col-md-12">
-                                    <label for="campus"
-                                        class="form-label">Prioridad</label>
-                                    <select class="form-select"
-                                        [(ngModel)]="createPoa.priority"
-                                        name="campus">
-                                        <option value="BAJA">Baja</option>
-                                        <option value="MEDIA">Media</option>
-                                        <option value="ALTA">Alta</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="mb-3">
-                                    <label for class="form-label">Asignar
-                                        responsable:</label>
-                                    <ng-select
-                                        [items]="compers_list"
-                                        bindLabel="name"
-                                        bindValue="name"
-                                        [(ngModel)]="createPoa.responsible"
-                                        name="status"
-                                        placeholder="Elija un usuario">
-                                    </ng-select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="activity"
-                                    class="form-label">Actividad</label>
-                                <input type="text" class="form-control"
-                                    id="activity"
-                                    [(ngModel)]="createPoa.activity" name="activity"
-                                    required>
+                            <div class="mb-3 col-md-12">
+                                <label for="campus"
+                                    class="form-label">Prioridad</label>
+                                <select class="form-select"
+                                    [(ngModel)]="createPoa.priority"
+                                    name="campus">
+                                    <option value="BAJA">Baja</option>
+                                    <option value="MEDIA">Media</option>
+                                    <option value="ALTA">Alta</option>
+                                </select>
                             </div>
                         </div>
-                        <!-- solo admin puede modificar -->
-                        <button type="submit" mat-raised-button color="primary"
-                            [disabled]="activityForm.form.invalid">Crear
-                            Actividad</button>
-                    </form>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for class="form-label">Asignar
+                                    responsable:</label>
+                                <ng-select
+                                    [items]="compers_list"
+                                    bindLabel="name"
+                                    bindValue="name"
+                                    [(ngModel)]="createPoa.responsible"
+                                    name="status"
+                                    placeholder="Elija un usuario">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="activity"
+                                class="form-label">Actividad</label>
+                            <input type="text" class="form-control"
+                                id="activity"
+                                [(ngModel)]="createPoa.activity" name="activity"
+                                required>
+                        </div>
+                    </div>
+                    <!-- solo admin puede modificar -->
+                    <button type="submit" mat-raised-button color="primary"
+                        [disabled]="activityForm.form.invalid">Crear
+                        Actividad</button>
+                </form>
             </div>
         </div>
     </div>
@@ -838,25 +889,30 @@
                 <div class="col-md-12">
                     <div class="mb-3 d-flex justify-content-evenly"
                         *ngIf="poaDetail.status != 'APROBADO'">
-                        @if (poaDetail.status == 'CRISTIAN GONZALO VACA MONTOYA' ||
+                        @if (poaDetail.status == 'CRISTIAN GONZALO VACA MONTOYA'
+                        ||
                         poaDetail.status == 'VINUEZA AIDA') {
                         @if (allActivitiesHaveApproval() && allActivities.length
                         != 0) {
-                        <button (click)="updateStatus('APROBADO')"
+                        <!-- <button (click)="updateStatus('APROBADO')"
                             [class.active]="selectedStatus === 'APROBADO'"
                             color="primary"
                             mat-raised-button>
                             Aprobar POA
-                        </button>
-                        <!-- <button mat-raised-button
+                        </button> -->
+                        <!-- <button mat-raised-buttonallActivities
                             (click)="updateStatus('RECHAZADO')"
                             [class.active]="selectedStatus === 'RECHAZADO'"
                             color="warn">
                             Rechazar POA
                         </button> -->
                         }@else {
-                        <h5>Debe aprobar o rechazar todas las actividades de
-                            este POA para continuar.</h5>
+                        <button (click)="updateStatus('APROBADO')"
+                            [class.active]="selectedStatus === 'APROBADO'"
+                            color="primary"
+                            mat-raised-button>
+                            Aprobar POA
+                        </button>
                         }
                         } @else {
                         <h5>Este POA aun no ha llegado a este filtro.</h5>

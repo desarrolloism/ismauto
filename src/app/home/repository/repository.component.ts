@@ -31,6 +31,8 @@ export class RepositoryComponent implements OnInit, AfterViewInit {
   isUpdating:boolean = false;
   showDocName: any ;
   showDocType: any ;
+  versions:any;
+  versionLoader = false;
 
   constructor(
     private _repo: RepoService,
@@ -153,7 +155,7 @@ export class RepositoryComponent implements OnInit, AfterViewInit {
     this.currentDocumentCode = documentCode;
     this.showDocName = documentName;
     this.showDocType = Type;
-    // console.log('Preparando para subir archivo. ID:', documentId, 'Código:', documentCode);
+    console.log('subir archivo. ID:', documentId, 'Código:', documentCode);
   }
 
 
@@ -217,6 +219,19 @@ export class RepositoryComponent implements OnInit, AfterViewInit {
 
   }
 
+
+  //muestra versionamiento
+  getVersioID(documentId: number){
+    this.versionLoader = true;
+    this.currentDocumentId = documentId;
+    console.log('documento', this.currentDocumentId);
+    this._repo.getVersions(this.token, this.currentDocumentId).subscribe((resp: any) => {
+      this.versionLoader = false;
+      this.versions = resp;
+      console.log('versiones', this.versions);
+    })
+
+  }
 
 }
 

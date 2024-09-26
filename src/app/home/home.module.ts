@@ -40,7 +40,8 @@ import { PersonalComponent } from './personal/personal.component';
 import { FechasComponent } from './fechas/fechas.component'; 
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { ConfirmacionComponent } from './confirmacion/confirmacion.component';
-import { CedulaComponent } from './cedula/cedula.component'; 
+import { CedulaComponent } from './cedula/cedula.component';
+import { CitesComponent } from './cites/cites.component'; 
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { CedulaComponent } from './cedula/cedula.component';
     FechasComponent,
     ConfirmacionComponent,
     CedulaComponent,
+    CitesComponent,
   ],
   imports: [
     CommonModule,

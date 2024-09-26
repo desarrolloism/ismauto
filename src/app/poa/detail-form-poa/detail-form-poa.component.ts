@@ -69,7 +69,7 @@ export class DetailFormPoaComponent {
   getInfoPoa() {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
-      console.log('detalles son', this.poaDetail);
+      // console.log('detalles son', this.poaDetail);getInfoPoa()
 
       // reiniciar los arrays
       this.enterprises = [];

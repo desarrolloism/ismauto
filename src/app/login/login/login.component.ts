@@ -114,8 +114,8 @@ export class LoginComponent {
   
   sweet(){
     Swal.fire({
-      title: 'Éxito!',
-      text: 'Contraseña reestablecida correctamente!',
+      title: 'Éxito, tus credenciales han sido enviadas a tu correo institucional!',
+      text: 'Contraseña reestablecida correctamente, revisa la bandeja de entrada de tu correo!',
       icon: 'success',
     })
   }

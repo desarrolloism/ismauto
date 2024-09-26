@@ -1,5 +1,6 @@
 <app-header-app></app-header-app>
-@if(is_Boss == true || email == 'financiero@ism.edu.ec' || email == 'direccionfinanciera@ism.edu.ec' && isLoading == false){
+<!-- @if(is_Boss == true || email == 'financiero@ism.edu.ec' || email ==
+'direccionfinanciera@ism.edu.ec' && isLoading == false){ -->
 
 <h1 class="text-center mt-4">Generar POA <span
         class="period">Periodo: {{
@@ -88,7 +89,8 @@
                                     poaForm.get('areaStep.area')?.value }}</p>
                             </div>
                         </div>
-                        <div class="col-md-6  overflow-auto" style="height: 100px;">
+                        <div class="col-md-6  overflow-auto"
+                            style="height: 100px;">
                             <div
                                 matTooltip="{{poaForm.get('objectiveStep.objective')?.value }} "
                                 *ngIf="poaForm.get('objectiveStep.objective')?.value">
@@ -99,54 +101,56 @@
                                     }}</p>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="row">
-                        
+
                     </div>
                     <hr>
                     <div class="row">
                         @if (poaId != 0) {
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="enterprises" class="form-label">Empresas</label>
-                                    <div *ngFor="let enterprise of enterprises" class="form-check">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="enterprises"
+                                    class="form-label">Empresas</label>
+                                <div *ngFor="let enterprise of enterprises"
+                                    class="form-check">
+                                    <input
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        [id]="'enterprise-' + enterprise.id"
+                                        [checked]="isEnterpriseSelected(enterprise.id)"
+                                        (change)="toggleEnterpriseSelection($event, enterprise.id)" />
+                                    <label
+                                        class="form-check-label"
+                                        [for]="'enterprise-' + enterprise.id">
+                                        {{ enterprise.name }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="campuses"
+                                    class="form-label">Campus</label>
+                                <div *ngFor="let campus of campuses"
+                                    class="row">
+                                    <div class="col-md-8 form-check">
                                         <input
                                             type="checkbox"
                                             class="form-check-input"
-                                            [id]="'enterprise-' + enterprise.id"
-                                            [checked]="isEnterpriseSelected(enterprise.id)"
-                                            (change)="toggleEnterpriseSelection($event, enterprise.id)"
-                                        />
+                                            [id]="'campus-' + campus.id"
+                                            [checked]="isCampusSelected(campus.id)"
+                                            (change)="toggleCampusSelection($event, campus.id)" />
                                         <label
                                             class="form-check-label"
-                                            [for]="'enterprise-' + enterprise.id">
-                                            {{ enterprise.name }}
+                                            [for]="'campus-' + campus.id">
+                                            {{ campus.name }}
                                         </label>
                                     </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <label for="campuses" class="form-label">Campus</label>
-                                    <div *ngFor="let campus of campuses" class="row">
-                                        <div class="col-md-8 form-check">
-                                            <input
-                                                type="checkbox"
-                                                class="form-check-input"
-                                                [id]="'campus-' + campus.id"
-                                                [checked]="isCampusSelected(campus.id)"
-                                                (change)="toggleCampusSelection($event, campus.id)"
-                                            />
-                                            <label
-                                                class="form-check-label"
-                                                [for]="'campus-' + campus.id">
-                                                {{ campus.name }}
-                                            </label>
-                                        </div>
-                                        
-                                    </div>
+
                                 </div>
                             </div>
+                        </div>
                         }
                     </div>
                 </div>
@@ -185,8 +189,10 @@
         <mat-spinner></mat-spinner>
     </div>
 </div>
-} @else if(isLoading == true) {
-    <div class="d-flex justify-content-center"
+<!-- }  -->
+
+@if(isLoading == true) {
+<div class="d-flex justify-content-center"
     style="margin-top: 5rem;margin-bottom: 5rem;">
     <div class="honeycomb">
         <div></div>
@@ -199,15 +205,15 @@
     </div>
 </div>
 <h2 class="text-center text-secondary">Comprobando información...</h2>
-}@else{
-    <div class="row error-container">
-        <div class="col-md-6 error-content">
-            <div class="error-icon">&#x26D4;</div>
-            <h1 style="margin-top: 5rem;">Acceso Denegado</h1>
-            <p class="lead">No tienes permisos para ingresar a esta página.</p>
-            <a routerLink="/main" mat-raised-button class="mt-3">Volver al
-                Inicio</a>
-        </div>
-    </div>
 }
-
+<!-- }@else{
+<div class="row error-container">
+    <div class="col-md-6 error-content">
+        <div class="error-icon">&#x26D4;</div>
+        <h1 style="margin-top: 5rem;">Acceso Denegado</h1>
+        <p class="lead">No tienes permisos para ingresar a esta página.</p>
+        <a routerLink="/main" mat-raised-button class="mt-3">Volver al
+            Inicio</a>
+    </div>
+</div>
+} -->

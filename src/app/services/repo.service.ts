@@ -80,6 +80,20 @@ export class RepoService {
 
     return this._http.post(`${this.url}/update_document`, formData, { headers: headers });
   }
+
+  //muestra las versiones anteriores
+  getVersions(token: any, documentId: number) {
+    const headers = new HttpHeaders({
+      'Authorization': this.auth,
+      'Content-Type': 'application/json',
+      'Token': token
+    });
+    const data = {
+      documento_id: documentId
+    }
+    return this._http.post(`${this.url}/show_version`, data, { headers: headers });
+  }
+
 }
 
 

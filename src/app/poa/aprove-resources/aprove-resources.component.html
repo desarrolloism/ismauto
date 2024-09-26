@@ -1,0 +1,734 @@
+<app-header-app></app-header-app>
+
+<div class="p-4">
+    @if(is_Loading == true){
+    <div class="d-flex justify-content-center"
+        style="margin-top: 5rem;margin-bottom: 5rem;">
+        <div class="honeycomb">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    }@else {
+    <div class="row ">
+        <div class="col-md-12">
+            <h2 class="text-center">{{myPoa?.creator_info.name}} <small>Dep.
+                    {{myPoa?.department}}</small>
+            </h2>
+        </div>
+
+        <div class="row d-flex justify-content-between">
+            <div class="col-md-3">
+                <div class="card shadow p-4 info-card">
+                    
+                    <p>
+                        <strong>APROBANDO: </strong> {{ myPoa.status }}
+                    </p>
+                    <p>
+                        <strong>Actividad: </strong> {{myActivity?.activity }}
+                    </p>
+                    <p>
+                        <strong>Prioridad: </strong> {{myActivity?.priority }}
+                    </p>
+                    <p>
+                        <strong>Responsable: </strong> {{myActivity?.responsible
+                        }}
+                    </p>
+                    <p><strong>Fecha de inicio: </strong>
+                        {{myActivity?.start_date |
+                        date}} </p>
+                    <p>
+                        <strong>Fecha de fin: </strong> {{myActivity?.end_date |
+                        date}}
+                    </p>
+                    @if(myActivity?.comments){
+                    <p><strong>Comentarios: </strong> {{myActivity?.comments
+                        }}</p>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="alert alert-primary" role="alert">
+                                <p>
+                                    <strong>Total recursos: </strong>
+                                    {{total_Resources?.total_resources}}$
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @if(approveLoading == true){
+                            Cargando nuevo porcentaje...
+                            <div class="spinner-border text-primary"
+                                role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            }@else{
+                            <div class="alert alert-success" role="alert">
+                                <p>
+                                    <strong>Total aprobado: </strong>
+                                    {{total_Resources?.total_approved}}$
+                                </p>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card shadow p-4 mt-2 info-card">
+                    <h5>Porcentaje de campus:</h5>
+                    <hr>
+                    <div *ngFor="let campus of myActivity?.resources">
+                        <p>
+                            <strong>{{ campus.campus_name }}: </strong>
+                            @if(campus.percentage != "0.00"){
+
+                            {{campus.percentage}}%
+
+                            }@else{
+                            {{campus.percentage}}
+                            }
+                        </p>
+                    </div>
+                    <button mat-raised-button
+                        matTooltip="Haz clic aquí para editar los porcentajes"
+                        matTooltipPosition="right"
+                        matTooltipClass="custom-tooltip"
+                        #tooltip="matTooltip"
+                        (click)="editmyCampuses()">Editar porcentajes</button>
+
+                </div>
+            </div>
+            @if(editCampus == true){
+            <div class="col-md-9 card shadow p-4">
+                <label for="percentage"
+                    class="mb-3">porcentaje
+                    campus/empresa:</label>
+                <div
+                    class="row d-flex justify-content-center">
+                    <div
+                        *ngFor="let campus of percetagePerCampus; let i = index"
+                        class="col-md-4 col-lg-2 mb-4">
+                        <label class="form-label"
+                            for="percentage-{{i}}">{{campus.name}}%</label>
+                        <input
+                            name="percentage-{{i}}"
+                            class="form-control"
+                            type="text"
+                            id="percentage-{{i}}"
+                            [(ngModel)]="campus.percentage"
+                            maxlength="4"
+                            placeholder="Ingrese el porcentaje"
+                            (keypress)="validateNum($event)"
+                            (input)="handlePercentageChange(campus)">
+                    </div>
+                </div>
+                <div class="row">
+                    <div
+                        class="col-12 text-center">
+                        <p
+                            [ngClass]="{'text-success': getTotalPercentage() === 100, 'text-danger': getTotalPercentage() !== 100}">
+                            Total: {{
+                            getTotalPercentage()
+                            }}%
+                            <span
+                                *ngIf="getTotalPercentage() !== 100">(Debe
+                                sumar
+                                100%)</span>
+                        </p>
+                    </div>
+                </div>
+                @if( getTotalPercentage() === 100){
+                <button mat-raised-button color="primary"
+                    (click)="sendPercentages()">Continuar</button>
+                }
+            </div>
+            }
+
+            @if(showResources == true){
+            <div class="col-md-9 card shadow p-4"
+                style="height: 650px;overflow-y: auto;">
+                <!-- boton para finalizar revision de recursos -->
+                @if(pendingResources.length == 0){
+                @if(myActivity.state == 'APROBADO'){
+                <div class="row mb-2">
+                    <div class="col-md-12  d-flex justify-content-end">
+                        <button mat-raised-button class="bg-success text-white"
+                            (click)="finishResources()">Enviar nueva
+                            revisión</button>
+                    </div>
+                </div>
+                }@else{
+                <div class="row mb-2">
+                    <div class="col-md-12  d-flex justify-content-end">
+                        <button mat-raised-button class="bg-success text-white"
+                            (click)="finishResources()">Finalizar
+                            revision</button>
+                    </div>
+                </div>
+                }
+
+                }
+                <!-- fin boton para finalizar revision de recursos -->
+
+                <div class="container">
+                    <div class="row">
+                        <!-- Pending Resources Column -->
+                        <div class="col-md-4">
+                            <h3 class="text-center">Recursos creados</h3>
+                            <div *ngFor="let resource of pendingResources"
+                                class="mb-3">
+                                <div class="card border-primary text-primary"
+                                    *ngIf="!resource.isEditing"
+                                    (click)="openEditModal(resource.id)"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">
+                                    <div class="card-body">
+                                        <h5 class="card-title"
+                                            *ngIf="!resource.isEditing">
+                                            <i
+                                                class="fa-regular fa-note-sticky"></i>
+                                            {{resource.description}}</h5>
+                                        <div class="row info-card">
+                                            <div class="col-md-6">
+                                                <p class="card-text"
+                                                    *ngIf="!resource.isEditing">
+                                                    <i
+                                                        class="fa-solid fa-chart-area"></i>
+                                                    Cantidad:
+                                                    {{resource.qty}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="card-text"
+                                                    *ngIf="!resource.isEditing">
+                                                    <i
+                                                        class="fa-solid fa-comments-dollar"></i>
+                                                    Requerido:
+                                                    {{resource.price_resource}}$</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade"
+                                    id="staticBackdrop"
+                                    data-bs-backdrop="static"
+                                    data-bs-keyboard="false"
+                                    tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1
+                                                    class="modal-title fs-5"
+                                                    id="staticBackdropLabel">
+                                                    <strong>Recurso:</strong>
+                                                    {{
+                                                    updatedResource?.description
+                                                    }}</h1>
+                                                <button type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- informacion del recurso -->
+                                                <div class="row">
+                                                    <div
+                                                        class="col-md-6 text-center">
+                                                        <p>
+                                                            <strong>Cantidad:</strong>
+                                                            {{
+                                                            updatedResource?.qty
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-6 text-center">
+                                                        <p>
+                                                            <strong>Precio
+                                                                de
+                                                                recurso:</strong>
+                                                            {{
+                                                            updatedResource?.price_resource
+                                                            }}$
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="col-md-12 text-center"
+                                                    *ngIf="updatedResource?.accounting_count">
+                                                    <p class="card-text">
+                                                        <i
+                                                            class="fa-solid fa-hand-holding-dollar"></i>
+                                                        <strong>Cuenta:
+                                                        </strong>
+                                                        {{updatedResource?.accounting_count}}</p>
+                                                </div>
+                                                <hr>
+                                                <div class="col-md-12"
+                                                    *ngIf="updatedResource?.comments">
+                                                    <p
+                                                        class="card-text text-center">
+                                                        <i
+                                                            class="fa-regular fa-comment-dots"></i>
+                                                        {{updatedResource?.comments}}</p>
+                                                </div>
+                                                <hr>
+
+                                                <!--fin informacion del recurso -->
+                                                <!-- formulario para actualizar -->
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="price_approved"
+                                                            class="form-label">Monto
+                                                            aprobado</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="text"
+                                                            [(ngModel)]="adminAprove.price_approved"
+                                                            name="price_approved"
+                                                            [required]="isApproving">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="accounting_count"
+                                                            class="form-label">Cuenta
+                                                            contable</label>
+                                                        <ng-select
+                                                            [items]="accounting_list"
+                                                            bindLabel="accounting_count"
+                                                            bindValue="accounting_count"
+                                                            [(ngModel)]="adminAprove.accounting_count"
+                                                            name="accounting_count"
+                                                            placeholder="Seleccione una cuenta"
+                                                            [required]="isApproving">
+                                                        </ng-select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="comments"
+                                                            class="form-label">Comentario</label>
+                                                        <textarea
+                                                            name="comments"
+                                                            id="comments"
+                                                            [(ngModel)]="adminAprove.comments"
+                                                            class="form-control"
+                                                            [required]="isRejecting">
+                                                        </textarea>
+                                                    </div>
+
+                                                </div>
+                                                <!-- fin formulario para actualizar -->
+                                            </div>
+                                            <div class="modal-footer">
+                                                <!-- <button
+                                                mat-raised-button
+                                                color="primary"
+                                                (click)="saveResource(resource.id, resource.is_approved)">Enviar</button> -->
+                                                <div
+                                                    *ngIf="isFinancialUser() && resource.is_approved == 'INICIANDO'"
+                                                    class="mt-2">
+                                                    <button
+                                                        (click)="approveResource(updatedResource.id)"
+                                                        class="btn btn-sm btn-success mr-2"
+                                                        [disabled]="isApproving && !isFormValid()">Aprobar</button>
+                                                    <button
+                                                        (click)="rejectResource(updatedResource.id)"
+                                                        class="btn btn-sm btn-danger"
+                                                        [disabled]="isRejecting && !adminAprove.comments.trim()">No
+                                                        aprobar</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Approved Resources Column -->
+                        <div class="col-md-4"
+                            style="border-left: 1px solid black;">
+                            <h3 class="text-center">Recursos Aprobados</h3>
+                            <div *ngFor="let resource of approvedResources"
+                                class="mb-3">
+                                <div class="card border-success text-success"
+                                    *ngIf="!resource.isEditing"
+                                    (click)="openEditModal(resource.id)"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">
+                                    <div class="card-body">
+                                        <h5 class="card-title"
+                                            *ngIf="!resource.isEditing">
+                                            <i
+                                                class="fa-regular fa-note-sticky"></i>
+                                            {{resource.description}}
+
+                                        </h5>
+                                        <div class="row info-card">
+                                            <div class="col-md-6">
+                                                <p class="card-text"
+                                                    *ngIf="!resource.isEditing">
+                                                    <i
+                                                        class="fa-solid fa-comments-dollar"></i>
+                                                    Requerido:
+                                                    {{resource.price_resource}}$</p>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <p class="card-text"
+                                                    *ngIf="!resource.isEditing">
+                                                    <i
+                                                        class="fa-solid fa-sack-dollar"></i>
+                                                    Aprobado:
+                                                    {{resource.price_approved}}$</p>
+
+                                                <!-- <p class="card-text"
+                                                    *ngIf="!resource.isEditing">
+                                                    <i
+                                                        class="fa-solid fa-chart-area"></i>
+                                                    Cantidad:
+                                                    {{resource.qty}}</p> -->
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade"
+                                id="staticBackdrop"
+                                data-bs-backdrop="static"
+                                data-bs-keyboard="false"
+                                tabindex="-1"
+                                aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1
+                                                class="modal-title fs-5"
+                                                id="staticBackdropLabel">
+                                                <strong>Recurso:</strong>
+                                                {{
+                                                updatedResource?.description
+                                                }}</h1>
+                                            <button type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- informacion del recurso -->
+                                            <div class="row">
+                                                <div
+                                                    class="col-md-6 text-center">
+                                                    <p>
+                                                        <strong>Cantidad:</strong>
+                                                        {{
+                                                        updatedResource?.qty
+                                                        }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="col-md-6 text-center">
+                                                    <p>
+                                                        <strong>Precio
+                                                            de
+                                                            recurso:</strong>
+                                                        {{
+                                                        updatedResource?.price_resource
+                                                        }}$
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 text-center"
+                                                *ngIf="updatedResource?.accounting_count">
+                                                <p class="card-text">
+                                                    <i
+                                                        class="fa-solid fa-hand-holding-dollar"></i>
+                                                    <strong>Cuenta: </strong>
+                                                    {{updatedResource?.accounting_count}}</p>
+                                            </div>
+                                            <hr>
+                                            <div class="col-md-12"
+                                                *ngIf="updatedResource?.comments">
+                                                <p
+                                                    class="card-text text-center">
+                                                    <i
+                                                        class="fa-regular fa-comment-dots"></i>
+                                                    {{updatedResource?.comments}}</p>
+                                            </div>
+                                            <hr>
+                                            <!--fin informacion del recurso -->
+                                            <!-- formulario para actualizar -->
+
+                                            <div class="row">
+                                                <div class="mb-3">
+                                                    <label
+                                                        for="price_approved"
+                                                        class="form-label">Monto
+                                                        aprobado</label>
+                                                    <input
+                                                        class="form-control"
+                                                        type="text"
+                                                        [(ngModel)]="adminAprove.price_approved"
+                                                        name="price_approved"
+                                                        [required]="isApproving">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label
+                                                        for="accounting_count"
+                                                        class="form-label">Cuenta
+                                                        contable</label>
+                                                    <ng-select
+                                                        [items]="accounting_list"
+                                                        bindLabel="accounting_count"
+                                                        bindValue="accounting_count"
+                                                        [(ngModel)]="adminAprove.accounting_count"
+                                                        name="accounting_count"
+                                                        placeholder="Seleccione una cuenta"
+                                                        [required]="isApproving">
+                                                    </ng-select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="comments"
+                                                        class="form-label">Comentario</label>
+                                                    <textarea
+                                                        name="comments"
+                                                        id="comments"
+                                                        [(ngModel)]="adminAprove.comments"
+                                                        class="form-control"
+                                                        [required]="isRejecting">
+                                                </textarea>
+                                                </div>
+                                            </div>
+                                            <!-- fin formulario para actualizar -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- <button
+                                        mat-raised-button
+                                        color="primary"
+                                        (click)="saveResource(resource.id, resource.is_approved)">Enviar</button> -->
+                                            <div
+                                                *ngIf="isFinancialUser() "
+                                                class="mt-2">
+                                                <button
+                                                    (click)="approveResource(updatedResource.id)"
+                                                    class="btn btn-sm btn-success mr-2"
+                                                    [disabled]="isApproving && !isFormValid()">Aprobar</button>
+                                                <button
+                                                    (click)="rejectResource(updatedResource.id)"
+                                                    class="btn btn-sm btn-danger"
+                                                    [disabled]="isRejecting && !adminAprove.comments.trim()">No
+                                                    aprobar</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Rejected Resources Column -->
+                        <div class="col-md-4" style="border-left: 1px solid;">
+                            <h3 class="text-center">Recursos no aprobados</h3>
+                            <div
+                                *ngFor="let resource of rejectedResources; let i = index"
+                                class="mb-3">
+                                <div class="card border-danger text-danger"
+                                    *ngIf="!resource.isEditing"
+                                    (click)="openEditModal(resource.id)"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">
+
+                                    <div class="card-body">
+                                        <h5 class="card-title"
+                                            *ngIf="!resource.isEditing">
+                                            <i
+                                                class="fa-regular fa-note-sticky"></i>
+                                            {{resource.description}}</h5>
+                                        <div class="row info-card">
+                                            <div class="col-md-6">
+                                                <p class="card-text"
+                                                    *ngIf="!resource.isEditing">
+                                                    <i
+                                                        class="fa-solid fa-comments-dollar"></i>
+                                                    Requerido:
+                                                    {{resource.price_resource}}$</p>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <p class="card-text"
+                                                    *ngIf="!resource.isEditing">
+                                                    <i
+                                                        class="fa-solid fa-sack-xmark"></i>
+                                                    No aprobado</p>
+                                            </div>
+                                        </div>
+                                        <div class="row info-card">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal fade"
+                                    id="staticBackdrop"
+                                    data-bs-backdrop="static"
+                                    data-bs-keyboard="false"
+                                    tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1
+                                                    class="modal-title fs-5"
+                                                    id="staticBackdropLabel">
+                                                    <strong>Recurso:</strong>
+                                                    {{
+                                                    updatedResource?.description
+                                                    }}</h1>
+                                                <button type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- informacion del recurso -->
+                                                <div class="row">
+                                                    <div
+                                                        class="col-md-6 text-center">
+                                                        <p>
+                                                            <strong>Cantidad:</strong>
+                                                            {{
+                                                            updatedResource?.qty
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-6 text-center">
+                                                        <p>
+                                                            <strong>Precio
+                                                                de
+                                                                recurso:</strong>
+                                                            {{
+                                                            updatedResource?.price_resource
+                                                            }}$
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="col-md-12 text-center"
+                                                    *ngIf="updatedResource?.accounting_count">
+                                                    <p class="card-text">
+                                                        <i
+                                                            class="fa-solid fa-hand-holding-dollar"></i>
+                                                        <strong>Cuenta:
+                                                        </strong>
+                                                        {{updatedResource?.accounting_count}}</p>
+                                                </div>
+                                                <hr>
+                                                <div class="col-md-12"
+                                                    *ngIf="updatedResource?.comments">
+                                                    <p
+                                                        class="card-text text-center">
+                                                        <i
+                                                            class="fa-regular fa-comment-dots"></i>
+                                                        {{updatedResource?.comments}}</p>
+                                                </div>
+                                                <hr>
+                                                <!--fin informacion del recurso -->
+                                                <!-- formulario para actualizar -->
+
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="price_approved"
+                                                            class="form-label">Monto
+                                                            aprobado</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="text"
+                                                            [(ngModel)]="adminAprove.price_approved"
+                                                            name="price_approved"
+                                                            [required]="isApproving">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label
+                                                            for="accounting_count"
+                                                            class="form-label">Cuenta
+                                                            contable</label>
+                                                        <ng-select
+                                                            [items]="accounting_list"
+                                                            bindLabel="accounting_count"
+                                                            bindValue="accounting_count"
+                                                            [(ngModel)]="adminAprove.accounting_count"
+                                                            name="accounting_count"
+                                                            placeholder="Seleccione una cuenta"
+                                                            [required]="isApproving">
+                                                        </ng-select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="comments"
+                                                            class="form-label">Comentario</label>
+                                                        <textarea
+                                                            name="comments"
+                                                            id="comments"
+                                                            [(ngModel)]="adminAprove.comments"
+                                                            class="form-control"
+                                                            [required]="isRejecting">
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                                <!-- fin formulario para actualizar -->
+                                            </div>
+                                            <div class="modal-footer">
+                                                <!-- <button
+                                                mat-raised-button
+                                                color="primary"
+                                                (click)="saveResource(resource.id, resource.is_approved)">Enviar</button> -->
+                                                <div
+                                                    *ngIf="isFinancialUser() "
+                                                    class="mt-2">
+                                                    <button
+                                                        (click)="approveResource(updatedResource.id)"
+                                                        class="btn btn-sm btn-success mr-2"
+                                                        [disabled]="isApproving && !isFormValid()">Aprobar</button>
+                                                    <button
+                                                        (click)="rejectResource(updatedResource.id)"
+                                                        class="btn btn-sm btn-danger"
+                                                        [disabled]="isRejecting && !adminAprove.comments.trim()">No
+                                                        aprobar</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            }
+        </div>
+
+        <!-- PORCENTAJES PARA CAMPUS -->
+    </div>
+    }
+
+</div>

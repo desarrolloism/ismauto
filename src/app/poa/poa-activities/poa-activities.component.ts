@@ -55,7 +55,7 @@ export class PoaActivitiesComponent implements OnInit {
   total_Resources: any;
   numberOfResources: any;
 
-  constructor(private poaService: PoaService, 
+  constructor(private poaService: PoaService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
@@ -139,13 +139,14 @@ export class PoaActivitiesComponent implements OnInit {
       resource.price_resource,
       resource.price_approved,
       resource.accounting_count,
-      resource.isApproved = false,
+      resource.isApproved = 'INICIANDO',
       resource.comments
     ).subscribe(
       (resp: any) => {
         console.log('Recurso actualizado:', resp.data);
         resource.isEditing = false;
         this.getPoaResources();
+        this.totalResources();
       },
       (error) => {
         console.error('Error al actualizar el recurso:', error);
@@ -213,14 +214,13 @@ export class PoaActivitiesComponent implements OnInit {
   //finaliza la creacion de los recursos
   finishResources() {
     this.poaService.finishResources(this.token, this.activityId).subscribe((resp: any) => {
-
       if (confirm('¿Está seguro de finalizar los recursos de esta actividad?')) {
-        if (resp.status == 'ok') {
-          console.log('recursos finalizados', resp);
-          this.router.navigate(['/poa-detail', this.poaId]);
-        } else {
-          alert('error contacta con el administrador!');
-        }
+        console.log('recursos finalizados', resp);
+        this.router.navigate(['/poa-detail', this.poaId]);
+        setTimeout(() => {
+        window.location.reload();
+        }, 500);
+        
       }
     });
   }

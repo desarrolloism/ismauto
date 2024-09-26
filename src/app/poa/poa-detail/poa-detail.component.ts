@@ -338,7 +338,7 @@ export class PoaDetailComponent {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
       this.selectedStatus = this.poaDetail.status;
-      // console.log('detalle poa1111111', this.poaDetail);
+      console.log('detalle poa1111111', this.poaDetail);
       this.getCampusesSelected();
     });
   }
@@ -488,7 +488,7 @@ export class PoaDetailComponent {
       this.allActivities = resp.data;
       this.originalActivities = [...this.allActivities];
       console.log('actividades', this.allActivities);
-
+      
     });
   }
 
@@ -532,8 +532,14 @@ export class PoaDetailComponent {
 
   //redirije hacia actividfad
   goToActivities() {
-    console.log('redirigiendo', this.poaId, this.activityId);
+    // console.log('redirigiendo', this.poaId, this.activityId);
     this._router.navigate(['/poa-activities', this.poaId, this.activityId]);
+  }
+
+   //redirije hacia actividfad
+   goToAprobeResourcess() {
+    // console.log('redirigiendo', this.poaId, this.activityId);
+    this._router.navigate(['/aprobar-recursos', this.poaId, this.activityId]);
   }
 
   //obtiene los campus seleccionados por el usuario
@@ -613,6 +619,7 @@ export class PoaDetailComponent {
     this.validateTotalPercentage();
     if (this.email === 'financiero@ism.edu.ec' || this.email === 'direccionfinanciera@ism.edu.ec') {
       if (this.editingActivity.approved_activity === 'APROBADO') {
+        
         // if (this.totalPercentage !== 100) {
         //   alert('Para aprobar la actividad, la suma de los porcentajes debe ser exactamente 100%');
         //   return;

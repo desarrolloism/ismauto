@@ -33,7 +33,7 @@ import { FechasComponent } from './home/fechas/fechas.component';
 import { CedulaComponent } from './home/cedula/cedula.component';
 import { UserPurcharseComponent } from './shopping/user-purcharse/user-purcharse.component';
 import { PoaActivitiesComponent } from './poa/poa-activities/poa-activities.component';
-
+import { AproveResourcesComponent } from './poa/aprove-resources/aprove-resources.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -67,6 +67,7 @@ const routes: Routes = [
   {path: 'poa-detail/:id', component: PoaDetailComponent},
   {path: 'not-started-deps', component: NotStartedDepsComponent},
   {path: 'poa-activities/:poa_id/:act_id', component: PoaActivitiesComponent},
+  {path: 'aprobar-recursos/:poa_id/:act_id', component: AproveResourcesComponent},
 
 
   //repository

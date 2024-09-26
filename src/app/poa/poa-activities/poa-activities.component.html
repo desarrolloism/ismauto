@@ -32,7 +32,7 @@
 
     <hr>
 
-    @if(myPoa?.status == fullname){
+    @if(myPoa?.status == fullname && myActivity.state == 'INICIANDO'){
     <!-- CREACION DE RECURSOS -->
     <div class="mb-4">
         <div class="row d-flex justify-content-evenly">
@@ -41,24 +41,27 @@
             <div class="col-md-3 card shadow p-4">
                 <h2>Agregar nuevo recurso:</h2>
                 <div class="mb-3">
-                    <label class="form-label">Descripción de actividad</label>
+                    <label class="form-label">Descripción de actividad:</label>
                     <input type="text" class="form-control"
                         [(ngModel)]="resource.description">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Cantidad</label>
+                    <label class="form-label">Cantidad:</label>
                     <input type="number" class="form-control"
                         [(ngModel)]="resource.quantity">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Precio del recurso</label>
+                    <label class="form-label">Precio total:</label>
                     <input type="number" class="form-control"
                         [(ngModel)]="resource.priceResource">
                 </div>
+                @if(resource.priceResource){
                 <button (click)="createResource()" mat-raised-button
                     color="primary">Crear
                     recurso</button>
+                }
+
             </div>
             <div class="col-md-8 card shadow p-4">
                 <div class="row d-flex justify-content-between">
@@ -68,7 +71,7 @@
                     </div>
                     <div class="col-md-6 text-center">
                         <h3> <strong>Suma de recuros: </strong>{{
-                            total_Resources.resources_amount }}$</h3>
+                            total_Resources.total_resources }}$</h3>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -183,26 +186,63 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <button class="mt-4" mat-raised-button (click)="finishResources()">Finalizar recursos
+                        <button class="mt-4" mat-raised-button
+                            (click)="finishResources()">Guardar recursos
                         </button>
                     </div>
                 </div>
-                
+
             </div>
-            }@else {
-            <div class="col-md-12">
+            }@else if (myActivity.state == 'APROBADO' || myActivity.state ==
+            'MODIFICADO') {
+
+            }
+
+        </div>
+
+    </div>
+    <!-- FIN CREACION DE RECURSOS -->
+
+    }@else if (myPoa?.status == fullname && myActivity.state != 'INICIANDO') {
+    <!-- CREACION DE RECURSOS -->
+    <div class="mb-4">
+        <div class="row d-flex justify-content-evenly">
+
+            @if(!isFinancialUser()){
+            <div class="col-md-3 card shadow p-4">
+                <h2>Agregar nuevo recurso:</h2>
+                <div class="mb-3">
+                    <label class="form-label">Descripción de actividad:</label>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="resource.description">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Cantidad:</label>
+                    <input type="number" class="form-control"
+                        [(ngModel)]="resource.quantity">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Precio total:</label>
+                    <input type="number" class="form-control"
+                        [(ngModel)]="resource.priceResource">
+                </div>
+                @if(resource.priceResource){
+                <button (click)="createResource()" mat-raised-button
+                    color="primary">Crear
+                    recurso</button>
+                }
+
+            </div>
+            <div class="col-md-8 card shadow p-4">
                 <div class="row d-flex justify-content-between">
                     <div class="col-md-6 text-center">
-
                         <h2 class>Recursos Creados
                             ({{createdResources.length}})</h2>
-
                     </div>
                     <div class="col-md-6 text-center">
-
                         <h3> <strong>Suma de recuros: </strong>{{
-                            total_Resources.resources_amount }}$</h3>
-
+                            total_Resources.total_resources }}$</h3>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -315,19 +355,86 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="mt-4" mat-raised-button
+                            (click)="finishResources()">Guardar recursos
+                        </button>
+                    </div>
+                </div>
+
             </div>
+            }@else if (myActivity.state == 'APROBADO' || myActivity.state ==
+            'MODIFICADO') {
+
             }
-            
+
         </div>
 
     </div>
     <!-- FIN CREACION DE RECURSOS -->
-
     }@else {
-    <h1 class="text-center">
-        Este POA en cuentra gestionandose por: {{ myPoa?.status}}
+    <div class="col-md-12 card shadow p-4">
+        <div class="row d-flex justify-content-between">
+            <div class="col-md-6 text-center">
+                <h2 class>Recursos Creados
+                    ({{createdResources.length}})</h2>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3> <strong>Suma de recuros: </strong>{{
+                    total_Resources?.total_resources }}$</h3>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <!-- <th>ID</th> -->
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Monto requerido</th>
+                        <th>Monto
+                            aprobado</th>
+                        <!-- <th *ngIf="isFinancialUser()">Cuenta</th> -->
+                        <th>Comentarios</th>
+                        <!-- <th>Acciones</th> -->
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr *ngFor="let resource of createdResources">
+                        <td>
+                            <span>{{resource.description}}</span>
+                        </td>
+                        <td>
+                            <span>{{resource.qty}}</span>
+                        </td>
+                        <td>
+                            <span>{{resource.price_resource}}</span>
+                        </td>
+                        <ng-container>
+                            <td>
+                                <span>{{resource.price_approved}}</span>
+                            </td>
+                            <!-- <td>
+                                    <span
+                                        *ngIf="!resource.isEditing">{{resource.accounting_count}}</span>
+                                </td> -->
+                            <td>
+                                <span>{{resource.comments}}</span>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <div class="row">
+                <div class="col-md-6">
+                    <button class="mt-4" mat-raised-button (click)="finishResources()">Guardar recursos
+                    </button>
+                </div>
+            </div> -->
 
-    </h1>
+    </div>
     }
 
 </div>

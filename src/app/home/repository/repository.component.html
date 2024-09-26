@@ -44,29 +44,9 @@
 </div>
 
 @if(isLoading == false){
-    <div style="margin-top: -1.5rem;"></div>
-    <app-process-iso></app-process-iso>
+<div style="margin-top: -1.5rem;"></div>
+<app-process-iso></app-process-iso>
 }
-
-
-
-<!-- Modal para ver version del documento-->
-<div class="modal fade" id="versionModal" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5"
-                    id="exampleModalLabel">Versiones:</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                No existen versiones anteriores de este documento disponibles.
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- offcanvas -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
@@ -119,12 +99,60 @@
                                     class="fa-regular fa-font-awesome icon-color-tertiary"></i>
                                 {{ documento.subtipo }}
                             </p>
-                            <p data-bs-toggle="modal" style="cursor: pointer;"
-                                data-bs-target="#versionModal">
-                                <i matTooltip="Versiones anteriores"
+                            <p (click)="getVersioID(documento.id)"
+                                style="cursor: pointer;">
+                                <i data-bs-toggle="modal"
+                                    data-bs-target="#versionModal"
+                                    matTooltip="Versiones anteriores"
                                     class="fa-solid fa-clock-rotate-left icon-color-quinto"></i>
                                 {{ documento.versiones[0].codigo_version }}
                             </p>
+
+                            <!-- Modal para ver version del documento-->
+                            <div class="modal fade" id="versionModal"
+                                tabindex="-1"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5"
+                                                id="exampleModalLabel">Versiones:</h1>
+                                            <button type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        @if(versionLoader == false){
+                                        @if(versions){
+                                        <div class="modal-body">
+                                            <ul
+                                                *ngFor="let version of versions.versiones">
+                                                {{versions.nombre_actual}}
+                                                <li>Código: {{
+                                                    version.codigo_version
+                                                    }}</li>
+                                                <li>Fecha de subida: {{
+                                                    version.fecha_inicio | date }}</li>
+                                                <li>Fecha de actualización: {{
+                                                    version.fecha_fin | date }}</li>
+                                            </ul>
+                                        </div>
+                                        }@else{
+                                        <div class="modal-body">
+                                            No existen versiones anteriores de
+                                            este documento disponibles.
+                                        </div>
+                                        }
+                                        }@else{
+                                        <p>Cargando...</p>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div>
                             @if(documento.versiones[0].is_automatic == true){
@@ -143,7 +171,8 @@
                                 <i class="fa-solid fa-cloud-arrow-down fa-2x"
                                     style="color: #3f51b5;"></i>
                             </button>
-                            @if(email == 'asisdesarrollo@ism.edu.ec' || email == 'northsecretaria@ism.edu.ec' ){
+                            @if(email == 'asisdesarrollo@ism.edu.ec' || email ==
+                            'northsecretaria@ism.edu.ec' ){
                             <button
                                 matTooltip="Clic para subir una nueva versión"
                                 class="btn"
@@ -187,7 +216,6 @@
                                                     {{ showDocType }}
                                                 </p>
                                             </div>
-                                            
 
                                             <div class="mb-3">
                                                 <label for="fileInput"
