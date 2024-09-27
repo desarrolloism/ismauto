@@ -23,7 +23,7 @@ export class InicioComponent implements OnInit {
         this._repo.getNav(this.token).subscribe((resp: any) => {
             this.navRepo = resp.data;
             // console.log('resp de nav', this.navRepo);
-            
+
         });
     }
 
@@ -46,5 +46,9 @@ export class InicioComponent implements OnInit {
             case 6: return 'https://help.ism.edu.ec/';
             default: return '#';
         }
+    }
+
+    goToInnovu() {
+        window.open('https://innovugroup.com/?page_id=6803', '_blank');
     }
 }

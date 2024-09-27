@@ -37,6 +37,7 @@ export class HeaderAppComponent {
     this.getAvatar();
     this.getBoos();
     this.navBar();
+    console.log(this.token);
   }
 
   logout() {
