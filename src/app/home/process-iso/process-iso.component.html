@@ -1,89 +1,103 @@
 <div class="container">
     <div class="row">
-        
         <div class="col-12 col-md-3">
-            <ul class="list-group overflow-auto" style="height: 400px;">
-                <li *ngFor="let tipo of repo" class="list-group-item">
-                    <!-- <button class="btn btn-link w-100 text-left overflow-auto"
+            <div class="position-relative">
+                <!-- Static Button at the top -->
+                <div class="sticky-top bg-white py-2">
+                    <button
+                        matTooltip="Realizando una búsqueda avanzada llegarás más rápido al documento requerido!"
+                        class="btn"
+                        style="background-color: #ab0a3d; color: white;"
                         type="button"
-                        (click)="selectTipo(tipo)"
-                        [class.active]="tipo === selectedTipo"
-                        data-bs-toggle="collapse"
-                        [attr.data-bs-target]="'#tipo' + tipo.id"
-                        aria-expanded="false">
-                        {{ tipo.nombre_tipo }}
-                    </button> -->
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight"
+                        aria-controls="offcanvasRight">
+                        Búsqueda avanzada
+                    </button>
+                </div>
 
-                    <a class="href" style="cursor: pointer;"
-                        (click)="selectTipo(tipo)"
-                        [class.active]="tipo === selectedTipo"
-                        data-bs-toggle="collapse"
-                        [attr.data-bs-target]="'#tipo' + tipo.id"
-                        aria-expanded="false">
-                         {{ tipo.nombre_tipo }}
-                    </a>
+                <!-- Scrollable list -->
+                <ul class="list-group overflow-auto"
+                    style="height: 400px; margin-top: 10px;">
+                    <li *ngFor="let tipo of repo" style="margin-bottom: .7rem;">
+                        <a class="href" style="cursor: pointer;"
+                            (click)="selectTipo(tipo)"
+                            [class.active]="tipo === selectedTipo"
+                            data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#tipo' + tipo.id"
+                            aria-expanded="false">
+                            {{ tipo.codigo }} - {{ tipo.nombre_tipo }}
+                        </a>
 
-                    <div [id]="'tipo' + tipo.id" class="collapse d-md-none mt-2"
-                        *ngIf="tipo === selectedTipo">
-                        <div *ngFor="let subTipo of tipo.subtipos" class="mb-2">
-                            <button
-                                class="btn btn-secondary w-100 text-left text-dark"
-                                type="button" data-bs-toggle="collapse"
-                                [attr.data-bs-target]="'#subTipo' + subTipo.id"
-                                aria-expanded="false">
-                                {{ subTipo.nombre_subtipos }}
-                            </button>
-                            
-                            <div [id]="'subTipo' + subTipo.id"
-                                class="collapse mt-2">
-                                <ul class="list-group">
-                                    <li *ngFor="let doc of subTipo.documentos"
-                                        class="list-group-item"
-                                        (click)="dowloadDocument(doc.versiones[0].id, 
-                                            doc.nombre_documentos, 
-                                            doc.versiones[0].codigo_version, 
-                                            doc.versiones[0].is_automatic,
-                                            doc.versiones[0].ruta)">
-                                        <i
-                                            class="fa-solid fa-circle-chevron-down"></i>
-                                        {{ doc.nombre_documentos }} (Versión: {{
-                                        doc.versiones[0].codigo_version }})
-                                    </li>
-                                </ul>
+                        <div [id]="'tipo' + tipo.id"
+                            class="collapse d-md-none mt-2"
+                            *ngIf="tipo === selectedTipo">
+                            <div *ngFor="let subTipo of tipo.subtipos"
+                                class="mb-2">
+                                <button
+                                    class="btn btn-secondary w-100 text-left text-dark"
+                                    type="button" data-bs-toggle="collapse"
+                                    [attr.data-bs-target]="'#subTipo' + subTipo.id"
+                                    aria-expanded="false">
+                                    {{ subTipo.nombre_subtipos }}
+                                </button>
+
+                                <div [id]="'subTipo' + subTipo.id"
+                                    class="collapse mt-2">
+                                    <ul class="list-group">
+                                        <li
+                                            *ngFor="let doc of subTipo.documentos"
+                                            class="list-group-item"
+                                            (click)="dowloadDocument(doc.versiones[0].id, 
+                                                doc.nombre_documentos, 
+                                                doc.versiones[0].codigo_version, 
+                                                doc.versiones[0].is_automatic,
+                                                doc.versiones[0].ruta)">
+                                            <i
+                                                class="fa-solid fa-circle-chevron-down"></i>
+                                            {{doc.codigo }} -
+                                            {{doc.nombre_documentos }} (Versión:
+                                            {{doc.versiones[0].codigo_version
+                                            }})
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
+
         </div>
         <div class="col-12 col-md-9" *ngIf="selectedTipo"
             style="border-left: 1px solid black;">
             <h3>{{ selectedTipo.codigo }} - {{ selectedTipo.nombre_tipo }}</h3>
             <hr style="border: 1px solid black;">
             @if(isloading == true){
-                Descargando archivo...
-                <mat-spinner></mat-spinner>
+            Descargando archivo...
+            <mat-spinner></mat-spinner>
             }@else{
-                <div *ngFor="let subTipo of selectedTipo.subtipos" class="mb-3">
-                    <h4>{{ subTipo.nombre_subtipos }}</h4>
-                    <ul class="list-group">
-                        <li *ngFor="let doc of subTipo.documentos"
-                            class="list-group-item"
-                            style="cursor: pointer;"
-                            (click)="dowloadDocument(doc.versiones[0].id, 
+            <div *ngFor="let subTipo of selectedTipo.subtipos" class="mb-3">
+                <h4>{{ subTipo.nombre_subtipos }}</h4>
+                <ul class="list-group">
+                    <li *ngFor="let doc of subTipo.documentos"
+                        class="list-group-item"
+                        style="cursor: pointer;"
+                        (click)="dowloadDocument(doc.versiones[0].id, 
                                                 doc.nombre_documentos, 
                                                 doc.versiones[0].codigo_version, 
                                                 doc.versiones[0].is_automatic,
                                                 doc.versiones[0].ruta)">
-                            <i class="fa-solid fa-circle-chevron-down"></i>
-                            {{ doc.nombre_documentos }} (Versión: {{
-                            doc.versiones[0].codigo_version }})
-    
-                        </li>
-                    </ul>
-                </div>
+                        <i class="fa-solid fa-circle-chevron-down"></i>
+                        {{doc.codigo }} - {{ doc.nombre_documentos }} (Versión:
+                        {{
+                        doc.versiones[0].codigo_version }})
+
+                    </li>
+                </ul>
+            </div>
             }
-            
+
         </div>
     </div>
 </div>

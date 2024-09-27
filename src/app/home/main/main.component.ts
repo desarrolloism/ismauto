@@ -60,6 +60,7 @@ export class MainComponent {
 
   //variable para obtener navbar repo
   navRepo: any[] = [];
+  product: any;
 
   constructor(private _casesServ: CasesService,
     private _router: Router,
@@ -87,7 +88,7 @@ export class MainComponent {
   getFake() {
     this._mockapi.getFakeUsers().subscribe(resp => {
       this.Mock = resp;
-      console.log('mock respo es', this.Mock);
+      // console.log('mock respo es', this.Mock);
     })
   }
 
@@ -102,6 +103,7 @@ export class MainComponent {
     this.getAvatar();
     this.getBoos();
     this.navBar();
+    this.productData();
     // this.getFake();
   }
 
@@ -144,7 +146,7 @@ export class MainComponent {
     this.email = userData.email;
     this.fullname = this.name + ' ' + this.last_name
     this.dni = userData.dni;
-    // console.log('datos de usuario', userData);
+    // console.log('datos de usuario', userData);z
   }
 
   getCases() {
@@ -185,48 +187,13 @@ export class MainComponent {
     }
   }
 
-  // generateChart() {
-  //   let aspectRatio = 2.5;
-  //   if (window.innerWidth < 576) { // Por ejemplo, si el ancho de la ventana es menor que 576px (el punto de corte para dispositivos móviles en Bootstrap)
-  //     aspectRatio = 1.5; // Cambia el aspectRatio para dispositivos móviles
-  //   }
-  //   const labels = this.responseTotals.map((item: any) => item.name);
-  //   const salesData = this.responseTotals.map((item: any) => item.total_status);
-  //   // const profitData = this.responseTotals.map((item: any) => item.total_status);
-  //   const colors = [
-  //     '#ff9e18',
-  //     '#ab0a3d',
-  //     '#9e28b5',
-  //     '#0a1f8f',
-  //     '#65b2e8',
-  //     '#898b8d',
-  //     'limegreen',
-  //   ];
-
-  //   this.chart = new Chart("MyChart", {
-  //     type: 'bar',
-  //     data: {
-  //       labels: labels,
-  //       datasets: [
-  //         {
-  //           label: "Total Casos",
-  //           data: salesData,
-  //           backgroundColor: colors
-  //         },
-  //       ]
-  //     },
-  //     options: {
-  //       aspectRatio: aspectRatio,
-  //       onClick: (evt, activeElements) => {
-  //         if (activeElements.length > 0) {
-  //           const clickedIndex = activeElements[0].index;
-  //           const selectedLabel = this.chart.data.labels[clickedIndex];
-  //           this.redirectToRoute(selectedLabel);
-  //         }
-  //       }
-  //     },
-  //   });
-  // }
+  //mata al token
+  killToken() {
+    console.log('toquen para destruir', this.token);
+    this._userServ.killToken(this.token).subscribe((resp: any) => {
+      console.log('token destruido', resp);
+    });
+  }
 
   // Método para redirigir a otra ruta según el elemento seleccionado
   redirectToRoute(selectedLabel: string) {
@@ -236,7 +203,10 @@ export class MainComponent {
   logout() {
     if (window.confirm('¿Está seguro de que desea salir?')) {
       localStorage.clear();
-      this._router.navigate(['/login']);
+      this.killToken();
+      setTimeout(() => {
+        this._router.navigate(['/login']);
+      }, 1000)
     }
   }
 
@@ -248,9 +218,7 @@ export class MainComponent {
   onKeyPress(event: any) {
     const pattern = /[0-9]/;
     const inputChar = String.fromCharCode(event.charCode);
-
     if (!pattern.test(inputChar)) {
-      // Si el carácter ingresado no es un número, cancelamos el evento de pulsación
       event.preventDefault();
     }
   }
@@ -260,11 +228,14 @@ export class MainComponent {
   }
 
   onSubmit(form: NgForm) {
+
     if (form.invalid || !this.userPass.phone_number) {
       return;
     }
 
     if (this.userPass.new_password !== this.userPass.confirm_password) {
+      console.log(this.userPass);
+      console.log(this.isPhoneNumberPresent());
       alert('Las contraseñas no coinciden.');
       return;
     }
@@ -279,6 +250,12 @@ export class MainComponent {
           window.location.reload();
         }
       });
+  }
+
+  onConfirmPass(event: any) {
+    console.log(event);
+    // this.userPass.confirm_password = event.target.value;
+    // console.log('confirm pass', this.userPass.confirm_password);
   }
 
   //opbtiene si es ejfe o no
@@ -296,12 +273,12 @@ export class MainComponent {
   navBar() {
     this._repo.getNav(this.token).subscribe((resp: any) => {
       this.navRepo = resp.data;
-      console.log('resp de nav', this.navRepo);
+      // console.log('resp de nav', this.navRepo);
     });
   }
 
   isInternalLink(id: number): boolean {
-    return id !== 6 && id !== 7; 
+    return id !== 6 && id !== 7;
   }
 
   getRouterLink(id: number): string {
@@ -314,8 +291,8 @@ export class MainComponent {
   }
 
   getExternalLink(id: number): string {
-    switch(id) {
-      case 6: return 'https://help.ism.edu.ec/'; 
+    switch (id) {
+      case 6: return 'https://help.ism.edu.ec/';
       default: return '#';
     }
   }
@@ -323,5 +300,26 @@ export class MainComponent {
   openExternalLink(id: number): void {
     window.open(this.getExternalLink(id), '_blank', 'noopener,noreferrer');
   }
-  
+
+
+  productData() {
+    this._userServ.showData().subscribe((resp: any) => {
+      this.product = resp.data;
+      console.log('mis productos', this.product);
+    })
+  }
+
+
+  gotoPage() {
+    if (this.token) {
+      const encodedToken = encodeURIComponent(this.token);
+      // const url = `http://192.168.48.241:36171/main?token=${encodedToken}`;
+      const url = `http://localhost:40221/main?token=${encodedToken}`;
+
+      window.open(url, '_blank');
+    } else {
+      console.error('No se encontró un token en el localStorage');
+    }
+  }
+
 }

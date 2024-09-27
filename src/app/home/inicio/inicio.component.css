@@ -1,162 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-html,
 body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: 'Montserrat', sans-serif;
-}
-
-
-* {
-    font-family: 'Montserrat', sans-serif;
-}
-
-
-
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* background: linear-gradient(to bottom, rgb(96, 38, 158), #8f22d8); */
-    background-color: #000000;
+    font-family: 'Roboto', sans-serif;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    filter: blur(2px);
+    color: black;
+    margin: 0;
+    padding: 0;
 }
 
-body * {
-    position: relative;
-    /* Asegura que el contenido esté por encima del pseudo-elemento */
-    z-index: 1;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
-
-* {
-    font-family: 'Montserrat', sans-serif;
-}
-
-
-.cursor {
-    cursor: pointer;
-}
-
-.text-with-outline {
-    color: rgb(0, 0, 0);
-    text-shadow:
-        -1px -1px 0 #ffffff,
-        1px -1px 0 #ffffff,
-        -1px 1px 0 #ffffff,
-        1px 1px 0 #ffffff;
-}
-
-.accordion {
-    background-color: rgba(0, 0, 0, 0.9);
-    /* Fondo oscuro con opacidad del 90% */
-    padding: 15px;
+.card {
     border-radius: 10px;
-    opacity: 85%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background: linear-gradient(to bottom, #60269e9d, #8f22d8a4);
+
 }
 
-.accordion-header {
-    background-color: rgba(0, 0, 0, 0.9);
-    /* Fondo oscuro con opacidad del 90% */
-    border-radius: 5px;
-}
-
-.accordion-button {
+.card-header {
     background-color: rgba(255, 255, 255, 0.1);
-    /* Botones con opacidad */
-    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: bold;
 }
 
-.accordion-body {
+.card-body {
     background-color: rgba(255, 255, 255, 0.1);
-    /* Fondo del cuerpo con opacidad */
-    color: rgb(0, 0, 0);
 }
 
-.text-with-outline {
-    color: white;
-    text-shadow: 1px 1px 2px black;
-    /* Texto con borde negro */
+.list-group-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s ease;
 }
 
-.bg {
-    background: linear-gradient(to bottom, rgba(3, 2, 3, 0.747), #60269E);
-    opacity: 90%;
-}
-
-.lista {
-    background-color: #3C3F42 !important;
-}
-
-a {
-    color: white;
-}
-
-.fw-bold {
-    font-size: 13px;
-}
-
-.subtitle {
-    font-size: 9px;
+.list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .icon-color {
-    color: limegreen !important;
+    color: #28a745 !important;
 }
 
 .sec-icon {
     color: #f56e30 !important;
 }
 
-.card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .card-header {
-    background-color: #f8f9fa;
-  }
-  
-  .btn-link {
-    text-decoration: none;
-    color: #007bff;
-  }
-  
-  .btn-link:hover {
-    text-decoration: underline;
-  }
-  
+.btn, a {
+    /* background-color: rgba(255, 255, 255, 0.2); */
+    /* border-color: rgba(255, 255, 255, 0.3); */
+    color: rgb(255, 255, 255);
+    transition: background-color 0.3s ease;
+}
 
-  .sidebar {
-    height: 100vh;
-    overflow-y: auto;
-  }
-  
-  .nav-link {
-    cursor: pointer;
-    color: #333;
-  }
-  
-  .nav-link.active {
-    font-weight: bold;
-    color: #007bff;
-    background-color: #e9ecef;
-  }
-  
-  .main {
-    padding-top: 20px;
-  }
-  
-  .card-header {
-    background-color: #f8f9fa;
-  }
-  
+.btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 767px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .card {
+        border-radius: 0;
+    }
+}

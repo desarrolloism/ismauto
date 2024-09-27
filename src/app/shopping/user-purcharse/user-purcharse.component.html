@@ -1,0 +1,198 @@
+<app-header-app></app-header-app>
+<div class="container">
+    @if(startProcess == false){
+    <div class="d-flex justify-content-center mt-4">
+        <button mat-raised-button color="primary" (click)="createHeader()">
+            Comenzar proceso de compra como {{ fullname }}
+        </button>
+    </div>
+    }@else {
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <div class="mb-3 mt-2">
+                <mat-accordion>
+                    <mat-expansion-panel expanded hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-description> Información del usuario
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="mt-4">
+                            <h3> Usuario: {{ fullname }}</h3>
+                            <h4>Fecha de Solicitud: {{ ActualDate |
+                                date:'dd/MM/yyyy' }}</h4>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <button mat-raised-button color="primary" class="mb-3"
+                (click)="addNewRequirement()">Agregar nuevo
+                requerimiento</button>
+
+            <mat-accordion>
+                @for (requirement of requirements; track $index) {
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Requerimiento #{{$index + 1}}
+                        </mat-panel-title>
+                        <mat-panel-description> <p
+                                class="text-truncate">{{requirement.productDetail}}</p>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="p-4">
+                        <h2 class="text-center">Requerimiento de compra</h2>
+                        <div class="mb-3 mt-2">
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+
+                                            <div class="mb-3">
+                                                <label for="campus"
+                                                    class="form-label">Campus</label>
+                                                <select class="form-select"
+                                                    [(ngModel)]="requirement.campusSelected"
+                                                    (change)="updateRequirement($index)">
+                                                    <option value disabled
+                                                        selected>Selecciona un
+                                                        campus</option>
+                                                    <option
+                                                        *ngFor="let campus of campuses"
+                                                        [value]="campus.campus">{{
+                                                        campus.campus
+                                                        }}</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+
+                                            <div class="mb-3">
+                                                <label for="campus"
+                                                    class="form-label">Elija el
+                                                    tipo de adquisición:</label>
+                                                <select class="form-select"
+                                                    [(ngModel)]="requirement.typeSelected"
+                                                    (change)="updateRequirement($index)">
+                                                    <option value disabled
+                                                        selected>Selecciona el
+                                                        tipo de
+                                                        adquisición</option>
+                                                    <option
+                                                        *ngFor="let type of types"
+                                                        [value]="type.name">{{
+                                                        type.name }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+                                            <div class="mb-3">
+                                                <label for="cantidad"
+                                                    class="form-label">Cantidad</label>
+                                                <input class="form-control"
+                                                    [(ngModel)]="requirement.productQuantity"
+                                                    (change)="updateRequirement($index)"
+                                                    type="number">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <mat-calendar [dateFilter]="dateFilter"
+                                                    (selectedChange)="onDateSelected($event, $index)"></mat-calendar>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="campus"
+                                                    class="form-label">Hora
+                                                    requerida:</label>
+                                                <select class="form-select"
+                                                    [(ngModel)]="requirement.selectedTime"
+                                                    (change)="updateRequirement($index)">
+                                                    <option value disabled
+                                                        selected>Selecciona una de las
+                                                        opciones</option>
+                                                    <option
+                                                        *ngFor="let time of availableTimes"
+                                                        [value]="time.hora">{{ time.hora
+                                                        }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                    <div class="mb-3">
+                                                        <label for="campus"
+                                                            class="form-label">Departamento
+                                                            de destino:</label>
+                                                        <ng-select
+                                                            [items]="allDepartaments"
+                                                            bindLabel="department"
+                                                            bindValue="department"
+                                                            [(ngModel)]="requirement.departamentDestination"
+                                                            (change)="updateRequirement($index)"
+                                                            placeholder="Selecciona el departamento">
+                                                        </ng-select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label
+                                                            class="form-label">Descripción
+                                                            del
+                                                            requerimiento</label>
+                                                        <textarea
+                                                            class="form-control"
+                                                            rows="3"
+                                                            (change)="updateRequirement($index)"
+                                                            [(ngModel)]="requirement.productDetail"
+                                                            placeholder="Escriba la descripción de su requerimiento"></textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="observacion"
+                                                            class="form-label">Observaciones:</label>
+                                                        <textarea type="text"
+                                                            class="form-control"
+                                                            [(ngModel)]="requirement.Observations"
+                                                            (change)="updateRequirement($index)"></textarea>
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+                                        
+
+                                    </div>
+
+                                    
+                                    
+                                    <div class="mb-3">
+                                        <p
+                                            *ngIf="requirement.estimatedDelivery">Fecha
+                                            estimada de entrega:
+                                            {{requirement.estimatedDelivery |
+                                            date:'dd/MM/yyyy'}}</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button mat-raised-button
+                                            color="primary"
+                                            (click)="submitRequirement($index)">
+                                            Guardar requerimiento
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+                }
+            </mat-accordion>
+        </div>
+    </div>
+    }
+</div>

@@ -52,6 +52,7 @@ export class ListComponent {
   ngOnInit() {
     this.getAvatar();
     this.navBar();
+    this.getBoos();
   }
 
   //abre el menu de colecturia
@@ -105,8 +106,11 @@ export class ListComponent {
 
   logout() {
     if (window.confirm('¿Está seguro de que desea salir?')) {
-      localStorage.clear();
-      this._router.navigate(['/login']);
+      this.killToken();
+      setTimeout(() => {
+        localStorage.clear();
+        this._router.navigate(['/login']);
+      }, 1000);
     }
   }
 
@@ -154,5 +158,24 @@ export class ListComponent {
       case 6: return 'https://help.ism.edu.ec/';
       default: return '#';
     }
+  }
+
+  gotoPage() {
+    if (this.token) {
+      const encodedToken = encodeURIComponent(this.token);
+      // const url = `http://192.168.48.241:36171/main?token=${encodedToken}`;
+      const url = `http://localhost:43653/main?token=${encodedToken}`;
+      window.open(url, '_blank');
+    } else {
+      console.error('No se encontró un token en el localStorage');
+    }
+  }
+
+  //mata al token
+  killToken() {
+    console.log('toquen para destruir', this.token);
+    this._usersService.killToken(this.token).subscribe((resp: any) => {
+      console.log('token destruido', resp);
+    });
   }
 }

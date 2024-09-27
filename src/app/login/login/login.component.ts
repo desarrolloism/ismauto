@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
-import 'sweetalert2/src/sweetalert2.scss'
+import 'sweetalert2/dist/sweetalert2.css';
 
 @Component({
   selector: 'app-login',
@@ -114,8 +114,8 @@ export class LoginComponent {
   
   sweet(){
     Swal.fire({
-      title: 'Éxito!',
-      text: 'Contraseña reestablecida correctamente!',
+      title: 'Éxito, tus credenciales han sido enviadas a tu correo institucional!',
+      text: 'Contraseña reestablecida correctamente, revisa la bandeja de entrada de tu correo!',
       icon: 'success',
     })
   }

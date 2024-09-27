@@ -17,7 +17,7 @@ import {
   pt,
   vt,
   wt
-} from "./chunk-DC6DHOPI.js";
+} from "./chunk-INQL4FXB.js";
 import "./chunk-MAN4NYY2.js";
 import "./chunk-IEMOZLTW.js";
 init_jspdf_es_min();

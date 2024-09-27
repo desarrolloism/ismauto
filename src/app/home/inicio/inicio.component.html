@@ -3,24 +3,22 @@
     rel="stylesheet">
 <div class="p-4">
 
-    <div class="container" style="margin-top: -4rem">
-        <div id="introduccion" class="col-12 mb-4" style="border-radius: 10px;">
+    <div class="overflow-auto" style="height: 580px;">
+        <div id="introduccion" class="col-12 mb-4">
             <div class="card p-3 text-white bg">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6" style="margin-top: 2rem;">
+                        <div class="col-md-6">
                             <h2 class="card-title">Procesos InnovuGroup</h2>
                             <p class="card-text">
                                 En este apartado, puede visualizar los procesos
                                 disponibles de InnovuGroup.
                                 Para acceder a ellos, simplemente haga clic en
-                                el
-                                proceso deseado en el listado.
+                                el proceso deseado en el listado.
                             </p>
-                            <div style="margin-top: 14rem;">
-                                <a routerLink="/citas">
+                            <div class="mt-4">
+                                <a routerLink="/usuario" class>
                                     Agendamiento de citas
-
                                 </a>
                             </div>
                         </div>
@@ -28,21 +26,19 @@
                             <div class="input-group mb-3">
                                 <input type="text" placeholder="Buscar..."
                                     class="form-control">
-                                <button type="button"
-                                    class="btn text-white border">
+                                <!-- <button type="button" class="btn btn-primary">
                                     <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
+                                </button> -->
                             </div>
                             <ol class="list-group overflow-auto"
-                                style="height: 300px;">
-                                <ng-container
-                                    *ngFor="let repo of navRepo; let i = index">
+                                style="max-height: 300px;">
+                                <div
+                                    *ngFor="let repo of navRepo">
                                     <a *ngIf="isInternalLink(repo.id)"
                                         [routerLink]="getRouterLink(repo.id)"
                                         class="text-decoration-none">
                                         <li
-                                            class="list-group-item text-white border-secondary lista d-flex justify-content-between align-items-start"
-                                            style="margin-bottom: 2px; cursor: pointer;">
+                                            class="list-group-item d-flex justify-content-between align-items-start text-white">
                                             <div class="ms-2 me-auto">
                                                 <div class="fw-bold">
                                                     <i
@@ -52,11 +48,10 @@
                                                 <div class="subtitle">Categoría:
                                                     {{ repo.id }}</div>
                                             </div>
-                                            <span class="badge text-light">
-                                                <i
-                                                    class="fa-code fa-solid sec-icon"></i>
-                                                <!-- Puedes añadir más descripción aquí si es necesario -->
-                                            </span>
+
+                                            <i
+                                                class="fa-code fa-solid sec-icon"></i>
+
                                         </li>
                                     </a>
                                     <a *ngIf="!isInternalLink(repo.id)"
@@ -65,8 +60,7 @@
                                         rel="noopener noreferrer"
                                         class="text-decoration-none">
                                         <li
-                                            class="list-group-item text-white border-secondary lista d-flex justify-content-between align-items-start"
-                                            style="margin-bottom: 2px; cursor: pointer;">
+                                            class="list-group-item d-flex justify-content-between align-items-start text-white">
                                             <div class="ms-2 me-auto">
                                                 <div class="fw-bold">
                                                     <i
@@ -76,17 +70,90 @@
                                                 <div class="subtitle">Categoría:
                                                     {{ repo.id }}</div>
                                             </div>
-                                            <span class="badge text-light">
-                                                <i
-                                                    class="fa-code fa-solid sec-icon"></i>
-                                                <!-- Puedes añadir más descripción aquí si es necesario -->
-                                            </span>
+
+                                            <i
+                                                class="fa-code fa-solid sec-icon"></i>
                                         </li>
                                     </a>
-                                </ng-container>
+                                </div>
                             </ol>
                         </div>
 
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="introduccion" class="col-12 mb-4">
+
+            <div class="card p-3 text-white bg">
+
+                <div class="card-body">
+
+                    <!-- TALENTO HUMANO -->
+
+                    <div class="row">
+
+                        <div class="col-md-6 card p-4 bg-dark mt-2">
+
+                            <ol class="list-group overflow-auto"
+                                style="max-height: 300px;">
+
+                                <a
+                                    href="https://compersonline.com"
+                                    target="_blank"
+                                    class="text-decoration-none">
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-start text-white">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">
+                                                <img
+                                                    src="../../../assets/images/competencias.png"
+                                                    width="10%"
+                                                    alt="competencias_compers">
+                                                Compers Competencias
+                                            </div>
+                                            <div class="subtitle">Click para ir
+                                                a Compers competencias</div>
+                                        </div>
+                                        <i
+                                            class="fa-solid fa-desktop text-success"></i>
+                                    </li>
+                                </a>
+                                <a
+                                    href="https://nomina.compers.online"
+                                    target="_blank"
+                                    class="text-decoration-none">
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-start text-white">
+                                        <div class="ms-2 me-auto">
+                                            <div class="fw-bold">
+                                                <img
+                                                    src="../../../assets/images/image.png"
+                                                    width="10%"
+                                                    alt="competencias_compers">
+                                                Compers Nómina
+                                            </div>
+                                            <div class="subtitle">Click para ir
+                                                a Compers nómina</div>
+                                        </div>
+                                        <i
+                                            class="fa-solid fa-desktop text-success"></i>
+                                    </li>
+                                </a>
+                            </ol>
+                        </div>
+                        <div class="col-md-6">
+                            <h2 class="card-title">Procesos de talento
+                                humano</h2>
+                            <p class="card-text">
+                                En este apartado, puede visualizar los recursos
+                                disponibles del sistema Compers.
+                                Para acceder a ellos, simplemente haga clic en
+                                el recurso deseado en la tabla.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

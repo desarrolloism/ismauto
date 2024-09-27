@@ -42,6 +42,7 @@ export class PoaDetailComponent {
   compers_list: any;
   percetagePerCampus: any;
   totalPercentage: number = 0;
+  activityInfo: any;
 
   signature = {
     coments: '',
@@ -107,6 +108,22 @@ export class PoaDetailComponent {
     private _userServ: UsersService
   ) {
     this.actualDate = this.getFechaActual();
+  }
+
+  ngOnInit() {
+    this._routeActivated.params.subscribe(params => {
+      this.poaId = +params['id'];
+      // console.log(this.poaId);
+    });
+    this.getPoa();
+    this.showActivities();
+    this.getAvatar();
+    this.getAdmin();
+    this.userList();
+    this.listSignatures();
+    this.getAccounting();
+    this.getNameCompers();
+
   }
 
   //genera un pdf de la actividad
@@ -289,21 +306,7 @@ export class PoaDetailComponent {
 
  
 
-  ngOnInit() {
-    this._routeActivated.params.subscribe(params => {
-      this.poaId = +params['id'];
-      // console.log(this.poaId);
-    });
-    this.getPoa();
-    this.showActivities();
-    this.getAvatar();
-    this.getAdmin();
-    this.userList();
-    this.listSignatures();
-    this.getAccounting();
-    this.getNameCompers();
-
-  }
+  
 
   //muestra actividades sin aprobar
   filterPendingActivities() {
@@ -335,7 +338,7 @@ export class PoaDetailComponent {
     this._poaService.detailPoa(this.token, this.poaId).subscribe((resp: any) => {
       this.poaDetail = resp.data;
       this.selectedStatus = this.poaDetail.status;
-      // console.log('detalle poa1111111', this.poaDetail);
+      console.log('detalle poa1111111', this.poaDetail);
       this.getCampusesSelected();
     });
   }
@@ -484,7 +487,8 @@ export class PoaDetailComponent {
     this._poaService.showPoaActivities(this.token, this.poaId).subscribe((resp: any) => {
       this.allActivities = resp.data;
       this.originalActivities = [...this.allActivities];
-      // console.log('actividades', this.allActivities);
+      console.log('actividades', this.allActivities);
+      
     });
   }
 
@@ -496,28 +500,46 @@ export class PoaDetailComponent {
       this.createPoa.activity,
       this.createPoa.start_date,
       this.createPoa.end_date,
-      this.createPoa.resources_detail,
-      this.createPoa.resources_ammount,
-      this.createPoa.approved_ammount,
+      // this.createPoa.resources_detail,
+      // this.createPoa.resources_ammount,
+      // this.createPoa.approved_ammount,
       this.createPoa.comments,
-      this.createPoa.accounting_count,
+      // this.createPoa.accounting_count,
       this.createPoa.priority,
-      this.createPoa.approved_activity = 'EN PROCESO',
+      // this.createPoa.approved_activity = 'EN PROCESO',
       this.createPoa.responsible
-    ).subscribe(resp => {
+    ).subscribe((resp:any) => {
       this.dataActivity = resp;
+      this.activityInfo = resp.data;
+      // console.log('datos de actividad creada', this.dataActivity);
+      console.log('datos de actividad creada', this.activityInfo);
       if (this.dataActivity.status === 'ok') {
         const modal = document.getElementById('exampleModal');
         if (modal) {
           const modalInstance = bootstrap.Modal.getInstance(modal);
           modalInstance.hide();
         }
+        
         // Vaciar el formulario
         this.resetCreatePoaForm();
         this.showActivities();
         this.getPoa();
+        this._router.navigate(['/poa-activities', this.activityInfo.poa_id, this.activityInfo.id]);
+
       }
     });
+  }
+
+  //redirije hacia actividfad
+  goToActivities() {
+    // console.log('redirigiendo', this.poaId, this.activityId);
+    this._router.navigate(['/poa-activities', this.poaId, this.activityId]);
+  }
+
+   //redirije hacia actividfad
+   goToAprobeResourcess() {
+    // console.log('redirigiendo', this.poaId, this.activityId);
+    this._router.navigate(['/aprobar-recursos', this.poaId, this.activityId]);
   }
 
   //obtiene los campus seleccionados por el usuario
@@ -527,6 +549,8 @@ export class PoaDetailComponent {
       // console.log('pocentaje por campu11s',this.percetagePerCampus);
     });
   }
+
+
 
   //actualizacion de actividades
   updateActivity(activityId: number) {
@@ -544,14 +568,10 @@ export class PoaDetailComponent {
       this.editingActivity.activity,
       this.editingActivity.start_date,
       this.editingActivity.end_date,
-      this.editingActivity.resources_detail,
-      this.editingActivity.resources_amount,
-      approvedAmount,
       this.editingActivity.comments,
-      accountingCount,
       this.editingActivity.priority,
-      this.editingActivity.approved_activity,
-      this.editingActivity.responsible
+      this.editingActivity.responsible,
+      // this.allActivities.state = 'RECURSOS LISTOS'
     ).subscribe(resp => {
       this.dataUpdateActivity = resp;
       if (this.dataUpdateActivity.status === 'ok') {
@@ -599,6 +619,7 @@ export class PoaDetailComponent {
     this.validateTotalPercentage();
     if (this.email === 'financiero@ism.edu.ec' || this.email === 'direccionfinanciera@ism.edu.ec') {
       if (this.editingActivity.approved_activity === 'APROBADO') {
+        
         // if (this.totalPercentage !== 100) {
         //   alert('Para aprobar la actividad, la suma de los porcentajes debe ser exactamente 100%');
         //   return;

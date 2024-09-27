@@ -32,7 +32,7 @@ export class PoliciesRepoComponent {
   allRepo(){
     this._repo.getRepository(this.token, this.category).subscribe((resp: any) => {
       this.repo = resp.categoria.tipos;
-      console.log('nuevo repo', this.repo);
+      // console.log('nuevo repo', this.repo);
     });
   }
 
@@ -53,10 +53,10 @@ export class PoliciesRepoComponent {
 
   //descarga el documento
   dowloadDocument(id: any, nombreDoc:any, versionDoc:any, is_automatic:boolean, url:any) {
-    console.log(id);
-    console.log(nombreDoc);
-    console.log(versionDoc);
-    console.log(is_automatic);
+    // console.log(id);
+    // console.log(nombreDoc);
+    // console.log(versionDoc);
+    // console.log(is_automatic);
     this.isloading = true;
     if(is_automatic == true ){
     this.isloading = false;
@@ -66,7 +66,7 @@ export class PoliciesRepoComponent {
         this.isloading = false;
         const filename = `${nombreDoc} - ${versionDoc}`;
         saveAs(resp, filename);
-        console.log('Descarga completada:', resp);
+        // console.log('Descarga completada:', resp);
       });
     }
     

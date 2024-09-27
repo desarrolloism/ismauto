@@ -144,6 +144,12 @@
                 <i class="fa-solid fa-sliders icons"></i> Configuración
             </a>
             <a
+                    class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                    (click)="gotoPage()">
+                    <i class="fa-regular fa-calendar icons"></i>
+                    Mis horarios
+                </a>
+            <a
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 (click)="logout()">
                 <i class="fa-solid fa-right-from-bracket icons"></i> Cerrar
@@ -162,6 +168,12 @@
                 <i class="fa-solid fa-laptop-code icons"></i>
                 Desarrollo e innovación
             </a>
+            <!-- <a
+                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+                routerLink="/compra-usuario">
+                <i class="fa-solid fa-cart-shopping icons"></i>
+                Adquisición y servicios 
+            </a> -->
 
             <a
                 *ngIf="email === 'colecturia@ism.edu.ec' || email === 'asisdesarrollo@ism.edu.ec'"
@@ -187,6 +199,8 @@
                     Reportes financieros
                 </a> -->
             </div>
+
+            
             <a
                 class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 (click)="toggleRepo()">
@@ -213,14 +227,13 @@
                 </ng-container>
             </div>
 
-            @if(is_Boss?.is_jefe == true || email === 'financiero@ism.edu.ec' || email === 'direccionfinanciera@ism.edu.ec')  {
-                <a
-                class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
+            <!-- @if(is_Boss?.is_jefe == true || email === 'financiero@ism.edu.ec' || email === 'direccionfinanciera@ism.edu.ec')  { -->
+                <a class="nav-link d-flex align-items-center py-2 px-3 w-100 text-start"
                 routerLink="/home-poa">
                 <i class="fa-solid fa-map icons"></i>
                 POA
             </a>
-            }
+            <!-- } -->
 
             <hr>
             <div class="offcanvas-header">

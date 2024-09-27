@@ -1,5 +1,5 @@
-@if(is_Boss == true || email == 'financiero@ism.edu.ec' || email ==
-'direccionfinanciera@ism.edu.ec' && isLoading == false){
+<!-- @if(is_Boss == true || email == 'financiero@ism.edu.ec' || email ==
+'direccionfinanciera@ism.edu.ec' && isLoading == false){ -->
 <div class="row mb-3">
     <div class="d-flex justify-content-between align-items-center">
         <!-- Título -->
@@ -232,7 +232,9 @@
     </div>
 </div>
 
-} @else if(isLoading == true) {
+<!-- } @else if(isLoading == true) { -->
+
+@if(isLoading == true){
 
 <div class="d-flex justify-content-center"
     style="margin-top: 5rem;margin-bottom: 5rem;">
@@ -247,8 +249,8 @@
     </div>
 </div>
 <h2 class="text-center text-secondary">Comprobando información...</h2>
-
-} @else {
+}
+<!-- } @else {
 <div class="row error-container">
     <div class="col-md-6 error-content">
         <div class="error-icon">&#x26D4;</div>
@@ -258,4 +260,4 @@
             Inicio</a>
     </div>
 </div>
-}
+} -->

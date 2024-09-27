@@ -1,0 +1,440 @@
+<app-header-app></app-header-app>
+
+<div class="container mt-4">
+    <h2 class="text-center">Creador del POA: {{ myPoa?.creator_info.name}}</h2>
+    <h5 class="text-center"><strong>Departamento: </strong> {{
+        myPoa?.department}}</h5>
+    <hr>
+    <div class="row text-center">
+        <div class="col-md-4">
+            <h5><strong>Gestionando POA:</strong> {{ myPoa?.status}}</h5>
+        </div>
+        <div class="col-md-4">
+            <h5><strong>Actividad: </strong>{{myActivity?.activity}}</h5>
+        </div>
+        <div class="col-md-4">
+            <h5><strong>Prioridad: </strong>{{myActivity?.priority}}</h5>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-md-4">
+            <h5><strong>Fecha inicio: </strong>{{myActivity?.start_date |
+                date}}</h5>
+        </div>
+        <div class="col-md-4">
+            <h5><strong>Fecha fin: </strong>{{myActivity?.end_date | date}}</h5>
+        </div>
+        <div class="col-md-4">
+            <h5><strong>Responsable: </strong>{{myActivity?.responsible}}</h5>
+        </div>
+    </div>
+
+    <hr>
+
+    @if(myPoa?.status == fullname && myActivity.state == 'INICIANDO'){
+    <!-- CREACION DE RECURSOS -->
+    <div class="mb-4">
+        <div class="row d-flex justify-content-evenly">
+
+            @if(!isFinancialUser()){
+            <div class="col-md-3 card shadow p-4">
+                <h2>Agregar nuevo recurso:</h2>
+                <div class="mb-3">
+                    <label class="form-label">Descripción de actividad:</label>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="resource.description">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Cantidad:</label>
+                    <input type="number" class="form-control"
+                        [(ngModel)]="resource.quantity">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Precio total:</label>
+                    <input type="number" class="form-control"
+                        [(ngModel)]="resource.priceResource">
+                </div>
+                @if(resource.priceResource){
+                <button (click)="createResource()" mat-raised-button
+                    color="primary">Crear
+                    recurso</button>
+                }
+
+            </div>
+            <div class="col-md-8 card shadow p-4">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-6 text-center">
+                        <h2 class>Recursos Creados
+                            ({{createdResources.length}})</h2>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <h3> <strong>Suma de recuros: </strong>{{
+                            total_Resources.total_resources }}$</h3>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <!-- <th>ID</th> -->
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Monto requerido</th>
+                                <th *ngIf="isFinancialUser()">Monto
+                                    aprobado</th>
+                                <th *ngIf="isFinancialUser()">Cuenta</th>
+                                <th *ngIf="isFinancialUser()">Comentarios</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let resource of createdResources">
+                                <!-- <td>{{resource.id}}</td> -->
+                                <td>
+                                    <span
+                                        *ngIf="isFinancialUser() || !resource.isEditing">{{resource.description}}</span>
+                                    <input
+                                        *ngIf="!isFinancialUser() && resource.isEditing"
+                                        type="text"
+                                        class="form-control form-control-sm edit-input"
+                                        [(ngModel)]="resource.description">
+                                </td>
+                                <td>
+                                    <span
+                                        *ngIf="isFinancialUser() || !resource.isEditing">{{resource.qty}}</span>
+                                    <input
+                                        *ngIf="!isFinancialUser() && resource.isEditing"
+                                        type="number"
+                                        class="form-control form-control-sm edit-input"
+                                        [(ngModel)]="resource.qty">
+                                </td>
+                                <td>
+                                    <span
+                                        *ngIf="isFinancialUser() || !resource.isEditing">{{resource.price_resource}}</span>
+                                    <input
+                                        *ngIf="!isFinancialUser() && resource.isEditing"
+                                        type="number"
+                                        class="form-control form-control-sm edit-input"
+                                        [(ngModel)]="resource.price_resource">
+                                </td>
+                                <ng-container *ngIf="isFinancialUser()">
+                                    <td>
+                                        <span
+                                            *ngIf="!resource.isEditing">{{resource.price_approved}}</span>
+                                        <input *ngIf="resource.isEditing"
+                                            type="number"
+                                            class="form-control form-control-sm edit-input"
+                                            [(ngModel)]="resource.price_approved">
+                                    </td>
+                                    <td>
+                                        <span
+                                            *ngIf="!resource.isEditing">{{resource.accounting_count}}</span>
+                                        <ng-select
+                                            style="width: 100%;"
+                                            *ngIf="resource.isEditing"
+                                            [items]="accounting_list"
+                                            bindLabel="accounting_count"
+                                            bindValue="accounting_count"
+                                            [(ngModel)]="resource.accounting_count"
+                                            name="accounting_count"
+                                            placeholder="Cuenta"
+                                            class="edit-select">
+                                        </ng-select>
+                                    </td>
+                                    <td>
+                                        <span
+                                            *ngIf="!resource.isEditing">{{resource.comments}}</span>
+                                        <textarea *ngIf="resource.isEditing"
+                                            class="form-control form-control-sm edit-input"
+                                            [(ngModel)]="resource.comments"
+                                            rows="1"></textarea>
+                                    </td>
+                                </ng-container>
+                                <td>
+                                    <div class="btn-group btn-group-sm"
+                                        role="group">
+                                        <button *ngIf="!resource.isEditing"
+                                            (click)="editResource(resource)"
+                                            class="btn btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button *ngIf="resource.isEditing"
+                                            (click)="saveResource(resource)"
+                                            class="btn btn-outline-success">
+                                            <i class="fas fa-save"></i>
+                                        </button>
+                                        <button *ngIf="resource.isEditing"
+                                            (click)="cancelEdit(resource)"
+                                            class="btn btn-outline-secondary">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                        @if(!isFinancialUser()){
+                                        <button
+                                            (click)="deleteResource(resource.id)"
+                                            class="btn btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="mt-4" mat-raised-button
+                            (click)="finishResources()">Guardar recursos
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            }@else if (myActivity.state == 'APROBADO' || myActivity.state ==
+            'MODIFICADO') {
+
+            }
+
+        </div>
+
+    </div>
+    <!-- FIN CREACION DE RECURSOS -->
+
+    }@else if (myPoa?.status == fullname && myActivity.state != 'INICIANDO') {
+    <!-- CREACION DE RECURSOS -->
+    <div class="mb-4">
+        <div class="row d-flex justify-content-evenly">
+
+            @if(!isFinancialUser()){
+            <div class="col-md-3 card shadow p-4">
+                <h2>Agregar nuevo recurso:</h2>
+                <div class="mb-3">
+                    <label class="form-label">Descripción de actividad:</label>
+                    <input type="text" class="form-control"
+                        [(ngModel)]="resource.description">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Cantidad:</label>
+                    <input type="number" class="form-control"
+                        [(ngModel)]="resource.quantity">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Precio total:</label>
+                    <input type="number" class="form-control"
+                        [(ngModel)]="resource.priceResource">
+                </div>
+                @if(resource.priceResource){
+                <button (click)="createResource()" mat-raised-button
+                    color="primary">Crear
+                    recurso</button>
+                }
+
+            </div>
+            <div class="col-md-8 card shadow p-4">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-6 text-center">
+                        <h2 class>Recursos Creados
+                            ({{createdResources.length}})</h2>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <h3> <strong>Suma de recuros: </strong>{{
+                            total_Resources.total_resources }}$</h3>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm">
+                        <thead class="thead-light text-center">
+                            <tr>
+                                <!-- <th>ID</th> -->
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Monto requerido</th>
+                                <th *ngIf="isFinancialUser()">Monto
+                                    aprobado</th>
+                                <th *ngIf="isFinancialUser()">Cuenta</th>
+                                <th *ngIf="isFinancialUser()">Comentarios</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr *ngFor="let resource of createdResources">
+                                <!-- <td>{{resource.id}}</td> -->
+                                <td>
+                                    <span
+                                        *ngIf="isFinancialUser() || !resource.isEditing">{{resource.description}}</span>
+                                    <input
+                                        *ngIf="!isFinancialUser() && resource.isEditing"
+                                        type="text"
+                                        class="form-control form-control-sm edit-input"
+                                        [(ngModel)]="resource.description">
+                                </td>
+                                <td>
+                                    <span
+                                        *ngIf="isFinancialUser() || !resource.isEditing">{{resource.qty}}</span>
+                                    <input
+                                        *ngIf="!isFinancialUser() && resource.isEditing"
+                                        type="number"
+                                        class="form-control form-control-sm edit-input"
+                                        [(ngModel)]="resource.qty">
+                                </td>
+                                <td>
+                                    <span
+                                        *ngIf="isFinancialUser() || !resource.isEditing">{{resource.price_resource}}</span>
+                                    <input
+                                        *ngIf="!isFinancialUser() && resource.isEditing"
+                                        type="number"
+                                        class="form-control form-control-sm edit-input"
+                                        [(ngModel)]="resource.price_resource">
+                                </td>
+                                <ng-container *ngIf="isFinancialUser()">
+                                    <td>
+                                        <span
+                                            *ngIf="!resource.isEditing">{{resource.price_approved}}</span>
+                                        <input *ngIf="resource.isEditing"
+                                            type="number"
+                                            class="form-control form-control-sm edit-input"
+                                            [(ngModel)]="resource.price_approved">
+                                    </td>
+                                    <td>
+                                        <span
+                                            *ngIf="!resource.isEditing">{{resource.accounting_count}}</span>
+                                        <ng-select
+                                            style="width: 100%;"
+                                            *ngIf="resource.isEditing"
+                                            [items]="accounting_list"
+                                            bindLabel="accounting_count"
+                                            bindValue="accounting_count"
+                                            [(ngModel)]="resource.accounting_count"
+                                            name="accounting_count"
+                                            placeholder="Cuenta"
+                                            class="edit-select">
+                                        </ng-select>
+                                    </td>
+                                    <td>
+                                        <span
+                                            *ngIf="!resource.isEditing">{{resource.comments}}</span>
+                                        <textarea *ngIf="resource.isEditing"
+                                            class="form-control form-control-sm edit-input"
+                                            [(ngModel)]="resource.comments"
+                                            rows="1"></textarea>
+                                    </td>
+                                </ng-container>
+                                <td>
+                                    <div class="btn-group btn-group-sm"
+                                        role="group">
+                                        <button *ngIf="!resource.isEditing"
+                                            (click)="editResource(resource)"
+                                            class="btn btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button *ngIf="resource.isEditing"
+                                            (click)="saveResource(resource)"
+                                            class="btn btn-outline-success">
+                                            <i class="fas fa-save"></i>
+                                        </button>
+                                        <button *ngIf="resource.isEditing"
+                                            (click)="cancelEdit(resource)"
+                                            class="btn btn-outline-secondary">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                        @if(!isFinancialUser()){
+                                        <button
+                                            (click)="deleteResource(resource.id)"
+                                            class="btn btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="mt-4" mat-raised-button
+                            (click)="finishResources()">Guardar recursos
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            }@else if (myActivity.state == 'APROBADO' || myActivity.state ==
+            'MODIFICADO') {
+
+            }
+
+        </div>
+
+    </div>
+    <!-- FIN CREACION DE RECURSOS -->
+    }@else {
+    <div class="col-md-12 card shadow p-4">
+        <div class="row d-flex justify-content-between">
+            <div class="col-md-6 text-center">
+                <h2 class>Recursos Creados
+                    ({{createdResources.length}})</h2>
+            </div>
+            <div class="col-md-6 text-center">
+                <h3> <strong>Suma de recuros: </strong>{{
+                    total_Resources?.total_resources }}$</h3>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <!-- <th>ID</th> -->
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Monto requerido</th>
+                        <th>Monto
+                            aprobado</th>
+                        <!-- <th *ngIf="isFinancialUser()">Cuenta</th> -->
+                        <th>Comentarios</th>
+                        <!-- <th>Acciones</th> -->
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr *ngFor="let resource of createdResources">
+                        <td>
+                            <span>{{resource.description}}</span>
+                        </td>
+                        <td>
+                            <span>{{resource.qty}}</span>
+                        </td>
+                        <td>
+                            <span>{{resource.price_resource}}</span>
+                        </td>
+                        <ng-container>
+                            <td>
+                                <span>{{resource.price_approved}}</span>
+                            </td>
+                            <!-- <td>
+                                    <span
+                                        *ngIf="!resource.isEditing">{{resource.accounting_count}}</span>
+                                </td> -->
+                            <td>
+                                <span>{{resource.comments}}</span>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <div class="row">
+                <div class="col-md-6">
+                    <button class="mt-4" mat-raised-button (click)="finishResources()">Guardar recursos
+                    </button>
+                </div>
+            </div> -->
+
+    </div>
+    }
+
+</div>

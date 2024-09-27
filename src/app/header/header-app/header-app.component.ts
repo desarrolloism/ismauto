@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from '../../services/users.service';
 import { RepoService } from '../../services/repo.service';
-
+import 'tslib';
 
 @Component({
   selector: 'app-header-app',
@@ -41,13 +41,18 @@ export class HeaderAppComponent {
 
   logout() {
     if (window.confirm('¿Está seguro de que desea salir?')) {
-      localStorage.clear();
+      this.killToken();
+      setTimeout(() => {
+        localStorage.clear();
       this._router.navigate(['/login']);
+      },1000)
+      
     }
   }
 
   getAvatar() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    // console.log(userData);
     this.dataUser = userData;
     this.avatar = userData.avatar;
     this.name = userData.first_name;
@@ -88,7 +93,7 @@ export class HeaderAppComponent {
   navBar() {
     this._repo.getNav(this.token).subscribe((resp: any) => {
       this.navRepo = resp.data;
-      console.log('resp de nav', this.navRepo);
+      // console.log('resp de nav', this.navRepo);
     });
   }
 
@@ -115,5 +120,25 @@ export class HeaderAppComponent {
       case 6: return 'https://help.ism.edu.ec/';
       default: return '#';
     }
+  }
+
+
+  gotoPage() {
+    if (this.token) {
+      const encodedToken = encodeURIComponent(this.token);
+      // const url = `http://192.168.48.241:36171/main?token=${encodedToken}`;
+      const url = `http://localhost:43653/main?token=${encodedToken}`;
+      window.open(url, '_blank');
+    } else {
+      console.error('No se encontró un token en el localStorage');
+    }
+  }
+
+  //mata al token
+  killToken() {
+    console.log('toquen para destruir', this.token);
+    this._userService.killToken(this.token).subscribe((resp: any) => {
+      console.log('token destruido', resp);
+    });
   }
 }

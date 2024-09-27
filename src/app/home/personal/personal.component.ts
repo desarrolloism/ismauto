@@ -9,17 +9,18 @@ import { CitaDataService } from '../../services/cita-data.service';
 })
 export class PersonalComponent {
   personalDocente = [
-    { id: 1, nombre: 'Ana García', cargo: 'Profesora de Matemáticas' },
-    { id: 2, nombre: 'Carlos López', cargo: 'Profesor de Literatura' },
-    { id: 3, nombre: 'María Rodríguez', cargo: 'Profesora de Ciencias' },
-    { id: 4, nombre: 'Pedro Martínez', cargo: 'Profesor de Historia' }
+    { id: 1, nombre: 'Ana García', cargo: 'Profesora de Matemáticas', correo: 'asisdesarrollo3@ism.edu.ec' },
+    { id: 2, nombre: 'Carlos López', cargo: 'Profesor de Literatura', correo: 'asisdesarrollo@ism.edu.ec' },
+    { id: 3, nombre: 'María Rodríguez', cargo: 'Profesora de Ciencias', correo: 'desarrollo@ism.edu.ec' },
+    { id: 4, nombre: 'Pedro Martínez', cargo: 'Profesor de Historia', correo: 'asisdesarrollo3@ism.edu.ec' },
   ];
 
   personalAdministrativo = [
     { id: 5, nombre: 'Aurora Gargurevich', cargo: 'Gerente general', correo: 'gerenciageneral@ism.edu.ec' },
     { id: 6, nombre: 'Francisco Velasco', cargo: 'Director Administrativo', correo:'gerenteti@ism.edu.ec' },
     { id: 7, nombre: 'Arturo Sarango', cargo: 'Jefe de Desarrollo e innovación', correo:'desarrollo@ism.edu.ec' },
-    { id: 8, nombre: 'Hugo Espinosa', cargo: 'Asistente de desarrollo e innovación', correo:'asisdesarrollo3@ism.edu.ec' },
+    { id: 8, nombre: 'Hugo Espinosa', cargo: 'Asistente de desarrollo e innovación', correo:'asisdesarrollo@ism.edu.ec' },
+    { id: 9, nombre: 'Atencion al cliente North', cargo: 'Atencion al cliente North', correo:'northatencioncliente@ism.edu.ec' },
   ];
 
   personalMostrado: any[] = [];
@@ -39,7 +40,8 @@ export class PersonalComponent {
   selectPersona(persona: any) {
     this.citaDataService.updateCitaData({ 
       personalNombre: persona.nombre,
-      personalCargo: persona.cargo
+      personalCargo: persona.cargo,
+      PersonalCorreo: persona.correo
     });
     this.router.navigate(['/fechas']);
   }

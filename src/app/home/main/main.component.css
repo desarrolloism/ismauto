@@ -445,18 +445,6 @@ body {
 }
 
 
-.overflow-auto {
-    /* Estilo WebKit (Chrome, Safari) */
-    scrollbar-width: thin;
-    /* Ancho del scrollbar en Firefox */
-    scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
-    /* Color del thumb y track en Firefox */
-
-    /* Estilo para navegadores no-WebKit */
-    /* Para Microsoft Edge */
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    /* Oculta el scrollbar cuando no se está utilizando en Edge */
-}
 
 /* Estilo para el thumb del scrollbar en Firefox */
 .overflow-auto::-webkit-scrollbar-thumb {
@@ -495,4 +483,21 @@ g
 
 .fa-chevron-down.rotate {
     transform: rotate(180deg);
+}
+
+.background-image {
+    background-image: url('../../../assets/images/AFerdrade\ WPH\ -29.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    /* padding-top: 35px; Adjust this value if needed */
+}
+
+.container {
+    /* background-color: rgba(255, 255, 255, 0.8); Add a semi-transparent background */
+    border-radius: 10px;
+    padding: 20px;
 }

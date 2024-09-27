@@ -1,43 +1,110 @@
 <app-header-app></app-header-app>
 <div class="fechas-container">
   <div class="row">
-    
-    <h2 class="personal-title text-center" color="primary">
-        <span> Seleccione una fecha y hora para su cita</span>
-      </h2>
-    <div class="col-md-6">
-      <mat-calendar [dateFilter]="dateFilter"
-        (selectedChange)="onDateSelected($event)"></mat-calendar>
-    </div>
-    <div class="col-md-6">
-      <mat-form-field *ngIf="selectedDate" appearance="fill">
-        <mat-label>Hora disponible</mat-label>
-        <mat-select [(ngModel)]="selectedTime">
-          <mat-option *ngFor="let time of availableTimes"
-            [value]="time">{{time}}</mat-option>
-        </mat-select>
-        fecha {{selectedDate | date:'dd/MM/yyyy'}}
-      </mat-form-field>
-      <div *ngIf="selectedDate && selectedTime"
-        class="mt-4 p-3 bg-light">
-        <h3>Resumen de la cita</h3>
-        <p><strong>Solicitante:</strong> {{citaInfo.solicitante}}</p>
-        <p><strong>Campus:</strong> {{citaInfo.campus}}</p>
-        <p><strong>Nivel:</strong> {{citaInfo.nivel}}</p>
-        <p><strong>Tipo de personal:</strong> {{citaInfo.tipoPersonal}}</p>
-        <p><strong>Persona seleccionada:</strong> {{citaInfo.personalNombre}}</p>
-        <p><strong>Cargo:</strong> {{citaInfo.personalCargo}}</p>
-        <p><strong>Fecha:</strong> {{selectedDate | date:'dd/MM/yyyy'}}</p>
-        <p><strong>Hora:</strong> {{selectedTime}}</p>
-        <input type="checkbox" [(ngModel)]="confirmacionChecked" class="mt-3">
-          Confirmo que la información es correcta
-        
-      </div>
-      <button mat-raised-button color="primary"
-        [disabled]="!selectedTime || !selectedDate || !confirmacionChecked"
-        (click)="confirmarCita()" class="mt-3">
-        Confirmar Cita
-      </button>
-    </div>
+    <ng-container *ngIf="!finish; else finishBlock">
+      <ng-container *ngIf="!isLoading; else loadingBlock">
+        <h2 class="personal-title text-center" color="primary">
+          <span>Seleccione una fecha y hora para su cita</span>
+        </h2>
+        <div class="col-md-6">
+          <mat-calendar [dateFilter]="dateFilter"
+            (selectedChange)="onDateSelected($event)"></mat-calendar>
+        </div>
+        <div class="col-md-6">
+          <h4 *ngIf="selectedDate" class="personal-title text-center"
+            color="primary">
+            <span>Fecha: {{selectedDate | date:'dd/MM/yyyy'}}</span>
+          </h4>
+          <mat-form-field *ngIf="selectedDate" appearance="fill">
+            <mat-label>Hora disponible</mat-label>
+            <mat-select [(ngModel)]="selectedTime">
+              <mat-option *ngFor="let time of availableTimes"
+                [value]="time">{{time}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="mb-3">
+            <label class="form-label">Ingrese el motivo de la reunión.</label>
+            <input class="form-control" type="text" [(ngModel)]="subjectInfo">
+          </div>
+          <div *ngIf="selectedDate && selectedTime" class="mt-4 p-3 bg-light">
+            <h3>Resumen de la cita</h3>
+            <p><strong>Solicitante:</strong> {{citaInfo.solicitante}}</p>
+            <p><strong>Campus:</strong> {{citaInfo.campus}}</p>
+            <p><strong>Nivel:</strong> {{citaInfo.nivel}}</p>
+            <p><strong>Tipo de personal:</strong> {{citaInfo.tipoPersonal}}</p>
+            <p><strong>Persona seleccionada:</strong>
+              {{citaInfo.personalNombre}}</p>
+            <p><strong>Cargo:</strong> {{citaInfo.personalCargo}}</p>
+            <p><strong>Fecha:</strong> {{selectedDate | date:'dd/MM/yyyy'}}</p>
+            <p><strong>Hora:</strong> {{selectedTime}}</p>
+            <div class="mt-3">
+
+              
+              <div class="checkbox-wrapper">
+                <input id="_checkbox-26" type="checkbox"  [(ngModel)]="confirmacionChecked">
+                <label for="_checkbox-26">
+                  <div class="tick_mark"></div>
+                </label>
+              </div>
+
+              <!-- <input type="checkbox"
+                id="confirmCheckbox"> -->
+              <label class="text-center d-flex justify-content-center" for="confirmCheckbox">
+                <h3 class="mt-4">
+                  Confirmo que la
+                  información es
+                  correcta
+                </h3>
+
+              </label>
+            </div>
+          </div>
+          <button mat-raised-button color="primary"
+            [disabled]="!selectedTime || !selectedDate || !confirmacionChecked"
+            (click)="confirmarCita()"
+            class="mt-3">
+            Confirmar Cita
+          </button>
+        </div>
+      </ng-container>
+    </ng-container>
   </div>
 </div>
+
+<ng-template #loadingBlock>
+  <h2 class="personal-title text-center" color="primary">
+    <span>Agendando cita, un momento por favor...</span>
+  </h2>
+  <div class="row">
+    <div class="d-flex justify-content-center">
+      <svg class="pl" width="240" height="240" viewBox="0 0 240 240">
+        <circle class="pl__ring pl__ring--a" cx="120" cy="120" r="105"
+          fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 660"
+          stroke-dashoffset="-330" stroke-linecap="round"></circle>
+        <circle class="pl__ring pl__ring--b" cx="120" cy="120" r="35"
+          fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 220"
+          stroke-dashoffset="-110" stroke-linecap="round"></circle>
+        <circle class="pl__ring pl__ring--c" cx="85" cy="120" r="70" fill="none"
+          stroke="#000" stroke-width="20" stroke-dasharray="0 440"
+          stroke-linecap="round"></circle>
+        <circle class="pl__ring pl__ring--d" cx="155" cy="120" r="70"
+          fill="none" stroke="#000" stroke-width="20" stroke-dasharray="0 440"
+          stroke-linecap="round"></circle>
+      </svg>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #finishBlock>
+  <h2 class="personal-title text-center" color="primary">
+    <span>Cita programada, muchas gracias por usar este servicio!</span>
+  </h2>
+
+  <div class="row">
+    <div class="d-flex justify-content-center">
+
+    </div>
+  </div>
+
+</ng-template>

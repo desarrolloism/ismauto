@@ -1,13 +1,8 @@
 <app-header-app></app-header-app>
 
-<input type="file" (change)="onFileSelected($event)">
-<input [(ngModel)]="codigo" placeholder="Código">
-<input [(ngModel)]="nombre" placeholder="Nombre">
-<button (click)="uploadFile()">Subir archivo</button>
-
-<div class="mb-4">
+<div>
     <app-normativa-iso></app-normativa-iso>
-    @if(isLoading == false){
+    <!-- @if(isLoading == false){
     <div class="col-md-5"></div>
     <div class="col-md-2 container">
 
@@ -22,7 +17,7 @@
     </div>
     <div class="col-md-5"></div>
 
-    }
+    } -->
 
     <mat-card *ngIf="isLoading" class="no-results spinner-container">
         <mat-card-content>
@@ -48,26 +43,12 @@
     </mat-card>
 </div>
 
+@if(isLoading == false){
+<div style="margin-top: -1.5rem;"></div>
 <app-process-iso></app-process-iso>
+}
 
-<!-- Modal para ver version del documento-->
-<div class="modal fade" id="versionModal" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5"
-                    id="exampleModalLabel">Versiones:</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                No existen versiones anteriores de este documento disponibles.
-            </div>
-        </div>
-    </div>
-</div>
-
+<!-- offcanvas -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
     aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
@@ -92,6 +73,7 @@
 
         <div *ngIf="!isLoading && filteredDocuments.length > 0"
             class="documents-container">
+            @if(isUpdating == false){
             <ul class="list-group" style="font-size: 12px;">
                 <li class="list-group-item"
                     *ngFor="let documento of filteredDocuments">
@@ -109,19 +91,68 @@
                             <p>
                                 <i
                                     class="fa-solid fa-passport icon-color-quaternary sm-2"></i>
-                                <b> Código de proceso: </b> {{ documento.codigo }}
+                                <b> Código de proceso: </b> {{ documento.codigo
+                                }}
                             </p>
                             <p>
                                 <i matTooltip="Subtipo"
                                     class="fa-regular fa-font-awesome icon-color-tertiary"></i>
                                 {{ documento.subtipo }}
                             </p>
-                            <p data-bs-toggle="modal" style="cursor: pointer;"
-                                data-bs-target="#versionModal">
-                                <i matTooltip="Versiones anteriores"
+                            <p (click)="getVersioID(documento.id)"
+                                style="cursor: pointer;">
+                                <i data-bs-toggle="modal"
+                                    data-bs-target="#versionModal"
+                                    matTooltip="Versiones anteriores"
                                     class="fa-solid fa-clock-rotate-left icon-color-quinto"></i>
                                 {{ documento.versiones[0].codigo_version }}
                             </p>
+
+                            <!-- Modal para ver version del documento-->
+                            <div class="modal fade" id="versionModal"
+                                tabindex="-1"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5"
+                                                id="exampleModalLabel">Versiones:</h1>
+                                            <button type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        @if(versionLoader == false){
+                                        @if(versions){
+                                        <div class="modal-body">
+                                            <ul
+                                                *ngFor="let version of versions.versiones">
+                                                {{versions.nombre_actual}}
+                                                <li>Código: {{
+                                                    version.codigo_version
+                                                    }}</li>
+                                                <li>Fecha de subida: {{
+                                                    version.fecha_inicio | date }}</li>
+                                                <li>Fecha de actualización: {{
+                                                    version.fecha_fin | date }}</li>
+                                            </ul>
+                                        </div>
+                                        }@else{
+                                        <div class="modal-body">
+                                            No existen versiones anteriores de
+                                            este documento disponibles.
+                                        </div>
+                                        }
+                                        }@else{
+                                        <p>Cargando...</p>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div>
                             @if(documento.versiones[0].is_automatic == true){
@@ -140,11 +171,96 @@
                                 <i class="fa-solid fa-cloud-arrow-down fa-2x"
                                     style="color: #3f51b5;"></i>
                             </button>
+                            @if(email == 'asisdesarrollo@ism.edu.ec' || email ==
+                            'northsecretaria@ism.edu.ec' ){
+                            <button
+                                matTooltip="Clic para subir una nueva versión"
+                                class="btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#uploadModal"
+                                (click)="prepareUpload(documento.id, documento.codigo, documento.nombre_documentos, documento.tipo )">
+                                <i class="fa-solid fa-file-pen fa-2x"
+                                    style="color: #be8b1b;"></i>
+                            </button>
+                            }
+
+                            <!-- Modal de carga -->
+                            <div class="modal fade" id="uploadModal"
+                                data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1"
+                                aria-labelledby="uploadModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"
+                                                id="uploadModalLabel">Subir
+                                                nueva versión del documento</h5>
+                                            <button type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="text-center">
+                                                <div class="fw-bold"
+                                                    style="text-decoration: underline;">
+                                                    {{showDocName}}</div>
+
+                                                <p>
+                                                    <i matTooltip="Tipo"
+                                                        class="fa-solid fa-diagram-project icon-color-secondary"></i>
+                                                    {{ showDocType }}
+                                                </p>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="fileInput"
+                                                    class="form-label">Seleccionar
+                                                    archivo</label>
+                                                <input type="file"
+                                                    class="form-control"
+                                                    id="fileInput"
+                                                    (change)="onFileSelected($event)">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="nombreInput"
+                                                    class="form-label">Nombre de
+                                                    la versión</label>
+                                                <input type="text"
+                                                    class="form-control"
+                                                    id="nombreInput"
+                                                    [(ngModel)]="nombre"
+                                                    placeholder="Ingrese el nombre de la versión">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button mat-raised-button
+                                                data-bs-dismiss="modal">Cancelar</button>
+                                            <button
+                                                mat-raised-button
+                                                color="primary"
+                                                (click)="uploadFile()"
+                                                data-bs-dismiss="modal">Subir
+                                                archivo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             }
                         </div>
                     </div>
                 </li>
             </ul>
+            }@else {
+            <div class="upload-container">
+                <div class="cloud"></div>
+                <div class="upload-item"></div>
+            </div>
+            }
         </div>
     </div>
 </div>

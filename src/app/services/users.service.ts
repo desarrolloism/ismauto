@@ -63,5 +63,29 @@ export class UsersService {
     }
 
 
+    showData() {
+        const headers = {
+            Authorization: this.auth,
+            'Content-Type': 'application/json',
+        };
+        const data = {};
+
+        return this._http.post(`${this.url}/show_products`, data, { headers: headers });
+
+    }
+
+
+    //limpia token
+    killToken(token: any) {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': this.auth,
+            'Token': token
+        });
+        const data = {
+            token
+        }
+        return this._http.post(`${this.url}/schedule/logout`, data, { headers: headers });
+    }
 }
 
