@@ -1,0 +1,27 @@
+/* Estilo para hacer que el contenedor ocupe toda la pantalla */
+.contenedor {
+    display: flex; /* Utiliza Flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    /* align-items: center; Centra verticalmente */
+    height: 80vh; /* Ocupa toda la altura de la pantalla */
+}
+
+/* Estilo para el div centrado */
+.centrado {
+    /* background-color: #f0f0f0; */
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+
+.icon-report {
+    font-size: 35px;
+    color: maroon;
+    margin: 5px;
+}
+
+.a-no-decoration {
+    text-decoration: none;
+}
