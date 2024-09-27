@@ -225,5 +225,13 @@ export class PoaActivitiesComponent implements OnInit {
     });
   }
 
+  //valida solo numeros
+  validateNum(event: any) {
+    const pattern = /^[0-9.]$/;
+    const inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
 
 }

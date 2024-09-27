@@ -42,18 +42,27 @@
                 <h2>Agregar nuevo recurso:</h2>
                 <div class="mb-3">
                     <label class="form-label">Descripción de actividad:</label>
-                    <input type="text" class="form-control"
-                        [(ngModel)]="resource.description">
+                    <textarea
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="resource.description"></textarea>
+
+                    <!-- <input type="text" class="form-control"
+                        [(ngModel)]="resource.description"> -->
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Cantidad:</label>
-                    <input type="number" class="form-control"
+                    <input 
+                    (keypress)="validateNum($event)"
+                    type="text" class="form-control"
                         [(ngModel)]="resource.quantity">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Precio total:</label>
-                    <input type="number" class="form-control"
+                    <input 
+                    (keypress)="validateNum($event)"
+                    type="text" class="form-control"
                         [(ngModel)]="resource.priceResource">
                 </div>
                 @if(resource.priceResource){
@@ -93,20 +102,22 @@
                             <tr *ngFor="let resource of createdResources">
                                 <!-- <td>{{resource.id}}</td> -->
                                 <td>
-                                    <span
-                                        *ngIf="isFinancialUser() || !resource.isEditing">{{resource.description}}</span>
-                                    <input
+                                    <span class="text-truncate d-inline-block" style="max-width: 200px;" matTooltip=" {{resource.description}}" placement="right" >
+                                        {{resource.description}}
+                                    </span>
+                                    <textarea
                                         *ngIf="!isFinancialUser() && resource.isEditing"
                                         type="text"
-                                        class="form-control form-control-sm edit-input"
-                                        [(ngModel)]="resource.description">
+                                        class="form-control"
+                                        [(ngModel)]="resource.description"></textarea>
                                 </td>
                                 <td>
                                     <span
                                         *ngIf="isFinancialUser() || !resource.isEditing">{{resource.qty}}</span>
                                     <input
                                         *ngIf="!isFinancialUser() && resource.isEditing"
-                                        type="number"
+                                        (keypress)="validateNum($event)"
+                                        type="text"
                                         class="form-control form-control-sm edit-input"
                                         [(ngModel)]="resource.qty">
                                 </td>
@@ -115,7 +126,8 @@
                                         *ngIf="isFinancialUser() || !resource.isEditing">{{resource.price_resource}}</span>
                                     <input
                                         *ngIf="!isFinancialUser() && resource.isEditing"
-                                        type="number"
+                                        (keypress)="validateNum($event)"
+                                        type="text"
                                         class="form-control form-control-sm edit-input"
                                         [(ngModel)]="resource.price_resource">
                                 </td>
