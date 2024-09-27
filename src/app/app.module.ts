@@ -24,6 +24,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { POAModule } from './poa/poa.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ShoppingModule } from './shopping/shopping.module';
+import { ReportsbiModule } from './reportsbi/reportsbi.module';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { ShoppingModule } from './shopping/shopping.module';
     ProjectsModule,
     // POAModule,
     NgSelectModule,
-    ShoppingModule
+    ShoppingModule,
+    ReportsbiModule
   ],
   providers: [
     provideAnimationsAsync()
