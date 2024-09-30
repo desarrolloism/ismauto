@@ -84,13 +84,13 @@ import {
   ɵɵtextInterpolate1,
   ɵɵviewQuery
 } from "./chunk-5YYHXCEG.js";
-import "./chunk-GJPBPMUP.js";
 import {
   animationFrameScheduler,
   asapScheduler,
   fromEvent,
   merge
 } from "./chunk-D4UXUHGO.js";
+import "./chunk-GJPBPMUP.js";
 import {
   Subject,
   auditTime,
