@@ -128,7 +128,7 @@ export class HeaderAppComponent {
     if (this.token) {
       const encodedToken = encodeURIComponent(this.token);
       // const url = `http://192.168.48.241:36171/main?token=${encodedToken}`;
-      const url = `http://localhost:43653/inicio?token=${encodedToken}`;
+      const url = ` http://localhost:38269/inicio?token=${encodedToken}`;
       window.open(url, '_blank');
     } else {
       console.error('No se encontró un token en el localStorage');
